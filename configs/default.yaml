@@ -1,0 +1,40 @@
+# SpecQuant default configuration
+
+# Model pairs for experiments
+model_pairs:
+  - draft: "Qwen/Qwen3.5-0.8B"
+    target: "Qwen/Qwen3.5-9B"
+    tag: "qwen_0.8B_9B"
+  - draft: "Qwen/Qwen3.5-4B"
+    target: "Qwen/Qwen3.5-14B"
+    tag: "qwen_4B_14B"
+
+# SpecQuant settings
+specquant:
+  bits: [3, 4]
+  block_size: 128
+  seed: 42
+
+# Speculative decoding
+spec_decode:
+  gamma: 5
+  temperature: 1.0
+  max_new_tokens: 128
+
+# Benchmark
+benchmark:
+  num_warmup: 1
+  num_trials: 3
+  prompt_types: ["reasoning", "code"]
+
+# Evaluation
+eval:
+  seq_lengths: [1024, 2048, 4096, 8192, 16384]
+  bitwidth_sweep: [2, 3, 4]
+  num_tv_samples: 1000
+  micro_trials: 10
+
+# Hardware
+hardware:
+  dtype: "float16"
+  device: "cuda"
