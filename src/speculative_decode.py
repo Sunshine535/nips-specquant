@@ -147,6 +147,54 @@ class SpeculativeDecoder:
                 f"layers={num_layers}, kv_heads={num_kv_heads}, head_dim={head_dim}"
             )
 
+    def _build_qkv_cache(self) -> QuantizedKVCache:
+        """Create a QuantizedKVCache matched to the target model architecture."""
+        config = self.target_model.config
+        num_layers = config.num_hidden_layers
+        num_kv_heads = getattr(
+            config, "num_key_value_heads", config.num_attention_heads
+        )
+        head_dim = config.hidden_size // config.num_attention_heads
+        return QuantizedKVCache(
+            num_layers=num_layers,
+            num_kv_heads=num_kv_heads,
+            head_dim=head_dim,
+            bits=self.quant_bits,
+            block_size=self.quant_block_size,
+            seed=self.quant_seed,
+        )
+
+    def _compress_kv(self, kv: Any, qkv_cache: QuantizedKVCache) -> Any:
+        """Round-trip compress target KV cache: quantize then dequantize."""
+        if isinstance(kv, tuple):
+            new_layers = []
+            for i, layer in enumerate(kv):
+                k, v = layer[0], layer[1]
+                qkv_cache.compress_and_store(i, k.float(), v.float())
+                k_rot, v_rot = qkv_cache.get_rotated_kv(i)
+                k_deq = qkv_cache.rotation.inverse_rotate(k_rot).to(k.dtype)
+                v_deq = qkv_cache.rotation.inverse_rotate(v_rot).to(v.dtype)
+                new_layers.append((k_deq, v_deq))
+            return tuple(new_layers)
+
+        if hasattr(kv, "key_cache") and hasattr(kv, "value_cache"):
+            for i in range(min(len(kv.key_cache), qkv_cache.num_layers)):
+                k = kv.key_cache[i]
+                v = kv.value_cache[i]
+                if k is None:
+                    continue
+                qkv_cache.compress_and_store(i, k.float(), v.float())
+                k_rot, v_rot = qkv_cache.get_rotated_kv(i)
+                kv.key_cache[i] = qkv_cache.rotation.inverse_rotate(
+                    k_rot
+                ).to(k.dtype)
+                kv.value_cache[i] = qkv_cache.rotation.inverse_rotate(
+                    v_rot
+                ).to(v.dtype)
+            return kv
+
+        return kv
+
     @torch.no_grad()
     def generate(
         self,
@@ -182,6 +230,11 @@ class SpeculativeDecoder:
 
         all_token_ids = input_ids.cpu().clone()
         kv_len = prefix_len
+
+        qkv_cache = None
+        if self.use_quant:
+            qkv_cache = self._build_qkv_cache()
+            target_kv = self._compress_kv(target_kv, qkv_cache)
 
         start = time.perf_counter()
 
@@ -250,6 +303,11 @@ class SpeculativeDecoder:
             )
             target_kv = t_out.past_key_values
             target_next_logits = t_out.logits[:, -1, :]
+
+            if qkv_cache is not None:
+                t0_q = time.perf_counter()
+                target_kv = self._compress_kv(target_kv, qkv_cache)
+                t_quant_total += time.perf_counter() - t0_q
 
             kv_len = new_kv_len + 1
 
@@ -381,18 +439,53 @@ class SpeculativeDecoder:
     ) -> dict:
         """Measure empirical TV distance between full-precision and quantized logits.
 
-        Used for Claim 3 validation: compare with theoretical bound.
+        Splits input into prefix + suffix.  Builds KV from the prefix, then
+        runs suffix verification twice — once with full-precision KV and once
+        with the quantized round-trip KV — and reports per-position TV.
         """
         if not self.use_quant:
             return {"tv_mean": 0.0, "tv_std": 0.0, "tv_per_position": []}
 
+        device = self.target_device
         seq_len = min(input_ids.shape[1], num_positions)
-        chunk = input_ids[:, :seq_len].to(self.target_device)
+        tokens = input_ids[:, :seq_len].to(device)
 
-        fp_out = self.target_model(chunk)
-        fp_logits = fp_out.logits.float()
-        fp_probs = F.softmax(fp_logits, dim=-1)
+        split = max(1, seq_len // 2)
+        prefix = tokens[:, :split]
+        suffix = tokens[:, split:]
 
-        # TODO: quantized forward pass comparison
-        # For now return placeholder
-        return {"tv_mean": 0.0, "tv_std": 0.0, "note": "quantized path not yet integrated"}
+        if suffix.shape[1] == 0:
+            return {"tv_mean": 0.0, "tv_std": 0.0, "tv_per_position": []}
+
+        fp_out = self.target_model(prefix, use_cache=True)
+        fp_kv = fp_out.past_key_values
+
+        q_out = self.target_model(prefix, use_cache=True)
+        q_kv = q_out.past_key_values
+        qkv_cache = self._build_qkv_cache()
+        q_kv = self._compress_kv(q_kv, qkv_cache)
+
+        fp_verify = self.target_model(
+            suffix, past_key_values=fp_kv, use_cache=False
+        )
+        fp_probs = F.softmax(fp_verify.logits.float(), dim=-1)
+
+        q_verify = self.target_model(
+            suffix, past_key_values=q_kv, use_cache=False
+        )
+        q_probs = F.softmax(q_verify.logits.float(), dim=-1)
+
+        tv_per_pos = 0.5 * (fp_probs - q_probs).abs().sum(dim=-1).squeeze(0)
+        tv_values = tv_per_pos.cpu().tolist()
+        if isinstance(tv_values, float):
+            tv_values = [tv_values]
+
+        tv_t = torch.tensor(tv_values)
+        return {
+            "tv_mean": tv_t.mean().item(),
+            "tv_std": tv_t.std().item() if len(tv_values) > 1 else 0.0,
+            "tv_per_position": tv_values,
+            "num_positions": len(tv_values),
+            "prefix_len": split,
+            "quant_bits": self.quant_bits,
+        }
