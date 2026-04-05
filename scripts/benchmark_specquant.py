@@ -14,8 +14,10 @@ from typing import Dict, List
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from src.baselines import BaselineDecoder
 from src.speculative_decode import SpeculativeDecoder
 from src.turboquant_kv import QuantizedKVCache, compute_tv_bound
+from src.utils import aggregate_trials, mean_confidence_interval, validate_dual_gpu
 
 logging.basicConfig(
     level=logging.INFO,
@@ -43,22 +45,23 @@ PROMPTS = {
 def load_models(
     draft_model_name: str,
     target_model_name: str,
-    device: str = "cuda",
+    draft_device: str = "cuda:0",
+    target_device: str = "cuda:1",
     dtype: torch.dtype = torch.float16,
 ) -> tuple:
-    logger.info(f"Loading draft model: {draft_model_name}")
+    logger.info(f"Loading draft model: {draft_model_name} on {draft_device}")
     draft_model = AutoModelForCausalLM.from_pretrained(
         draft_model_name,
         torch_dtype=dtype,
-        device_map=device,
+        device_map=draft_device,
         trust_remote_code=True,
     )
 
-    logger.info(f"Loading target model: {target_model_name}")
+    logger.info(f"Loading target model: {target_model_name} on {target_device}")
     target_model = AutoModelForCausalLM.from_pretrained(
         target_model_name,
         torch_dtype=dtype,
-        device_map=device,
+        device_map=target_device,
         trust_remote_code=True,
     )
 
@@ -81,7 +84,10 @@ def run_benchmark(
     num_warmup: int = 1,
     num_trials: int = 3,
 ) -> Dict:
-    results = []
+    per_prompt_results = []
+    all_throughputs = []
+    all_acceptance_rates = []
+    all_wall_times = []
 
     for prompt in prompts:
         input_ids = tokenizer(prompt, return_tensors="pt").input_ids
@@ -103,24 +109,34 @@ def run_benchmark(
             torch.cuda.synchronize()
             trial_results.append(out.to_dict())
 
-        avg_result = {}
-        for key in trial_results[0]:
-            if isinstance(trial_results[0][key], (int, float)):
-                avg_result[key] = sum(t[key] for t in trial_results) / len(trial_results)
-            elif isinstance(trial_results[0][key], list):
-                avg_result[key] = [
-                    sum(t[key][i] for t in trial_results) / len(trial_results)
-                    for i in range(len(trial_results[0][key]))
-                ]
-        avg_result["prompt_len"] = input_ids.shape[1]
-        avg_result["num_trials"] = num_trials
-        results.append(avg_result)
+        prompt_throughputs = [t["throughput_tokens_per_sec"] for t in trial_results]
+        prompt_acceptance = [t["acceptance_rate"] for t in trial_results]
+        prompt_wall_times = [t["wall_time_seconds"] for t in trial_results]
+
+        all_throughputs.extend(prompt_throughputs)
+        all_acceptance_rates.extend(prompt_acceptance)
+        all_wall_times.extend(prompt_wall_times)
+
+        per_prompt_results.append({
+            "prompt_len": input_ids.shape[1],
+            "num_trials": num_trials,
+            "throughput": aggregate_trials(prompt_throughputs),
+            "acceptance_rate": aggregate_trials(prompt_acceptance),
+            "wall_time": aggregate_trials(prompt_wall_times),
+        })
+
+    tp_mean, tp_ci_lo, tp_ci_hi = mean_confidence_interval(all_throughputs)
+    acc_mean, acc_ci_lo, acc_ci_hi = mean_confidence_interval(all_acceptance_rates)
+    wt_mean, wt_ci_lo, wt_ci_hi = mean_confidence_interval(all_wall_times)
 
     return {
-        "mean_throughput": sum(r["throughput_tokens_per_sec"] for r in results) / len(results),
-        "mean_acceptance_rate": sum(r["acceptance_rate"] for r in results) / len(results),
-        "mean_wall_time": sum(r["wall_time_seconds"] for r in results) / len(results),
-        "per_prompt": results,
+        "mean_throughput": tp_mean,
+        "throughput_ci": [tp_ci_lo, tp_ci_hi],
+        "mean_acceptance_rate": acc_mean,
+        "acceptance_rate_ci": [acc_ci_lo, acc_ci_hi],
+        "mean_wall_time": wt_mean,
+        "wall_time_ci": [wt_ci_lo, wt_ci_hi],
+        "per_prompt": per_prompt_results,
     }
 
 
@@ -165,14 +181,24 @@ def main():
                         choices=["reasoning", "code", "long_context", "all"])
     parser.add_argument("--output-dir", type=str, default="results/benchmark")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--device", type=str, default="cuda")
+    parser.add_argument("--draft-device", type=str, default="cuda:0",
+                        help="Device for draft model (default: cuda:0)")
+    parser.add_argument("--target-device", type=str, default="cuda:1",
+                        help="Device for target model (default: cuda:1)")
+    parser.add_argument("--baselines", type=str, nargs="*",
+                        default=["rtn", "kivi", "absmax"],
+                        help="Baseline methods to compare (default: rtn kivi absmax)")
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
     os.makedirs(args.output_dir, exist_ok=True)
 
+    validate_dual_gpu()
+
     draft_model, target_model, tokenizer = load_models(
-        args.draft_model, args.target_model, device=args.device
+        args.draft_model, args.target_model,
+        draft_device=args.draft_device,
+        target_device=args.target_device,
     )
 
     if args.prompt_type == "all":
@@ -223,6 +249,32 @@ def main():
             f"Acceptance: {result['mean_acceptance_rate']:.3f}"
         )
 
+    # --- Baseline comparisons ---
+    if args.baselines:
+        for baseline_name in args.baselines:
+            label = f"baseline_{baseline_name}"
+            logger.info(f"=== {label} (gamma={args.gamma}) ===")
+
+            baseline_decoder = BaselineDecoder(
+                draft_model, target_model, tokenizer,
+                baseline_type=baseline_name,
+                quant_bits=args.quant_bits[0] if args.quant_bits else 3,
+                quant_block_size=args.block_size,
+            )
+            result = run_benchmark(
+                baseline_decoder, prompts, tokenizer,
+                max_new_tokens=args.max_new_tokens,
+                gamma=args.gamma,
+                temperature=args.temperature,
+                num_warmup=args.num_warmup,
+                num_trials=args.num_trials,
+            )
+            all_results["methods"][label] = result
+            logger.info(
+                f"  Throughput: {result['mean_throughput']:.1f} tok/s, "
+                f"Acceptance: {result['mean_acceptance_rate']:.3f}"
+            )
+
     output_file = os.path.join(
         args.output_dir,
         f"benchmark_{Path(args.target_model).name}_{time.strftime('%Y%m%d_%H%M%S')}.json",
@@ -231,15 +283,43 @@ def main():
         json.dump(all_results, f, indent=2)
     logger.info(f"Results saved to {output_file}")
 
-    logger.info("\n=== Summary ===")
+    # --- Formatted summary table ---
+    logger.info("\n" + "=" * 90)
+    logger.info("BENCHMARK SUMMARY")
+    logger.info("=" * 90)
+    header = f"{'Method':<25} {'Throughput (tok/s)':<25} {'Acceptance Rate':<25} {'Speedup':<10}"
+    logger.info(header)
+    logger.info("-" * 90)
+
     ar_tp = all_results["methods"]["autoregressive"]["mean_throughput"]
+    logger.info(
+        f"{'autoregressive':<25} {ar_tp:>8.1f}{'':<17} {'N/A':<25} {'1.00x':<10}"
+    )
+
     for method, res in all_results["methods"].items():
         if method == "autoregressive":
             continue
         tp = res["mean_throughput"]
-        acc = res.get("mean_acceptance_rate", "N/A")
         speedup = tp / ar_tp if ar_tp > 0 else 0
-        logger.info(f"  {method}: {tp:.1f} tok/s ({speedup:.2f}x), acc={acc}")
+
+        tp_ci = res.get("throughput_ci")
+        if tp_ci:
+            tp_str = f"{tp:>8.1f} [{tp_ci[0]:.1f}, {tp_ci[1]:.1f}]"
+        else:
+            tp_str = f"{tp:>8.1f}"
+
+        acc = res.get("mean_acceptance_rate")
+        acc_ci = res.get("acceptance_rate_ci")
+        if acc is not None and acc_ci:
+            acc_str = f"{acc:>8.3f} [{acc_ci[0]:.3f}, {acc_ci[1]:.3f}]"
+        elif acc is not None:
+            acc_str = f"{acc:>8.3f}"
+        else:
+            acc_str = "N/A"
+
+        logger.info(f"{method:<25} {tp_str:<25} {acc_str:<25} {speedup:.2f}x")
+
+    logger.info("=" * 90)
 
 
 if __name__ == "__main__":

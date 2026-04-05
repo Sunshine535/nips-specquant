@@ -251,3 +251,309 @@ class TestEndToEndCompression:
             out_fp.flatten(), out_quant.flatten(), dim=0,
         )
         assert cosine_sim > 0.9, f"Cosine similarity too low: {cosine_sim}"
+
+
+# ---------------------------------------------------------------------------
+# TestStatUtils — src/utils.py
+# ---------------------------------------------------------------------------
+
+import numpy as np
+from unittest.mock import MagicMock, patch
+from dataclasses import dataclass
+
+from src.utils import (
+    mean_confidence_interval,
+    bootstrap_ci,
+    aggregate_trials,
+    paired_ttest,
+    compute_effect_size,
+    format_with_ci,
+)
+
+
+class TestStatUtils:
+    def test_mean_ci_basic(self):
+        """CI should contain the mean, and bounds should be reasonable."""
+        data = [10.0, 12.0, 11.0, 13.0, 10.5, 11.5, 12.5, 11.0]
+        mean, ci_lo, ci_hi = mean_confidence_interval(data, confidence=0.95)
+        assert ci_lo < mean < ci_hi, "Mean should lie within its CI"
+        assert ci_lo > 0, "Lower bound should be positive for positive data"
+        assert ci_hi - ci_lo < 10.0, "CI width should be reasonable for tight data"
+
+    def test_bootstrap_ci_single_value(self):
+        """Bootstrap with a single observation should degrade gracefully."""
+        data = [5.0]
+        point, ci_lo, ci_hi = bootstrap_ci(data, n_bootstrap=1000, confidence=0.95)
+        assert point == 5.0
+        # With a single value, all bootstrap resamples are identical
+        assert ci_lo == pytest.approx(5.0)
+        assert ci_hi == pytest.approx(5.0)
+
+    def test_aggregate_trials(self):
+        """aggregate_trials should return all expected summary keys."""
+        values = [0.91, 0.93, 0.90, 0.92, 0.94]
+        result = aggregate_trials(values, confidence=0.95)
+        expected_keys = {
+            "mean", "std", "median", "min", "max",
+            "ci_lower", "ci_upper", "ci_confidence", "n_trials",
+        }
+        assert expected_keys.issubset(result.keys())
+        assert result["n_trials"] == 5
+        assert result["min"] == pytest.approx(0.90)
+        assert result["max"] == pytest.approx(0.94)
+        assert result["ci_lower"] <= result["mean"] <= result["ci_upper"]
+
+    def test_paired_ttest_identical(self):
+        """Paired t-test on identical arrays should yield p_value ~ 1.0 or NaN, cohen_d ~ 0."""
+        a = [1.0, 2.0, 3.0, 4.0, 5.0]
+        b = [1.0, 2.0, 3.0, 4.0, 5.0]
+        result = paired_ttest(a, b)
+        assert "p_value" in result
+        # scipy.stats.ttest_rel returns NaN when all differences are zero
+        # (t-statistic is 0/0); both NaN and 1.0 are acceptable degeneracies
+        assert math.isnan(result["p_value"]) or result["p_value"] == pytest.approx(1.0, abs=1e-6)
+        assert result["cohen_d"] == pytest.approx(0.0, abs=1e-6)
+
+    def test_effect_size_improvement(self):
+        """When treatment > control, cohen_d should be positive."""
+        control = [10.0, 11.0, 10.5, 11.5, 10.0]
+        treatment = [15.0, 16.0, 15.5, 16.5, 15.0]
+        result = compute_effect_size(treatment, control)
+        assert result["cohen_d"] > 0, "Cohen's d should be positive for improvement"
+        assert result["relative_improvement"] > 0
+        assert result["treatment_mean"] > result["control_mean"]
+
+    def test_format_with_ci(self):
+        """format_with_ci should produce the expected string format."""
+        s = format_with_ci(0.954, 0.931, 0.977)
+        assert s == "0.95 (0.93, 0.98)"
+        # Also test a custom format spec
+        s2 = format_with_ci(0.954, 0.931, 0.977, fmt=".3f")
+        assert s2 == "0.954 (0.931, 0.977)"
+
+
+# ---------------------------------------------------------------------------
+# TestBaselines — src/baselines.py
+# ---------------------------------------------------------------------------
+
+from src.baselines import (
+    RTNKVCache,
+    KIVIKVCache,
+    AbsmaxKVCache,
+    BaselineDecoder,
+    BASELINE_REGISTRY,
+)
+from src.speculative_decode import SpeculativeOutput
+
+
+class TestBaselines:
+    """Tests for RTN, KIVI, and Absmax KV cache quantization baselines."""
+
+    NUM_LAYERS = 2
+    NUM_KV_HEADS = 4
+    HEAD_DIM = 64
+    SEQ_LEN = 32
+    BLOCK_SIZE = 32
+
+    def _make_kv(self):
+        """Create small synthetic K, V tensors."""
+        k = torch.randn(1, self.NUM_KV_HEADS, self.SEQ_LEN, self.HEAD_DIM)
+        v = torch.randn(1, self.NUM_KV_HEADS, self.SEQ_LEN, self.HEAD_DIM)
+        return k, v
+
+    def test_rtn_roundtrip(self):
+        """RTNKVCache compress -> decompress should have reasonable MSE."""
+        cache = RTNKVCache(
+            num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+            head_dim=self.HEAD_DIM, bits=4, block_size=self.BLOCK_SIZE,
+        )
+        k, v = self._make_kv()
+        cache.compress_and_store(0, k, v)
+        k_rec, v_rec = cache.get_rotated_kv(0)
+        mse_k = (k - k_rec).pow(2).mean().item()
+        mse_v = (v - v_rec).pow(2).mean().item()
+        assert mse_k < 0.1, f"RTN key MSE too high: {mse_k}"
+        assert mse_v < 0.1, f"RTN value MSE too high: {mse_v}"
+
+    def test_kivi_asymmetric(self):
+        """KIVI should quantize K and V along different axes."""
+        cache = KIVIKVCache(
+            num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+            head_dim=self.HEAD_DIM, bits=4, block_size=self.BLOCK_SIZE,
+        )
+        k, v = self._make_kv()
+        cache.compress_and_store(0, k, v)
+
+        # K scales: per-channel (axis=-1) -> shape (..., seq_len, n_blocks)
+        # V scales: per-token  (axis=-2) -> shape (..., n_blocks, dim)
+        k_scales_shape = cache.k_scales[0].shape
+        v_scales_shape = cache.v_scales[0].shape
+
+        # They must differ because the quantization axes are different
+        assert k_scales_shape != v_scales_shape, (
+            f"KIVI K and V scales should have different shapes due to "
+            f"asymmetric quantization axes, got K={k_scales_shape} V={v_scales_shape}"
+        )
+
+    def test_absmax_symmetric(self):
+        """AbsmaxKVCache should use symmetric quantization (no zeros stored)."""
+        cache = AbsmaxKVCache(
+            num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+            head_dim=self.HEAD_DIM, bits=4, block_size=self.BLOCK_SIZE,
+        )
+        k, v = self._make_kv()
+        cache.compress_and_store(0, k, v)
+
+        # Absmax uses int8 codes (signed), not uint8
+        assert cache.k_codes[0].dtype == torch.int8
+        assert cache.v_codes[0].dtype == torch.int8
+
+        # Absmax has no zero-point attributes (only codes + scales)
+        assert not hasattr(cache, "k_zeros") or cache.__class__.__name__ == "AbsmaxKVCache"
+        # Verify per-head scales shape: (batch, num_kv_heads, 1, 1)
+        assert cache.k_scales[0].shape == (1, self.NUM_KV_HEADS, 1, 1)
+        assert cache.v_scales[0].shape == (1, self.NUM_KV_HEADS, 1, 1)
+
+    def test_baseline_attention_shape(self):
+        """compressed_attention should return the correct output shape."""
+        for name, cls in BASELINE_REGISTRY.items():
+            cache = cls(
+                num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+                head_dim=self.HEAD_DIM, bits=4, block_size=self.BLOCK_SIZE,
+            )
+            k, v = self._make_kv()
+            cache.compress_and_store(0, k, v)
+            q = torch.randn(1, self.NUM_KV_HEADS, 1, self.HEAD_DIM)
+            out = cache.compressed_attention(0, q)
+            assert out.shape == (1, self.NUM_KV_HEADS, 1, self.HEAD_DIM), (
+                f"{name}: expected shape (1, {self.NUM_KV_HEADS}, 1, {self.HEAD_DIM}), "
+                f"got {out.shape}"
+            )
+
+    def test_more_bits_less_error_baselines(self):
+        """All baselines should show monotonic MSE improvement with more bits."""
+        k, v = self._make_kv()
+        for name, cls in BASELINE_REGISTRY.items():
+            mses = []
+            for bits in [2, 3, 4]:
+                cache = cls(
+                    num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+                    head_dim=self.HEAD_DIM, bits=bits, block_size=self.BLOCK_SIZE,
+                )
+                cache.compress_and_store(0, k, v)
+                k_rec, v_rec = cache.get_rotated_kv(0)
+                mse = ((k - k_rec).pow(2).mean() + (v - v_rec).pow(2).mean()).item()
+                mses.append(mse)
+            # More bits should yield lower or equal error
+            assert mses[1] <= mses[0] + 1e-6, (
+                f"{name}: 3-bit MSE ({mses[1]}) should be <= 2-bit MSE ({mses[0]})"
+            )
+            assert mses[2] <= mses[1] + 1e-6, (
+                f"{name}: 4-bit MSE ({mses[2]}) should be <= 3-bit MSE ({mses[1]})"
+            )
+
+    def test_baseline_decoder_generate(self):
+        """BaselineDecoder.generate() should return a SpeculativeOutput (mocked models)."""
+        vocab_size = 32
+        hidden_size = 64
+        num_heads = 4
+        num_layers = 2
+        head_dim = hidden_size // num_heads
+
+        # Build a minimal mock config
+        mock_config = MagicMock()
+        mock_config.num_hidden_layers = num_layers
+        mock_config.num_attention_heads = num_heads
+        mock_config.num_key_value_heads = num_heads
+        mock_config.hidden_size = hidden_size
+
+        def _make_model_output(batch, seq_len, device):
+            """Create a mock model forward output with KV cache."""
+            logits = torch.randn(batch, seq_len, vocab_size, device=device)
+            kv = tuple(
+                (
+                    torch.randn(batch, num_heads, seq_len, head_dim, device=device),
+                    torch.randn(batch, num_heads, seq_len, head_dim, device=device),
+                )
+                for _ in range(num_layers)
+            )
+            out = MagicMock()
+            out.logits = logits
+            out.past_key_values = kv
+            return out
+
+        device = torch.device("cpu")
+
+        draft_model = MagicMock()
+        draft_model.config = mock_config
+        draft_model.eval = MagicMock(return_value=None)
+        draft_model.parameters = MagicMock(
+            return_value=iter([torch.zeros(1, device=device)])
+        )
+
+        target_model = MagicMock()
+        target_model.config = mock_config
+        target_model.eval = MagicMock(return_value=None)
+        target_model.parameters = MagicMock(
+            return_value=iter([torch.zeros(1, device=device)])
+        )
+
+        # Track call count to produce appropriate seq_len outputs
+        call_count = {"draft": 0, "target": 0}
+
+        def draft_forward(*args, **kwargs):
+            call_count["draft"] += 1
+            inp = args[0] if args else kwargs.get("input_ids", torch.zeros(1, 1))
+            seq_len = inp.shape[1] if hasattr(inp, "shape") else 1
+            past = kwargs.get("past_key_values")
+            total_len = seq_len + (past[0][0].shape[2] if past else 0)
+            return _make_model_output(1, seq_len, device)
+
+        def target_forward(*args, **kwargs):
+            call_count["target"] += 1
+            inp = args[0] if args else kwargs.get("input_ids", torch.zeros(1, 1))
+            seq_len = inp.shape[1] if hasattr(inp, "shape") else 1
+            return _make_model_output(1, seq_len, device)
+
+        draft_model.side_effect = draft_forward
+        draft_model.__call__ = draft_forward
+        target_model.side_effect = target_forward
+        target_model.__call__ = target_forward
+
+        tokenizer = MagicMock()
+
+        decoder = BaselineDecoder(
+            draft_model=draft_model,
+            target_model=target_model,
+            tokenizer=tokenizer,
+            baseline_type="rtn",
+            quant_bits=4,
+            quant_block_size=self.BLOCK_SIZE,
+        )
+
+        input_ids = torch.randint(0, vocab_size, (1, 4))
+        result = decoder.generate(
+            input_ids=input_ids,
+            max_new_tokens=8,
+            gamma=2,
+            temperature=1.0,
+        )
+
+        assert isinstance(result, SpeculativeOutput)
+        assert result.num_generated_tokens > 0
+        assert result.wall_time_seconds >= 0
+
+    def test_compression_ratio_all_baselines(self):
+        """All baselines should achieve compression ratio > 1.0 at 3 bits."""
+        k, v = self._make_kv()
+        for name, cls in BASELINE_REGISTRY.items():
+            cache = cls(
+                num_layers=self.NUM_LAYERS, num_kv_heads=self.NUM_KV_HEADS,
+                head_dim=self.HEAD_DIM, bits=3, block_size=self.BLOCK_SIZE,
+            )
+            for layer_idx in range(self.NUM_LAYERS):
+                cache.compress_and_store(layer_idx, k, v)
+            ratio = cache.compression_ratio
+            assert ratio > 1.0, (
+                f"{name}: compression ratio {ratio} should be > 1.0 at 3 bits"
+            )

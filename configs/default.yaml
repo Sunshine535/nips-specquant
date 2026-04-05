@@ -1,13 +1,22 @@
 # SpecQuant default configuration
 
-# Model pairs for experiments
+# Model pairs for experiments (dual-GPU: draft→cuda:0, target→cuda:1)
 model_pairs:
+  # Primary pairs (Qwen3.5)
   - draft: "Qwen/Qwen3.5-0.8B"
     target: "Qwen/Qwen3.5-9B"
     tag: "qwen_0.8B_9B"
   - draft: "Qwen/Qwen3.5-4B"
     target: "Qwen/Qwen3.5-14B"
     tag: "qwen_4B_14B"
+  # Cross-architecture (Llama 3.1)
+  - draft: "meta-llama/Llama-3.1-8B"
+    target: "meta-llama/Llama-3.1-70B"
+    tag: "llama_8B_70B"
+  # Scaling analysis
+  - draft: "Qwen/Qwen3.5-0.8B"
+    target: "Qwen/Qwen3.5-4B"
+    tag: "qwen_0.8B_4B"
 
 # SpecQuant settings
 specquant:
@@ -23,18 +32,39 @@ spec_decode:
 
 # Benchmark
 benchmark:
-  num_warmup: 1
+  num_warmup: 2
+  num_trials: 5
+  prompt_types: ["reasoning", "code", "long_context"]
+
+# Downstream evaluation
+downstream:
+  benchmarks: ["gsm8k", "humaneval", "mmlu", "mt_bench"]
+  num_samples: 200
+  max_new_tokens: 512
   num_trials: 3
-  prompt_types: ["reasoning", "code"]
+
+# Ablation sweeps
+ablations:
+  block_sizes: [32, 64, 128, 256, 512]
+  gammas: [1, 2, 3, 5, 7, 9]
+  temperatures: [0.0, 0.3, 0.6, 1.0, 1.5, 2.0]
+  seeds: [42, 123, 456, 789, 1024]
+  num_trials: 3
 
 # Evaluation
 eval:
   seq_lengths: [1024, 2048, 4096, 8192, 16384]
   bitwidth_sweep: [2, 3, 4]
-  num_tv_samples: 1000
+  num_tv_samples: 100
   micro_trials: 10
 
-# Hardware
+# Baselines
+baselines:
+  methods: ["rtn", "kivi", "absmax"]
+
+# Hardware (dual-GPU mandatory)
 hardware:
   dtype: "float16"
-  device: "cuda"
+  draft_device: "cuda:0"
+  target_device: "cuda:1"
+  min_gpus: 2

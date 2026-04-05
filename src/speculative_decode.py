@@ -14,6 +14,7 @@ import torch.nn.functional as F
 from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 from .turboquant_kv import QuantizedKVCache, HadamardRotation, ScalarQuantizer
+from .quantized_verifier import QuantizedVerifier
 
 logger = logging.getLogger(__name__)
 
@@ -137,11 +138,18 @@ class SpeculativeDecoder:
         self.target_device = next(target_model.parameters()).device
 
         self.use_quant = quant_bits > 0
+        self.verifier: Optional[QuantizedVerifier] = None
         if self.use_quant:
             config = target_model.config
             num_layers = config.num_hidden_layers
             num_kv_heads = getattr(config, "num_key_value_heads", config.num_attention_heads)
             head_dim = config.hidden_size // config.num_attention_heads
+            self.verifier = QuantizedVerifier(
+                model=target_model,
+                bits=quant_bits,
+                block_size=quant_block_size,
+                seed=quant_seed,
+            )
             logger.info(
                 f"SpecQuant enabled: {quant_bits}-bit, block_size={quant_block_size}, "
                 f"layers={num_layers}, kv_heads={num_kv_heads}, head_dim={head_dim}"
@@ -232,7 +240,13 @@ class SpeculativeDecoder:
         kv_len = prefix_len
 
         qkv_cache = None
-        if self.use_quant:
+        if self.use_quant and self.verifier is not None:
+            # Compress prefill KV into the verifier's quantized cache
+            # and install hooks for compressed-domain attention
+            self.verifier.compress_prefix_kv(target_kv)
+            self.verifier.install_hooks()
+        elif self.use_quant:
+            # Fallback: round-trip compression (legacy path)
             qkv_cache = self._build_qkv_cache()
             target_kv = self._compress_kv(target_kv, qkv_cache)
 
@@ -256,13 +270,20 @@ class SpeculativeDecoder:
             t_draft_total += time.perf_counter() - t0
 
             t0 = time.perf_counter()
-            verify_out = self.target_model(
-                draft_tokens.view(1, -1).to(self.target_device),
-                past_key_values=target_kv,
-                use_cache=True,
-            )
-            target_kv_ext = verify_out.past_key_values
-            verify_logits = verify_out.logits
+            if self.verifier is not None:
+                # Compressed-domain verification via QuantizedVerifier hooks
+                verify_logits, target_kv_ext = self.verifier.verify(
+                    draft_tokens.view(1, -1), target_kv,
+                )
+            else:
+                # Full-precision verification (or legacy round-trip)
+                verify_out = self.target_model(
+                    draft_tokens.view(1, -1).to(self.target_device),
+                    past_key_values=target_kv,
+                    use_cache=True,
+                )
+                target_kv_ext = verify_out.past_key_values
+                verify_logits = verify_out.logits
 
             n_acc, accepted = self._rejection_sample(
                 target_next_logits,
@@ -304,7 +325,11 @@ class SpeculativeDecoder:
             target_kv = t_out.past_key_values
             target_next_logits = t_out.logits[:, -1, :]
 
-            if qkv_cache is not None:
+            if self.verifier is not None:
+                t0_q = time.perf_counter()
+                self.verifier.append_and_compress(target_kv)
+                t_quant_total += time.perf_counter() - t0_q
+            elif qkv_cache is not None:
                 t0_q = time.perf_counter()
                 target_kv = self._compress_kv(target_kv, qkv_cache)
                 t_quant_total += time.perf_counter() - t0_q
@@ -312,6 +337,19 @@ class SpeculativeDecoder:
             kv_len = new_kv_len + 1
 
         wall = time.perf_counter() - start
+
+        # Clean up verifier hooks and accumulate its timing
+        if self.verifier is not None:
+            self.verifier.remove_hooks()
+            v_timing = self.verifier.get_timing_stats()
+            t_quant_total += v_timing["compress_seconds"]
+            t_verify_total += v_timing["decompress_attn_seconds"]
+            logger.info(
+                "QuantizedVerifier stats: %s | Memory: %s",
+                {k: f"{v:.4f}s" for k, v in v_timing.items()},
+                {k: v for k, v in self.verifier.get_memory_stats().items()
+                 if k in ("compression_ratio", "memory_saved_mb")},
+            )
 
         final_ids = all_token_ids[:, : prefix_len + max_new_tokens]
         return SpeculativeOutput(
