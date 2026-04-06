@@ -533,11 +533,12 @@ class CompressedThinkingCache:
                     continue
 
                 if bw == EVICTED_BITS:
-                    storage.evicted_positions = positions
+                    storage.evicted_positions = positions.to(k_think.device)
                     continue
 
                 # Gather tokens at these positions
                 # k_think: (batch, heads, think_len, dim)
+                positions = positions.to(k_think.device)
                 k_subset = k_think[:, :, positions, :]
                 v_subset = v_think[:, :, positions, :]
 
