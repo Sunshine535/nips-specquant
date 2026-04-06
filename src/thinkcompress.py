@@ -1044,11 +1044,13 @@ class ThinkCompressor:
                 self._phase.total_generated += 1
 
                 # Update importance scores during thinking phase
-                if self._phase.phase == GenerationPhase.THINKING:
-                    captured = self._hook_manager.get_captured()
-                    for layer_idx, attn_w in captured.items():
+                if self._phase.phase == GenerationPhase.THINKING and outputs.attentions is not None:
+                    for layer_idx, attn_w in enumerate(outputs.attentions):
+                        # attn_w: (batch, num_heads, q_len, kv_len)
+                        # Extract attention from last generated token to all previous
+                        w = attn_w[0, :, -1, :]  # (num_heads, kv_len)
                         self._scorer.update(
-                            attn_w,
+                            w,
                             layer_idx=layer_idx,
                             position=current_pos,
                             thinking_start=self._phase.think_start_pos,
@@ -1098,7 +1100,14 @@ class ThinkCompressor:
             stats.thinking_memory_bytes = compressed_cache.memory_bytes()
             stats.thinking_fp16_bytes = compressed_cache.full_precision_bytes()
 
-        if importance_scores is not None:
+        # Always extract importance scores from scorer (even without compression)
+        if importance_scores is None and self._phase.think_start_pos >= 0:
+            think_start = self._phase.think_start_pos
+            think_end = self._phase.think_end_pos if self._phase.think_end_pos > 0 else generated_ids.shape[1]
+            importance_scores = self._scorer.get_scores(
+                thinking_start=think_start, thinking_end=think_end,
+            )
+        if importance_scores is not None and importance_scores.numel() > 0:
             stats.importance_gini = _gini_coefficient(importance_scores)
             stats.importance_entropy = _entropy(importance_scores)
 
