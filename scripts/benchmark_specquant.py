@@ -251,29 +251,32 @@ def main():
 
     # --- Baseline comparisons ---
     if args.baselines:
-        for baseline_name in args.baselines:
-            label = f"baseline_{baseline_name}"
-            logger.info(f"=== {label} (gamma={args.gamma}) ===")
+        for bits in args.quant_bits:
+            if bits == 0:
+                continue
+            for baseline_name in args.baselines:
+                label = f"baseline_{baseline_name}_{bits}bit"
+                logger.info(f"=== {label} (gamma={args.gamma}) ===")
 
-            baseline_decoder = BaselineDecoder(
-                draft_model, target_model, tokenizer,
-                baseline_type=baseline_name,
-                quant_bits=args.quant_bits[0] if args.quant_bits else 3,
-                quant_block_size=args.block_size,
-            )
-            result = run_benchmark(
-                baseline_decoder, prompts, tokenizer,
-                max_new_tokens=args.max_new_tokens,
-                gamma=args.gamma,
-                temperature=args.temperature,
-                num_warmup=args.num_warmup,
-                num_trials=args.num_trials,
-            )
-            all_results["methods"][label] = result
-            logger.info(
-                f"  Throughput: {result['mean_throughput']:.1f} tok/s, "
-                f"Acceptance: {result['mean_acceptance_rate']:.3f}"
-            )
+                baseline_decoder = BaselineDecoder(
+                    draft_model, target_model, tokenizer,
+                    baseline_type=baseline_name,
+                    quant_bits=bits,
+                    quant_block_size=args.block_size,
+                )
+                result = run_benchmark(
+                    baseline_decoder, prompts, tokenizer,
+                    max_new_tokens=args.max_new_tokens,
+                    gamma=args.gamma,
+                    temperature=args.temperature,
+                    num_warmup=args.num_warmup,
+                    num_trials=args.num_trials,
+                )
+                all_results["methods"][label] = result
+                logger.info(
+                    f"  Throughput: {result['mean_throughput']:.1f} tok/s, "
+                    f"Acceptance: {result['mean_acceptance_rate']:.3f}"
+                )
 
     output_file = os.path.join(
         args.output_dir,

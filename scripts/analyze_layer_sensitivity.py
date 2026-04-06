@@ -21,6 +21,7 @@ from scipy import stats as sp_stats
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.baselines import RTNKVCache, KIVIKVCache
+from src.quantized_verifier import _apply_rotary_pos_emb
 from src.turboquant_kv import HadamardRotation, QuantizedKVCache, ScalarQuantizer
 from src.utils import aggregate_trials, save_results
 
@@ -65,19 +66,28 @@ DIVERSE_PROMPTS = [
 # ---------------------------------------------------------------------------
 
 class KVCaptureHook:
-    """Register forward hooks on attention layers to capture real K, V tensors.
+    """Register forward hooks on attention layers to capture real Q, K, V tensors.
 
     Supports common HuggingFace architectures (Qwen2, Llama, Mistral, etc.)
     where the attention module stores key/value states as
     ``(batch, num_kv_heads, seq_len, head_dim)`` tensors.
+
+    Q is reconstructed from the module's input hidden_states via q_proj when
+    available, giving real query tensors for accurate attention distortion
+    measurement.
     """
 
-    def __init__(self):
+    def __init__(self, num_q_heads: int = 0, head_dim: int = 0):
         self.captured_kv: Dict[int, Tuple[torch.Tensor, torch.Tensor]] = {}
+        self.captured_q: Dict[int, torch.Tensor] = {}
         self._hooks: List[Any] = []
+        self.num_q_heads = num_q_heads
+        self.head_dim = head_dim
 
     def _make_hook(self, layer_idx: int):
-        """Create a hook function that captures K, V from the attention output."""
+        """Create a hook function that captures Q, K, V from the attention module."""
+        capture = self  # closure reference
+
         def hook_fn(module, args, output):
             # HuggingFace attention modules return (attn_output, attn_weights, past_key_value)
             # or (attn_output, past_key_value) depending on config.
@@ -95,8 +105,52 @@ class KVCaptureHook:
                             break
             if past_kv is not None:
                 k, v = past_kv
-                self.captured_kv[layer_idx] = (k.detach().cpu().float(),
-                                                v.detach().cpu().float())
+                capture.captured_kv[layer_idx] = (k.detach().cpu().float(),
+                                                   v.detach().cpu().float())
+
+            # Capture Q from hidden_states via q_proj if available
+            q_proj = getattr(module, "q_proj", None)
+            if q_proj is not None and len(args) > 0:
+                hidden_states = args[0]
+                if isinstance(hidden_states, torch.Tensor):
+                    with torch.no_grad():
+                        q = q_proj(hidden_states)
+                        B, S = hidden_states.shape[:2]
+                        if capture.num_q_heads > 0 and capture.head_dim > 0:
+                            q = q.view(B, S, capture.num_q_heads, capture.head_dim)
+                            q = q.transpose(1, 2)  # (B, num_q_heads, S, head_dim)
+
+                        # Apply RoPE to Q for RoPE-based models (Llama, Qwen,
+                        # Mistral).  Without RoPE, Q has no positional signal
+                        # and attention distortion metrics are meaningless.
+                        # Handle both new HF API (position_embeddings kwarg)
+                        # and older API (module.rotary_emb callable) with
+                        # try/except fallback for different call signatures.
+                        rotary_emb = getattr(module, "rotary_emb", None)
+                        if rotary_emb is not None and q.dim() == 4:
+                            seq_len = q.shape[2]
+                            position_ids = torch.arange(
+                                seq_len, device=q.device,
+                            ).unsqueeze(0)
+                            try:
+                                # New HF API: rotary_emb(x, position_ids)
+                                cos, sin = rotary_emb(q, position_ids)
+                            except TypeError:
+                                # Older API: rotary_emb(x, seq_len)
+                                cos, sin = rotary_emb(q, seq_len)
+                                if cos.dim() == 4:
+                                    cos = cos[:, :, :seq_len, :]
+                                    sin = sin[:, :, :seq_len, :]
+                                elif cos.dim() == 2:
+                                    cos = cos[:seq_len]
+                                    sin = sin[:seq_len]
+                                elif cos.dim() == 3:
+                                    cos = cos[:, :seq_len, :]
+                                    sin = sin[:, :seq_len, :]
+                            q = _apply_rotary_pos_emb(q, cos, sin)
+
+                        capture.captured_q[layer_idx] = q.detach().cpu().float()
+
         return hook_fn
 
     def register(self, model: torch.nn.Module):
@@ -145,10 +199,12 @@ class KVCaptureHook:
             h.remove()
         self._hooks.clear()
         self.captured_kv.clear()
+        self.captured_q.clear()
 
     def clear_captures(self):
         """Discard captured KV data but keep hooks active."""
         self.captured_kv.clear()
+        self.captured_q.clear()
 
 
 # ---------------------------------------------------------------------------
@@ -233,6 +289,7 @@ def analyze_single_layer(
     quantizer: ScalarQuantizer,
     bits: int,
     block_size: int,
+    query: Optional[torch.Tensor] = None,
 ) -> Dict[str, Any]:
     """Compute quantization error metrics for a single layer's K, V.
 
@@ -244,6 +301,9 @@ def analyze_single_layer(
         quantizer: ScalarQuantizer instance
         bits: quantization bit width
         block_size: quantization block size
+        query: (batch, num_q_heads, seq_len, head_dim) real Q activations.
+            When provided, uses real Q for attention distortion measurement.
+            Falls back to using the last K position as a synthetic query.
 
     Returns:
         Dict with per-method error metrics and activation statistics.
@@ -306,22 +366,27 @@ def analyze_single_layer(
     }
 
     # --- Attention output comparison ---
-    # Use the K tensor itself as a synthetic query (same shape) for attention
-    # output distortion measurement.  This isolates the KV quantization effect.
+    # Use real Q tensors when available for accurate attention distortion
+    # measurement.  Falls back to using the last K position as a synthetic
+    # query when real Q is not captured.
     head_dim = key.shape[-1]
-    query = key[:, :, -1:, :]  # single query position from last token
+    if query is not None:
+        # Use real Q; take the last position for a focused comparison
+        attn_query = query[:, :, -1:, :]
+    else:
+        attn_query = key[:, :, -1:, :]  # fallback: single query from last K position
 
-    attn_orig = compute_attention_output(query, key, value, head_dim)
+    attn_orig = compute_attention_output(attn_query, key, value, head_dim)
 
-    attn_sq = compute_attention_output(query, k_sq, v_sq, head_dim)
+    attn_sq = compute_attention_output(attn_query, k_sq, v_sq, head_dim)
     results["specquant"]["attn_output_mse"] = F.mse_loss(attn_sq, attn_orig).item()
     results["specquant"]["attn_output_cosine"] = cosine_similarity_tensors(attn_sq, attn_orig)
 
-    attn_rtn = compute_attention_output(query, k_rtn, v_rtn, head_dim)
+    attn_rtn = compute_attention_output(attn_query, k_rtn, v_rtn, head_dim)
     results["rtn"]["attn_output_mse"] = F.mse_loss(attn_rtn, attn_orig).item()
     results["rtn"]["attn_output_cosine"] = cosine_similarity_tensors(attn_rtn, attn_orig)
 
-    attn_kivi = compute_attention_output(query, k_kivi, v_kivi, head_dim)
+    attn_kivi = compute_attention_output(attn_query, k_kivi, v_kivi, head_dim)
     results["kivi"]["attn_output_mse"] = F.mse_loss(attn_kivi, attn_orig).item()
     results["kivi"]["attn_output_cosine"] = cosine_similarity_tensors(attn_kivi, attn_orig)
 
@@ -379,9 +444,11 @@ def run_single_prompt(
     layer_results = []
     for layer_idx in sorted(kv_hook.captured_kv.keys()):
         k, v = kv_hook.captured_kv[layer_idx]
+        q = kv_hook.captured_q.get(layer_idx)  # may be None if q_proj unavailable
         # Move to CPU for analysis to avoid GPU OOM on large models
         result = analyze_single_layer(
             k, v, layer_idx, rotation, quantizer, bits, block_size,
+            query=q,
         )
         layer_results.append(result)
 
@@ -717,8 +784,9 @@ def main():
     rotation = HadamardRotation(head_dim, seed=args.seed)
     quantizer = ScalarQuantizer(bits=args.bits, block_size=args.block_size)
 
-    # Register hooks
-    kv_hook = KVCaptureHook()
+    # Register hooks (pass geometry so Q can be reshaped correctly)
+    num_q_heads = config.num_attention_heads
+    kv_hook = KVCaptureHook(num_q_heads=num_q_heads, head_dim=head_dim)
     kv_hook.register(model)
 
     # Select prompts

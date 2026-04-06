@@ -1,0 +1,116 @@
+{
+  "config": {
+    "draft": "Qwen3.5-0.8B",
+    "target": "Qwen3.5-4B",
+    "arch": "GatedDeltaNet",
+    "gamma": 5,
+    "max_tokens": 128,
+    "hw": "2xH100"
+  },
+  "methods": {
+    "AR": {
+      "throughput": {
+        "mean": 27.36246465899808,
+        "std": 1.398285517944952,
+        "median": 28.00135363983043,
+        "min": 25.758859725988053,
+        "max": 28.327180611175752,
+        "n_trials": 3,
+        "ci_confidence": 0.95,
+        "ci_lower": 23.88893087207668,
+        "ci_upper": 30.835998445919476
+      }
+    },
+    "Vanilla": {
+      "throughput": {
+        "mean": 1.9762046005277483,
+        "std": 0.2051841066571065,
+        "median": 1.9330988151208788,
+        "min": 1.6829877095907881,
+        "max": 2.267222935683824,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 1.7608770862615617,
+        "ci_upper": 2.191532114793935
+      },
+      "acceptance_rate": {
+        "mean": 0.11289728745192794,
+        "std": 0.027790304169439117,
+        "median": 0.11022597854102979,
+        "min": 0.06808510638297872,
+        "max": 0.14794520547945206,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 0.08373315181296856,
+        "ci_upper": 0.14206142309088732
+      },
+      "stats": {}
+    },
+    "SQ-3b": {
+      "throughput": {
+        "mean": 1.9265388627173838,
+        "std": 0.12683635477787378,
+        "median": 1.8800812733961842,
+        "min": 1.7908951328455969,
+        "max": 2.0966675393005745,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 1.7934322715789919,
+        "ci_upper": 2.059645453855776
+      },
+      "acceptance_rate": {
+        "mean": 0.11965571126708772,
+        "std": 0.01769063386002544,
+        "median": 0.11552535606919323,
+        "min": 0.09905660377358491,
+        "max": 0.1424731182795699,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 0.10109052960202636,
+        "ci_upper": 0.1382208929321491
+      },
+      "stats": {
+        "compressed_bytes": 14548992,
+        "full_precision_bytes": 35127296,
+        "compression_ratio": 2.4144144144144146,
+        "bits": 3,
+        "num_layers": 32,
+        "num_heads": 32,
+        "state_dim": 128
+      }
+    },
+    "SQ-4b": {
+      "throughput": {
+        "mean": 1.865363607090248,
+        "std": 0.14941635046529178,
+        "median": 1.8889519351910944,
+        "min": 1.641483083426561,
+        "max": 2.071494403263751,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 1.7085607637287819,
+        "ci_upper": 2.022166450451714
+      },
+      "acceptance_rate": {
+        "mean": 0.1084085667659822,
+        "std": 0.02414938097650805,
+        "median": 0.1123494122811296,
+        "min": 0.0735930735930736,
+        "max": 0.14520547945205478,
+        "n_trials": 6,
+        "ci_confidence": 0.95,
+        "ci_lower": 0.08306534568780857,
+        "ci_upper": 0.13375178784415584
+      },
+      "stats": {
+        "compressed_bytes": 14548992,
+        "full_precision_bytes": 35127296,
+        "compression_ratio": 2.4144144144144146,
+        "bits": 4,
+        "num_layers": 32,
+        "num_heads": 32,
+        "state_dim": 128
+      }
+    }
+  }
+}

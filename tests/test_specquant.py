@@ -557,3 +557,239 @@ class TestBaselines:
             assert ratio > 1.0, (
                 f"{name}: compression ratio {ratio} should be > 1.0 at 3 bits"
             )
+
+
+# ---------------------------------------------------------------------------
+# TestQuantizedVerifier — src/quantized_verifier.py
+# ---------------------------------------------------------------------------
+
+from src.quantized_verifier import QuantizedVerifier
+from src.speculative_decode import _evict_prefix_kv
+
+
+def _make_mock_model(num_layers=2, num_heads=4, head_dim=64, hidden_size=256):
+    """Build a minimal mock model with attention layers that QuantizedVerifier can discover.
+
+    Creates a model with model.layers[i].self_attn containing q_proj, k_proj,
+    v_proj, o_proj linear layers and a simple rotary_emb callable.
+    """
+    model = torch.nn.Module()
+    config = MagicMock()
+    config.num_hidden_layers = num_layers
+    config.num_attention_heads = num_heads
+    config.num_key_value_heads = num_heads
+    config.hidden_size = hidden_size
+    model.config = config
+
+    layers = torch.nn.ModuleList()
+    for _ in range(num_layers):
+        layer = torch.nn.Module()
+        attn = torch.nn.Module()
+        attn.q_proj = torch.nn.Linear(hidden_size, num_heads * head_dim, bias=False)
+        attn.k_proj = torch.nn.Linear(hidden_size, num_heads * head_dim, bias=False)
+        attn.v_proj = torch.nn.Linear(hidden_size, num_heads * head_dim, bias=False)
+        attn.o_proj = torch.nn.Linear(num_heads * head_dim, hidden_size, bias=False)
+
+        # Simple rotary_emb that returns cos/sin of the right shape
+        def _rotary_emb(x, position_ids):
+            seq_len = position_ids.shape[-1]
+            d = head_dim
+            cos = torch.ones(1, seq_len, d)
+            sin = torch.zeros(1, seq_len, d)
+            return cos, sin
+
+        attn.rotary_emb = _rotary_emb
+        layer.self_attn = attn
+        layers.append(layer)
+
+    inner = torch.nn.Module()
+    inner.layers = layers
+    model.model = inner
+
+    # Make model.parameters() work (needed by QuantizedVerifier to find device)
+    model.register_buffer("_dummy", torch.zeros(1))
+    return model
+
+
+class TestQuantizedVerifier:
+    """Tests for QuantizedVerifier monkey-patching, compression, and memory stats."""
+
+    NUM_LAYERS = 2
+    NUM_HEADS = 4
+    HEAD_DIM = 64
+    HIDDEN_SIZE = 256
+    SEQ_LEN = 32
+
+    def _make_model(self):
+        return _make_mock_model(
+            num_layers=self.NUM_LAYERS,
+            num_heads=self.NUM_HEADS,
+            head_dim=self.HEAD_DIM,
+            hidden_size=self.HIDDEN_SIZE,
+        )
+
+    def _make_kv_tuple(self, seq_len=None):
+        """Create a tuple-style KV cache like older HF transformers."""
+        seq_len = seq_len or self.SEQ_LEN
+        kv = tuple(
+            (
+                torch.randn(1, self.NUM_HEADS, seq_len, self.HEAD_DIM),
+                torch.randn(1, self.NUM_HEADS, seq_len, self.HEAD_DIM),
+            )
+            for _ in range(self.NUM_LAYERS)
+        )
+        return kv
+
+    def test_install_remove_patches(self):
+        """Install patches should replace forward; remove should restore original."""
+        model = self._make_model()
+        verifier = QuantizedVerifier(model, bits=3, block_size=32)
+
+        # Capture original forward references (as stored in instance __dict__
+        # or resolved via MRO)
+        originals = {}
+        for idx, layer in enumerate(model.model.layers):
+            originals[idx] = layer.self_attn.forward
+
+        # Install patches -- forward should be replaced with a new callable
+        verifier.install_patches()
+        patched = {}
+        for idx, layer in enumerate(model.model.layers):
+            patched[idx] = layer.self_attn.forward
+            assert patched[idx] is not originals[idx], (
+                f"Layer {idx}: forward should be patched after install_patches()"
+            )
+            # Patched forward should accept the QuantizedVerifier signature
+            assert callable(patched[idx])
+
+        # Remove patches -- forward should no longer be the patched version
+        verifier.remove_patches()
+        for idx, layer in enumerate(model.model.layers):
+            current = layer.self_attn.forward
+            assert current is not patched[idx], (
+                f"Layer {idx}: forward should not be patched after remove_patches()"
+            )
+
+    def test_compress_prefix_kv(self):
+        """Compressing KV should populate the cache with correct seq_len and ratio > 1."""
+        model = self._make_model()
+        verifier = QuantizedVerifier(model, bits=3, block_size=32)
+
+        kv = self._make_kv_tuple(seq_len=64)
+        verifier.compress_prefix_kv(kv)
+
+        assert verifier.qkv_cache.seq_len == 64, (
+            f"Expected seq_len=64, got {verifier.qkv_cache.seq_len}"
+        )
+        assert verifier.qkv_cache.compression_ratio > 1.0, (
+            f"Compression ratio should be > 1.0, got {verifier.qkv_cache.compression_ratio}"
+        )
+
+    def test_memory_stats(self):
+        """After compression, get_memory_stats() should return expected keys and valid values."""
+        model = self._make_model()
+        verifier = QuantizedVerifier(model, bits=3, block_size=32)
+
+        kv = self._make_kv_tuple(seq_len=128)
+        verifier.compress_prefix_kv(kv)
+
+        stats = verifier.get_memory_stats()
+
+        expected_keys = {
+            "compressed_bytes", "fp16_equivalent_bytes", "compression_ratio",
+            "memory_saved_mb", "seq_len", "bits", "num_layers",
+            "num_kv_heads", "head_dim",
+        }
+        assert expected_keys.issubset(stats.keys()), (
+            f"Missing keys: {expected_keys - stats.keys()}"
+        )
+
+        assert stats["compressed_bytes"] > 0
+        assert stats["fp16_equivalent_bytes"] > 0
+        assert stats["compressed_bytes"] < stats["fp16_equivalent_bytes"], (
+            f"Compressed ({stats['compressed_bytes']}) should be < "
+            f"fp16 equivalent ({stats['fp16_equivalent_bytes']})"
+        )
+        assert stats["compression_ratio"] > 1.0
+        assert stats["seq_len"] == 128
+        assert stats["bits"] == 3
+
+    def test_evict_prefix_kv(self):
+        """_evict_prefix_kv should replace KV tensors with empty tensors."""
+        # Build a DynamicCache-like object with key_cache / value_cache lists
+        num_layers = 2
+        num_heads = 4
+        head_dim = 64
+        seq_len = 32
+
+        cache = MagicMock()
+        cache.key_cache = [
+            torch.randn(1, num_heads, seq_len, head_dim)
+            for _ in range(num_layers)
+        ]
+        cache.value_cache = [
+            torch.randn(1, num_heads, seq_len, head_dim)
+            for _ in range(num_layers)
+        ]
+
+        # Evict all
+        _evict_prefix_kv(cache, keep_last_n=0)
+
+        for i in range(num_layers):
+            assert cache.key_cache[i].shape[2] == 0, (
+                f"Layer {i}: key seq_len should be 0 after eviction, "
+                f"got {cache.key_cache[i].shape[2]}"
+            )
+            assert cache.value_cache[i].shape[2] == 0, (
+                f"Layer {i}: value seq_len should be 0 after eviction, "
+                f"got {cache.value_cache[i].shape[2]}"
+            )
+
+    def test_evict_prefix_kv_keep_last(self):
+        """_evict_prefix_kv with keep_last_n should retain trailing positions."""
+        num_layers = 2
+        num_heads = 4
+        head_dim = 64
+        seq_len = 32
+        keep = 8
+
+        cache = MagicMock()
+        cache.key_cache = [
+            torch.randn(1, num_heads, seq_len, head_dim)
+            for _ in range(num_layers)
+        ]
+        cache.value_cache = [
+            torch.randn(1, num_heads, seq_len, head_dim)
+            for _ in range(num_layers)
+        ]
+
+        _evict_prefix_kv(cache, keep_last_n=keep)
+
+        for i in range(num_layers):
+            assert cache.key_cache[i].shape[2] == keep, (
+                f"Layer {i}: key seq_len should be {keep} after partial eviction, "
+                f"got {cache.key_cache[i].shape[2]}"
+            )
+            assert cache.value_cache[i].shape[2] == keep
+
+    def test_evict_prefix_kv_none(self):
+        """_evict_prefix_kv should be a no-op when passed None."""
+        _evict_prefix_kv(None)  # should not raise
+
+    def test_context_manager(self):
+        """QuantizedVerifier should work as a context manager (install/remove)."""
+        model = self._make_model()
+        verifier = QuantizedVerifier(model, bits=4, block_size=32)
+
+        with verifier:
+            # Inside context: patches should be installed
+            patched = {}
+            for idx, layer in enumerate(model.model.layers):
+                patched[idx] = layer.self_attn.forward
+                assert callable(patched[idx])
+
+        # After exiting context, patches should be removed
+        for idx, layer in enumerate(model.model.layers):
+            assert layer.self_attn.forward is not patched[idx], (
+                f"Layer {idx}: forward should not be patched after context exit"
+            )

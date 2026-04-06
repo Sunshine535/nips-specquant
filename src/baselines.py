@@ -18,6 +18,7 @@ from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 from .turboquant_kv import ScalarQuantizer
 from .speculative_decode import SpeculativeOutput, _trim_kv_cache
+from .utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers
 
 logger = logging.getLogger(__name__)
 
@@ -670,7 +671,11 @@ class BaselineDecoder:
         )
 
     def _compress_kv(self, kv: Any, cache) -> Any:
-        """Quantize-dequantize the target model KV cache through the baseline."""
+        """Quantize-dequantize the target model KV cache through the baseline.
+
+        Supports transformers 4.x (.key_cache/.value_cache),
+        transformers >= 5.5 (.layers[i].keys/.values), and tuple caches.
+        """
         if isinstance(kv, tuple):
             new_layers = []
             for i, layer in enumerate(kv):
@@ -680,16 +685,15 @@ class BaselineDecoder:
                 new_layers.append((k_deq.to(k.dtype), v_deq.to(v.dtype)))
             return tuple(new_layers)
 
-        if hasattr(kv, "key_cache") and hasattr(kv, "value_cache"):
-            for i in range(min(len(kv.key_cache), cache.num_layers)):
-                k = kv.key_cache[i]
-                v = kv.value_cache[i]
+        num_layers = get_num_kv_layers(kv)
+        if num_layers > 0:
+            for i in range(min(num_layers, cache.num_layers)):
+                k, v = get_kv_tensors(kv, i)
                 if k is None:
                     continue
                 cache.compress_and_store(i, k.float(), v.float())
                 k_deq, v_deq = cache.get_rotated_kv(i)
-                kv.key_cache[i] = k_deq.to(k.dtype)
-                kv.value_cache[i] = v_deq.to(v.dtype)
+                set_kv_tensors(kv, i, k_deq.to(k.dtype), v_deq.to(v.dtype))
             return kv
 
         return kv
@@ -746,6 +750,13 @@ class BaselineDecoder:
 
             tp = F.softmax(tgt_logits_i.to(device) / temp, dim=-1)
             dp = draft_probs[i].to(device)
+            # Handle vocab size mismatch between draft and target models
+            if tp.shape[-1] != dp.shape[-1]:
+                max_vocab = max(tp.shape[-1], dp.shape[-1])
+                if tp.shape[-1] < max_vocab:
+                    tp = F.pad(tp, (0, max_vocab - tp.shape[-1]))
+                if dp.shape[-1] < max_vocab:
+                    dp = F.pad(dp, (0, max_vocab - dp.shape[-1]))
             tok_id = draft_tokens[i].item()
 
             p_t = tp[tok_id]

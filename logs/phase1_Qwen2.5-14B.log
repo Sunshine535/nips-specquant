@@ -1,0 +1,98 @@
+2026-04-05 16:58:43,893 [INFO] Dual-GPU check passed: 2 GPUs available
+2026-04-05 16:58:43,894 [INFO] Loading draft model: Qwen/Qwen2.5-7B on cuda:0
+2026-04-05 16:58:44,410 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-05 16:58:44,411 [WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-05 16:58:44,471 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B/d149729398750b98c0af14eb82c78cfe92750796/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:01<07:31,  1.34s/it]Loading weights:   5%|▍         | 16/339 [00:01<00:23, 13.94it/s]Loading weights:   8%|▊         | 28/339 [00:01<00:13, 23.42it/s]Loading weights:  12%|█▏        | 40/339 [00:01<00:09, 31.57it/s]Loading weights:  15%|█▌        | 52/339 [00:02<00:08, 34.01it/s]Loading weights:  19%|█▉        | 64/339 [00:02<00:06, 40.77it/s]Loading weights:  22%|██▏       | 76/339 [00:02<00:05, 45.19it/s]Loading weights:  26%|██▌       | 88/339 [00:02<00:05, 49.07it/s]Loading weights:  29%|██▉       | 100/339 [00:03<00:04, 52.26it/s]Loading weights:  33%|███▎      | 112/339 [00:03<00:04, 52.74it/s]Loading weights:  37%|███▋      | 124/339 [00:03<00:04, 48.24it/s]Loading weights:  40%|████      | 137/339 [00:03<00:03, 55.31it/s]Loading weights:  44%|████▎     | 148/339 [00:03<00:02, 63.69it/s]Loading weights:  47%|████▋     | 160/339 [00:04<00:02, 61.04it/s]Loading weights:  51%|█████     | 172/339 [00:04<00:02, 61.21it/s]Loading weights:  54%|█████▍    | 184/339 [00:04<00:02, 58.61it/s]Loading weights:  58%|█████▊    | 196/339 [00:04<00:02, 52.17it/s]Loading weights:  61%|██████▏   | 208/339 [00:04<00:02, 53.53it/s]Loading weights:  65%|██████▍   | 220/339 [00:05<00:02, 57.53it/s]Loading weights:  68%|██████▊   | 232/339 [00:05<00:01, 57.77it/s]Loading weights:  70%|███████   | 238/339 [00:05<00:01, 56.97it/s]Loading weights:  72%|███████▏  | 244/339 [00:05<00:01, 48.44it/s]Loading weights:  76%|███████▌  | 256/339 [00:05<00:01, 53.46it/s]Loading weights:  79%|███████▉  | 268/339 [00:06<00:01, 54.71it/s]Loading weights:  83%|████████▎ | 280/339 [00:06<00:01, 56.36it/s]Loading weights:  85%|████████▍ | 288/339 [00:06<00:00, 54.11it/s]Loading weights:  87%|████████▋ | 294/339 [00:06<00:00, 50.45it/s]Loading weights:  90%|████████▉ | 304/339 [00:06<00:00, 52.38it/s]Loading weights:  92%|█████████▏| 313/339 [00:06<00:00, 52.29it/s]Loading weights:  94%|█████████▍| 319/339 [00:07<00:00, 47.89it/s]Loading weights:  97%|█████████▋| 328/339 [00:07<00:00, 49.91it/s]Loading weights: 100%|██████████| 339/339 [00:07<00:00, 46.70it/s]
+2026-04-05 16:58:53,594 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-05 16:58:53,726 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B/d149729398750b98c0af14eb82c78cfe92750796/generation_config.json "HTTP/1.1 200 OK"
+2026-04-05 16:58:54,069 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-05 16:58:54,070 [INFO] Loading target model: Qwen/Qwen2.5-14B on cuda:1
+2026-04-05 16:58:55,481 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-14B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-05 16:58:55,961 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-14B/97e1e76335b7017d8f67c08a19d103c0504298c9/config.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/579 [00:00<?, ?it/s]Loading weights:   0%|          | 1/579 [00:01<10:17,  1.07s/it]Loading weights:   0%|          | 2/579 [00:01<05:22,  1.79it/s]Loading weights:   2%|▏         | 10/579 [00:01<00:49, 11.49it/s]Loading weights:   4%|▍         | 22/579 [00:01<00:22, 24.55it/s]Loading weights:   5%|▌         | 29/579 [00:01<00:17, 31.41it/s]Loading weights:   6%|▌         | 35/579 [00:01<00:17, 31.60it/s]Loading weights:   8%|▊         | 48/579 [00:01<00:10, 49.70it/s]Loading weights:  10%|▉         | 56/579 [00:02<00:11, 44.35it/s]Loading weights:  11%|█         | 64/579 [00:02<00:12, 41.89it/s]Loading weights:  13%|█▎        | 76/579 [00:02<00:10, 47.73it/s]Loading weights:  15%|█▍        | 86/579 [00:02<00:08, 57.18it/s]Loading weights:  16%|█▌        | 93/579 [00:02<00:10, 47.60it/s]Loading weights:  17%|█▋        | 100/579 [00:03<00:12, 37.64it/s]Loading weights:  19%|█▉        | 112/579 [00:03<00:10, 46.49it/s]Loading weights:  20%|██        | 118/579 [00:03<00:09, 48.02it/s]Loading weights:  21%|██▏       | 124/579 [00:03<00:10, 43.23it/s]Loading weights:  23%|██▎       | 136/579 [00:03<00:09, 48.03it/s]Loading weights:  26%|██▌       | 148/579 [00:04<00:09, 44.88it/s]Loading weights:  28%|██▊       | 160/579 [00:04<00:08, 49.08it/s]Loading weights:  30%|██▉       | 172/579 [00:04<00:08, 46.32it/s]Loading weights:  32%|███▏      | 184/579 [00:04<00:07, 50.18it/s]Loading weights:  34%|███▍      | 196/579 [00:05<00:07, 51.96it/s]Loading weights:  36%|███▌      | 208/579 [00:05<00:06, 54.14it/s]Loading weights:  37%|███▋      | 216/579 [00:05<00:06, 52.26it/s]Loading weights:  38%|███▊      | 222/579 [00:05<00:07, 47.01it/s]Loading weights:  40%|████      | 232/579 [00:05<00:07, 44.69it/s]Loading weights:  42%|████▏     | 244/579 [00:06<00:08, 40.77it/s]Loading weights:  44%|████▍     | 256/579 [00:06<00:06, 47.80it/s]Loading weights:  46%|████▋     | 268/579 [00:06<00:07, 41.09it/s]Loading weights:  48%|████▊     | 280/579 [00:07<00:06, 44.56it/s]Loading weights:  50%|█████     | 292/579 [00:07<00:06, 43.19it/s]Loading weights:  53%|█████▎    | 304/579 [00:07<00:06, 41.49it/s]Loading weights:  55%|█████▍    | 316/579 [00:07<00:05, 45.59it/s]Loading weights:  57%|█████▋    | 328/579 [00:08<00:05, 44.94it/s]Loading weights:  59%|█████▊    | 340/579 [00:08<00:04, 48.16it/s]Loading weights:  60%|██████    | 348/579 [00:08<00:04, 52.83it/s]Loading weights:  61%|██████    | 354/579 [00:08<00:05, 43.86it/s]Loading weights:  63%|██████▎   | 364/579 [00:08<00:05, 41.36it/s]Loading weights:  65%|██████▍   | 376/579 [00:09<00:04, 46.94it/s]Loading weights:  67%|██████▋   | 388/579 [00:09<00:03, 48.80it/s]Loading weights:  69%|██████▉   | 400/579 [00:09<00:03, 47.95it/s]Loading weights:  71%|███████   | 412/579 [00:09<00:03, 51.43it/s]Loading weights:  73%|███████▎  | 424/579 [00:10<00:02, 52.45it/s]Loading weights:  75%|███████▌  | 436/579 [00:10<00:03, 47.60it/s]Loading weights:  77%|███████▋  | 448/579 [00:10<00:02, 45.57it/s]Loading weights:  79%|███████▉  | 460/579 [00:10<00:02, 48.94it/s]Loading weights:  82%|████████▏ | 472/579 [00:11<00:02, 46.40it/s]Loading weights:  83%|████████▎ | 482/579 [00:11<00:02, 48.34it/s]Loading weights:  85%|████████▍ | 492/579 [00:11<00:02, 42.63it/s]Loading weights:  86%|████████▌ | 497/579 [00:11<00:01, 41.25it/s]Loading weights:  87%|████████▋ | 502/579 [00:11<00:01, 39.20it/s]Loading weights:  89%|████████▉ | 516/579 [00:12<00:01, 55.98it/s]Loading weights:  90%|█████████ | 523/579 [00:12<00:01, 55.35it/s]Loading weights:  92%|█████████▏| 532/579 [00:12<00:00, 54.26it/s]Loading weights:  94%|█████████▍| 544/579 [00:12<00:00, 55.32it/s]Loading weights:  96%|█████████▌| 554/579 [00:12<00:00, 63.98it/s]Loading weights:  97%|█████████▋| 562/579 [00:12<00:00, 51.49it/s]Loading weights:  98%|█████████▊| 568/579 [00:13<00:00, 39.95it/s]Loading weights: 100%|██████████| 579/579 [00:13<00:00, 43.99it/s]
+2026-04-05 16:59:11,925 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-14B/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-05 16:59:11,978 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-14B/97e1e76335b7017d8f67c08a19d103c0504298c9/generation_config.json "HTTP/1.1 200 OK"
+2026-04-05 16:59:12,502 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-14B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-05 16:59:12,752 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-14B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-05 16:59:12,805 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-14B/97e1e76335b7017d8f67c08a19d103c0504298c9/config.json "HTTP/1.1 200 OK"
+2026-04-05 16:59:13,046 [INFO] HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-14B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-05 16:59:13,602 [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-14B/97e1e76335b7017d8f67c08a19d103c0504298c9/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-05 16:59:13,856 [INFO] HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-14B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-05 16:59:14,170 [INFO] HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-14B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-05 16:59:14,705 [INFO] HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-14B "HTTP/1.1 200 OK"
+2026-04-05 16:59:14,710 [INFO] === Autoregressive baseline ===
+2026-04-05 17:00:34,316 [INFO]   Throughput: 35.5 tok/s
+2026-04-05 17:00:34,316 [INFO] === vanilla_spec (gamma=5) ===
+2026-04-05 17:02:06,703 [INFO]   Throughput: 32.0 tok/s, Acceptance: 0.770
+2026-04-05 17:02:06,703 [INFO] === specquant_3bit (gamma=5) ===
+2026-04-05 17:02:06,706 [INFO] QuantizedVerifier: 3-bit, layers=48, q_heads=40, kv_heads=8, head_dim=128, GQA repeat=5
+2026-04-05 17:02:06,706 [INFO] SpecQuant enabled: 3-bit, block_size=128, layers=48, kv_heads=8, head_dim=128
+Traceback (most recent call last):
+  File "/tmp/nips-specquant-work/scripts/benchmark_specquant.py", line 329, in <module>
+    main()
+  File "/tmp/nips-specquant-work/scripts/benchmark_specquant.py", line 238, in main
+    result = run_benchmark(
+             ^^^^^^^^^^^^^^
+  File "/tmp/nips-specquant-work/scripts/benchmark_specquant.py", line 96, in run_benchmark
+    decoder.generate(
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nips-specquant-work/src/speculative_decode.py", line 327, in generate
+    verify_logits, target_kv_ext = self.verifier.verify(
+                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nips-specquant-work/src/quantized_verifier.py", line 405, in verify
+    out = self.model(
+          ^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/utils/generic.py", line 876, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 462, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/utils/generic.py", line 952, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/utils/output_capturing.py", line 248, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 399, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 293, in forward
+    hidden_states, _ = self.self_attn(
+                       ^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nips-specquant-work/src/quantized_verifier.py", line 572, in patched_forward
+    prefix_scores = torch.matmul(
+                    ^^^^^^^^^^^^^
+RuntimeError: expected scalar type Float but found Half

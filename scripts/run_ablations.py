@@ -452,6 +452,120 @@ def ablation_seed(
     }
 
 
+def _capture_real_kv(
+    model: torch.nn.Module,
+    tokenizer,
+    prompt: str,
+    seq_length: int = 256,
+) -> Dict[int, tuple]:
+    """Run a forward pass and capture real K, V tensors from all layers via hooks.
+
+    Returns dict mapping layer_idx -> (key_tensor, value_tensor) on CPU float32.
+    """
+    config = model.config
+    device = next(model.parameters()).device
+
+    # Discover attention modules
+    attn_modules = []
+    inner = getattr(model, "model", None)
+    if inner is not None:
+        layers = getattr(inner, "layers", None)
+        if layers is not None:
+            for i, layer in enumerate(layers):
+                attn = getattr(layer, "self_attn", None)
+                if attn is not None:
+                    attn_modules.append((i, attn))
+    if not attn_modules:
+        transformer = getattr(model, "transformer", None)
+        if transformer is not None:
+            h = getattr(transformer, "h", None)
+            if h is not None:
+                for i, layer in enumerate(h):
+                    attn = getattr(layer, "attn", getattr(layer, "self_attn", None))
+                    if attn is not None:
+                        attn_modules.append((i, attn))
+
+    captured: Dict[int, tuple] = {}
+    handles = []
+
+    def make_hook(layer_idx):
+        def hook_fn(module, args, output):
+            if isinstance(output, tuple):
+                for item in output:
+                    if isinstance(item, tuple) and len(item) == 2:
+                        k_cand, v_cand = item
+                        if (isinstance(k_cand, torch.Tensor) and
+                                isinstance(v_cand, torch.Tensor) and
+                                k_cand.ndim == 4 and v_cand.ndim == 4):
+                            captured[layer_idx] = (
+                                k_cand.detach().cpu().float(),
+                                v_cand.detach().cpu().float(),
+                            )
+                            break
+        return hook_fn
+
+    for idx, attn_mod in attn_modules:
+        handles.append(attn_mod.register_forward_hook(make_hook(idx)))
+
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=seq_length)
+    input_ids = inputs["input_ids"].to(device)
+
+    try:
+        with torch.no_grad():
+            model(input_ids, use_cache=True)
+    finally:
+        for h in handles:
+            h.remove()
+
+    return captured
+
+
+def _interpolate_bracket_results(
+    res_3bit: Dict[str, Any],
+    res_4bit: Dict[str, Any],
+    frac_4bit: float,
+) -> Dict[str, Any]:
+    """Linearly interpolate metrics between uniform 3-bit and 4-bit results.
+
+    Used for mixed-precision configs where end-to-end measurement is not
+    possible (SpeculativeDecoder only supports a single quant_bits value).
+    The interpolated values are supplementary estimates, not direct
+    measurements.
+
+    Args:
+        res_3bit: aggregated result dict from uniform 3-bit decoding
+        res_4bit: aggregated result dict from uniform 4-bit decoding
+        frac_4bit: fraction of layers at 4-bit (0.0 to 1.0)
+    """
+    frac_3bit = 1.0 - frac_4bit
+    interpolated = {}
+
+    for key in res_3bit:
+        v3 = res_3bit[key]
+        v4 = res_4bit.get(key)
+        if isinstance(v3, (int, float)) and isinstance(v4, (int, float)):
+            interpolated[key] = frac_3bit * v3 + frac_4bit * v4
+        elif isinstance(v3, dict) and isinstance(v4, dict):
+            # Recursively interpolate numeric fields in nested dicts
+            inner = {}
+            for sub_key in v3:
+                sv3 = v3[sub_key]
+                sv4 = v4.get(sub_key)
+                if isinstance(sv3, (int, float)) and isinstance(sv4, (int, float)):
+                    inner[sub_key] = frac_3bit * sv3 + frac_4bit * sv4
+                else:
+                    inner[sub_key] = sv3  # keep non-numeric as-is
+            interpolated[key] = inner
+        else:
+            interpolated[key] = v3  # keep non-numeric as-is
+
+    interpolated["_interpolation_note"] = (
+        "Estimated via linear interpolation between uniform 3-bit and 4-bit "
+        "bracket results. NOT an end-to-end mixed-precision measurement."
+    )
+    return interpolated
+
+
 def ablation_mixed_precision(
     draft_model,
     target_model,
@@ -460,28 +574,32 @@ def ablation_mixed_precision(
     max_new_tokens: int,
     num_trials: int,
 ) -> Dict[str, Any]:
-    """Mixed-precision analysis: identify per-layer sensitivity, then
-    evaluate configurations where sensitive layers use 4-bit while the
-    rest use 3-bit.
+    """Mixed-precision analysis: identify per-layer sensitivity from real
+    model activations, then evaluate configurations where sensitive layers
+    use 4-bit while the rest use 3-bit.
 
     Strategy:
-    1. Run a per-layer quantization error probe to rank layers by sensitivity.
-    2. Define mixed-precision configs: top-K most sensitive layers at 4-bit,
-       remaining at 3-bit, for K in {0, num_layers//4, num_layers//2, all}.
-    3. Compare against uniform 3-bit and uniform 4-bit baselines.
+    1. Capture real K, V activations from a representative prompt via hooks.
+    2. Measure per-layer quantization error at 3-bit and 4-bit on real data.
+    3. Rank layers by sensitivity and define mixed-precision configs.
+    4. Evaluate all configs (uniform and mixed) with real decoding.
+       Mixed configs run at the rounded effective bit-width (3 or 4) since
+       SpeculativeDecoder uses a single quant_bits.  Mixed-precision results
+       are estimated via linear interpolation between uniform 3-bit and 4-bit
+       bracket results, weighted by the fraction of 4-bit layers.
     """
     logger.info("=" * 60)
     logger.info("ABLATION: mixed-precision analysis")
     logger.info("=" * 60)
 
-    # ── Step 1: Probe per-layer sensitivity ──────────────────────────────
+    # ── Step 1: Capture real per-layer KV activations ───────────────────
     config = target_model.config
     num_layers = config.num_hidden_layers
     num_kv_heads = getattr(config, "num_key_value_heads", config.num_attention_heads)
     head_dim = config.hidden_size // config.num_attention_heads
 
     logger.info(
-        "  Probing %d layers (kv_heads=%d, head_dim=%d) ...",
+        "  Probing %d layers (kv_heads=%d, head_dim=%d) with real activations ...",
         num_layers, num_kv_heads, head_dim,
     )
 
@@ -492,37 +610,33 @@ def ablation_mixed_precision(
     quantizer_3b = ScalarQuantizer(bits=3, block_size=DEFAULTS["block_size"])
     quantizer_4b = ScalarQuantizer(bits=4, block_size=DEFAULTS["block_size"])
 
-    target_device = next(target_model.parameters()).device
-    probe_seq_len = 256
+    # Use the first prompt to capture real activations
+    probe_prompt = prompts[0] if prompts else "The quick brown fox jumps over the lazy dog."
+    captured_kv = _capture_real_kv(target_model, tokenizer, probe_prompt, seq_length=256)
 
     layer_mse_3bit = []
     layer_mse_4bit = []
 
-    # Use a representative prompt to get real activations if possible;
-    # fall back to synthetic data calibrated to typical activation norms.
     for layer_idx in range(num_layers):
-        # Scale increases with depth (empirical observation)
-        scale = 1.0 + 0.3 * (layer_idx / num_layers)
-        k = torch.randn(
-            1, num_kv_heads, probe_seq_len, head_dim,
-            device=target_device, dtype=torch.float32,
-        ) * scale
-        v = torch.randn(
-            1, num_kv_heads, probe_seq_len, head_dim,
-            device=target_device, dtype=torch.float32,
-        ) * scale
+        if layer_idx in captured_kv:
+            k, v = captured_kv[layer_idx]
+        else:
+            # Fallback for layers not captured (should not happen normally)
+            logger.warning("  Layer %d: no real KV captured, using zeros", layer_idx)
+            k = torch.zeros(1, num_kv_heads, 1, head_dim)
+            v = torch.zeros(1, num_kv_heads, 1, head_dim)
 
         k_rot = rotation.rotate(k)
         v_rot = rotation.rotate(v)
 
-        # 3-bit round-trip error
+        # 3-bit round-trip error on real activations
         kc3, ks3, kz3 = quantizer_3b.quantize(k_rot)
         vc3, vs3, vz3 = quantizer_3b.quantize(v_rot)
         k_deq3 = rotation.inverse_rotate(quantizer_3b.dequantize(kc3, ks3, kz3))
         v_deq3 = rotation.inverse_rotate(quantizer_3b.dequantize(vc3, vs3, vz3))
         mse3 = (F.mse_loss(k_deq3, k).item() + F.mse_loss(v_deq3, v).item()) / 2.0
 
-        # 4-bit round-trip error
+        # 4-bit round-trip error on real activations
         kc4, ks4, kz4 = quantizer_4b.quantize(k_rot)
         vc4, vs4, vz4 = quantizer_4b.quantize(v_rot)
         k_deq4 = rotation.inverse_rotate(quantizer_4b.dequantize(kc4, ks4, kz4))
@@ -537,7 +651,7 @@ def ablation_mixed_precision(
         range(num_layers), key=lambda i: layer_mse_3bit[i], reverse=True
     )
 
-    logger.info("  Top-5 most sensitive layers (3-bit MSE):")
+    logger.info("  Top-5 most sensitive layers (3-bit MSE on real activations):")
     for rank, li in enumerate(sensitivity_order[:5]):
         logger.info(
             "    rank %d: layer %d, MSE_3b=%.6f, MSE_4b=%.6f",
@@ -564,15 +678,34 @@ def ablation_mixed_precision(
         },
     }
 
-    # ── Step 3: Evaluate each mixed-precision config ─────────────────────
-    # For uniform configs we can use SpeculativeDecoder directly.
-    # For true mixed configs, we approximate by running at the dominant
-    # bit-width (the SpeculativeDecoder uses a single quant_bits value).
-    # A proper per-layer mixed-precision cache is future work; here we
-    # evaluate the two uniform baselines and estimate mixed benefit from
-    # the per-layer MSE analysis.
-
+    # ── Step 3: Evaluate each config ──────────────────────────────────────
+    # Uniform configs (all-3bit, all-4bit) are measured end-to-end with real
+    # decoding.  Mixed configs cannot be run end-to-end because
+    # SpeculativeDecoder accepts only a single quant_bits value -- there is
+    # no per-layer bit assignment in the current decoder.  For mixed configs
+    # we bracket performance using the two uniform measurements and
+    # linearly interpolate weighted by the fraction of 4-bit layers.
+    # These are clearly labelled as "estimated" (not end-to-end mixed).
     eval_results = {}
+
+    # First, run the two uniform bracket configs with real decoding
+    bracket_results = {}
+    for bracket_bits in (3, 4):
+        bracket_label = f"uniform_{bracket_bits}bit"
+        logger.info(
+            "  Running uniform %d-bit bracket with real decoding ...",
+            bracket_bits,
+        )
+        bracket_results[bracket_bits] = _run_single_config(
+            draft_model, target_model, tokenizer, prompts,
+            quant_bits=bracket_bits,
+            block_size=DEFAULTS["block_size"],
+            gamma=DEFAULTS["gamma"],
+            temperature=DEFAULTS["temperature"],
+            seed=DEFAULTS["seed"],
+            max_new_tokens=max_new_tokens,
+            num_trials=num_trials,
+        )
 
     for config_name, cfg in configs.items():
         layers_4bit = set(cfg["layers_4bit"])
@@ -584,65 +717,61 @@ def ablation_mixed_precision(
         elif n_4bit == num_layers:
             effective_bits = 4
         else:
-            # Weighted average bit-width for logging
             effective_bits = (3 * n_3bit + 4 * n_4bit) / num_layers
 
-        logger.info(
-            "  Config '%s': %d layers@3bit, %d layers@4bit (eff=%.2f bits)",
-            config_name, n_3bit, n_4bit, effective_bits,
-        )
+        is_uniform = (n_4bit == 0 or n_4bit == num_layers)
+        actual_bits = 3 if n_4bit == 0 else (4 if n_4bit == num_layers else None)
 
-        # For uniform configs, run actual decoding
-        if n_4bit == 0 or n_4bit == num_layers:
-            actual_bits = 3 if n_4bit == 0 else 4
-            res = _run_single_config(
-                draft_model, target_model, tokenizer, prompts,
-                quant_bits=actual_bits,
-                block_size=DEFAULTS["block_size"],
-                gamma=DEFAULTS["gamma"],
-                temperature=DEFAULTS["temperature"],
-                seed=DEFAULTS["seed"],
-                max_new_tokens=max_new_tokens,
-                num_trials=num_trials,
+        if is_uniform:
+            # Uniform configs: use real end-to-end decoding results
+            res = bracket_results[actual_bits]
+            measurement_type = "end_to_end"
+            logger.info(
+                "  Config '%s': uniform %d-bit, end-to-end measured",
+                config_name, actual_bits,
             )
-            eval_results[config_name] = {
-                "measured": True,
-                "effective_bits": effective_bits,
-                "layers_4bit": sorted(layers_4bit),
-                "n_layers_3bit": n_3bit,
-                "n_layers_4bit": n_4bit,
-                "results": res,
-            }
         else:
-            # Estimate mixed-precision quality from per-layer MSE data.
-            # Weighted MSE: use 4-bit MSE for selected layers, 3-bit for the rest.
-            weighted_mse_values = []
-            for li in range(num_layers):
-                if li in layers_4bit:
-                    weighted_mse_values.append(layer_mse_4bit[li])
-                else:
-                    weighted_mse_values.append(layer_mse_3bit[li])
-            avg_mse = sum(weighted_mse_values) / num_layers
+            # Mixed configs: linear interpolation between bracket results
+            # NOTE: This is estimated, NOT end-to-end mixed-precision decoding.
+            # The current SpeculativeDecoder does not support per-layer bit
+            # assignment.  We linearly interpolate acceptance rate and
+            # throughput between the uniform-3bit and uniform-4bit brackets,
+            # weighted by the fraction of layers at each bit-width.
+            frac_4bit = n_4bit / num_layers
+            res = _interpolate_bracket_results(
+                bracket_results[3], bracket_results[4], frac_4bit,
+            )
+            measurement_type = "estimated_from_per_layer_analysis"
+            logger.info(
+                "  Config '%s': %d layers@3bit, %d layers@4bit (eff=%.2f bits) "
+                "-- ESTIMATED via linear interpolation between uniform 3-bit and "
+                "4-bit brackets (weighted by fraction of 4-bit layers), not "
+                "end-to-end mixed-precision decoding",
+                config_name, n_3bit, n_4bit, effective_bits,
+            )
 
-            # Estimated memory: 3-bit layers save more than 4-bit layers.
-            # Relative to uniform 4-bit, each 3-bit layer saves ~25% of that
-            # layer's cache footprint.
-            memory_ratio_vs_4bit = (3 * n_3bit + 4 * n_4bit) / (4 * num_layers)
+        # Compute per-layer MSE from real activations for this config
+        weighted_mse_values = []
+        for li in range(num_layers):
+            if li in layers_4bit:
+                weighted_mse_values.append(layer_mse_4bit[li])
+            else:
+                weighted_mse_values.append(layer_mse_3bit[li])
+        avg_mse = sum(weighted_mse_values) / num_layers
 
-            eval_results[config_name] = {
-                "measured": False,
-                "effective_bits": effective_bits,
-                "layers_4bit": sorted(layers_4bit),
-                "n_layers_3bit": n_3bit,
-                "n_layers_4bit": n_4bit,
-                "estimated_avg_mse": avg_mse,
-                "memory_ratio_vs_uniform4bit": memory_ratio_vs_4bit,
-                "note": (
-                    "Per-layer mixed-precision decoding requires a custom "
-                    "QuantizedKVCache extension. These results are estimated "
-                    "from the per-layer sensitivity probe."
-                ),
-            }
+        memory_ratio_vs_4bit = (3 * n_3bit + 4 * n_4bit) / (4 * num_layers)
+
+        eval_results[config_name] = {
+            "measured": is_uniform,
+            "measurement_type": measurement_type,
+            "effective_bits": effective_bits,
+            "layers_4bit": sorted(layers_4bit),
+            "n_layers_3bit": n_3bit,
+            "n_layers_4bit": n_4bit,
+            "real_activation_avg_mse": avg_mse,
+            "memory_ratio_vs_uniform4bit": memory_ratio_vs_4bit,
+            "results": res,
+        }
 
     return {
         "ablation_type": "mixed_precision",
@@ -650,8 +779,16 @@ def ablation_mixed_precision(
         "sensitivity_order": sensitivity_order,
         "layer_mse_3bit": layer_mse_3bit,
         "layer_mse_4bit": layer_mse_4bit,
+        "activation_source": "real_model_activations",
         "configs": {k: v.get("description", "") for k, v in configs.items()},
         "results": eval_results,
+        "note": (
+            "Uniform configs (all-3bit, all-4bit) are measured end-to-end. "
+            "Mixed configs are estimated via linear interpolation between "
+            "uniform 3-bit and 4-bit bracket results, weighted by the fraction "
+            "of 4-bit layers -- NOT from end-to-end mixed-precision decoding "
+            "(the current decoder does not support per-layer bit assignment)."
+        ),
     }
 
 

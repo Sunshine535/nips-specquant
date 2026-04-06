@@ -1,0 +1,15 @@
+Loading Qwen3.5-0.8B→4B...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:  40%|████      | 129/320 [00:00<00:00, 1289.07it/s]Loading weights: 100%|██████████| 320/320 [00:00<00:00, 1690.90it/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 9289.71it/s]
+Loading weights:   0%|          | 0/426 [00:00<?, ?it/s]Loading weights:   0%|          | 1/426 [00:00<00:59,  7.19it/s]Loading weights:  10%|▉         | 42/426 [00:00<00:01, 211.02it/s]Loading weights:  22%|██▏       | 92/426 [00:00<00:01, 328.62it/s]Loading weights:  31%|███       | 133/426 [00:00<00:00, 353.59it/s]Loading weights:  42%|████▏     | 181/426 [00:00<00:00, 374.65it/s]Loading weights:  53%|█████▎    | 226/426 [00:00<00:00, 393.81it/s]Loading weights:  65%|██████▍   | 276/426 [00:00<00:00, 423.15it/s]Loading weights:  75%|███████▍  | 319/426 [00:00<00:00, 403.32it/s]Loading weights:  85%|████████▌ | 363/426 [00:00<00:00, 412.93it/s]Loading weights:  96%|█████████▋| 411/426 [00:01<00:00, 427.36it/s]Loading weights: 100%|██████████| 426/426 [00:01<00:00, 375.59it/s]
+AR...
+  AR: 27.4 tok/s
+Vanilla...
+  Vanilla: 2.0 tok/s, acc=0.113
+SQ-3b...
+  SQ-3b: 1.9 tok/s, acc=0.120
+SQ-4b...
+  SQ-4b: 1.9 tok/s, acc=0.108
+DONE

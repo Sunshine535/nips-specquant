@@ -1,0 +1,33 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:48,  7.02it/s]Loading weights:  15%|█▌        | 52/338 [00:00<00:01, 251.29it/s]Loading weights:  27%|██▋       | 90/338 [00:00<00:00, 304.00it/s]Loading weights:  36%|███▋      | 123/338 [00:00<00:00, 298.86it/s]Loading weights:  47%|████▋     | 159/338 [00:00<00:00, 315.28it/s]Loading weights:  57%|█████▋    | 192/338 [00:00<00:00, 309.35it/s]Loading weights:  66%|██████▋   | 224/338 [00:00<00:00, 260.10it/s]Loading weights:  75%|███████▍  | 252/338 [00:00<00:00, 263.04it/s]Loading weights:  83%|████████▎ | 280/338 [00:01<00:00, 260.43it/s]Loading weights:  91%|█████████ | 307/338 [00:01<00:00, 262.80it/s]Loading weights: 100%|██████████| 338/338 [00:01<00:00, 271.48it/s]
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:01<06:50,  1.22s/it]Loading weights:   1%|          | 2/339 [00:01<03:17,  1.71it/s]Loading weights:   5%|▍         | 16/339 [00:01<00:19, 16.17it/s]Loading weights:   8%|▊         | 28/339 [00:01<00:13, 23.90it/s]Loading weights:  12%|█▏        | 40/339 [00:02<00:09, 31.36it/s]Loading weights:  15%|█▌        | 51/339 [00:02<00:07, 38.37it/s]Loading weights:  17%|█▋        | 56/339 [00:02<00:07, 39.82it/s]Loading weights:  19%|█▉        | 64/339 [00:02<00:06, 42.13it/s]Loading weights:  22%|██▏       | 76/339 [00:02<00:06, 42.73it/s]Loading weights:  26%|██▌       | 88/339 [00:03<00:05, 47.11it/s]Loading weights:  29%|██▉       | 100/339 [00:03<00:04, 52.14it/s]Loading weights:  33%|███▎      | 112/339 [00:03<00:04, 47.43it/s]Loading weights:  35%|███▍      | 118/339 [00:03<00:04, 44.84it/s]Loading weights:  40%|███▉      | 134/339 [00:03<00:03, 63.44it/s]Loading weights:  42%|████▏     | 142/339 [00:04<00:04, 48.58it/s]Loading weights:  44%|████▍     | 149/339 [00:04<00:03, 48.13it/s]Loading weights:  47%|████▋     | 160/339 [00:04<00:03, 49.97it/s]Loading weights:  51%|█████     | 172/339 [00:04<00:03, 48.51it/s]Loading weights:  54%|█████▍    | 184/339 [00:04<00:03, 50.80it/s]Loading weights:  58%|█████▊    | 196/339 [00:05<00:02, 51.68it/s]Loading weights:  60%|█████▉    | 202/339 [00:05<00:02, 49.17it/s]Loading weights:  61%|██████▏   | 208/339 [00:05<00:02, 45.34it/s]Loading weights:  65%|██████▍   | 220/339 [00:05<00:02, 47.80it/s]Loading weights:  68%|██████▊   | 232/339 [00:05<00:02, 48.68it/s]Loading weights:  72%|███████▏  | 244/339 [00:06<00:01, 49.06it/s]Loading weights:  76%|███████▌  | 256/339 [00:06<00:01, 55.79it/s]Loading weights:  77%|███████▋  | 262/339 [00:06<00:01, 56.27it/s]Loading weights:  79%|███████▉  | 268/339 [00:06<00:01, 41.44it/s]Loading weights:  83%|████████▎ | 280/339 [00:06<00:01, 44.54it/s]Loading weights:  86%|████████▌ | 292/339 [00:07<00:00, 50.90it/s]Loading weights:  89%|████████▉ | 303/339 [00:07<00:00, 54.45it/s]Loading weights:  91%|█████████ | 309/339 [00:07<00:00, 49.35it/s]Loading weights:  93%|█████████▎| 316/339 [00:07<00:00, 47.62it/s]Loading weights:  97%|█████████▋| 328/339 [00:08<00:00, 38.60it/s]Loading weights: 100%|██████████| 339/339 [00:08<00:00, 42.12it/s]
+Running autoregressive baseline...
+  AR: 40.7 tok/s
+Running vanilla speculative decoding...
+  Vanilla: 33.7 tok/s, acc=0.655
+Running specquant_3bit_bs32...
+  specquant_3bit_bs32: 10.7 tok/s, acc=0.214
+Running specquant_3bit_bs64...
+  specquant_3bit_bs64: 12.6 tok/s, acc=0.258
+Running specquant_3bit_bs128...
+  specquant_3bit_bs128: 11.8 tok/s, acc=0.228
+Running specquant_4bit_bs32...
+  specquant_4bit_bs32: 11.3 tok/s, acc=0.209
+Running specquant_4bit_bs64...
+  specquant_4bit_bs64: 12.4 tok/s, acc=0.251
+Running specquant_4bit_bs128...
+  specquant_4bit_bs128: 13.2 tok/s, acc=0.279
+Running rtn_3bit...
+  rtn_3bit: 15.1 tok/s, acc=0.169
+Running rtn_4bit...
+  rtn_4bit: 13.4 tok/s, acc=0.131
+Running kivi_3bit...
+  kivi_3bit: 15.0 tok/s, acc=0.173
+Running kivi_4bit...
+  kivi_4bit: 12.4 tok/s, acc=0.106
+Running absmax_3bit...
+  absmax_3bit: 11.0 tok/s, acc=0.059
+Running absmax_4bit...
+  absmax_4bit: 28.2 tok/s, acc=0.475
+
+=== DONE ===

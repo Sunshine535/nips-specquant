@@ -342,11 +342,17 @@ def check_mmlu(generated: str, gold_index: int) -> bool:
 
 
 def score_mt_bench(generated: str, reference: str) -> float:
-    """Score MT-Bench response via reference-based entity/fact overlap.
+    """Lightweight proxy score for MT-Bench via lexical F1 overlap.
 
-    Returns a score in [0, 1].  This is a simplified judge-free metric:
-    we tokenize reference and generated text into word n-grams and compute
-    the F1 overlap of content words (length >= 4, lowered).
+    NOTE: This is NOT the official MT-Bench judge-based protocol (which
+    requires GPT-4 as a judge).  This is a lightweight proxy metric based on
+    reference-based content-word F1 overlap, suitable only as a supplementary
+    signal.  Main downstream claims should be based on GSM8K, HumanEval, and
+    MMLU only.
+
+    Returns a score in [0, 1].  We tokenize reference and generated text into
+    word tokens and compute the F1 overlap of content words (length >= 4,
+    lowered).
     """
     def _content_tokens(text: str) -> set:
         words = re.findall(r"[a-z0-9]+", text.lower())
@@ -379,7 +385,7 @@ def load_models_dual_gpu(
     dtype: torch.dtype = torch.float16,
 ) -> Tuple[AutoModelForCausalLM, AutoModelForCausalLM, AutoTokenizer]:
     """Load draft and target models on separate devices."""
-    validate_dual_gpu(draft_device, target_device)
+    validate_dual_gpu()
 
     logger.info(f"Loading draft model: {draft_model_name} -> {draft_device}")
     draft_model = AutoModelForCausalLM.from_pretrained(
@@ -584,13 +590,17 @@ def evaluate_mmlu(
     acceptance_rates: List[float] = []
     wall_times: List[float] = []
 
-    # Build a small pool of few-shot examples from the first 5 samples
-    # (rotated so the current sample is never in its own few-shot context).
-    few_shot_pool = samples[:5] if len(samples) >= 5 else samples
+    # Use the first 5 samples as few-shot exemplars; evaluate on the rest
+    # to avoid data leakage (few-shot examples must not appear in evaluation).
+    if len(samples) > 5:
+        few_shot_pool = samples[:5]
+        eval_samples = samples[5:]
+    else:
+        few_shot_pool = []
+        eval_samples = samples
 
-    for idx, sample in enumerate(samples):
-        # Exclude current sample from few-shot examples
-        few_shot = [s for s in few_shot_pool if s is not sample][:5]
+    for idx, sample in enumerate(eval_samples):
+        few_shot = few_shot_pool[:5]
         prompt = format_mmlu_prompt(
             sample["question"], sample["choices"], few_shot_examples=few_shot,
         )
@@ -636,7 +646,13 @@ def evaluate_mt_bench(
     gamma: int,
     use_autoregressive: bool,
 ) -> Dict[str, Any]:
-    """Evaluate MT-Bench: reference-based F1 scoring on multi-turn generation."""
+    """Evaluate MT-Bench with lightweight F1 proxy scoring (NOT official judge).
+
+    This uses lexical F1 overlap as a supplementary proxy metric.  It is NOT
+    the official MT-Bench protocol which requires GPT-4 as a judge.  Results
+    from this evaluator should be reported as 'mt_bench_f1_proxy' and should
+    not be used as a primary claim metric.
+    """
     scores: List[float] = []
     throughputs: List[float] = []
     acceptance_rates: List[float] = []
@@ -693,7 +709,11 @@ def evaluate_mt_bench(
 
     mean_score = _safe_mean(scores)
     return {
-        "score": mean_score,
+        "mt_bench_f1_proxy": mean_score,
+        "scoring_note": (
+            "Lightweight F1 proxy metric, NOT the official GPT-4 judge-based "
+            "MT-Bench score. Use GSM8K, HumanEval, and MMLU for primary claims."
+        ),
         "num_samples": len(scores),
         "mean_throughput": _safe_mean(throughputs),
         "mean_wall_time": _safe_mean(wall_times),
@@ -731,7 +751,7 @@ def _primary_metric(benchmark: str, result: Dict) -> float:
     if benchmark == "mmlu":
         return result.get("accuracy", 0.0)
     if benchmark == "mt_bench":
-        return result.get("score", 0.0)
+        return result.get("mt_bench_f1_proxy", 0.0)
     return 0.0
 
 
@@ -739,7 +759,7 @@ def _primary_metric_name(benchmark: str) -> str:
     if benchmark == "humaneval":
         return "pass_at_1"
     if benchmark == "mt_bench":
-        return "score"
+        return "mt_bench_f1_proxy"
     return "accuracy"
 
 
@@ -982,12 +1002,9 @@ def main():
         all_results["benchmarks"][bench_name] = bench_results
 
     # ---- Save results ----
-    output_file = os.path.join(
-        args.output_dir,
-        f"downstream_{Path(args.target_model).name}_{time.strftime('%Y%m%d_%H%M%S')}.json",
-    )
-    save_results(all_results, output_file)
-    logger.info(f"\nResults saved to {output_file}")
+    output_filename = f"downstream_{Path(args.target_model).name}_{time.strftime('%Y%m%d_%H%M%S')}.json"
+    save_results(all_results, args.output_dir, output_filename)
+    logger.info(f"\nResults saved to {args.output_dir}/{output_filename}")
 
     # ---- Print summary table ----
     _print_summary(all_results, active_benchmarks, methods)
@@ -1041,6 +1058,15 @@ def _print_summary(
         logger.info(row)
 
     logger.info("=" * 80)
+
+    # Warn about MT-Bench proxy scoring if it was included
+    if "mt_bench" in benchmarks:
+        logger.info(
+            "NOTE: MT-Bench scores above use a lightweight lexical F1 proxy, "
+            "NOT the official GPT-4 judge-based MT-Bench protocol. These "
+            "are supplementary only. Primary downstream claims should be "
+            "based on GSM8K, HumanEval, and MMLU."
+        )
 
 
 if __name__ == "__main__":

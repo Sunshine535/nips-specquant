@@ -1,7 +1,8 @@
 """Statistical utilities for NeurIPS-level ML experiment reporting.
 
 Provides confidence intervals, significance tests, effect-size computation,
-GPU helpers, and atomic result I/O used across all SpecQuant experiments.
+GPU helpers, atomic result I/O, and KV cache compatibility helpers used
+across all SpecQuant experiments.
 """
 
 import json
@@ -19,6 +20,68 @@ from scipy import stats
 logger = logging.getLogger(__name__)
 
 NumericArray = Union[Sequence[float], np.ndarray]
+
+
+# ---------------------------------------------------------------------------
+# 0. KV cache API compatibility (transformers 4.x / 5.x / 5.5+)
+# ---------------------------------------------------------------------------
+
+
+def get_kv_tensors(kv_cache: Any, layer_idx: int) -> Tuple[Any, Any]:
+    """Get K, V tensors from a KV cache, supporting both old and new transformers API.
+
+    Handles three layouts (checked in this order for backward compatibility):
+      - transformers 4.x-5.4: DynamicCache with .key_cache / .value_cache lists
+      - transformers >= 5.5.0: DynamicCache with .layers[i].keys / .values
+      - Legacy tuple format: tuple of (K, V) pairs per layer
+
+    We check key_cache before layers because the older API is more common
+    in existing code/tests, and the new API (5.5+) removes key_cache entirely
+    so there is no ambiguity on real DynamicCache objects.
+    """
+    if hasattr(kv_cache, "key_cache"):
+        # transformers 4.x-5.4: DynamicCache with list attributes
+        return kv_cache.key_cache[layer_idx], kv_cache.value_cache[layer_idx]
+    elif hasattr(kv_cache, "layers"):
+        # transformers >= 5.5.0: DynamicCache with DynamicLayer objects
+        layer = kv_cache.layers[layer_idx]
+        return layer.keys, layer.values
+    elif isinstance(kv_cache, tuple):
+        # Legacy tuple format
+        return kv_cache[layer_idx][0], kv_cache[layer_idx][1]
+    else:
+        raise TypeError(f"Unsupported KV cache type: {type(kv_cache)}")
+
+
+def set_kv_tensors(kv_cache: Any, layer_idx: int, key: Any, value: Any) -> None:
+    """Set K, V tensors in a KV cache, supporting both old and new transformers API.
+
+    Note: tuple-based caches cannot be modified in-place.
+    """
+    if hasattr(kv_cache, "key_cache"):
+        # transformers 4.x-5.4
+        kv_cache.key_cache[layer_idx] = key
+        kv_cache.value_cache[layer_idx] = value
+    elif hasattr(kv_cache, "layers"):
+        # transformers >= 5.5.0
+        kv_cache.layers[layer_idx].keys = key
+        kv_cache.layers[layer_idx].values = value
+    else:
+        raise TypeError(
+            f"Cannot set KV tensors on {type(kv_cache).__name__}; "
+            "tuple-based caches are not modifiable in-place."
+        )
+
+
+def get_num_kv_layers(kv_cache: Any) -> int:
+    """Get number of layers in a KV cache object."""
+    if hasattr(kv_cache, "key_cache"):
+        return len(kv_cache.key_cache)
+    elif hasattr(kv_cache, "layers"):
+        return len(kv_cache.layers)
+    elif isinstance(kv_cache, tuple):
+        return len(kv_cache)
+    return 0
 
 # ---------------------------------------------------------------------------
 # 1. Confidence intervals

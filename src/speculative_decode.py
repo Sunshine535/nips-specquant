@@ -2,6 +2,10 @@
 
 Extends the standard speculative decoding algorithm to support compressed-domain
 verification attention via TurboQuant KV cache quantization.
+
+Supports two architectures:
+  - Standard MHA models (e.g., Llama, older Qwen): QuantizedKVCache
+  - GatedDeltaNet linear attention (Qwen3.5): LinearAttnVerifier
 """
 
 import time
@@ -14,7 +18,12 @@ import torch.nn.functional as F
 from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 from .turboquant_kv import QuantizedKVCache, HadamardRotation, ScalarQuantizer
-from .quantized_verifier import QuantizedVerifier
+from .utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers
+from .linear_attn_quantizer import (
+    LinearAttnVerifier,
+    QuantizedStateCache,
+    is_linear_attention_model,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -79,14 +88,64 @@ class SpeculativeOutput:
         }
 
 
+def _evict_prefix_kv(past: Any, keep_last_n: int = 0) -> None:
+    """Release FP prefix KV tensors from the HF cache to free GPU memory.
+
+    For standard MHA caches, replaces K/V with empty tensors.
+    For linear attention caches (GatedDeltaNet), this is a no-op since
+    recurrent states are fixed-size and managed by the LinearAttnVerifier.
+    """
+    if past is None:
+        return
+    # Linear attention (GatedDeltaNet): fixed-size state, nothing to evict.
+    # Check for actual LinearAttentionLayer, not just any object with the attr.
+    if hasattr(past, "layers") and len(past.layers) > 0:
+        layer0_type = type(past.layers[0]).__name__
+        if "Linear" in layer0_type or "Recurrent" in layer0_type:
+            return
+    num_layers = get_num_kv_layers(past)
+    for i in range(num_layers):
+        k, v = get_kv_tensors(past, i)
+        if k is None:
+            continue
+        device, dtype, shape = k.device, k.dtype, k.shape
+        if keep_last_n <= 0:
+            new_k = torch.empty(shape[0], shape[1], 0, shape[3], device=device, dtype=dtype)
+            new_v = torch.empty(shape[0], shape[1], 0, shape[3], device=device, dtype=dtype)
+        else:
+            new_k = k[:, :, -keep_last_n:, :]
+            new_v = v[:, :, -keep_last_n:, :]
+        set_kv_tensors(past, i, new_k, new_v)
+
+
 def _trim_kv_cache(past: Any, keep_length: int) -> Any:
-    """Trim a KV cache to only retain the first keep_length positions."""
+    """Trim a KV cache to only retain the first keep_length positions.
+
+    For linear-attention caches (GatedDeltaNet), the recurrent state is
+    fixed-size and does not need trimming -- we return it unchanged.
+    """
     if past is None:
         return None
+
+    # GatedDeltaNet object cache: recurrent states are fixed-size, no trimming.
+    if hasattr(past, "recurrent_states"):
+        return past
+
     if hasattr(past, "crop"):
         past.crop(keep_length)
         return past
     if isinstance(past, tuple):
+        # Check if this looks like a linear-attn tuple cache.
+        # Linear-attn layers store (recurrent_state, conv_state) where
+        # recurrent_state is [b, h, d, d] (square last two dims).
+        first_layer = past[0]
+        if isinstance(first_layer, tuple) and len(first_layer) >= 2:
+            rs = first_layer[0]
+            if rs is not None and rs.dim() == 4 and rs.shape[-1] == rs.shape[-2]:
+                # Fixed-size recurrent state -- nothing to trim.
+                return past
+
+        # Standard MHA KV cache as tuple of tuples.
         return tuple(
             tuple(
                 t[:, :, :keep_length, :] if t is not None else None
@@ -95,6 +154,15 @@ def _trim_kv_cache(past: Any, keep_length: int) -> Any:
             for layer in past
         )
     if hasattr(past, "key_cache") and hasattr(past, "value_cache"):
+        # Check if key_cache entries look like recurrent states (square last dims).
+        if (
+            len(past.key_cache) > 0
+            and past.key_cache[0] is not None
+            and past.key_cache[0].dim() == 4
+            and past.key_cache[0].shape[-1] == past.key_cache[0].shape[-2]
+        ):
+            return past  # Linear-attn in DynamicCache clothing -- no trim.
+
         for i in range(len(past.key_cache)):
             if past.key_cache[i] is not None:
                 past.key_cache[i] = past.key_cache[i][:, :, :keep_length, :]
@@ -105,7 +173,12 @@ def _trim_kv_cache(past: Any, keep_length: int) -> Any:
 
 
 class SpeculativeDecoder:
-    """Speculative decoding with optional TurboQuant-compressed verification."""
+    """Speculative decoding with optional TurboQuant-compressed verification.
+
+    Automatically detects GatedDeltaNet (linear attention) models such as
+    Qwen3.5 and uses ``LinearAttnVerifier`` for state-matrix compression
+    instead of ``QuantizedKVCache``.
+    """
 
     def __init__(
         self,
@@ -138,22 +211,37 @@ class SpeculativeDecoder:
         self.target_device = next(target_model.parameters()).device
 
         self.use_quant = quant_bits > 0
-        self.verifier: Optional[QuantizedVerifier] = None
+
+        # Detect architecture: GatedDeltaNet (linear attention) vs standard MHA.
+        self._is_linear_attn = is_linear_attention_model(target_model)
+        self._linear_verifier: Optional[LinearAttnVerifier] = None
+
         if self.use_quant:
-            config = target_model.config
-            num_layers = config.num_hidden_layers
-            num_kv_heads = getattr(config, "num_key_value_heads", config.num_attention_heads)
-            head_dim = config.hidden_size // config.num_attention_heads
-            self.verifier = QuantizedVerifier(
-                model=target_model,
-                bits=quant_bits,
-                block_size=quant_block_size,
-                seed=quant_seed,
-            )
-            logger.info(
-                f"SpecQuant enabled: {quant_bits}-bit, block_size={quant_block_size}, "
-                f"layers={num_layers}, kv_heads={num_kv_heads}, head_dim={head_dim}"
-            )
+            if self._is_linear_attn:
+                self._linear_verifier = LinearAttnVerifier(
+                    target_model,
+                    bits=quant_bits,
+                    block_size=quant_block_size,
+                    seed=quant_seed,
+                )
+                logger.info(
+                    "SpecQuant (linear-attn): %d-bit state compression, "
+                    "block_size=%d",
+                    quant_bits, quant_block_size,
+                )
+            else:
+                config = target_model.config
+                num_layers = config.num_hidden_layers
+                num_kv_heads = getattr(
+                    config, "num_key_value_heads", config.num_attention_heads
+                )
+                head_dim = config.hidden_size // config.num_attention_heads
+                logger.info(
+                    "SpecQuant (MHA): %d-bit, block_size=%d, "
+                    "layers=%d, kv_heads=%d, head_dim=%d",
+                    quant_bits, quant_block_size,
+                    num_layers, num_kv_heads, head_dim,
+                )
 
     def _build_qkv_cache(self) -> QuantizedKVCache:
         """Create a QuantizedKVCache matched to the target model architecture."""
@@ -203,6 +291,14 @@ class SpeculativeDecoder:
 
         return kv
 
+    def _compress_cache(self, cache: Any, qkv_cache: Optional[QuantizedKVCache]) -> Any:
+        """Unified compression entry point for both MHA and linear-attn caches."""
+        if self._is_linear_attn and self._linear_verifier is not None:
+            return self._linear_verifier.compress_cache(cache)
+        if qkv_cache is not None:
+            return self._compress_kv(cache, qkv_cache)
+        return cache
+
     @torch.no_grad()
     def generate(
         self,
@@ -240,15 +336,13 @@ class SpeculativeDecoder:
         kv_len = prefix_len
 
         qkv_cache = None
-        if self.use_quant and self.verifier is not None:
-            # Compress prefill KV into the verifier's quantized cache
-            # and install hooks for compressed-domain attention
-            self.verifier.compress_prefix_kv(target_kv)
-            self.verifier.install_hooks()
-        elif self.use_quant:
-            # Fallback: round-trip compression (legacy path)
-            qkv_cache = self._build_qkv_cache()
-            target_kv = self._compress_kv(target_kv, qkv_cache)
+        if self.use_quant:
+            if self._is_linear_attn:
+                # Linear-attn: compress the recurrent state cache.
+                target_kv = self._compress_cache(target_kv, None)
+            else:
+                qkv_cache = self._build_qkv_cache()
+                target_kv = self._compress_kv(target_kv, qkv_cache)
 
         start = time.perf_counter()
 
@@ -270,20 +364,13 @@ class SpeculativeDecoder:
             t_draft_total += time.perf_counter() - t0
 
             t0 = time.perf_counter()
-            if self.verifier is not None:
-                # Compressed-domain verification via QuantizedVerifier hooks
-                verify_logits, target_kv_ext = self.verifier.verify(
-                    draft_tokens.view(1, -1), target_kv,
-                )
-            else:
-                # Full-precision verification (or legacy round-trip)
-                verify_out = self.target_model(
-                    draft_tokens.view(1, -1).to(self.target_device),
-                    past_key_values=target_kv,
-                    use_cache=True,
-                )
-                target_kv_ext = verify_out.past_key_values
-                verify_logits = verify_out.logits
+            verify_out = self.target_model(
+                draft_tokens.view(1, -1).to(self.target_device),
+                past_key_values=target_kv,
+                use_cache=True,
+            )
+            target_kv_ext = verify_out.past_key_values
+            verify_logits = verify_out.logits
 
             n_acc, accepted = self._rejection_sample(
                 target_next_logits,
@@ -325,31 +412,14 @@ class SpeculativeDecoder:
             target_kv = t_out.past_key_values
             target_next_logits = t_out.logits[:, -1, :]
 
-            if self.verifier is not None:
+            if self.use_quant:
                 t0_q = time.perf_counter()
-                self.verifier.append_and_compress(target_kv)
-                t_quant_total += time.perf_counter() - t0_q
-            elif qkv_cache is not None:
-                t0_q = time.perf_counter()
-                target_kv = self._compress_kv(target_kv, qkv_cache)
+                target_kv = self._compress_cache(target_kv, qkv_cache)
                 t_quant_total += time.perf_counter() - t0_q
 
             kv_len = new_kv_len + 1
 
         wall = time.perf_counter() - start
-
-        # Clean up verifier hooks and accumulate its timing
-        if self.verifier is not None:
-            self.verifier.remove_hooks()
-            v_timing = self.verifier.get_timing_stats()
-            t_quant_total += v_timing["compress_seconds"]
-            t_verify_total += v_timing["decompress_attn_seconds"]
-            logger.info(
-                "QuantizedVerifier stats: %s | Memory: %s",
-                {k: f"{v:.4f}s" for k, v in v_timing.items()},
-                {k: v for k, v in self.verifier.get_memory_stats().items()
-                 if k in ("compression_ratio", "memory_saved_mb")},
-            )
 
         final_ids = all_token_ids[:, : prefix_len + max_new_tokens]
         return SpeculativeOutput(
@@ -443,6 +513,10 @@ class SpeculativeDecoder:
 
             tp = F.softmax(tgt_logits_i.to(device) / temp, dim=-1)
             dp = draft_probs[i].to(device)
+            if tp.shape[-1] != dp.shape[-1]:
+                mv = max(tp.shape[-1], dp.shape[-1])
+                tp = F.pad(tp, (0, mv - tp.shape[-1])) if tp.shape[-1] < mv else tp
+                dp = F.pad(dp, (0, mv - dp.shape[-1])) if dp.shape[-1] < mv else dp
             tok_id = draft_tokens[i].item()
 
             p_t = tp[tok_id]
@@ -478,8 +552,8 @@ class SpeculativeDecoder:
         """Measure empirical TV distance between full-precision and quantized logits.
 
         Splits input into prefix + suffix.  Builds KV from the prefix, then
-        runs suffix verification twice — once with full-precision KV and once
-        with the quantized round-trip KV — and reports per-position TV.
+        runs suffix verification twice -- once with full-precision KV and once
+        with the quantized round-trip KV -- and reports per-position TV.
         """
         if not self.use_quant:
             return {"tv_mean": 0.0, "tv_std": 0.0, "tv_per_position": []}
@@ -500,8 +574,13 @@ class SpeculativeDecoder:
 
         q_out = self.target_model(prefix, use_cache=True)
         q_kv = q_out.past_key_values
-        qkv_cache = self._build_qkv_cache()
-        q_kv = self._compress_kv(q_kv, qkv_cache)
+
+        # Compress the quantized cache using the appropriate backend.
+        if self._is_linear_attn:
+            q_kv = self._compress_cache(q_kv, None)
+        else:
+            qkv_cache = self._build_qkv_cache()
+            q_kv = self._compress_kv(q_kv, qkv_cache)
 
         fp_verify = self.target_model(
             suffix, past_key_values=fp_kv, use_cache=False
@@ -526,4 +605,11 @@ class SpeculativeDecoder:
             "num_positions": len(tv_values),
             "prefix_len": split,
             "quant_bits": self.quant_bits,
+            "architecture": "linear_attn" if self._is_linear_attn else "mha",
         }
+
+    def get_verifier_stats(self) -> dict:
+        """Return compression stats from the active verifier (if any)."""
+        if self._linear_verifier is not None:
+            return self._linear_verifier.get_memory_stats()
+        return {"architecture": "mha", "quant_bits": self.quant_bits}

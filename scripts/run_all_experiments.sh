@@ -105,7 +105,7 @@ if [ "$FROM_PHASE" -le 1 ] && ! phase_done 1; then
             --baselines rtn kivi absmax \
             --num-trials 5 \
             --num-warmup 2 \
-            --prompt-type reasoning code long_context \
+            --prompt-type all \
             --output-dir "${RESULTS_DIR}/benchmark" \
             2>&1 | tee "${LOG_DIR}/phase1_${tag}.log"
     done
@@ -144,7 +144,7 @@ except:
             --baselines rtn kivi absmax \
             --num-trials 5 \
             --num-warmup 2 \
-            --prompt-type reasoning code long_context \
+            --prompt-type all \
             --output-dir "${RESULTS_DIR}/cross_arch" \
             2>&1 | tee "${LOG_DIR}/phase2_cross_arch.log"
     else
@@ -204,8 +204,7 @@ if [ "$FROM_PHASE" -le 5 ] && ! phase_done 5; then
 
     python scripts/microbenchmark_verifier.py \
         --target-model "${QWEN35_14B:-Qwen/Qwen3.5-14B}" \
-        --draft-device cuda:0 \
-        --target-device cuda:1 \
+        --device cuda:1 \
         --seq-lengths 1024 2048 4096 8192 16384 \
         --bits 0 3 4 \
         --num-trials 10 \
@@ -223,7 +222,6 @@ if [ "$FROM_PHASE" -le 6 ] && ! phase_done 6; then
 
     python scripts/analyze_layer_sensitivity.py \
         --target-model "${QWEN35_14B:-Qwen/Qwen3.5-14B}" \
-        --draft-device cuda:0 \
         --target-device cuda:1 \
         --bits 3 \
         --output-dir "${RESULTS_DIR}/robustness" \

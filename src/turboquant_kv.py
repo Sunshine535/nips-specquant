@@ -261,7 +261,7 @@ class QuantizedKVCache:
             padded_dim = self.rotation.padded_dim
             scale = 1.0 / math.sqrt(padded_dim)
 
-        q_rotated = self.rotation.rotate(query)
+        q_rotated = self.rotation.rotate(query.float())
 
         k_rotated, v_rotated = self.get_rotated_kv(layer_idx)
 

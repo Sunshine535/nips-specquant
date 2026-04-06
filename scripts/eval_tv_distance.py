@@ -27,6 +27,7 @@ import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.speculative_decode import SpeculativeDecoder
+from src.quantized_verifier import _apply_rotary_pos_emb
 from src.turboquant_kv import (
     HadamardRotation,
     QuantizedKVCache,
@@ -116,24 +117,26 @@ def _find_transformer_layers(model: torch.nn.Module) -> List[Tuple[str, torch.nn
 # ---------------------------------------------------------------------------
 
 class _KVCaptureHook:
-    """Forward hook that captures K, V tensors from an attention module.
+    """Forward hook that captures Q, K, V tensors from an attention module.
 
     Works by intercepting the output of the attention layer. For HuggingFace
     models, attention modules return (attn_output, attn_weights, past_key_value)
     or similar tuples. We extract the past_key_value component which contains
     the K, V tensors for the current layer.
 
-    As a fallback (if the model does not expose past_key_value in the attention
-    output), we hook into the full transformer layer and diff the KV cache
-    before/after the forward pass.
+    Q is reconstructed from the module's input hidden_states via q_proj when
+    available, giving real query tensors for accurate TV measurement.
     """
 
-    def __init__(self):
+    def __init__(self, num_q_heads: int = 0, head_dim: int = 0):
         self.captured_kv: Optional[Tuple[torch.Tensor, torch.Tensor]] = None
+        self.captured_q: Optional[torch.Tensor] = None
         self.handle: Optional[torch.utils.hooks.RemovableHook] = None
+        self.num_q_heads = num_q_heads
+        self.head_dim = head_dim
 
     def hook_fn(self, module, args, output):
-        """Extract K, V from attention module output."""
+        """Extract Q, K, V from attention module output."""
         # HF attention modules typically return:
         # (attn_output, attn_weights, past_key_value)
         # where past_key_value is (key, value) each of shape
@@ -158,6 +161,49 @@ class _KVCaptureHook:
                 if isinstance(k, torch.Tensor) and k.dim() == 4:
                     self.captured_kv = (k.detach().clone(), v.detach().clone())
 
+        # Capture Q from hidden_states via q_proj if available
+        q_proj = getattr(module, "q_proj", None)
+        if q_proj is not None and len(args) > 0:
+            hidden_states = args[0]
+            if isinstance(hidden_states, torch.Tensor):
+                with torch.no_grad():
+                    q = q_proj(hidden_states)
+                    B, S = hidden_states.shape[:2]
+                    if self.num_q_heads > 0 and self.head_dim > 0:
+                        q = q.view(B, S, self.num_q_heads, self.head_dim)
+                        q = q.transpose(1, 2)  # (B, num_q_heads, S, head_dim)
+
+                    # Apply RoPE to Q for RoPE-based models (Llama, Qwen,
+                    # Mistral).  Without RoPE, Q has no positional signal
+                    # and TV distance metrics are meaningless.
+                    # Handle both new HF API (position_embeddings kwarg)
+                    # and older API (module.rotary_emb callable) with
+                    # try/except fallback for different call signatures.
+                    rotary_emb = getattr(module, "rotary_emb", None)
+                    if rotary_emb is not None and q.dim() == 4:
+                        seq_len = q.shape[2]
+                        position_ids = torch.arange(
+                            seq_len, device=q.device,
+                        ).unsqueeze(0)
+                        try:
+                            # New HF API: rotary_emb(x, position_ids)
+                            cos, sin = rotary_emb(q, position_ids)
+                        except TypeError:
+                            # Older API: rotary_emb(x, seq_len)
+                            cos, sin = rotary_emb(q, seq_len)
+                            if cos.dim() == 4:
+                                cos = cos[:, :, :seq_len, :]
+                                sin = sin[:, :, :seq_len, :]
+                            elif cos.dim() == 2:
+                                cos = cos[:seq_len]
+                                sin = sin[:seq_len]
+                            elif cos.dim() == 3:
+                                cos = cos[:, :seq_len, :]
+                                sin = sin[:, :seq_len, :]
+                        q = _apply_rotary_pos_emb(q, cos, sin)
+
+                    self.captured_q = q.detach().clone()
+
     def register(self, module: torch.nn.Module):
         self.handle = module.register_forward_hook(self.hook_fn)
 
@@ -168,6 +214,7 @@ class _KVCaptureHook:
 
     def reset(self):
         self.captured_kv = None
+        self.captured_q = None
 
 
 def _quantize_kv_specquant(
@@ -310,10 +357,11 @@ def measure_per_layer_tv(
         len(attn_layers), num_layers,
     )
 
-    # Register hooks on all attention layers
+    # Register hooks on all attention layers (pass geometry for Q capture)
+    num_q_heads = config.num_attention_heads
     hooks = []
     for _name, attn_module in attn_layers:
-        hook = _KVCaptureHook()
+        hook = _KVCaptureHook(num_q_heads=num_q_heads, head_dim=head_dim)
         hook.register(attn_module)
         hooks.append(hook)
 
@@ -353,31 +401,32 @@ def measure_per_layer_tv(
         layer_result["k_std"] = k_fp.float().std().item()
         layer_result["v_std"] = v_fp.float().std().item()
 
-        # Build a synthetic query from the K tensor for attention recomputation.
-        # Use the actual K as Q (same shape) -- we only care about the *change*
-        # in attention output, not the absolute attention pattern.
-        q_synthetic = k_fp.clone()
+        # Use real Q tensors when captured; fall back to K as synthetic Q.
+        if hook.captured_q is not None:
+            q_for_attn = hook.captured_q
+        else:
+            q_for_attn = k_fp.clone()
 
         # Full-precision attention output
-        attn_fp = _recompute_attention_output(q_synthetic, k_fp, v_fp, head_dim)
+        attn_fp = _recompute_attention_output(q_for_attn, k_fp, v_fp, head_dim)
 
         # SpecQuant quantized attention
         k_sq, v_sq = _quantize_kv_specquant(
             k_fp, v_fp, bits, block_size, head_dim, seed,
         )
-        attn_sq = _recompute_attention_output(q_synthetic, k_sq, v_sq, head_dim)
+        attn_sq = _recompute_attention_output(q_for_attn, k_sq, v_sq, head_dim)
 
         # RTN baseline
         k_rtn, v_rtn = _quantize_kv_rtn(
             k_fp, v_fp, bits, block_size, num_kv_heads, head_dim,
         )
-        attn_rtn = _recompute_attention_output(q_synthetic, k_rtn, v_rtn, head_dim)
+        attn_rtn = _recompute_attention_output(q_for_attn, k_rtn, v_rtn, head_dim)
 
         # KIVI baseline
         k_kivi, v_kivi = _quantize_kv_kivi(
             k_fp, v_fp, bits, block_size, num_kv_heads, head_dim,
         )
-        attn_kivi = _recompute_attention_output(q_synthetic, k_kivi, v_kivi, head_dim)
+        attn_kivi = _recompute_attention_output(q_for_attn, k_kivi, v_kivi, head_dim)
 
         # Normalize attention outputs to probability distributions (softmax over
         # the head_dim axis) so TV distance is meaningful
