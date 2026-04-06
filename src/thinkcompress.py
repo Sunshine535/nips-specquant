@@ -539,6 +539,11 @@ class CompressedThinkingCache:
                 # Gather tokens at these positions
                 # k_think: (batch, heads, think_len, dim)
                 positions = positions.to(k_think.device)
+                # Clamp positions to valid range
+                max_pos = k_think.shape[2] - 1
+                if positions.max() > max_pos:
+                    logger.warning(f"Layer {layer_idx}: clamping positions {positions.max()} to {max_pos}")
+                    positions = positions.clamp(max=max_pos)
                 k_subset = k_think[:, :, positions, :]
                 v_subset = v_think[:, :, positions, :]
 
@@ -1150,6 +1155,18 @@ class ThinkCompressor:
         think_end = self._phase.think_end_pos
         if think_end < 0:
             think_end = think_start + self._phase.thinking_length
+
+        # Verify KV cache dimensions
+        kv_seq_len = get_kv_tensors(kv_cache, 0)[0].shape[2] if get_num_kv_layers(kv_cache) > 0 else 0
+        logger.info(f"Compress: think_start={think_start}, think_end={think_end}, "
+                     f"think_len={think_end-think_start}, kv_seq_len={kv_seq_len}")
+        # Clamp think_end to actual KV cache length
+        if think_end > kv_seq_len:
+            logger.warning(f"think_end ({think_end}) > kv_seq_len ({kv_seq_len}), clamping")
+            think_end = kv_seq_len
+        if think_start >= think_end:
+            logger.warning("think_start >= think_end, nothing to compress")
+            return None, None, None
 
         # Get importance scores
         importance = self._scorer.get_scores(
