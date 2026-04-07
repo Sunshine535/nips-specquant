@@ -49,8 +49,9 @@ def detect_gpus() -> List[GPUInfo]:
     gpus = []
     for i in range(torch.cuda.device_count()):
         props = torch.cuda.get_device_properties(i)
-        total = props.total_mem / (1024 ** 3)
-        free = (props.total_mem - torch.cuda.memory_allocated(i)) / (1024 ** 3)
+        total_bytes = getattr(props, 'total_memory', None) or getattr(props, 'total_mem', 0)
+        total = total_bytes / (1024 ** 3)
+        free = (total_bytes - torch.cuda.memory_allocated(i)) / (1024 ** 3)
         gpus.append(GPUInfo(index=i, name=props.name, total_gb=total, free_gb=free))
     return gpus
 
