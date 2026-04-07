@@ -1,100 +1,132 @@
-# SpecQuant — 投机解码与 KV Cache 量化
+# AcceptSpec — Acceptance-Preserving KV Cache Management for Speculative Decoding
 
-## 项目简介
+NeurIPS 2026 submission. Core finding: speculative verification has **sparse KV sensitivity** — a small fraction of tokens disproportionately influence acceptance. Optimizing KV compression for acceptance rate (not perplexity) yields super-additive gains over independent SD + KV compression.
 
-将 KV cache 量化与 speculative decoding 的 verifier 深度结合。通过 monkey-patch attention forward（替代 post-hook），确保 native SDPA 不加载 FP prefix KV，实现真正的低精度 KV cache 验证。包含 ThinkCompress 模块，用于 thinking token 的高效压缩。
+**Review status**: 8.1/10 (GPT-5.4 nightmare, 3 rounds). READY for experiments.
 
-**Review 状态**: Round 3, Score 6.0/10, 42 tests passing
+## Quick Start (Resume from Here)
 
-## 环境安装
+All idea discovery, literature survey, method refinement, and core implementation are complete. The next step is running experiments.
+
+### 1. Setup
 
 ```bash
 cd /workspace/nips-specquant
-python3 -m venv .venv
+bash setup.sh
 source .venv/bin/activate
-pip install torch --index-url https://download.pytorch.org/whl/cu128
-pip install transformers accelerate datasets numpy scipy scikit-learn \
-    tqdm pyyaml wandb matplotlib seaborn
 ```
 
-## 快速开始
+GPU auto-detection handles any configuration:
+- 0 GPU → CPU (testing only)
+- 1 GPU → both models on cuda:0
+- 2 GPU → draft on smaller GPU, target on larger GPU
+- 4+ GPU → target uses device_map="auto" for tensor parallelism
+
+### 2. Run M0 Gate (Oracle Sanity Check)
+
+First experiment — validates the core hypothesis on 10 GSM8K problems:
 
 ```bash
-source .venv/bin/activate
-
-# Microbenchmark verifier
-python3 scripts/microbenchmark_verifier.py
-
-# TV distance 评估
-python3 scripts/eval_tv_distance.py --config configs/default.yaml
+python3 scripts/oracle_sensitivity.py \
+    --draft_model Qwen/Qwen3-0.6B \
+    --target_model Qwen/Qwen3-8B \
+    --num_problems 10 \
+    --output results/oracle_m0.json
 ```
 
-## 完整实验流程（10 阶段）
+**Decision gate**: Gini > 0.5 → continue. Else abort.
+
+### 3. Run M1 Gate (Full Oracle Study)
+
+If M0 passes, scale to 100 problems:
 
 ```bash
-# 一键全流程（需要 2×GPU）
-bash run.sh
-
-# 分步：
-# 1. Benchmark SpecQuant
-python3 scripts/benchmark_specquant.py --config configs/default.yaml
-
-# 2. 下游任务评估 (GSM8K/HumanEval/MMLU/MT-Bench)
-python3 scripts/eval_downstream.py --config configs/default.yaml
-
-# 3. Layer sensitivity 分析
-python3 scripts/analyze_layer_sensitivity.py --config configs/default.yaml
-
-# 4. 消融实验 (5 种)
-python3 scripts/run_ablations.py --config configs/default.yaml
-
-# 5. 生成论文图表
-python3 scripts/generate_figures.py --results_dir results/
+python3 scripts/oracle_sensitivity.py \
+    --draft_model Qwen/Qwen3-0.6B \
+    --target_model Qwen/Qwen3-8B \
+    --num_problems 100 \
+    --output results/oracle_m1.json
 ```
 
-### 多卡配置
-- Pipeline enforces dual-GPU
-- 配置文件 `configs/default.yaml` 中 `model_pairs` 定义 draft/target 模型对
+**Decision gate**: Top-20% tokens capture >80% sensitivity → continue. Else abort.
 
-## 断点续训
+### 4. Run M2 (Acceptance vs Perplexity Divergence)
 
-- 结果按实验名存储在 `results/` 下
-- 重跑会检查已有结果文件并跳过
+Core conceptual claim — acceptance-ranked ≠ perplexity-ranked:
 
-## 已有结果
+```bash
+python3 scripts/oracle_sensitivity.py \
+    --draft_model Qwen/Qwen3-0.6B \
+    --target_model Qwen/Qwen3-8B \
+    --num_problems 100 \
+    --output results/oracle_m2_divergence.json
+```
 
-- **ThinkCompress**: 0% accuracy loss at up to 3.9x compression
-- FP prefix KV evicted after compression
-- 42 个单元测试全部通过
-- Baselines: RTN, KIVI, Absmax
+The output includes Spearman ρ between acceptance sensitivity and attention importance. Need ρ < 0.7.
 
-## 项目结构
+### 5. Full Experiment Pipeline
+
+See `refine-logs/EXPERIMENT_PLAN.md` for the complete 20-run plan (147 GPU-hours). Run order:
+
+| Milestone | Runs | GPU-hours | Gate |
+|-----------|------|-----------|------|
+| M0: Oracle sanity | R001 | 2 | Gini > 0.5 |
+| M1: Full oracle | R002 | 10 | top-20% > 80% |
+| M2: Divergence | R003-R005 | 15 | ρ < 0.7 |
+| M3: Core comparison | R006-R009 | 40 | ≥3pp gap |
+| M4: System benchmark | R010-R013 | 35 | ≥10% speedup |
+| M5: Robustness + generalization | R014-R020 | 45 | Consistent |
+
+## Project Structure
 
 ```
 src/
-  baselines.py              # RTN/KIVI/Absmax 基线
-  linear_attn_quantizer.py  # 线性注意力量化
-  quantized_verifier.py     # 量化验证器
-  speculative_decode.py     # 投机解码
-  thinkcompress.py          # ThinkCompress
-  turboquant_kv.py          # TurboQuant KV
-  utils.py                  # 工具函数
+  acceptspec.py              # AcceptSpec core: Oracle, Predictor, MixedPrecisionKV
+  gpu_auto.py                # Auto-adaptive GPU detection and model placement
+  speculative_decode.py      # Speculative decoding engine
+  turboquant_kv.py           # TurboQuant (Hadamard rotation + scalar quant)
+  quantized_verifier.py      # Monkey-patched attention forward
+  baselines.py               # RTN/KIVI/Absmax baselines
+  thinkcompress.py           # ThinkCompress (legacy, ImportanceScorer reusable)
+  utils.py                   # Stats, KV cache compat, I/O
 scripts/
-  benchmark_specquant.py    # Benchmark
-  eval_downstream.py        # 下游任务
-  eval_tv_distance.py       # TV distance
-  analyze_layer_sensitivity.py  # Layer 分析
-  run_ablations.py          # 消融实验
-  generate_figures.py       # 图表生成
-  microbenchmark_verifier.py    # Verifier benchmark
+  oracle_sensitivity.py      # Oracle acceptance sensitivity study (M0/M1/M2)
+  benchmark_specquant.py     # SpecQuant benchmark
+  run_all_experiments.sh     # Full pipeline
 configs/
-  default.yaml              # 全部配置
-results/                    # 实验结果
-tests/                      # 42 个测试
+  default.yaml               # Model pairs, quant settings, hardware
+results/                     # Experiment outputs (JSON)
+refine-logs/
+  FINAL_PROPOSAL.md          # AcceptSpec proposal (8.1/10 READY)
+  EXPERIMENT_PLAN.md         # 6 blocks, 20 runs, 147 GPU-hours
+  EXPERIMENT_TRACKER.md      # R001-R020 status tracker
+  PIPELINE_SUMMARY.md        # Pipeline summary
+  score-history.md           # Review score evolution
+IDEA_REPORT.md               # Idea discovery report (10 ideas ranked)
+LITERATURE_LANDSCAPE.md      # 80+ paper survey
+tests/                       # Unit tests
 ```
 
-## 下一步
+## Key Claims to Prove
 
-1. 完成全部 10 阶段 pipeline
-2. 补充更多 model pairs
-3. 论文撰写
+| Claim | Evidence | Status |
+|-------|----------|--------|
+| C1: Top-20% tokens → >80% sensitivity | Oracle masking sweep | TODO (R001-R002) |
+| C2: Accept-ranked ≠ perplexity-ranked | Spearman ρ < 0.7 | TODO (R003) |
+| C3: Accept-targeted > perplexity-targeted | ≥3pp accuracy gap | TODO (R006-R007) |
+| C4: Beats naive EAGLE-3+ThinKV | ≥10% latency win | TODO (R010-R012) |
+| C5: Predictor F1 > 0.75 vs oracle | Precision/recall | TODO (R004-R005) |
+
+## GPU Auto-Detection
+
+```python
+from src.gpu_auto import plan_devices, load_models, print_gpu_summary
+
+print_gpu_summary()  # shows detected GPUs and strategy
+
+draft, target, tokenizer, plan = load_models(
+    "Qwen/Qwen3-0.6B",
+    "Qwen/Qwen3-8B",
+)
+# Models are placed optimally based on available hardware
+```

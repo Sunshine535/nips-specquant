@@ -2,7 +2,7 @@
 
 ## Project goal
 
-SpecQuant: TurboQuant-Accelerated Verification for Speculative Decoding — 将 TurboQuant 的近最优 KV cache 量化应用于投机解码验证阶段，减少验证时的显存带宽瓶颈，在保持接受率的同时显著加速端到端推理。
+**AcceptSpec: Acceptance-Preserving KV Cache Management for Speculative Decoding of Reasoning Models** — 发现投机解码中验证器的接受率对 KV cache 中的 token 具有稀疏敏感性（acceptance-critical tokens），利用这一发现实现面向接受率而非 perplexity 优化的 KV 压缩，在推理模型长链思考场景下实现超越独立 SD + KV 压缩的联合增益。
 
 ## Key models
 
@@ -19,20 +19,24 @@ SpecQuant: TurboQuant-Accelerated Verification for Speculative Decoding — 将 
 ## Repo map
 
 - `src/` — 核心模块
-  - `speculative_decode.py` — 投机解码引擎（基于 nips-specscale 改进）
-  - `turboquant_kv.py` — TurboQuant KV cache 量化实现
-  - `quantized_verifier.py` — 量化验证器
+  - `acceptspec.py` — **AcceptSpec 核心**: AcceptSensitivityOracle, AcceptPredictor, MixedPrecisionKV
+  - `speculative_decode.py` — 投机解码引擎（基于 nips-specscale）
+  - `turboquant_kv.py` — TurboQuant KV cache 量化原语（Hadamard rotation + scalar quant）
+  - `quantized_verifier.py` — 量化验证器（monkey-patched attention forward）
+  - `thinkcompress.py` — ThinkCompress（旧方向，ImportanceScorer/AdaptiveBitAllocator 可复用）
   - `utils.py` — 工具函数
 - `scripts/` — 实验脚本
-  - `run_all_experiments.sh` — 全阶段编排
+  - `oracle_sensitivity.py` — **Oracle 接受率敏感性研究**（M0/M1 gate）
   - `benchmark_specquant.py` — SpecQuant benchmark
-  - `eval_acceptance_rate.py` — 接受率评估
-  - `run_ablations.py` — 消融实验
-  - `gpu_utils.sh` — GPU 分配工具
+  - `run_all_experiments.sh` — 全阶段编排
 - `configs/` — 配置文件
 - `results/` — 实验输出
-- `logs/` — 训练日志
-- `paper/` — 论文素材
+- `refine-logs/` — 方法精炼日志
+  - `FINAL_PROPOSAL.md` — AcceptSpec 最终 proposal (8.1/10 READY)
+  - `EXPERIMENT_PLAN.md` — 实验计划 (20 runs, 147 GPU-hours)
+  - `EXPERIMENT_TRACKER.md` — 实验跟踪
+- `IDEA_REPORT.md` — Idea discovery 报告
+- `LITERATURE_LANDSCAPE.md` — 文献综述
 
 ## Common commands
 
@@ -52,12 +56,10 @@ FORCE_RERUN=1 bash run.sh
 - 可选: flash-attn, wandb
 - 环境变量: `CUDA_DEVICE_ORDER=PCI_BUS_ID`
 
-## Remote server
+## GPU Auto-Detection
 
-- SSH 存储: `ssh szs_cpu` (118.145.32.132:10072, key-based auth)
-- SSH GPU: `ssh szs_gpu1` (118.145.32.133:11072)
-- 项目目录: `/data/szs/250010072/nwh/nips-specquant`
-- 数据目录: `/data/szs/share/specquant/`
-- 共享目录: `/data/szs/share/`
-- Conda: `source /data/szs/250010072/szs/anaconda3/bin/activate`
-- ACP 启动: `bash /data/szs/250010072/nwh/nips-specquant/run_acp.sh`
+- `src/gpu_auto.py` 自动检测 GPU 数量和显存，智能分配 draft/target 模型
+- 0 GPU → CPU-only (测试用)
+- 1 GPU → 两个模型共用 cuda:0
+- 2 GPU → draft 放小卡, target 放大卡
+- 4+ GPU → target 用 device_map="auto" 跨卡, draft 占一张
