@@ -1,0 +1,59 @@
+{
+  "model": "Qwen3-8B",
+  "dataset": "GSM8K",
+  "n": 50,
+  "fp16_baseline": {
+    "accuracy": 0.9,
+    "correct": 45,
+    "total": 50,
+    "avg_think": 1864,
+    "gini": 0.745
+  },
+  "methods": {
+    "tc_2x": {
+      "accuracy": 0.9,
+      "correct": 45,
+      "total": 50,
+      "avg_compression": 1.4041399780868085,
+      "avg_gini": 0.7445373106002807,
+      "avg_thinking_tokens": 1863.8,
+      "wall_time_s": 7330.073721885681
+    },
+    "tc_4x": {
+      "accuracy": 0.9,
+      "correct": 45,
+      "total": 50,
+      "avg_compression": 1.7696974512242927,
+      "avg_gini": 0.7445373106002807,
+      "avg_thinking_tokens": 1863.8,
+      "wall_time_s": 7336.407245635986
+    },
+    "tc_8x": {
+      "accuracy": 0.9,
+      "correct": 45,
+      "total": 50,
+      "avg_compression": 2.112150577154456,
+      "avg_gini": 0.7445373106002807,
+      "avg_thinking_tokens": 1863.8,
+      "wall_time_s": 7332.662368774414
+    },
+    "tc_16x": {
+      "accuracy": 0.9,
+      "correct": 45,
+      "total": 50,
+      "avg_compression": 3.8519655990811095,
+      "avg_gini": 0.7445373106002807,
+      "avg_thinking_tokens": 1863.8,
+      "wall_time_s": 7331.323886394501
+    },
+    "uniform_4bit": {
+      "accuracy": 0.9,
+      "correct": 45,
+      "total": 50,
+      "avg_compression": 1.9360252276103995,
+      "avg_gini": 0.338683705329895,
+      "avg_thinking_tokens": 1863.8,
+      "wall_time_s": 7239.447212219238
+    }
+  }
+}
