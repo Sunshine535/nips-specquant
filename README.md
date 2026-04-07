@@ -1,70 +1,100 @@
-# SpecQuant: Compressed-Domain Verification Attention for Speculative Decoding
+# SpecQuant — 投机解码与 KV Cache 量化
 
-TurboQuant-accelerated KV cache quantization for the verification phase of speculative decoding. Achieves 4-5x KV compression with ≤3pp acceptance rate loss at 3-bit, enabling ≥1.5x end-to-end throughput improvement.
+## 项目简介
 
-## Quick Start
+将 KV cache 量化与 speculative decoding 的 verifier 深度结合。通过 monkey-patch attention forward（替代 post-hook），确保 native SDPA 不加载 FP prefix KV，实现真正的低精度 KV cache 验证。包含 ThinkCompress 模块，用于 thinking token 的高效压缩。
+
+**Review 状态**: Round 3, Score 6.0/10, 42 tests passing
+
+## 环境安装
 
 ```bash
-git clone <repo-url>
-cd nips-specquant
-bash setup.sh
+cd /workspace/nips-specquant
+python3 -m venv .venv
 source .venv/bin/activate
-bash run.sh
+pip install torch --index-url https://download.pytorch.org/whl/cu128
+pip install transformers accelerate datasets numpy scipy scikit-learn \
+    tqdm pyyaml wandb matplotlib seaborn
 ```
 
-## Key Results
-
-| Method | Throughput | Acceptance Rate | KV Compression |
-|--------|-----------|-----------------|----------------|
-| Autoregressive | 1.0x | - | - |
-| Vanilla SpecDec | ~1.8x | baseline | 1x |
-| SpecQuant-4bit | ~2.2x | ≤1pp drop | 3.8x |
-| SpecQuant-3bit | ~2.7x | ≤3pp drop | 4.9x |
-
-## Project Structure
-
-```
-nips-specquant/
-├── src/
-│   ├── turboquant_kv.py          # Hadamard rotation + scalar quantization
-│   ├── speculative_decode.py     # Speculative decoder with quantized verification
-│   └── __init__.py
-├── scripts/
-│   ├── run_all_experiments.sh    # Full pipeline (Phase 0-6)
-│   ├── benchmark_specquant.py    # Main benchmark
-│   ├── eval_tv_distance.py       # TV distance validation
-│   ├── microbenchmark_verifier.py # Verifier kernel profiling
-│   ├── analyze_layer_sensitivity.py # Per-layer sensitivity
-│   ├── generate_figures.py       # Paper figures
-│   └── gpu_utils.sh              # GPU utilities
-├── configs/
-│   └── default.yaml              # Default settings
-├── refine-logs/                  # ARIS research refinement logs
-├── results/                      # Experiment outputs
-├── logs/                         # Runtime logs
-├── paper/                        # LaTeX source
-├── requirements.txt
-├── setup.sh
-├── run.sh
-└── run_acp.sh                    # ACP server startup
-```
-
-## Experiments
-
-| Phase | Description | Est. GPU-hours |
-|-------|------------|---------------|
-| 0 | Model check | <1 |
-| 1 | Main benchmark (Claim 1) | ~40 |
-| 2 | Bit-width sweep (Claim 2) | ~20 |
-| 3 | TV distance validation (Claim 3) | ~15 |
-| 4 | Verifier microbenchmark | ~15 |
-| 5 | Layer sensitivity analysis | ~5 |
-| 6 | Paper figures | ~5 |
-| **Total** | | **~100** |
-
-## Remote Deployment
+## 快速开始
 
 ```bash
-# On ACP server
-bash /data/szs/250010072/nwh/nips-specquant/run_acp.sh
+source .venv/bin/activate
+
+# Microbenchmark verifier
+python3 scripts/microbenchmark_verifier.py
+
+# TV distance 评估
+python3 scripts/eval_tv_distance.py --config configs/default.yaml
 ```
+
+## 完整实验流程（10 阶段）
+
+```bash
+# 一键全流程（需要 2×GPU）
+bash run.sh
+
+# 分步：
+# 1. Benchmark SpecQuant
+python3 scripts/benchmark_specquant.py --config configs/default.yaml
+
+# 2. 下游任务评估 (GSM8K/HumanEval/MMLU/MT-Bench)
+python3 scripts/eval_downstream.py --config configs/default.yaml
+
+# 3. Layer sensitivity 分析
+python3 scripts/analyze_layer_sensitivity.py --config configs/default.yaml
+
+# 4. 消融实验 (5 种)
+python3 scripts/run_ablations.py --config configs/default.yaml
+
+# 5. 生成论文图表
+python3 scripts/generate_figures.py --results_dir results/
+```
+
+### 多卡配置
+- Pipeline enforces dual-GPU
+- 配置文件 `configs/default.yaml` 中 `model_pairs` 定义 draft/target 模型对
+
+## 断点续训
+
+- 结果按实验名存储在 `results/` 下
+- 重跑会检查已有结果文件并跳过
+
+## 已有结果
+
+- **ThinkCompress**: 0% accuracy loss at up to 3.9x compression
+- FP prefix KV evicted after compression
+- 42 个单元测试全部通过
+- Baselines: RTN, KIVI, Absmax
+
+## 项目结构
+
+```
+src/
+  baselines.py              # RTN/KIVI/Absmax 基线
+  linear_attn_quantizer.py  # 线性注意力量化
+  quantized_verifier.py     # 量化验证器
+  speculative_decode.py     # 投机解码
+  thinkcompress.py          # ThinkCompress
+  turboquant_kv.py          # TurboQuant KV
+  utils.py                  # 工具函数
+scripts/
+  benchmark_specquant.py    # Benchmark
+  eval_downstream.py        # 下游任务
+  eval_tv_distance.py       # TV distance
+  analyze_layer_sensitivity.py  # Layer 分析
+  run_ablations.py          # 消融实验
+  generate_figures.py       # 图表生成
+  microbenchmark_verifier.py    # Verifier benchmark
+configs/
+  default.yaml              # 全部配置
+results/                    # 实验结果
+tests/                      # 42 个测试
+```
+
+## 下一步
+
+1. 完成全部 10 阶段 pipeline
+2. 补充更多 model pairs
+3. 论文撰写
