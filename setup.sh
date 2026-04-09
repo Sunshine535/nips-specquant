@@ -68,6 +68,8 @@ else
 fi
 echo ""
 
+pip install wheel
+
 echo ">>> $(date) - Installing torch, torchvision, torchaudio from $TORCH_INDEX ..."
 pip install "torch>=2.4.0" "torchvision" "torchaudio" \
     --index-url "$TORCH_INDEX"
