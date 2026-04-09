@@ -1,4 +1,4 @@
-torch>=2.10.0
+# PyTorch is installed separately via setup.sh (conda + CUDA 12.8)
 transformers>=4.45.0
 accelerate>=1.0.0
 datasets>=3.0.0

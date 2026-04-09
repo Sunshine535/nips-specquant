@@ -1,72 +1,67 @@
 #!/bin/bash
-set -euo pipefail
+set -e
+PROJ_DIR="$(cd "$(dirname "$0")" && pwd)"
+ENV_NAME="specquant"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+echo "============================================"
+echo " ${ENV_NAME}: Environment Setup (conda + CUDA 12.8)"
+echo "============================================"
 
-echo "=== Setting up nips-specquant (AcceptSpec) ==="
+# --- Locate conda ---
+CONDA_BIN="${CONDA_EXE:-$(which conda 2>/dev/null || echo "")}"
+if [ -z "$CONDA_BIN" ] || [ ! -f "$CONDA_BIN" ]; then
+    for p in /opt/conda/bin/conda "$HOME/miniconda3/bin/conda" "$HOME/anaconda3/bin/conda" /root/miniconda3/bin/conda; do
+        if [ -f "$p" ]; then CONDA_BIN="$p"; break; fi
+    done
+fi
+if [ -z "$CONDA_BIN" ] || [ ! -f "$CONDA_BIN" ]; then
+    echo "ERROR: conda not found. Install Miniconda: https://docs.conda.io/en/latest/miniconda.html"
+    exit 1
+fi
+echo "[1/4] Using conda: $CONDA_BIN"
+eval "$("$CONDA_BIN" shell.bash hook 2>/dev/null)" || {
+    CONDA_DIR="$(dirname "$(dirname "$CONDA_BIN")")"
+    source "$CONDA_DIR/etc/profile.d/conda.sh"
+}
 
-if [ -d ".venv" ]; then
-    echo "[skip] .venv already exists"
+# --- Create / activate env ---
+if ! conda env list 2>/dev/null | grep -qw "$ENV_NAME"; then
+    echo "[2/4] Creating conda env '$ENV_NAME' (Python 3.11)..."
+    conda create -y -n "$ENV_NAME" python=3.11 2>&1 | tail -3
 else
-    python3 -m venv .venv
-    echo "[ok] Created .venv"
+    echo "[2/4] Conda env '$ENV_NAME' already exists"
 fi
+conda activate "$ENV_NAME"
+echo "  Python: $(python --version) @ $(which python)"
 
-source .venv/bin/activate
-pip install --upgrade pip
+# --- Install PyTorch + CUDA 12.8 ---
+echo "[3/4] Installing PyTorch (CUDA 12.8)..."
+pip install -U pip setuptools wheel
+pip install "torch>=2.4.0" "torchvision" "torchaudio" \
+    --index-url https://download.pytorch.org/whl/cu128
 
-# Detect CUDA driver version and install matching PyTorch
-DRIVER_CUDA=""
-if command -v nvidia-smi &>/dev/null; then
-    DRIVER_CUDA=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1 | tr -d '[:space:]')
-    echo "NVIDIA driver: $DRIVER_CUDA"
-fi
+# --- Install project deps ---
+echo "[4/4] Installing project dependencies..."
+pip install -r "$PROJ_DIR/requirements.txt"
 
-# Install PyTorch with best available CUDA support
-# Try cu126 first (compatible with driver 12.6+), fall back to cu124, then CPU
-TORCH_INSTALLED=0
-for CUDA_TAG in cu126 cu124 cu121 cpu; do
-    if [ "$CUDA_TAG" = "cpu" ]; then
-        echo "Installing PyTorch (CPU only)..."
-        pip install torch --index-url https://download.pytorch.org/whl/cpu && TORCH_INSTALLED=1 && break
-    else
-        echo "Trying PyTorch with $CUDA_TAG..."
-        if pip install "torch>=2.5" --index-url "https://download.pytorch.org/whl/$CUDA_TAG" 2>/dev/null; then
-            TORCH_INSTALLED=1
-            break
-        fi
-    fi
-done
+# Optional: flash-attn
+pip install flash-attn --no-build-isolation 2>/dev/null || echo "  flash-attn skipped (optional)"
 
-if [ "$TORCH_INSTALLED" -eq 0 ]; then
-    echo "[WARN] Could not install PyTorch automatically. Install manually."
-fi
-
-# Install remaining dependencies
-pip install transformers accelerate datasets numpy scipy scikit-learn \
-    tqdm pyyaml matplotlib seaborn
-
+# --- Verify ---
 echo ""
-python3 -c "
-import sys, torch
-print(f'Python {sys.version.split()[0]}, PyTorch {torch.__version__}')
-if torch.cuda.is_available():
-    n = torch.cuda.device_count()
-    print(f'CUDA available, {n} GPU(s):')
-    for i in range(n):
-        p = torch.cuda.get_device_properties(i)
-        mem = getattr(p, 'total_memory', 0) or getattr(p, 'total_mem', 0)
-        print(f'  [{i}] {p.name} ({mem / 1e9:.0f}GB)')
-else:
-    print('CUDA not available (CPU mode)')
-print()
-
-# Test gpu_auto
-sys.path.insert(0, '.')
-from src.gpu_auto import plan_devices
-plan = plan_devices()
-print(f'Device strategy: {plan.description}')
-"
+echo "============================================"
+python -c "
+import torch, transformers, accelerate
+print(f'  PyTorch       : {torch.__version__}')
+print(f'  Transformers  : {transformers.__version__}')
+print(f'  Accelerate    : {accelerate.__version__}')
+print(f'  CUDA          : {torch.version.cuda}')
+print(f'  GPUs          : {torch.cuda.device_count()}')
+for i in range(torch.cuda.device_count()):
+    print(f'    GPU {i}: {torch.cuda.get_device_name(i)}')
+" 2>/dev/null || echo "  (import check skipped)"
+echo "============================================"
 echo ""
-echo "=== Setup complete. Run: source .venv/bin/activate ==="
+echo "Setup complete!"
+echo "  Activate:  conda activate $ENV_NAME"
+echo "  Run:       bash run.sh"
