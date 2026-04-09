@@ -398,8 +398,10 @@ def run_instrumented_sd(
 
 def main():
     parser = argparse.ArgumentParser(description="Oracle Acceptance Sensitivity Study")
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3-0.6B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3-8B")
+    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3-0.6B",
+                        help="Draft model for speculative decoding")
+    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3-8B",
+                        help="Target model (verifier) for speculative decoding")
     parser.add_argument("--num_problems", type=int, default=10)
     parser.add_argument("--max_tokens", type=int, default=256)
     parser.add_argument("--gamma", type=int, default=5)

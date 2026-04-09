@@ -2,41 +2,56 @@
 
 ## Project goal
 
-**AcceptSpec: Acceptance-Preserving KV Cache Management for Speculative Decoding of Reasoning Models** — 发现投机解码中验证器的接受率对 KV cache 中的 token 具有稀疏敏感性（acceptance-critical tokens），利用这一发现实现面向接受率而非 perplexity 优化的 KV 压缩，在推理模型长链思考场景下实现超越独立 SD + KV 压缩的联合增益。
+**AcceptSpec: Acceptance-Preserving KV Cache Management for Speculative Decoding of Reasoning Models** — 发现投机解码中验证器的接受率对 KV cache 中的 token 具有稀疏敏感性（acceptance-critical tokens），且这种敏感性与 attention 重要性和 perplexity 敏感性显著不同。利用这一发现实现面向接受率（而非 perplexity/attention）优化的 KV 压缩，在推理模型长链思考场景下实现超越独立 SD + KV 压缩的联合增益。
 
 ## Key models
 
-- Qwen/Qwen3.5-{0.8B, 4B, 9B, 14B} — draft/target LLM 组合
-- Meta-Llama/Llama-3.1-{8B, 70B} — 跨架构验证（可选）
+**Primary (standard MHA):**
+- Qwen/Qwen3-0.6B (draft) + Qwen/Qwen3-8B (target)
+
+**Cross-architecture:**
+- meta-llama/Llama-3.2-3B (draft) + meta-llama/Llama-3.1-8B (target)
+
+**Hybrid architecture (GatedDeltaNet, MHA subset only):**
+- Qwen/Qwen3.5-0.8B (draft) + Qwen/Qwen3.5-9B (target)
 
 ## Key datasets
 
-- GSM8K — 数学推理评测
-- HumanEval — 代码生成评测
-- MT-Bench — 多轮对话评测
-- MMLU — 通用能力评测
+- GSM8K — 数学推理评测 (primary)
+- MATH-500 — 数学推理评测 (secondary)
+
+## Baselines
+
+- SmallKV (NeurIPS'25 Spotlight) — SLM attention-proxy KV compression (KEY COMPARISON)
+- R-KV (NeurIPS'25, GitHub: Zefan-Cai/R-KV) — redundancy-aware KV compression
+- QuantSpec — self-speculative 4-bit KV+weights
 
 ## Repo map
 
 - `src/` — 核心模块
   - `acceptspec.py` — **AcceptSpec 核心**: AcceptSensitivityOracle, AcceptPredictor, MixedPrecisionKV
-  - `speculative_decode.py` — 投机解码引擎（基于 nips-specscale）
+  - `speculative_decode.py` — 投机解码引擎
   - `turboquant_kv.py` — TurboQuant KV cache 量化原语（Hadamard rotation + scalar quant）
   - `quantized_verifier.py` — 量化验证器（monkey-patched attention forward）
+  - `baselines.py` — RTN/KIVI/Absmax 量化 baseline
+  - `gpu_auto.py` — GPU 自动检测与模型分配
+  - `linear_attn_quantizer.py` — Qwen3.5 线性注意力量化
   - `thinkcompress.py` — ThinkCompress（旧方向，ImportanceScorer/AdaptiveBitAllocator 可复用）
   - `utils.py` — 工具函数
-- `scripts/` — 实验脚本
-  - `oracle_sensitivity.py` — **Oracle 接受率敏感性研究**（M0/M1 gate）
-  - `benchmark_specquant.py` — SpecQuant benchmark
-  - `run_all_experiments.sh` — 全阶段编排
-- `configs/` — 配置文件
+- `scripts/` — 实验脚本 (对齐 EXPERIMENT_PLAN.md)
+  - `oracle_sensitivity.py` — B1: Oracle 接受率敏感性研究（M0/M1 gate）
+  - `triple_divergence.py` — B2: 三重散度 + predictor 验证
+  - `core_comparison.py` — B3: 8 种保留策略对比
+  - `e2e_benchmark.py` — B4: 9 系统端到端 benchmark
+  - `run_all_experiments.sh` — M0-M5 全流程编排
+- `configs/` — 配置文件 (default.yaml)
 - `results/` — 实验输出
 - `refine-logs/` — 方法精炼日志
-  - `FINAL_PROPOSAL.md` — AcceptSpec 最终 proposal (8.1/10 READY)
-  - `EXPERIMENT_PLAN.md` — 实验计划 (20 runs, 147 GPU-hours)
+  - `FINAL_PROPOSAL.md` — AcceptSpec v2.0 proposal
+  - `EXPERIMENT_PLAN.md` — 实验计划 v2.0 (20 runs, ~150 GPU-hours)
   - `EXPERIMENT_TRACKER.md` — 实验跟踪
-- `IDEA_REPORT.md` — Idea discovery 报告
-- `LITERATURE_LANDSCAPE.md` — 文献综述
+- `IDEA_REPORT.md` — Idea discovery 报告 v2.0
+- `LITERATURE_LANDSCAPE.md` — 文献综述 (90+ papers)
 
 ## Common commands
 
@@ -44,15 +59,26 @@
 bash setup.sh
 source .venv/bin/activate
 
+# Full pipeline
 bash run.sh
-nohup bash run.sh > run.log 2>&1 &
+
+# Quick test (fewer problems)
+QUICK=1 bash run.sh
+
+# Resume from specific milestone
+FROM_MILESTONE=2 bash run.sh
+
+# Force re-run
 FORCE_RERUN=1 bash run.sh
+
+# Background
+nohup bash run.sh > run.log 2>&1 &
 ```
 
 ## Environment
 
 - Python 3.10, PyTorch 2.10 (CUDA 12.8)
-- 关键依赖: transformers, accelerate, datasets, torch, numpy
+- 关键依赖: transformers, accelerate, datasets, torch, numpy, scipy
 - 可选: flash-attn, wandb
 - 环境变量: `CUDA_DEVICE_ORDER=PCI_BUS_ID`
 
