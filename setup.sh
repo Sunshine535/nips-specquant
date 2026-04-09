@@ -1,38 +1,39 @@
 #!/bin/bash
 set -e
 PROJ_DIR="$(cd "$(dirname "$0")" && pwd)"
-ENV_NAME="specquant"
 
 echo "============================================"
-echo " ${ENV_NAME}: Environment Setup (conda + CUDA 12.8)"
+echo " specquant: Environment Setup (venv + CUDA 12.8)"
 echo "============================================"
 
-# --- Locate conda ---
-CONDA_BIN="${CONDA_EXE:-$(which conda 2>/dev/null || echo "")}"
-if [ -z "$CONDA_BIN" ] || [ ! -f "$CONDA_BIN" ]; then
-    for p in /opt/conda/bin/conda "$HOME/miniconda3/bin/conda" "$HOME/anaconda3/bin/conda" /root/miniconda3/bin/conda; do
-        if [ -f "$p" ]; then CONDA_BIN="$p"; break; fi
-    done
+# --- Find Python >= 3.10 ---
+PYTHON_CMD=""
+for cmd in python3.11 python3.12 python3.10 python3; do
+    if command -v "$cmd" &>/dev/null; then
+        ver="$("$cmd" -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')" 2>/dev/null || echo "0.0")"
+        major="${ver%%.*}"; minor="${ver##*.}"
+        if [ "$major" -ge 3 ] && [ "$minor" -ge 10 ]; then
+            PYTHON_CMD="$cmd"; break
+        fi
+    fi
+done
+if [ -z "$PYTHON_CMD" ]; then
+    echo "ERROR: Python >= 3.10 not found."; exit 1
 fi
-if [ -z "$CONDA_BIN" ] || [ ! -f "$CONDA_BIN" ]; then
-    echo "ERROR: conda not found. Install Miniconda: https://docs.conda.io/en/latest/miniconda.html"
-    exit 1
-fi
-echo "[1/4] Using conda: $CONDA_BIN"
-eval "$("$CONDA_BIN" shell.bash hook 2>/dev/null)" || {
-    CONDA_DIR="$(dirname "$(dirname "$CONDA_BIN")")"
-    source "$CONDA_DIR/etc/profile.d/conda.sh"
-}
+echo "[1/4] Using: $PYTHON_CMD ($($PYTHON_CMD --version 2>&1))"
 
-# --- Create / activate env ---
-if ! conda env list 2>/dev/null | grep -qw "$ENV_NAME"; then
-    echo "[2/4] Creating conda env '$ENV_NAME' (Python 3.11)..."
-    conda create -y -n "$ENV_NAME" python=3.11 2>&1 | tail -3
+# --- Create venv ---
+VENV_DIR="$PROJ_DIR/.venv"
+if [ -d "$VENV_DIR" ] && { [ ! -f "$VENV_DIR/bin/activate" ] || [ ! -x "$VENV_DIR/bin/python" ]; }; then
+    echo "[2/4] Removing incomplete .venv..."; rm -rf "$VENV_DIR"
+fi
+if [ ! -d "$VENV_DIR" ]; then
+    echo "[2/4] Creating venv..."
+    "$PYTHON_CMD" -m venv "$VENV_DIR"
 else
-    echo "[2/4] Conda env '$ENV_NAME' already exists"
+    echo "[2/4] Venv already exists"
 fi
-conda activate "$ENV_NAME"
-echo "  Python: $(python --version) @ $(which python)"
+source "$VENV_DIR/bin/activate"
 
 # --- Install PyTorch + CUDA 12.8 ---
 echo "[3/4] Installing PyTorch (CUDA 12.8)..."
@@ -63,5 +64,5 @@ for i in range(torch.cuda.device_count()):
 echo "============================================"
 echo ""
 echo "Setup complete!"
-echo "  Activate:  conda activate $ENV_NAME"
+echo "  Activate:  source .venv/bin/activate"
 echo "  Run:       bash run.sh"

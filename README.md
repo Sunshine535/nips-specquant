@@ -12,8 +12,8 @@ All idea discovery, literature survey, method refinement, and core implementatio
 
 ```bash
 cd /workspace/nips-specquant
-bash setup.sh              # conda env 'specquant' + Python 3.11 + PyTorch (CUDA 12.8)
-conda activate specquant
+bash setup.sh              # venv + PyTorch (CUDA 12.8) + all deps
+source .venv/bin/activate
 ```
 
 GPU auto-detection handles any configuration:
