@@ -3,7 +3,7 @@ set -e
 PROJ_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "============================================"
-echo " specquant: Environment Setup (venv + CUDA 12.8)"
+echo " specquant: Environment Setup"
 echo " $(date)"
 echo "============================================"
 
@@ -41,16 +41,42 @@ source "$VENV_DIR/bin/activate"
 echo "  Activated: $(which python)"
 echo ""
 
-# --- Install all deps ---
-echo "[3/3] Installing PyTorch (CUDA 12.8) + project dependencies..."
+# --- Detect CUDA version and pick PyTorch index ---
+echo "[3/3] Detecting CUDA version..."
+TORCH_INDEX="https://download.pytorch.org/whl/cu121"
+if command -v nvidia-smi &>/dev/null; then
+    CUDA_VER=$(nvidia-smi 2>/dev/null | grep -oP "CUDA Version: \K[0-9]+\.[0-9]+" || echo "")
+    if [ -n "$CUDA_VER" ]; then
+        CUDA_MAJOR=$(echo "$CUDA_VER" | cut -d. -f1)
+        CUDA_MINOR=$(echo "$CUDA_VER" | cut -d. -f2)
+        echo "  System CUDA: $CUDA_VER"
+        if [ "$CUDA_MAJOR" -ge 13 ] || { [ "$CUDA_MAJOR" -eq 12 ] && [ "$CUDA_MINOR" -ge 8 ]; }; then
+            TORCH_INDEX="https://download.pytorch.org/whl/cu128"
+            echo "  -> Using PyTorch cu128"
+        elif [ "$CUDA_MAJOR" -eq 12 ] && [ "$CUDA_MINOR" -ge 4 ]; then
+            TORCH_INDEX="https://download.pytorch.org/whl/cu124"
+            echo "  -> Using PyTorch cu124"
+        else
+            echo "  -> Using PyTorch cu121"
+        fi
+    else
+        echo "  CUDA version not detected, defaulting to cu121"
+    fi
+else
+    TORCH_INDEX="https://download.pytorch.org/whl/cpu"
+    echo "  No NVIDIA GPU detected, using CPU PyTorch"
+fi
 echo ""
-echo ">>> $(date) - Installing torch, torchvision, torchaudio..."
+
+echo ">>> $(date) - Installing torch, torchvision, torchaudio from $TORCH_INDEX ..."
 pip install "torch>=2.4.0" "torchvision" "torchaudio" \
-    --index-url https://download.pytorch.org/whl/cu128
+    --index-url "$TORCH_INDEX"
 echo ""
+
 echo ">>> $(date) - Installing requirements.txt..."
 pip install -r "$PROJ_DIR/requirements.txt"
 echo ""
+
 echo ">>> $(date) - Installing flash-attn (optional, may take a few minutes)..."
 pip install flash-attn --no-build-isolation || echo "  flash-attn install failed (optional, skipping)"
 echo ""
@@ -62,12 +88,12 @@ echo "============================================"
 python -c "
 import torch, transformers, accelerate
 print(f'  PyTorch       : {torch.__version__}')
-print(f'  Transformers  : {transformers.__version__}')
-print(f'  Accelerate    : {accelerate.__version__}')
-print(f'  CUDA          : {torch.version.cuda}')
+print(f'  CUDA (torch)  : {torch.version.cuda}')
 print(f'  GPUs          : {torch.cuda.device_count()}')
 for i in range(torch.cuda.device_count()):
     print(f'    GPU {i}: {torch.cuda.get_device_name(i)}')
+print(f'  transformers  : {transformers.__version__}')
+print(f'  accelerate    : {accelerate.__version__}')
 "
 echo "============================================"
 echo ""
