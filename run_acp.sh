@@ -35,6 +35,10 @@ export QWEN35_4B="${SHARE_DIR}/Qwen3.5-4B"
 export QWEN35_9B="${SHARE_DIR}/Qwen3.5-9B"
 export QWEN35_27B="${SHARE_DIR}/Qwen3.5-27B"
 
+# AcceptSpec primary model pair (Qwen3.5 hybrid: GatedDeltaNet + MHA)
+export DRAFT_MODEL="${QWEN35_0_8B}"
+export TARGET_MODEL="${QWEN35_9B}"
+
 cd ${PROJECT_DIR}
 
 # ========== PRE-FLIGHT ==========

@@ -40,7 +40,7 @@ from src.speculative_decode import SpeculativeDecoder, _trim_kv_cache
 from src.acceptspec import AcceptSensitivityOracle, AcceptPredictor
 from src.gpu_auto import plan_devices, load_models, print_gpu_summary
 from src.turboquant_kv import HadamardRotation, ScalarQuantizer
-from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers
+from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, get_kv_layer_indices
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -104,8 +104,10 @@ def measure_perplexity_sensitivity(
         sensitivities: [num_kv_tokens] perplexity sensitivity per token
     """
     device = next(target_model.parameters()).device
-    num_layers = get_num_kv_layers(target_kv)
-    k0, v0 = get_kv_tensors(target_kv, 0)
+    kv_layers = get_kv_layer_indices(target_kv)
+    if not kv_layers:
+        return torch.zeros(1)
+    k0, v0 = get_kv_tensors(target_kv, kv_layers[0])
     if k0 is None:
         return torch.zeros(1)
     num_kv_tokens = k0.shape[2]
@@ -120,7 +122,7 @@ def measure_perplexity_sensitivity(
     )
     baseline_logits = baseline_out.logits  # [1, gamma, vocab]
     # Trim KV back (the forward appended to cache)
-    for layer_i in range(num_layers):
+    for layer_i in kv_layers:
         k, v = get_kv_tensors(target_kv, layer_i)
         if k is not None and k.shape[2] > num_kv_tokens:
             set_kv_tensors(
@@ -157,16 +159,16 @@ def measure_perplexity_sensitivity(
         idx_val = idx.item()
 
         # Save and perturb
-        orig_kvs = []
-        for layer_i in range(num_layers):
+        orig_kvs = {}
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is None:
-                orig_kvs.append((None, None))
+                orig_kvs[layer_i] = (None, None)
                 continue
-            orig_kvs.append((
+            orig_kvs[layer_i] = (
                 k[:, :, idx_val:idx_val + 1, :].clone(),
                 v[:, :, idx_val:idx_val + 1, :].clone(),
-            ))
+            )
             # Quantize token KV to 2-bit
             k_tok = k[:, :, idx_val:idx_val + 1, :].float()
             v_tok = v[:, :, idx_val:idx_val + 1, :].float()
@@ -199,7 +201,7 @@ def measure_perplexity_sensitivity(
         sensitivities[idx_val] = abs(perturbed_ce - baseline_ce)
 
         # Restore original KV
-        for layer_i in range(num_layers):
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is None:
                 continue
@@ -209,7 +211,7 @@ def measure_perplexity_sensitivity(
                 v[:, :, idx_val:idx_val + 1, :] = orig_v
 
         # Trim extended KV
-        for layer_i in range(num_layers):
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is not None and k.shape[2] > num_kv_tokens:
                 set_kv_tensors(
@@ -425,8 +427,10 @@ def _extract_draft_features(
         draft_attn: [num_heads, num_kv_tokens] — attention from last draft query
         value_norms: [num_kv_tokens] — L2 norm of value vectors
     """
-    num_layers = get_num_kv_layers(draft_kv)
-    k0, v0 = get_kv_tensors(draft_kv, 0)
+    kv_layers = get_kv_layer_indices(draft_kv)
+    if not kv_layers:
+        return torch.zeros(1, 1), torch.zeros(1)
+    k0, v0 = get_kv_tensors(draft_kv, kv_layers[0])
     if k0 is None:
         return torch.zeros(1, 1), torch.zeros(1)
     num_kv_tokens = k0.shape[2]
@@ -434,13 +438,13 @@ def _extract_draft_features(
 
     # Value norms: average across layers, sum across head dim
     v_norms = torch.zeros(num_kv_tokens, device='cpu')
-    for layer_i in range(num_layers):
+    for layer_i in kv_layers:
         _, v = get_kv_tensors(draft_kv, layer_i)
         if v is not None and v.shape[2] >= num_kv_tokens:
             # v: [batch, heads, seq, head_dim]
             layer_norms = v[0, :, :num_kv_tokens, :].float().norm(dim=-1).mean(dim=0)
             v_norms += layer_norms.cpu()
-    v_norms /= max(num_layers, 1)
+    v_norms /= max(len(kv_layers), 1)
 
     # Draft attention: run a forward pass with output_attentions to get attention weights
     # Use the last draft token as the query
@@ -462,7 +466,7 @@ def _extract_draft_features(
             attn_weights /= max(len(out.attentions), 1)
 
         # Trim KV back (forward appended one position)
-        for layer_i in range(num_layers):
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(draft_kv, layer_i)
             if k is not None and k.shape[2] > num_kv_tokens:
                 set_kv_tensors(
@@ -896,8 +900,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Block 2: Triple Divergence + Predictor Validation",
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3-0.6B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3-8B")
+    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
+    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--num_problems", type=int, default=100)
     parser.add_argument("--max_tokens", type=int, default=256)
     parser.add_argument("--gamma", type=int, default=5)

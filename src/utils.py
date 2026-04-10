@@ -27,6 +27,79 @@ NumericArray = Union[Sequence[float], np.ndarray]
 # ---------------------------------------------------------------------------
 
 
+def _get_decoder_layers(model: Any) -> list:
+    """Return the list of decoder layer modules from a HF causal LM."""
+    for attr_chain in (
+        ("model", "layers"),
+        ("transformer", "h"),
+        ("transformer", "layers"),
+        ("gpt_neox", "layers"),
+    ):
+        obj = model
+        for attr in attr_chain:
+            obj = getattr(obj, attr, None)
+            if obj is None:
+                break
+        if obj is not None and hasattr(obj, "__len__"):
+            return list(obj)
+    return []
+
+
+def get_mha_layer_indices(model: Any) -> List[int]:
+    """Return indices of MHA (standard attention) layers in a model.
+
+    For pure MHA models (Qwen3, Llama), returns all layer indices.
+    For hybrid models (Qwen3.5 GatedDeltaNet), returns only layers
+    that have ``self_attn`` but NOT ``linear_attn``.
+    """
+    layers = _get_decoder_layers(model)
+    if not layers:
+        return []
+
+    # Check if this is a hybrid model
+    has_linear = any(hasattr(layer, "linear_attn") for layer in layers)
+    if not has_linear:
+        # Pure MHA model — all layers are MHA
+        return list(range(len(layers)))
+
+    # Hybrid model — filter to MHA-only layers
+    mha_indices = []
+    for i, layer in enumerate(layers):
+        if hasattr(layer, "self_attn") and not hasattr(layer, "linear_attn"):
+            mha_indices.append(i)
+    return mha_indices
+
+
+def is_hybrid_model(model: Any) -> bool:
+    """Check if model has mixed MHA + linear attention layers (e.g. Qwen3.5)."""
+    layers = _get_decoder_layers(model)
+    return any(hasattr(layer, "linear_attn") for layer in layers)
+
+
+def is_kv_entry(kv_cache: Any, layer_idx: int) -> bool:
+    """Check if a cache entry at layer_idx is a standard KV tensor (not recurrent state).
+
+    Standard KV: 4D tensor [batch, heads, seq_len, head_dim].
+    Recurrent state: different shape or None.
+    """
+    try:
+        k, v = get_kv_tensors(kv_cache, layer_idx)
+    except (IndexError, TypeError, AttributeError):
+        return False
+    if k is None or v is None:
+        return False
+    import torch
+    if isinstance(k, torch.Tensor) and k.dim() == 4:
+        return True
+    return False
+
+
+def get_kv_layer_indices(kv_cache: Any) -> List[int]:
+    """Return cache indices that contain standard KV tensors (skip recurrent states)."""
+    n = get_num_kv_layers(kv_cache)
+    return [i for i in range(n) if is_kv_entry(kv_cache, i)]
+
+
 def get_kv_tensors(kv_cache: Any, layer_idx: int) -> Tuple[Any, Any]:
     """Get K, V tensors from a KV cache, supporting both old and new transformers API.
 

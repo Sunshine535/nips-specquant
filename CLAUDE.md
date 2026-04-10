@@ -6,14 +6,14 @@
 
 ## Key models
 
-**Primary (standard MHA):**
-- Qwen/Qwen3-0.6B (draft) + Qwen/Qwen3-8B (target)
-
-**Cross-architecture:**
-- meta-llama/Llama-3.2-3B (draft) + meta-llama/Llama-3.1-8B (target)
-
-**Hybrid architecture (GatedDeltaNet, MHA subset only):**
+**Primary (Qwen3.5 hybrid, GatedDeltaNet + MHA, AcceptSpec targets MHA layers):**
 - Qwen/Qwen3.5-0.8B (draft) + Qwen/Qwen3.5-9B (target)
+
+**Scale-up:**
+- Qwen/Qwen3.5-0.8B (draft) + Qwen/Qwen3.5-27B (target)
+
+**Cross-architecture (standard MHA):**
+- meta-llama/Llama-3.2-3B (draft) + meta-llama/Llama-3.1-8B (target)
 
 ## Key datasets
 

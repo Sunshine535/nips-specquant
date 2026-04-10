@@ -67,7 +67,7 @@ from src.acceptspec import (
     TAG_FP16,
 )
 from src.gpu_auto import plan_devices, load_models, print_gpu_summary
-from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, save_results
+from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, get_kv_layer_indices, save_results
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -198,8 +198,8 @@ def measure_kv_memory_bytes(kv_cache: Any) -> int:
     if kv_cache is None:
         return 0
     total = 0
-    num_layers = get_num_kv_layers(kv_cache)
-    for i in range(num_layers):
+    kv_layers = get_kv_layer_indices(kv_cache)
+    for i in kv_layers:
         k, v = get_kv_tensors(kv_cache, i)
         if k is not None:
             total += k.nelement() * k.element_size()
@@ -226,7 +226,10 @@ def compute_rkv_scores(
 
     Higher score = more important = keep.
     """
-    k0, _ = get_kv_tensors(kv_cache, 0)
+    kv_layers = get_kv_layer_indices(kv_cache)
+    if not kv_layers:
+        return torch.zeros(0)
+    k0, _ = get_kv_tensors(kv_cache, kv_layers[0])
     if k0 is None:
         return torch.zeros(0)
     num_tokens = k0.shape[2]
@@ -235,8 +238,9 @@ def compute_rkv_scores(
 
     importance = torch.zeros(num_tokens, device="cpu")
     redundancy = torch.zeros(num_tokens, device="cpu")
+    num_layers = len(kv_layers)
 
-    for layer_i in range(num_layers):
+    for layer_i in kv_layers:
         k, v = get_kv_tensors(kv_cache, layer_i)
         if k is None:
             continue
@@ -280,8 +284,8 @@ def evict_kv_by_scores(
     keep_mask[top_indices] = True
     evict_indices = (~keep_mask).nonzero(as_tuple=True)[0]
 
-    num_layers = get_num_kv_layers(kv_cache)
-    for layer_i in range(num_layers):
+    kv_layers = get_kv_layer_indices(kv_cache)
+    for layer_i in kv_layers:
         k, v = get_kv_tensors(kv_cache, layer_i)
         if k is None:
             continue
@@ -528,9 +532,9 @@ def run_rkv_only(
 
         # Periodic R-KV eviction
         if step > 0 and step % evict_interval == 0:
-            num_layers = get_num_kv_layers(past)
+            kv_layers = get_kv_layer_indices(past)
             t0 = time.perf_counter()
-            scores = compute_rkv_scores(past, num_layers)
+            scores = compute_rkv_scores(past, len(kv_layers))
             t_score += time.perf_counter() - t0
 
             t0 = time.perf_counter()
@@ -623,7 +627,8 @@ def run_smallkv_only(
 
         # Periodic SmallKV eviction: score target KV via draft attention
         if step > 0 and step % evict_interval == 0:
-            k0, _ = get_kv_tensors(past_target, 0)
+            kv_layers = get_kv_layer_indices(past_target)
+            k0, _ = get_kv_tensors(past_target, kv_layers[0]) if kv_layers else (None, None)
             num_kv_tokens = k0.shape[2] if k0 is not None else 0
 
             t0 = time.perf_counter()
@@ -790,9 +795,9 @@ def run_sd_rkv(
         kv_len = new_kv_len + 1
 
         # R-KV eviction on target KV
-        num_layers = get_num_kv_layers(target_kv)
+        kv_layers = get_kv_layer_indices(target_kv)
         t0 = time.perf_counter()
-        scores = compute_rkv_scores(target_kv, num_layers)
+        scores = compute_rkv_scores(target_kv, len(kv_layers))
         t_score += time.perf_counter() - t0
 
         t0 = time.perf_counter()
@@ -953,7 +958,8 @@ def run_sd_smallkv(
         kv_len = new_kv_len + 1
 
         # SmallKV scoring: use draft attention to score target KV
-        k0, _ = get_kv_tensors(target_kv, 0)
+        kv_layers = get_kv_layer_indices(target_kv)
+        k0, _ = get_kv_tensors(target_kv, kv_layers[0]) if kv_layers else (None, None)
         num_kv_tokens = k0.shape[2] if k0 is not None else 0
 
         t0 = time.perf_counter()
@@ -1130,14 +1136,14 @@ def run_acceptspec(
 
         # AcceptPredictor scoring
         t0 = time.perf_counter()
-        k0, v0 = get_kv_tensors(target_kv, 0)
+        kv_layers = get_kv_layer_indices(target_kv)
+        k0, v0 = get_kv_tensors(target_kv, kv_layers[0]) if kv_layers else (None, None)
         num_kv_tokens = k0.shape[2] if k0 is not None else 0
 
         if last_draft_attn is not None and num_kv_tokens > 0:
             # Compute value norms from target KV
             value_norms = torch.zeros(num_kv_tokens, device="cpu")
-            num_layers = get_num_kv_layers(target_kv)
-            for li in range(num_layers):
+            for li in kv_layers:
                 _, v = get_kv_tensors(target_kv, li)
                 if v is not None:
                     # v: [batch, heads, seq, dim]
@@ -1620,8 +1626,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="End-to-End System Benchmark (Block 4)"
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3-0.6B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3-8B")
+    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
+    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--dataset", type=str, default="gsm8k",
                         choices=["gsm8k", "math500"])
     parser.add_argument("--num_problems", type=int, default=100)

@@ -66,6 +66,7 @@ from src.utils import (
     get_kv_tensors,
     set_kv_tensors,
     get_num_kv_layers,
+    get_kv_layer_indices,
     save_results,
 )
 
@@ -243,7 +244,7 @@ def score_accept_predicted(
     """Score tokens using the trained AcceptPredictor."""
     # Get draft attention weights from last draft step
     draft_device = next(draft_model.parameters()).device
-    num_layers = get_num_kv_layers(draft_kv)
+    kv_layers = get_kv_layer_indices(draft_kv)
     num_heads = predictor.num_heads
 
     # Approximate: extract draft attention from a forward pass with output_attentions
@@ -272,8 +273,8 @@ def score_accept_predicted(
 
     # Get value norms from target KV
     v_norms = torch.zeros(num_kv_tokens, device="cpu")
-    num_target_layers = get_num_kv_layers(target_kv)
-    for layer_i in range(num_target_layers):
+    kv_layers = get_kv_layer_indices(target_kv)
+    for layer_i in kv_layers:
         _, v = get_kv_tensors(target_kv, layer_i)
         if v is not None:
             kv_dim = min(v.shape[2], num_kv_tokens)
@@ -334,8 +335,8 @@ def score_perplexity(
             importance = torch.ones(num_kv_tokens)
 
         # Trim KV cache back
-        num_layers = get_num_kv_layers(target_kv)
-        for layer_i in range(num_layers):
+        kv_layers = get_kv_layer_indices(target_kv)
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is not None and k.shape[2] > num_kv_tokens:
                 set_kv_tensors(
@@ -383,8 +384,8 @@ def score_attention(
             importance = torch.ones(num_kv_tokens)
 
         # Trim KV back
-        num_layers = get_num_kv_layers(target_kv)
-        for layer_i in range(num_layers):
+        kv_layers = get_kv_layer_indices(target_kv)
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is not None and k.shape[2] > num_kv_tokens:
                 set_kv_tensors(
@@ -433,8 +434,8 @@ def score_rkv(
                     )
 
         # Trim KV back
-        num_layers = get_num_kv_layers(target_kv)
-        for layer_i in range(num_layers):
+        kv_layers = get_kv_layer_indices(target_kv)
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(target_kv, layer_i)
             if k is not None and k.shape[2] > num_kv_tokens:
                 set_kv_tensors(
@@ -448,8 +449,8 @@ def score_rkv(
 
     # Compute redundancy: cosine similarity between consecutive key vectors
     redundancy = torch.zeros(num_kv_tokens, device="cpu")
-    num_layers = get_num_kv_layers(target_kv)
-    for layer_i in range(num_layers):
+    kv_layers = get_kv_layer_indices(target_kv)
+    for layer_i in kv_layers:
         k, _ = get_kv_tensors(target_kv, layer_i)
         if k is None:
             continue
@@ -614,7 +615,8 @@ def run_sd_with_policy(
         draft_tokens = torch.tensor(draft_tokens_list, device=target_device)
 
         # Score and compress KV before verification
-        k0, _ = get_kv_tensors(target_kv, 0)
+        kv_layers = get_kv_layer_indices(target_kv)
+        k0, _ = get_kv_tensors(target_kv, kv_layers[0]) if kv_layers else (None, None)
         if k0 is not None:
             num_kv_tokens = k0.shape[2]
             try:
@@ -762,7 +764,8 @@ def run_ar_with_compression(
 
         # Periodic compression
         if (step + 1) % compress_interval == 0 and past is not None:
-            k0, _ = get_kv_tensors(past, 0)
+            kv_layers = get_kv_layer_indices(past)
+            k0, _ = get_kv_tensors(past, kv_layers[0]) if kv_layers else (None, None)
             if k0 is not None:
                 num_kv_tokens = k0.shape[2]
                 # For AR, we pass dummy "draft_tokens" (just last generated)
@@ -827,8 +830,8 @@ def build_policy_score_fns(
                     use_cache=True,
                 )
             # Trim back
-            num_layers = get_num_kv_layers(target_kv)
-            for li in range(num_layers):
+            kv_layers = get_kv_layer_indices(target_kv)
+            for li in kv_layers:
                 k, v = get_kv_tensors(target_kv, li)
                 if k is not None and k.shape[2] > num_kv_tokens:
                     set_kv_tensors(target_kv, li,
@@ -1194,8 +1197,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Block 3: Core Comparison -- 8 retention policies at same KV budget"
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3-0.6B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3-8B")
+    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
+    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--dataset", type=str, default="gsm8k",
                         choices=["gsm8k", "math500"])
     parser.add_argument("--num_problems", type=int, default=100)

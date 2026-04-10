@@ -1,25 +1,25 @@
 # AcceptSpec default configuration (v2.0, Apr 9)
 
-# Primary model pair (Qwen3, standard MHA)
+# Primary model pair (Qwen3.5, GatedDeltaNet hybrid — MHA layers only)
 primary:
-  draft: "Qwen/Qwen3-0.6B"
-  target: "Qwen/Qwen3-8B"
-  tag: "qwen3_0.6B_8B"
+  draft: "Qwen/Qwen3.5-0.8B"
+  target: "Qwen/Qwen3.5-9B"
+  tag: "qwen35_0.8B_9B"
 
 # Model pairs for experiments
 model_pairs:
-  # Primary (Qwen3, MHA)
-  - draft: "Qwen/Qwen3-0.6B"
-    target: "Qwen/Qwen3-8B"
-    tag: "qwen3_0.6B_8B"
-  # Cross-architecture (Llama 3.1)
-  - draft: "meta-llama/Llama-3.2-3B"
-    target: "meta-llama/Llama-3.1-8B"
-    tag: "llama_3B_8B"
-  # Hybrid architecture check (Qwen3.5, GatedDeltaNet)
+  # Primary (Qwen3.5, hybrid GatedDeltaNet + MHA)
   - draft: "Qwen/Qwen3.5-0.8B"
     target: "Qwen/Qwen3.5-9B"
     tag: "qwen35_0.8B_9B"
+  # Cross-architecture (Llama 3.1, standard MHA)
+  - draft: "meta-llama/Llama-3.2-3B"
+    target: "meta-llama/Llama-3.1-8B"
+    tag: "llama_3B_8B"
+  # Scale-up (Qwen3.5-27B target)
+  - draft: "Qwen/Qwen3.5-0.8B"
+    target: "Qwen/Qwen3.5-27B"
+    tag: "qwen35_0.8B_27B"
 
 # AcceptSpec settings
 acceptspec:

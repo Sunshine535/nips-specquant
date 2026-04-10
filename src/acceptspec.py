@@ -21,7 +21,7 @@ import torch
 import torch.nn.functional as F
 
 from .turboquant_kv import HadamardRotation, ScalarQuantizer
-from .utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers
+from .utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, get_kv_layer_indices
 
 logger = logging.getLogger(__name__)
 
@@ -118,8 +118,11 @@ class AcceptSensitivityOracle:
         Uses coupled randomness: same U_j values for all perturbations.
         """
         device = next(self.target_model.parameters()).device
-        num_layers = get_num_kv_layers(target_kv)
-        k0, v0 = get_kv_tensors(target_kv, 0)
+        # Only operate on layers with standard KV cache (skip linear attention layers)
+        kv_layers = get_kv_layer_indices(target_kv)
+        if not kv_layers:
+            return None
+        k0, v0 = get_kv_tensors(target_kv, kv_layers[0])
         if k0 is None:
             return None
         num_kv_tokens = k0.shape[2]
@@ -154,17 +157,16 @@ class AcceptSensitivityOracle:
         # Step 4: For each sampled token, perturb and re-measure
         for idx in sample_indices:
             idx_val = idx.item()
-            # Save original KV for this token across all layers
-            orig_kvs = []
-            for layer_i in range(num_layers):
+            # Save original KV for this token across MHA layers only
+            orig_kvs = {}
+            for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
                 if k is None:
-                    orig_kvs.append((None, None))
                     continue
-                orig_kvs.append((
+                orig_kvs[layer_i] = (
                     k[:, :, idx_val:idx_val+1, :].clone(),
                     v[:, :, idx_val:idx_val+1, :].clone(),
-                ))
+                )
                 # Quantize this token's KV to 2-bit
                 k_tok = k[:, :, idx_val:idx_val+1, :].float()
                 v_tok = v[:, :, idx_val:idx_val+1, :].float()
@@ -196,18 +198,17 @@ class AcceptSensitivityOracle:
             sensitivities[idx_val] = abs(alpha_full - alpha_perturbed)
 
             # Restore original KV
-            for layer_i in range(num_layers):
+            for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
-                if k is None:
+                if k is None or layer_i not in orig_kvs:
                     continue
                 orig_k, orig_v = orig_kvs[layer_i]
-                if orig_k is not None:
-                    k[:, :, idx_val:idx_val+1, :] = orig_k
-                    v[:, :, idx_val:idx_val+1, :] = orig_v
+                k[:, :, idx_val:idx_val+1, :] = orig_k
+                v[:, :, idx_val:idx_val+1, :] = orig_v
 
             # Trim extended KV from re-running model
             # (the model appends to cache during forward, need to reset)
-            for layer_i in range(num_layers):
+            for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
                 if k is not None and k.shape[2] > num_kv_tokens:
                     set_kv_tensors(
@@ -311,9 +312,11 @@ class AcceptSensitivityOracle:
                         attn_weights_collected.append(attn_w.detach().cpu())
             return hook_fn
 
-        # Register hooks on attention layers
+        # Register hooks on MHA attention layers only (skip linear_attn)
         for name, module in self.target_model.named_modules():
-            if 'self_attn' in name and not any(sub in name for sub in ['.q_proj', '.k_proj', '.v_proj', '.o_proj']):
+            if 'self_attn' in name and 'linear_attn' not in name and not any(
+                sub in name for sub in ['.q_proj', '.k_proj', '.v_proj', '.o_proj']
+            ):
                 if hasattr(module, 'forward'):
                     h = module.register_forward_hook(make_hook(len(hooks)), with_kwargs=True)
                     hooks.append(h)
@@ -341,9 +344,9 @@ class AcceptSensitivityOracle:
         finally:
             for h in hooks:
                 h.remove()
-            # Trim KV cache back to original length
-            num_layers = get_num_kv_layers(target_kv)
-            for layer_i in range(num_layers):
+            # Trim KV cache back to original length (MHA layers only)
+            kv_layers = get_kv_layer_indices(target_kv)
+            for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
                 if k is not None and k.shape[2] > num_kv_tokens:
                     set_kv_tensors(
@@ -546,9 +549,11 @@ class MixedPrecisionKV:
         """Compress KV cache according to per-token tags.
 
         Modifies kv_cache in-place: non-critical tokens are quantized,
-        evicted tokens are zeroed.
+        evicted tokens are zeroed.  Only operates on MHA layers with
+        standard KV tensors (skips linear attention recurrent states).
         """
-        for layer_i in range(self.num_layers):
+        kv_layers = get_kv_layer_indices(kv_cache)
+        for layer_i in kv_layers:
             k, v = get_kv_tensors(kv_cache, layer_i)
             if k is None:
                 continue
