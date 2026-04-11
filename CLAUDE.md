@@ -6,13 +6,13 @@
 
 ## Key models
 
-**Primary (Qwen3.5 hybrid, GatedDeltaNet + MHA, AcceptSpec targets MHA layers):**
-- Qwen/Qwen3.5-0.8B (draft) + Qwen/Qwen3.5-9B (target)
+**Primary (MTP self-speculation, single model):**
+- Qwen/Qwen3.5-9B — 自带 MTP head 做 draft，不需要额外 draft model
 
 **Scale-up:**
-- Qwen/Qwen3.5-0.8B (draft) + Qwen/Qwen3.5-27B (target)
+- Qwen/Qwen3.5-27B — 同样使用自带 MTP head
 
-**Cross-architecture (standard MHA):**
+**Cross-architecture (dual-model legacy, 无原生 MTP):**
 - meta-llama/Llama-3.2-3B (draft) + meta-llama/Llama-3.1-8B (target)
 
 ## Key datasets
@@ -30,7 +30,8 @@
 
 - `src/` — 核心模块
   - `acceptspec.py` — **AcceptSpec 核心**: AcceptSensitivityOracle, AcceptPredictor, MixedPrecisionKV
-  - `speculative_decode.py` — 投机解码引擎
+  - `mtp_head.py` — **Qwen3.5 MTP head**: 从 checkpoint 加载 mtp.* 权重，实现 MTP self-speculation
+  - `speculative_decode.py` — 投机解码引擎（MTP self-speculation 或 dual-model legacy）
   - `turboquant_kv.py` — TurboQuant KV cache 量化原语（Hadamard rotation + scalar quant）
   - `quantized_verifier.py` — 量化验证器（monkey-patched attention forward）
   - `baselines.py` — RTN/KIVI/Absmax 量化 baseline

@@ -1,11 +1,12 @@
-"""Speculative decoding engine with optional quantized verification.
+"""Speculative decoding engine with MTP self-speculation and optional KV compression.
 
-Extends the standard speculative decoding algorithm to support compressed-domain
-verification attention via TurboQuant KV cache quantization.
+Supports two drafting modes:
+  - MTP self-speculation (preferred): target model's own MTP head as draft
+  - Dual-model (legacy): separate draft model
 
-Supports two architectures:
-  - Standard MHA models (e.g., Llama, older Qwen): QuantizedKVCache
-  - GatedDeltaNet linear attention (Qwen3.5): LinearAttnVerifier
+And two verification architectures:
+  - Standard MHA (e.g., Llama, Qwen3.5 MHA layers): QuantizedKVCache
+  - GatedDeltaNet linear attention (Qwen3.5 linear layers): LinearAttnVerifier
 """
 
 import time
@@ -173,42 +174,57 @@ def _trim_kv_cache(past: Any, keep_length: int) -> Any:
 
 
 class SpeculativeDecoder:
-    """Speculative decoding with optional TurboQuant-compressed verification.
+    """Speculative decoding with MTP self-speculation and optional KV compression.
 
-    Automatically detects GatedDeltaNet (linear attention) models such as
-    Qwen3.5 and uses ``LinearAttnVerifier`` for state-matrix compression
-    instead of ``QuantizedKVCache``.
+    Preferred mode: single model + MTP head (self-speculation).
+    Legacy mode:   separate draft model + target model.
+
+    Automatically detects GatedDeltaNet (linear attention) layers and uses
+    ``LinearAttnVerifier`` for state-matrix compression on those layers.
     """
 
     def __init__(
         self,
-        draft_model: PreTrainedModel,
         target_model: PreTrainedModel,
         tokenizer: PreTrainedTokenizerBase,
+        mtp_head: Optional[Any] = None,
+        draft_model: Optional[PreTrainedModel] = None,
         quant_bits: int = 0,
         quant_block_size: int = 128,
         quant_seed: int = 42,
     ):
         """
         Args:
-            draft_model: smaller model for drafting tokens
-            target_model: larger model for verification
-            tokenizer: shared tokenizer
-            quant_bits: KV quantization bits (0 = full precision, 3 or 4 = quantized)
+            target_model: the main model for generation and verification
+            tokenizer: tokenizer
+            mtp_head: Qwen35MTPHead for self-speculation (preferred)
+            draft_model: separate draft model (legacy, used if mtp_head is None)
+            quant_bits: KV quantization bits (0 = full precision)
             quant_block_size: block size for per-block quantization
             quant_seed: seed for Hadamard sign vector
         """
-        self.draft_model = draft_model
         self.target_model = target_model
         self.tokenizer = tokenizer
+        self.mtp_head = mtp_head
+        self.draft_model = draft_model
         self.quant_bits = quant_bits
         self.quant_block_size = quant_block_size
         self.quant_seed = quant_seed
 
-        self.draft_model.eval()
+        self.use_mtp = mtp_head is not None
+        if not self.use_mtp and draft_model is None:
+            raise ValueError("Either mtp_head or draft_model must be provided")
+
         self.target_model.eval()
-        self.draft_device = next(draft_model.parameters()).device
         self.target_device = next(target_model.parameters()).device
+
+        if self.use_mtp:
+            logger.info("Speculative decoding: MTP self-speculation mode")
+            self.draft_device = self.target_device  # MTP head lives on target device
+        else:
+            self.draft_model.eval()
+            self.draft_device = next(draft_model.parameters()).device
+            logger.info("Speculative decoding: dual-model mode (legacy)")
 
         self.use_quant = quant_bits > 0
 
@@ -307,7 +323,11 @@ class SpeculativeDecoder:
         gamma: int = 5,
         temperature: float = 1.0,
     ) -> SpeculativeOutput:
-        """Run speculative decoding with optional quantized verification."""
+        """Run speculative decoding with optional quantized verification.
+
+        In MTP mode: target model produces hidden states → MTP head drafts
+        → target model verifies.  No separate draft model needed.
+        """
         assert input_ids.shape[0] == 1, "Only batch_size=1 is supported"
 
         prefix_len = input_ids.shape[1]
@@ -320,17 +340,25 @@ class SpeculativeDecoder:
         t_verify_total = 0.0
         t_quant_total = 0.0
 
-        draft_out = self.draft_model(
-            input_ids.to(self.draft_device), use_cache=True
-        )
-        draft_kv = draft_out.past_key_values
-        draft_next_logits = draft_out.logits[:, -1, :]
-
+        # Prefill target model
         target_out = self.target_model(
-            input_ids.to(self.target_device), use_cache=True
+            input_ids.to(self.target_device),
+            use_cache=True,
+            output_hidden_states=self.use_mtp,
         )
         target_kv = target_out.past_key_values
         target_next_logits = target_out.logits[:, -1, :]
+
+        # For MTP: extract last hidden state for the MTP head
+        if self.use_mtp:
+            last_hidden = target_out.hidden_states[-1][:, -1, :]  # [B, D]
+        else:
+            # Legacy: prefill draft model
+            draft_out = self.draft_model(
+                input_ids.to(self.draft_device), use_cache=True
+            )
+            draft_kv = draft_out.past_key_values
+            draft_next_logits = draft_out.logits[:, -1, :]
 
         all_token_ids = input_ids.cpu().clone()
         kv_len = prefix_len
@@ -338,7 +366,6 @@ class SpeculativeDecoder:
         qkv_cache = None
         if self.use_quant:
             if self._is_linear_attn:
-                # Linear-attn: compress the recurrent state cache.
                 target_kv = self._compress_cache(target_kv, None)
             else:
                 qkv_cache = self._build_qkv_cache()
@@ -357,17 +384,36 @@ class SpeculativeDecoder:
                 rounds_by_pos[k] += 1
             total_draft += cur_gamma
 
+            # --- Draft phase ---
             t0 = time.perf_counter()
-            draft_tokens, draft_probs, draft_kv = self._draft_phase(
-                draft_next_logits, draft_kv, cur_gamma, temperature
-            )
+            if self.use_mtp:
+                # Sample first token from target logits
+                temp = max(temperature, 1e-8)
+                p0 = F.softmax(target_next_logits.squeeze(0) / temp, dim=-1)
+                tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
+
+                # MTP head drafts remaining tokens
+                draft_tokens_mtp, draft_probs_mtp, draft_hiddens, draft_attns = (
+                    self.mtp_head.draft(
+                        tok0, last_hidden, kv_len, cur_gamma - 1, temperature,
+                    )
+                )
+                # Combine: tok0 + MTP drafted tokens
+                draft_tokens = torch.cat([tok0.cpu().unsqueeze(0), draft_tokens_mtp]) if cur_gamma > 1 else tok0.cpu().unsqueeze(0)
+                draft_probs = [p0.cpu()] + draft_probs_mtp if cur_gamma > 1 else [p0.cpu()]
+            else:
+                draft_tokens, draft_probs, draft_kv = self._draft_phase(
+                    draft_next_logits, draft_kv, cur_gamma, temperature
+                )
             t_draft_total += time.perf_counter() - t0
 
+            # --- Verify phase ---
             t0 = time.perf_counter()
             verify_out = self.target_model(
                 draft_tokens.view(1, -1).to(self.target_device),
                 past_key_values=target_kv,
                 use_cache=True,
+                output_hidden_states=self.use_mtp,
             )
             target_kv_ext = verify_out.past_key_values
             verify_logits = verify_out.logits
@@ -391,26 +437,40 @@ class SpeculativeDecoder:
             )
 
             new_kv_len = kv_len + n_acc
-            draft_kv = _trim_kv_cache(draft_kv, new_kv_len)
             target_kv = _trim_kv_cache(target_kv_ext, new_kv_len)
 
             last_tok = accepted[-1]
 
-            d_out = self.draft_model(
-                last_tok.view(1, 1).to(self.draft_device),
-                past_key_values=draft_kv,
-                use_cache=True,
-            )
-            draft_kv = d_out.past_key_values
-            draft_next_logits = d_out.logits[:, -1, :]
+            if self.use_mtp:
+                # Re-sync target model: advance by last accepted token
+                t_out = self.target_model(
+                    last_tok.view(1, 1).to(self.target_device),
+                    past_key_values=target_kv,
+                    use_cache=True,
+                    output_hidden_states=True,
+                )
+                target_kv = t_out.past_key_values
+                target_next_logits = t_out.logits[:, -1, :]
+                last_hidden = t_out.hidden_states[-1][:, -1, :]
+            else:
+                # Legacy: re-sync both models
+                draft_kv = _trim_kv_cache(draft_kv, new_kv_len)
 
-            t_out = self.target_model(
-                last_tok.view(1, 1).to(self.target_device),
-                past_key_values=target_kv,
-                use_cache=True,
-            )
-            target_kv = t_out.past_key_values
-            target_next_logits = t_out.logits[:, -1, :]
+                d_out = self.draft_model(
+                    last_tok.view(1, 1).to(self.draft_device),
+                    past_key_values=draft_kv,
+                    use_cache=True,
+                )
+                draft_kv = d_out.past_key_values
+                draft_next_logits = d_out.logits[:, -1, :]
+
+                t_out = self.target_model(
+                    last_tok.view(1, 1).to(self.target_device),
+                    past_key_values=target_kv,
+                    use_cache=True,
+                )
+                target_kv = t_out.past_key_values
+                target_next_logits = t_out.logits[:, -1, :]
 
             if self.use_quant:
                 t0_q = time.perf_counter()
@@ -418,6 +478,9 @@ class SpeculativeDecoder:
                 t_quant_total += time.perf_counter() - t0_q
 
             kv_len = new_kv_len + 1
+
+            if last_tok.item() == self.tokenizer.eos_token_id:
+                break
 
         wall = time.perf_counter() - start
 

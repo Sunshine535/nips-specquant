@@ -389,16 +389,19 @@ class AcceptSensitivityOracle:
 
 
 # ---------------------------------------------------------------------------
-# Predictor: Draft Attention × Value Norm
+# Predictor: MTP/Draft Attention × Value Norm
 # ---------------------------------------------------------------------------
 
 class AcceptPredictor:
-    """Predicts acceptance-critical tokens from draft model's attention patterns.
+    """Predicts acceptance-critical tokens from MTP head or draft model attention.
 
-    score(i) = Σ_h w_h · a_h(q_draft, k_i) · ||v_i||_2
+    score(i) = Σ_h w_h · a_h(q, k_i) · ||v_i||_2
 
-    where a_h is draft attention weight, ||v_i|| is value norm, and w_h is
-    a per-head weight learned from oracle calibration data.
+    where a_h is attention weight from the MTP head (preferred) or draft model,
+    ||v_i|| is value norm, and w_h is a per-head weight learned from oracle data.
+
+    In MTP mode, a_h comes from the MTP decoder layer's attention — zero extra
+    cost since it is already computed during drafting.
     """
 
     def __init__(

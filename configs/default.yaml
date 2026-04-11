@@ -1,25 +1,26 @@
-# AcceptSpec default configuration (v2.0, Apr 9)
+# AcceptSpec default configuration (v3.0 — MTP self-speculation)
 
-# Primary model pair (Qwen3.5, GatedDeltaNet hybrid — MHA layers only)
+# Primary: single model with native MTP head (no separate draft model)
 primary:
-  draft: "Qwen/Qwen3.5-0.8B"
-  target: "Qwen/Qwen3.5-9B"
-  tag: "qwen35_0.8B_9B"
+  model: "Qwen/Qwen3.5-9B"
+  tag: "qwen35_9B_mtp"
+  draft_mode: "mtp"  # "mtp" = self-speculation, "dual" = legacy separate model
 
-# Model pairs for experiments
-model_pairs:
-  # Primary (Qwen3.5, hybrid GatedDeltaNet + MHA)
-  - draft: "Qwen/Qwen3.5-0.8B"
-    target: "Qwen/Qwen3.5-9B"
-    tag: "qwen35_0.8B_9B"
-  # Cross-architecture (Llama 3.1, standard MHA)
+# Models for experiments
+models:
+  # Primary (Qwen3.5-9B with MTP self-speculation)
+  - model: "Qwen/Qwen3.5-9B"
+    tag: "qwen35_9B_mtp"
+    draft_mode: "mtp"
+  # Scale-up
+  - model: "Qwen/Qwen3.5-27B"
+    tag: "qwen35_27B_mtp"
+    draft_mode: "mtp"
+  # Cross-architecture (Llama, no native MTP — use dual-model)
   - draft: "meta-llama/Llama-3.2-3B"
     target: "meta-llama/Llama-3.1-8B"
     tag: "llama_3B_8B"
-  # Scale-up (Qwen3.5-27B target)
-  - draft: "Qwen/Qwen3.5-0.8B"
-    target: "Qwen/Qwen3.5-27B"
-    tag: "qwen35_0.8B_27B"
+    draft_mode: "dual"
 
 # AcceptSpec settings
 acceptspec:
