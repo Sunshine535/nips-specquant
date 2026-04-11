@@ -1,16 +1,10 @@
 #!/bin/bash
 set -e
 PROJ_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$PROJ_DIR"
-
-# All caches inside project dir
-export HF_HOME="${PROJ_DIR}/.cache/hf"
-mkdir -p "$HF_HOME"
 
 echo "============================================"
-echo " AcceptSpec: Environment Setup"
+echo " specquant: Environment Setup"
 echo " $(date)"
-echo " HF_HOME: $HF_HOME"
 echo "============================================"
 
 # --- Find Python >= 3.10 ---
@@ -81,8 +75,20 @@ pip install "torch>=2.4.0" "torchvision" "torchaudio" \
     --index-url "$TORCH_INDEX"
 echo ""
 
-echo ">>> $(date) - Installing requirements.txt..."
-pip install -r "$PROJ_DIR/requirements.txt"
+# Pin torch version so requirements.txt doesn't overwrite it from corporate mirror
+TORCH_PIN="torch==$(pip show torch | grep '^Version:' | awk '{print $2}')"
+TV_PIN="torchvision==$(pip show torchvision | grep '^Version:' | awk '{print $2}')"
+TA_PIN="torchaudio==$(pip show torchaudio | grep '^Version:' | awk '{print $2}')"
+CONSTRAINT_FILE=$(mktemp)
+echo "$TORCH_PIN" > "$CONSTRAINT_FILE"
+echo "$TV_PIN" >> "$CONSTRAINT_FILE"
+echo "$TA_PIN" >> "$CONSTRAINT_FILE"
+echo "  Pinned: $TORCH_PIN, $TV_PIN, $TA_PIN"
+echo ""
+
+echo ">>> $(date) - Installing requirements.txt (torch version pinned)..."
+pip install -r "$PROJ_DIR/requirements.txt" -c "$CONSTRAINT_FILE"
+rm -f "$CONSTRAINT_FILE"
 echo ""
 
 echo ">>> $(date) - Installing flash-attn (optional, may take a few minutes)..."
