@@ -215,16 +215,15 @@ def load_model_mtp(
         tokenizer.pad_token = tokenizer.eos_token
 
     # Single model uses device_map="auto" to spread across all GPUs
+    # MTP self-speculation: single model on one GPU (avoids cross-device issues)
+    # 9B FP16 ≈ 18GB, fits on one 80GB card easily
     kwargs = dict(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
     )
-    if plan.num_gpus >= 2:
-        kwargs["device_map"] = "auto"
-        logger.info("Loading model: %s → device_map='auto' (%d GPUs)", model_name, plan.num_gpus)
-    elif plan.num_gpus == 1:
+    if plan.num_gpus >= 1:
         kwargs["device_map"] = "cuda:0"
-        logger.info("Loading model: %s → cuda:0", model_name)
+        logger.info("Loading model: %s → cuda:0 (single GPU for MTP)", model_name)
     else:
         kwargs["device_map"] = "cpu"
         logger.info("Loading model: %s → cpu", model_name)
@@ -232,8 +231,7 @@ def load_model_mtp(
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     model.eval()
 
-    # Load MTP head
-    # Load MTP head
+    # Load MTP head (on same device as model)
     from .mtp_head import Qwen35MTPHead
     mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
 
