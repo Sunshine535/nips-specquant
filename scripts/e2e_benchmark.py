@@ -64,7 +64,7 @@ from src.acceptspec import (
     TAG_4BIT,
     TAG_FP16,
 )
-from src.gpu_auto import plan_devices, load_models, print_gpu_summary
+from src.gpu_auto import plan_devices, load_models, load_model_mtp, print_gpu_summary
 from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, get_kv_layer_indices, save_results
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -1279,11 +1279,9 @@ def run_benchmark(args):
     plan = plan_devices()
     logger.info("Loading models with auto device plan: %s", plan.description)
 
-    draft_model, target_model, tokenizer, plan = load_models(
-        draft_model_name=args.draft_model,
-        target_model_name=args.target_model,
-        plan=plan,
-    )
+    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
+    target_model = model
+    draft_model = model  # MTP mode: same model
 
     draft_device = next(draft_model.parameters()).device
     target_device = next(target_model.parameters()).device
@@ -1331,8 +1329,8 @@ def run_benchmark(args):
     # Results container
     all_results = {
         "config": {
-            "draft_model": args.draft_model,
-            "target_model": args.target_model,
+            "draft_model": args.model,
+            "target_model": args.model,
             "dataset": args.dataset,
             "num_problems": len(problems),
             "gamma": args.gamma,

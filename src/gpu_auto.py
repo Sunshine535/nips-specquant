@@ -189,6 +189,61 @@ def load_models(
     return draft_model, target_model, tokenizer, plan
 
 
+def load_model_mtp(
+    model_name: str,
+    plan: Optional[DevicePlan] = None,
+    trust_remote_code: bool = True,
+):
+    """Load a single model with its MTP head for self-speculation.
+
+    Returns: (model, mtp_head, tokenizer, plan)
+    """
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    if plan is None:
+        plan = plan_devices()
+
+    logger.info("Device plan: %s", plan.description)
+    for gpu in plan.gpus:
+        logger.info("  GPU %d: %s (%.1f GB total, %.1f GB free)",
+                     gpu.index, gpu.name, gpu.total_gb, gpu.free_gb)
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name, trust_remote_code=trust_remote_code,
+    )
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    # Single model uses device_map="auto" to spread across all GPUs
+    kwargs = dict(
+        torch_dtype=plan.dtype,
+        trust_remote_code=trust_remote_code,
+    )
+    if plan.num_gpus >= 2:
+        kwargs["device_map"] = "auto"
+        logger.info("Loading model: %s → device_map='auto' (%d GPUs)", model_name, plan.num_gpus)
+    elif plan.num_gpus == 1:
+        kwargs["device_map"] = "cuda:0"
+        logger.info("Loading model: %s → cuda:0", model_name)
+    else:
+        kwargs["device_map"] = "cpu"
+        logger.info("Loading model: %s → cpu", model_name)
+
+    model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
+    model.eval()
+
+    # Load MTP head
+    mtp_head = None
+    try:
+        from .mtp_head import Qwen35MTPHead
+        mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
+        logger.info("MTP head loaded successfully")
+    except Exception as e:
+        logger.warning("Could not load MTP head: %s. Falling back to AR-only.", e)
+
+    return model, mtp_head, tokenizer, plan
+
+
 def print_gpu_summary():
     """Print a human-readable GPU summary."""
     gpus = detect_gpus()

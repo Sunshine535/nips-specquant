@@ -36,7 +36,7 @@ from src.acceptspec import (
     OracleStudyResult,
     SensitivityResult,
 )
-from src.gpu_auto import plan_devices, load_models, print_gpu_summary
+from src.gpu_auto import plan_devices, load_models, load_model_mtp, print_gpu_summary
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -70,17 +70,14 @@ def run_oracle_study(args):
     plan = plan_devices()
     logger.info("Loading models with auto device plan: %s", plan.description)
 
-    draft_model, target_model, tokenizer, plan = load_models(
-        draft_model_name=args.draft_model,
-        target_model_name=args.target_model,
-        plan=plan,
-    )
+    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
+    target_model = model
 
     # Create SD decoder (no quantization — we want baseline acceptance)
     decoder = SpeculativeDecoder(
-        draft_model=draft_model,
         target_model=target_model,
         tokenizer=tokenizer,
+        mtp_head=mtp_head,
         quant_bits=0,
     )
 
@@ -205,8 +202,7 @@ def run_oracle_study(args):
     # Save results
     output = {
         'config': {
-            'draft_model': args.draft_model,
-            'target_model': args.target_model,
+            'model': args.model,
             'num_problems': args.num_problems,
             'gamma': args.gamma,
             'temperature': args.temperature,
@@ -255,21 +251,17 @@ def run_instrumented_sd(
     """
     assert input_ids.shape[0] == 1
 
-    draft_model = decoder.draft_model
     target_model = decoder.target_model
-    draft_device = decoder.draft_device
+    mtp_head = decoder.mtp_head
     target_device = decoder.target_device
 
     prefix_len = input_ids.shape[1]
 
-    # Prefill
-    draft_out = draft_model(input_ids.to(draft_device), use_cache=True)
-    draft_kv = draft_out.past_key_values
-    draft_next_logits = draft_out.logits[:, -1, :]
-
-    target_out = target_model(input_ids.to(target_device), use_cache=True)
+    # Prefill (single model — MTP head provides draft logits from target hidden states)
+    target_out = target_model(input_ids.to(target_device), use_cache=True, output_hidden_states=True)
     target_kv = target_out.past_key_values
     target_next_logits = target_out.logits[:, -1, :]
+    draft_next_logits = mtp_head(target_out.hidden_states[-1][:, -1:, :]).squeeze(1)
 
     all_token_ids = input_ids.cpu().clone()
     kv_len = prefix_len
@@ -288,7 +280,7 @@ def run_instrumented_sd(
 
         n_steps += 1
 
-        # Draft phase
+        # Draft phase (MTP head — single forward per token using target KV)
         draft_tokens_list = []
         draft_probs_list = []
         cur_logits = draft_next_logits
@@ -305,10 +297,11 @@ def run_instrumented_sd(
             draft_tokens_list.append(tok)
             draft_probs_list.append(prob_val)
 
-            tok_tensor = torch.tensor([[tok]], device=draft_device)
-            d_out = draft_model(tok_tensor, past_key_values=draft_kv, use_cache=True)
-            draft_kv = d_out.past_key_values
-            cur_logits = d_out.logits[:, -1, :]
+            # Feed drafted token through target model to get hidden state for next MTP prediction
+            tok_tensor = torch.tensor([[tok]], device=target_device)
+            d_out = target_model(tok_tensor, past_key_values=target_kv, use_cache=True, output_hidden_states=True)
+            target_kv = d_out.past_key_values
+            cur_logits = mtp_head(d_out.hidden_states[-1][:, -1:, :]).squeeze(1)
 
         draft_tokens = torch.tensor(draft_tokens_list, device=target_device)
         draft_probs = torch.tensor(draft_probs_list)
@@ -337,7 +330,9 @@ def run_instrumented_sd(
             except Exception as e:
                 logger.debug("Oracle measurement failed at step %d: %s", n_steps, e)
 
-        # Standard verification
+        # Standard verification (rewind target KV to pre-draft state, then verify)
+        from src.speculative_decode import _trim_kv_cache as _tkv
+        target_kv = _tkv(target_kv, kv_len)
         verify_out = target_model(
             draft_tokens.view(1, -1).to(target_device),
             past_key_values=target_kv,
@@ -355,31 +350,23 @@ def run_instrumented_sd(
 
         all_token_ids = torch.cat([all_token_ids, accepted.view(1, -1).cpu()], dim=1)
 
-        # Trim KV caches
-        from src.speculative_decode import _trim_kv_cache
+        # Trim KV cache to accepted length
         new_kv_len = kv_len + n_acc
-        draft_kv = _trim_kv_cache(draft_kv, new_kv_len)
-        target_kv = _trim_kv_cache(target_kv_ext, new_kv_len)
+        target_kv = _tkv(target_kv_ext, new_kv_len)
 
         last_tok = accepted[-1]
         kv_len = new_kv_len
 
-        # Update draft and target next logits
-        d_out = draft_model(
-            last_tok.view(1, 1).to(draft_device),
-            past_key_values=draft_kv,
-            use_cache=True,
-        )
-        draft_kv = d_out.past_key_values
-        draft_next_logits = d_out.logits[:, -1, :]
-
+        # Update target and draft (MTP) next logits from single model
         t_out = target_model(
             last_tok.view(1, 1).to(target_device),
             past_key_values=target_kv,
             use_cache=True,
+            output_hidden_states=True,
         )
         target_kv = t_out.past_key_values
         target_next_logits = t_out.logits[:, -1, :]
+        draft_next_logits = mtp_head(t_out.hidden_states[-1][:, -1:, :]).squeeze(1)
 
         # Check for EOS
         if last_tok.item() == decoder.tokenizer.eos_token_id:

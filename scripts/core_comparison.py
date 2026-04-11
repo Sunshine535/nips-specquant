@@ -60,7 +60,7 @@ from src.acceptspec import (
     TAG_2BIT,
     TAG_EVICTED,
 )
-from src.gpu_auto import plan_devices, load_models, print_gpu_summary
+from src.gpu_auto import plan_devices, load_models, load_model_mtp, print_gpu_summary
 from src.utils import (
     get_kv_tensors,
     set_kv_tensors,
@@ -889,11 +889,9 @@ def run_comparison(args):
     plan = plan_devices()
     logger.info("Loading models with auto device plan: %s", plan.description)
 
-    draft_model, target_model, tokenizer, plan = load_models(
-        draft_model_name=args.draft_model,
-        target_model_name=args.target_model,
-        plan=plan,
-    )
+    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
+    target_model = model
+    draft_model = model  # MTP mode: same model
 
     # Create SD decoder (no built-in quantization -- we handle it per-policy)
     decoder = SpeculativeDecoder(
@@ -977,8 +975,8 @@ def run_comparison(args):
     # Results storage
     all_results = {
         "config": {
-            "draft_model": args.draft_model,
-            "target_model": args.target_model,
+            "draft_model": args.model,
+            "target_model": args.model,
             "dataset": args.dataset,
             "num_problems": len(problems),
             "kv_budget": args.kv_budget,

@@ -37,7 +37,7 @@ from datasets import load_dataset
 
 from src.speculative_decode import SpeculativeDecoder, _trim_kv_cache
 from src.acceptspec import AcceptSensitivityOracle, AcceptPredictor
-from src.gpu_auto import plan_devices, load_models, print_gpu_summary
+from src.gpu_auto import plan_devices, load_models, load_model_mtp, print_gpu_summary
 from src.turboquant_kv import HadamardRotation, ScalarQuantizer
 from src.utils import get_kv_tensors, set_kv_tensors, get_num_kv_layers, get_kv_layer_indices
 
@@ -599,11 +599,9 @@ def run_triple_divergence(args):
     plan = plan_devices()
     logger.info("Loading models with auto device plan: %s", plan.description)
 
-    draft_model, target_model, tokenizer, plan = load_models(
-        draft_model_name=args.draft_model,
-        target_model_name=args.target_model,
-        plan=plan,
-    )
+    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
+    target_model = model
+    draft_model = model  # MTP mode: same model for both
 
     # Create SD decoder (no quantization -- baseline acceptance)
     decoder = SpeculativeDecoder(
@@ -840,8 +838,7 @@ def run_triple_divergence(args):
     # --- Save results ---
     output = {
         'config': {
-            'draft_model': args.draft_model,
-            'target_model': args.target_model,
+            'model': args.model,
             'num_problems': args.num_problems,
             'num_train': len(train_problems),
             'num_test': len(test_problems),
