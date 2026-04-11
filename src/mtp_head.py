@@ -228,11 +228,14 @@ class Qwen35MTPHead(nn.Module):
         Extracts ``mtp.*`` weights from safetensors files and builds the head,
         sharing embed_tokens and lm_head with *main_model*.
         """
-        from safetensors import safe_open
-        from transformers import AutoConfig
-
-        hf_config = AutoConfig.from_pretrained(model_name_or_path, trust_remote_code=True)
-        cfg = hf_config.to_dict() if hasattr(hf_config, "to_dict") else vars(hf_config)
+        # Get config from the main model (most reliable — already loaded)
+        model_config = main_model.config
+        if hasattr(model_config, "text_config"):
+            model_config = model_config.text_config
+        cfg = model_config.to_dict() if hasattr(model_config, "to_dict") else vars(model_config)
+        logger.info("MTP config: hidden_size=%s, num_attention_heads=%s, mtp_num_hidden_layers=%s",
+                     cfg.get("hidden_size"), cfg.get("num_attention_heads"),
+                     cfg.get("mtp_num_hidden_layers", "N/A"))
 
         # Get shared modules from main model
         embed = _find_module(main_model, "embed_tokens")

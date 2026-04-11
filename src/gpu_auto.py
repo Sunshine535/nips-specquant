@@ -233,13 +233,9 @@ def load_model_mtp(
     model.eval()
 
     # Load MTP head
-    mtp_head = None
-    try:
-        from .mtp_head import Qwen35MTPHead
-        mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
-        logger.info("MTP head loaded successfully")
-    except Exception as e:
-        logger.warning("Could not load MTP head: %s. Falling back to AR-only.", e)
+    # Load MTP head
+    from .mtp_head import Qwen35MTPHead
+    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
 
     return model, mtp_head, tokenizer, plan
 
