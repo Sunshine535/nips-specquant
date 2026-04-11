@@ -5,8 +5,7 @@ the core AcceptSpec hypothesis: acceptance sensitivity is sparse.
 
 Usage:
     python scripts/oracle_sensitivity.py \
-        --draft_model Qwen/Qwen3-0.6B \
-        --target_model Qwen/Qwen3-8B \
+        --model Qwen/Qwen3.5-9B \
         --num_problems 10 \
         --output results/oracle_sensitivity.json
 
@@ -398,10 +397,8 @@ def run_instrumented_sd(
 
 def main():
     parser = argparse.ArgumentParser(description="Oracle Acceptance Sensitivity Study")
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B",
-                        help="Draft model for speculative decoding")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B",
-                        help="Target model (verifier) for speculative decoding")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B",
+                        help="Model with native MTP head for self-speculation")
     parser.add_argument("--num_problems", type=int, default=10)
     parser.add_argument("--max_tokens", type=int, default=256)
     parser.add_argument("--gamma", type=int, default=5)

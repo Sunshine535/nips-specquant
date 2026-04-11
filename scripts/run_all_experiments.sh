@@ -1,13 +1,15 @@
 #!/bin/bash
 # ============================================================================
-# AcceptSpec v2.0: Full experiment pipeline (NeurIPS 2026)
+# AcceptSpec v3.0: Full experiment pipeline (NeurIPS 2026)
 #
-# Follows EXPERIMENT_PLAN.md milestones:
+# MTP self-speculation: single model, no separate draft model.
+#
+# Milestones:
 #   M0: Oracle sanity (10 problems)          → Gini > 0.5
 #   M1: Full oracle (100 problems)           → top-20% > 80% sensitivity
 #   M2: Triple divergence + predictor        → all pairwise ρ < 0.7
 #   M3: Core comparison (8 retention policies)→ ≥3pp gap
-#   M4: E2E system benchmark (9 systems)     → ≥10% latency win
+#   M4: E2E system benchmark                 → ≥10% latency win
 #   M5: Robustness + universality            → patterns hold
 # ============================================================================
 set -euo pipefail
@@ -23,9 +25,8 @@ MARKER_DIR="${RESULTS_DIR}/.markers"
 LOG_DIR="logs"
 mkdir -p "$RESULTS_DIR" "$MARKER_DIR" "$LOG_DIR"
 
-# Config
-DRAFT_MODEL="${DRAFT_MODEL:-Qwen/Qwen3.5-0.8B}"
-TARGET_MODEL="${TARGET_MODEL:-Qwen/Qwen3.5-9B}"
+# Single model with native MTP head (no separate draft model)
+MODEL="${MODEL:-Qwen/Qwen3.5-9B}"
 QUICK="${QUICK:-0}"
 FROM_MILESTONE="${FROM_MILESTONE:-0}"
 FORCE_RERUN="${FORCE_RERUN:-0}"
@@ -34,15 +35,14 @@ phase_done() { [ -f "${MARKER_DIR}/M${1}_done" ] && [ "$FORCE_RERUN" = "0" ]; }
 mark_done() { touch "${MARKER_DIR}/M${1}_done"; }
 
 echo "============================================"
-echo " AcceptSpec v2.0 Experiment Pipeline"
+echo " AcceptSpec v3.0 — MTP Self-Speculation"
 echo " $(date) | $(hostname)"
-echo " Draft: $DRAFT_MODEL"
-echo " Target: $TARGET_MODEL"
+echo " Model: $MODEL"
 echo " Quick: $QUICK | From M: $FROM_MILESTONE"
 echo "============================================"
 
 # ------------------------------------------------------------------
-# M0: Oracle sanity check (10 problems, ~2 GPU-hours)
+# M0: Oracle sanity check (10 problems)
 # Decision: Gini > 0.5 → continue, else WARN
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 0 ] && ! phase_done 0; then
@@ -50,8 +50,7 @@ if [ "$FROM_MILESTONE" -le 0 ] && ! phase_done 0; then
     echo "=== M0: Oracle Sanity Check (10 problems) ==="
 
     python scripts/oracle_sensitivity.py \
-        --draft_model "$DRAFT_MODEL" \
-        --target_model "$TARGET_MODEL" \
+        --model "$MODEL" \
         --num_problems 10 \
         --max_tokens 256 \
         --gamma 5 \
@@ -71,16 +70,16 @@ print(d['aggregate']['mean_gini'])
     echo "  M0 Gini: $GINI"
     PASSED=$(python -c "print('yes' if float('$GINI') > 0.5 else 'no')")
     if [ "$PASSED" = "no" ]; then
-        echo "  ⚠️  M0 GATE WARNING: Gini ≤ 0.5. Sparsity may be weak."
+        echo "  M0 GATE WARNING: Gini <= 0.5. Sparsity may be weak."
         echo "  Continuing to M1 for full evaluation..."
     else
-        echo "  ✅ M0 PASS: Gini > 0.5"
+        echo "  M0 PASS: Gini > 0.5"
     fi
     mark_done 0
 fi
 
 # ------------------------------------------------------------------
-# M1: Full oracle study (100 problems, ~10 GPU-hours)
+# M1: Full oracle study (100 problems)
 # Decision: top-20% > 80% → continue, top-20% < 60% → ABORT
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 1 ] && ! phase_done 1; then
@@ -91,8 +90,7 @@ if [ "$FROM_MILESTONE" -le 1 ] && ! phase_done 1; then
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=20
 
     python scripts/oracle_sensitivity.py \
-        --draft_model "$DRAFT_MODEL" \
-        --target_model "$TARGET_MODEL" \
+        --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
         --max_tokens 256 \
         --gamma 5 \
@@ -101,7 +99,6 @@ if [ "$FROM_MILESTONE" -le 1 ] && ! phase_done 1; then
         --output "${RESULTS_DIR}/oracle_m1.json" \
         2>&1 | tee "${LOG_DIR}/M1_oracle_full.log"
 
-    # Check abort gate
     TOP20=$(python -c "
 import json
 with open('${RESULTS_DIR}/oracle_m1.json') as f:
@@ -112,23 +109,21 @@ print(d['aggregate']['top20_coverage'])
     echo "  M1 Top-20% coverage: $TOP20"
     ABORT=$(python -c "print('yes' if float('$TOP20') < 0.6 else 'no')")
     if [ "$ABORT" = "yes" ]; then
-        echo "  ❌ M1 GATE FAILED: Top-20% < 60%. ABORTING PROJECT."
-        echo "  Sparsity assumption does not hold. See results for details."
+        echo "  M1 GATE FAILED: Top-20% < 60%. ABORTING PROJECT."
         exit 1
     fi
 
     STRONG=$(python -c "print('yes' if float('$TOP20') >= 0.8 else 'no')")
     if [ "$STRONG" = "yes" ]; then
-        echo "  ✅ M1 STRONG PASS: Top-20% ≥ 80%"
+        echo "  M1 STRONG PASS: Top-20% >= 80%"
     else
-        echo "  ⚠️  M1 WEAK PASS: Top-20% between 60-80%. Proceed with caution."
+        echo "  M1 WEAK PASS: Top-20% between 60-80%. Proceed with caution."
     fi
     mark_done 1
 fi
 
 # ------------------------------------------------------------------
-# M2: Triple divergence + predictor validation (~15 GPU-hours)
-# Decision: all pairwise ρ < 0.7 → continue
+# M2: Triple divergence + predictor validation
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
     echo ""
@@ -138,8 +133,7 @@ if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=30
 
     python scripts/triple_divergence.py \
-        --draft_model "$DRAFT_MODEL" \
-        --target_model "$TARGET_MODEL" \
+        --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
         --output_dir "${RESULTS_DIR}/divergence" \
         2>&1 | tee "${LOG_DIR}/M2_divergence.log"
@@ -148,8 +142,7 @@ if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
 fi
 
 # ------------------------------------------------------------------
-# M3: Core comparison — 8 retention policies (~40 GPU-hours)
-# Decision: ≥3pp gap over perplexity AND attention
+# M3: Core comparison — 8 retention policies
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
     echo ""
@@ -160,8 +153,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
 
     for DATASET in gsm8k math500; do
         python scripts/core_comparison.py \
-            --draft_model "$DRAFT_MODEL" \
-            --target_model "$TARGET_MODEL" \
+            --model "$MODEL" \
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
             --kv_budget 0.2 \
@@ -171,8 +163,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
 
     # Anti-claim ablation
     python scripts/core_comparison.py \
-        --draft_model "$DRAFT_MODEL" \
-        --target_model "$TARGET_MODEL" \
+        --model "$MODEL" \
         --dataset gsm8k \
         --num_problems $NUM_PROBLEMS \
         --kv_budget 0.2 \
@@ -183,8 +174,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
     # Budget sweep
     for BUDGET in 0.1 0.2 0.3 0.5; do
         python scripts/core_comparison.py \
-            --draft_model "$DRAFT_MODEL" \
-            --target_model "$TARGET_MODEL" \
+            --model "$MODEL" \
             --dataset gsm8k \
             --num_problems 500 \
             --kv_budget $BUDGET \
@@ -196,8 +186,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
 fi
 
 # ------------------------------------------------------------------
-# M4: E2E system benchmark — 9 systems (~35 GPU-hours)
-# Decision: ≥10% latency over naive composition
+# M4: E2E system benchmark
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
     echo ""
@@ -208,8 +197,7 @@ if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
 
     for DATASET in gsm8k math500; do
         python scripts/e2e_benchmark.py \
-            --draft_model "$DRAFT_MODEL" \
-            --target_model "$TARGET_MODEL" \
+            --model "$MODEL" \
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
             --gamma 5 \
@@ -219,8 +207,7 @@ if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
 
     # Profiling
     python scripts/e2e_benchmark.py \
-        --draft_model "$DRAFT_MODEL" \
-        --target_model "$TARGET_MODEL" \
+        --model "$MODEL" \
         --dataset gsm8k \
         --num_problems 50 \
         --gamma 5 \
@@ -232,7 +219,7 @@ if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
 fi
 
 # ------------------------------------------------------------------
-# M5: Robustness + Universality (~50 GPU-hours)
+# M5: Robustness + Universality
 # ------------------------------------------------------------------
 if [ "$FROM_MILESTONE" -le 5 ] && ! phase_done 5; then
     echo ""
@@ -241,62 +228,23 @@ if [ "$FROM_MILESTONE" -le 5 ] && ! phase_done 5; then
     NUM_PROBLEMS=200
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=50
 
-    # Temperature sweep
     for TEMP in 0.0 0.3 0.6 0.9; do
         python scripts/oracle_sensitivity.py \
-            --draft_model "$DRAFT_MODEL" \
-            --target_model "$TARGET_MODEL" \
+            --model "$MODEL" \
             --num_problems $NUM_PROBLEMS \
             --temperature $TEMP \
             --output "${RESULTS_DIR}/robustness/oracle_temp_${TEMP}.json" \
             2>&1 | tee -a "${LOG_DIR}/M5_robustness.log"
     done
 
-    # Gamma sweep
     for GAMMA in 3 5 7 10; do
         python scripts/oracle_sensitivity.py \
-            --draft_model "$DRAFT_MODEL" \
-            --target_model "$TARGET_MODEL" \
+            --model "$MODEL" \
             --num_problems $NUM_PROBLEMS \
             --gamma $GAMMA \
             --output "${RESULTS_DIR}/robustness/oracle_gamma_${GAMMA}.json" \
             2>&1 | tee -a "${LOG_DIR}/M5_robustness.log"
     done
-
-    echo ""
-    echo "=== M5: Universality (Llama) ==="
-
-    # Llama cross-model check
-    LLAMA_DRAFT="${LLAMA_DRAFT:-meta-llama/Llama-3.2-3B}"
-    LLAMA_TARGET="${LLAMA_TARGET:-meta-llama/Llama-3.1-8B}"
-
-    LLAMA_OK=$(python -c "
-from transformers import AutoTokenizer
-try:
-    AutoTokenizer.from_pretrained('${LLAMA_DRAFT}', trust_remote_code=True)
-    print('ok')
-except:
-    print('skip')
-" 2>/dev/null || echo "skip")
-
-    if [ "$LLAMA_OK" = "ok" ]; then
-        python scripts/oracle_sensitivity.py \
-            --draft_model "$LLAMA_DRAFT" \
-            --target_model "$LLAMA_TARGET" \
-            --num_problems 50 \
-            --output "${RESULTS_DIR}/universality/oracle_llama.json" \
-            2>&1 | tee "${LOG_DIR}/M5_llama_oracle.log"
-
-        python scripts/e2e_benchmark.py \
-            --draft_model "$LLAMA_DRAFT" \
-            --target_model "$LLAMA_TARGET" \
-            --dataset gsm8k \
-            --num_problems 500 \
-            --output_dir "${RESULTS_DIR}/universality" \
-            2>&1 | tee "${LOG_DIR}/M5_llama_e2e.log"
-    else
-        echo "  [SKIP] Llama models not available."
-    fi
 
     mark_done 5
 fi

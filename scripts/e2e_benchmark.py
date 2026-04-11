@@ -19,8 +19,7 @@ For each system, measures:
 
 Usage:
     python scripts/e2e_benchmark.py \\
-        --draft_model Qwen/Qwen3-0.6B \\
-        --target_model Qwen/Qwen3-8B \\
+        --model Qwen/Qwen3.5-9B \\
         --dataset gsm8k \\
         --num_problems 100 \\
         --gamma 5 \\
@@ -28,8 +27,7 @@ Usage:
 
     # With profiling
     python scripts/e2e_benchmark.py \\
-        --draft_model Qwen/Qwen3-0.6B \\
-        --target_model Qwen/Qwen3-8B \\
+        --model Qwen/Qwen3.5-9B \\
         --dataset gsm8k \\
         --num_problems 50 \\
         --gamma 5 \\
@@ -1626,8 +1624,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="End-to-End System Benchmark (Block 4)"
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--dataset", type=str, default="gsm8k",
                         choices=["gsm8k", "math500"])
     parser.add_argument("--num_problems", type=int, default=100)

@@ -1,21 +1,14 @@
 #!/bin/bash
 # ============================================================================
-# AcceptSpec: Run experiments
+# AcceptSpec v3.0: Run experiments (MTP self-speculation)
 #
-# Everything stays inside the project directory:
-#   .venv/          — Python virtual environment
-#   .cache/hf/      — HuggingFace model cache
-#   results/        — experiment outputs
-#   logs/           — experiment logs
+# Single model with native MTP head — no separate draft model needed.
 #
 # Usage:
-#   bash run.sh                          # full pipeline M0→M5
-#   QUICK=1 bash run.sh                  # quick test (fewer problems)
-#   FROM_MILESTONE=2 bash run.sh         # resume from M2
-#   FORCE_RERUN=1 bash run.sh            # re-run all
-#
-# Models: set DRAFT_MODEL / TARGET_MODEL to local paths or HF names.
-#   DRAFT_MODEL=/path/to/Qwen3.5-0.8B TARGET_MODEL=/path/to/Qwen3.5-9B bash run.sh
+#   bash run.sh                                # full pipeline M0→M5
+#   QUICK=1 bash run.sh                        # quick test
+#   FROM_MILESTONE=2 bash run.sh               # resume from M2
+#   MODEL=/path/to/Qwen3.5-9B bash run.sh      # local model path
 # ============================================================================
 set -euo pipefail
 
@@ -40,10 +33,9 @@ LOG="logs/run_$(date +%Y%m%d_%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 
 echo "============================================"
-echo " AcceptSpec Experiment Pipeline"
+echo " AcceptSpec v3.0 — MTP Self-Speculation"
 echo " $(date) | $(hostname)"
-echo " Draft : ${DRAFT_MODEL:-Qwen/Qwen3.5-0.8B}"
-echo " Target: ${TARGET_MODEL:-Qwen/Qwen3.5-9B}"
+echo " Model : ${MODEL:-Qwen/Qwen3.5-9B}"
 echo " HF_HOME: $HF_HOME"
 echo "============================================"
 

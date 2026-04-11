@@ -19,8 +19,7 @@ Policies (all retain `kv_budget` fraction at FP16, compress rest to 2-bit):
 
 Usage:
     python scripts/core_comparison.py \
-        --draft_model Qwen/Qwen3-0.6B \
-        --target_model Qwen/Qwen3-8B \
+        --model Qwen/Qwen3.5-9B \
         --dataset gsm8k \
         --num_problems 100 \
         --kv_budget 0.2 \
@@ -1197,8 +1196,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Block 3: Core Comparison -- 8 retention policies at same KV budget"
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--dataset", type=str, default="gsm8k",
                         choices=["gsm8k", "math500"])
     parser.add_argument("--num_problems", type=int, default=100)

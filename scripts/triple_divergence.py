@@ -6,8 +6,7 @@ predictor on a 50/50 split and compares F1/precision/recall.
 
 Usage:
     python scripts/triple_divergence.py \
-        --draft_model Qwen/Qwen3-0.6B \
-        --target_model Qwen/Qwen3-8B \
+        --model Qwen/Qwen3.5-9B \
         --num_problems 100 \
         --output_dir results/triple_divergence
 
@@ -900,8 +899,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Block 2: Triple Divergence + Predictor Validation",
     )
-    parser.add_argument("--draft_model", type=str, default="Qwen/Qwen3.5-0.8B")
-    parser.add_argument("--target_model", type=str, default="Qwen/Qwen3.5-9B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B")
     parser.add_argument("--num_problems", type=int, default=100)
     parser.add_argument("--max_tokens", type=int, default=256)
     parser.add_argument("--gamma", type=int, default=5)
