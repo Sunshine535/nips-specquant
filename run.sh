@@ -22,8 +22,8 @@ set -euo pipefail
 PROJ_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJ_DIR"
 
-# --- All caches inside project dir ---
-export HF_HOME="${PROJ_DIR}/.cache/hf"
+# --- HF cache: default to parent dir of project ---
+export HF_HOME="${HF_HOME:-$(dirname "$PROJ_DIR")/.cache/hf}"
 export TOKENIZERS_PARALLELISM=false
 export PYTHONPATH="${PROJ_DIR}:${PYTHONPATH:-}"
 mkdir -p "$HF_HOME" logs results
