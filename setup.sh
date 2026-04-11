@@ -1,10 +1,16 @@
 #!/bin/bash
 set -e
 PROJ_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$PROJ_DIR"
+
+# All caches inside project dir
+export HF_HOME="${PROJ_DIR}/.cache/hf"
+mkdir -p "$HF_HOME"
 
 echo "============================================"
-echo " specquant: Environment Setup"
+echo " AcceptSpec: Environment Setup"
 echo " $(date)"
+echo " HF_HOME: $HF_HOME"
 echo "============================================"
 
 # --- Find Python >= 3.10 ---
