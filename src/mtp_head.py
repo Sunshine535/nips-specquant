@@ -1,15 +1,8 @@
 """Qwen3.5 Multi-Token Prediction (MTP) head for self-speculative decoding.
 
-Loads the MTP weights from a Qwen3.5 checkpoint (under the `mtp.` prefix)
-that HuggingFace transformers ignores by default.  Shares embed_tokens and
-lm_head with the main model.
-
-Architecture (from Qwen3.5 config):
-    input_ids  → embed_tokens (shared) → RMSNorm (pre_fc_norm_embedding)
-    hidden_states                       → RMSNorm (pre_fc_norm_hidden)
-    concat([emb, hidden], dim=-1)       → Linear(2d → d)
-    → single full-attention decoder layer (own KV cache)
-    → RMSNorm → lm_head (shared) → logits
+Loads the MTP weights from a Qwen3.5 checkpoint (under the ``mtp.`` prefix)
+that HuggingFace transformers ignores by default.  Reuses the model's own
+decoder layer class to guarantee architecture compatibility.
 
 Usage:
     mtp = Qwen35MTPHead.from_pretrained("Qwen/Qwen3.5-9B", main_model)
@@ -18,6 +11,7 @@ Usage:
 
 from __future__ import annotations
 
+import copy
 import glob
 import logging
 import os
@@ -31,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Lightweight RMSNorm (avoids transformers version dependency)
+# Lightweight RMSNorm
 # ---------------------------------------------------------------------------
 
 class RMSNorm(nn.Module):
@@ -47,173 +41,30 @@ class RMSNorm(nn.Module):
 
 
 # ---------------------------------------------------------------------------
-# Simplified attention layer for the MTP head
-# ---------------------------------------------------------------------------
-
-class MTPAttention(nn.Module):
-    """Grouped-query attention for the MTP decoder layer."""
-
-    def __init__(
-        self,
-        hidden_size: int,
-        num_heads: int,
-        num_kv_heads: int,
-        head_dim: int,
-        max_position_embeddings: int = 131072,
-        rope_theta: float = 1000000.0,
-    ):
-        super().__init__()
-        self.num_heads = num_heads
-        self.num_kv_heads = num_kv_heads
-        self.head_dim = head_dim
-        self.num_kv_groups = num_heads // num_kv_heads
-
-        self.q_proj = nn.Linear(hidden_size, num_heads * head_dim, bias=False)
-        self.k_proj = nn.Linear(hidden_size, num_kv_heads * head_dim, bias=False)
-        self.v_proj = nn.Linear(hidden_size, num_kv_heads * head_dim, bias=False)
-        self.o_proj = nn.Linear(num_heads * head_dim, hidden_size, bias=False)
-
-        self.q_norm = RMSNorm(head_dim)
-        self.k_norm = RMSNorm(head_dim)
-
-        # RoPE
-        self.rope_theta = rope_theta
-        self._rope_cache: Optional[Tuple[torch.Tensor, torch.Tensor]] = None
-        self._rope_max_len = 0
-
-    def _build_rope(self, seq_len: int, device: torch.device, dtype: torch.dtype):
-        if self._rope_cache is not None and seq_len <= self._rope_max_len:
-            return
-        inv_freq = 1.0 / (
-            self.rope_theta
-            ** (torch.arange(0, self.head_dim, 2, device=device, dtype=torch.float32) / self.head_dim)
-        )
-        t = torch.arange(max(seq_len, 4096), device=device, dtype=torch.float32)
-        freqs = torch.outer(t, inv_freq)
-        self._rope_cache = (freqs.cos().to(dtype), freqs.sin().to(dtype))
-        self._rope_max_len = max(seq_len, 4096)
-
-    def _apply_rope(self, x: torch.Tensor, positions: torch.Tensor) -> torch.Tensor:
-        cos, sin = self._rope_cache
-        cos = cos[positions].unsqueeze(1)  # [B, 1, seq, dim//2]
-        sin = sin[positions].unsqueeze(1)
-        x1, x2 = x[..., : self.head_dim // 2], x[..., self.head_dim // 2 :]
-        return torch.cat([x1 * cos - x2 * sin, x2 * cos + x1 * sin], dim=-1)
-
-    def forward(
-        self,
-        hidden_states: torch.Tensor,
-        position_ids: torch.Tensor,
-        past_key_value: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
-    ) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Optional[torch.Tensor]]:
-        bsz, seq_len, _ = hidden_states.shape
-        device = hidden_states.device
-
-        q = self.q_proj(hidden_states).view(bsz, seq_len, self.num_heads, self.head_dim).transpose(1, 2)
-        k = self.k_proj(hidden_states).view(bsz, seq_len, self.num_kv_heads, self.head_dim).transpose(1, 2)
-        v = self.v_proj(hidden_states).view(bsz, seq_len, self.num_kv_heads, self.head_dim).transpose(1, 2)
-
-        q = self.q_norm(q)
-        k = self.k_norm(k)
-
-        self._build_rope(position_ids.max().item() + 1, device, q.dtype)
-        q = self._apply_rope(q, position_ids)
-        k = self._apply_rope(k, position_ids)
-
-        if past_key_value is not None:
-            k = torch.cat([past_key_value[0], k], dim=2)
-            v = torch.cat([past_key_value[1], v], dim=2)
-        new_kv = (k, v)
-
-        # GQA: expand KV heads
-        if self.num_kv_groups > 1:
-            k = k.unsqueeze(2).expand(-1, -1, self.num_kv_groups, -1, -1).reshape(bsz, self.num_heads, -1, self.head_dim)
-            v = v.unsqueeze(2).expand(-1, -1, self.num_kv_groups, -1, -1).reshape(bsz, self.num_heads, -1, self.head_dim)
-
-        # Scaled dot-product attention
-        attn_weights = torch.matmul(q, k.transpose(-2, -1)) / (self.head_dim ** 0.5)
-
-        # Causal mask
-        kv_len = k.shape[2]
-        if seq_len > 1:
-            causal = torch.triu(torch.full((seq_len, kv_len), float("-inf"), device=device), diagonal=kv_len - seq_len + 1)
-            attn_weights = attn_weights + causal.unsqueeze(0).unsqueeze(0)
-
-        attn_weights = F.softmax(attn_weights, dim=-1, dtype=torch.float32).to(q.dtype)
-        attn_output = torch.matmul(attn_weights, v)
-        attn_output = attn_output.transpose(1, 2).reshape(bsz, seq_len, -1)
-
-        return self.o_proj(attn_output), new_kv, attn_weights
-
-
-class MTPDecoderLayer(nn.Module):
-    """Single decoder layer for MTP head (full attention, not GatedDeltaNet)."""
-
-    def __init__(self, config: Dict):
-        super().__init__()
-        hidden = config["hidden_size"]
-        intermediate = config.get("intermediate_size", hidden * 4)
-        num_heads = config["num_attention_heads"]
-        num_kv_heads = config.get("num_key_value_heads", num_heads)
-        head_dim = config.get("head_dim", hidden // num_heads)
-
-        self.self_attn = MTPAttention(
-            hidden_size=hidden,
-            num_heads=num_heads,
-            num_kv_heads=num_kv_heads,
-            head_dim=head_dim,
-            rope_theta=config.get("rope_theta", 1000000.0),
-        )
-        self.input_layernorm = RMSNorm(hidden)
-        self.post_attention_layernorm = RMSNorm(hidden)
-
-        # SwiGLU MLP
-        self.gate_proj = nn.Linear(hidden, intermediate, bias=False)
-        self.up_proj = nn.Linear(hidden, intermediate, bias=False)
-        self.down_proj = nn.Linear(intermediate, hidden, bias=False)
-
-    def forward(
-        self,
-        hidden_states: torch.Tensor,
-        position_ids: torch.Tensor,
-        past_key_value: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
-    ) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Optional[torch.Tensor]]:
-        residual = hidden_states
-        hidden_states = self.input_layernorm(hidden_states)
-        attn_out, new_kv, attn_weights = self.self_attn(hidden_states, position_ids, past_key_value)
-        hidden_states = residual + attn_out
-
-        residual = hidden_states
-        hidden_states = self.post_attention_layernorm(hidden_states)
-        hidden_states = self.down_proj(F.silu(self.gate_proj(hidden_states)) * self.up_proj(hidden_states))
-        hidden_states = residual + hidden_states
-
-        return hidden_states, new_kv, attn_weights
-
-
-# ---------------------------------------------------------------------------
-# MTP Head
+# MTP Head — uses the model's own decoder layer class
 # ---------------------------------------------------------------------------
 
 class Qwen35MTPHead(nn.Module):
     """Qwen3.5 MTP head for self-speculative decoding.
 
     Loads ``mtp.*`` weights from checkpoint.  Shares ``embed_tokens`` and
-    ``lm_head`` with the main model (no extra copies).
+    ``lm_head`` with the main model.  Uses the model's own decoder layer
+    class (copied from the first full-attention layer) to guarantee
+    architecture compatibility.
     """
 
-    def __init__(self, config: Dict, embed_tokens: nn.Embedding, lm_head: nn.Linear):
+    def __init__(self, hidden_size: int, embed_tokens: nn.Embedding,
+                 lm_head: nn.Linear, decoder_layer: nn.Module, rms_eps: float = 1e-6):
         super().__init__()
-        hidden = config["hidden_size"]
+        self.hidden_size = hidden_size
+        self.embed_tokens = embed_tokens  # shared
+        self.lm_head = lm_head            # shared
 
-        self.embed_tokens = embed_tokens  # shared, not owned
-        self.lm_head = lm_head            # shared, not owned
-
-        self.pre_fc_norm_embedding = RMSNorm(hidden)
-        self.pre_fc_norm_hidden = RMSNorm(hidden)
-        self.fc = nn.Linear(hidden * 2, hidden, bias=False)
-        self.layer = MTPDecoderLayer(config)
-        self.norm = RMSNorm(hidden)
+        self.pre_fc_norm_embedding = RMSNorm(hidden_size, eps=rms_eps)
+        self.pre_fc_norm_hidden = RMSNorm(hidden_size, eps=rms_eps)
+        self.fc = nn.Linear(hidden_size * 2, hidden_size, bias=False)
+        self.layer = decoder_layer  # actual model decoder layer
+        self.norm = RMSNorm(hidden_size, eps=rms_eps)
 
     @classmethod
     def from_pretrained(
@@ -223,24 +74,21 @@ class Qwen35MTPHead(nn.Module):
         device: Optional[torch.device] = None,
         dtype: Optional[torch.dtype] = None,
     ) -> "Qwen35MTPHead":
-        """Load MTP head from a Qwen3.5 checkpoint.
+        """Load MTP head from a Qwen3.5 checkpoint."""
 
-        Extracts ``mtp.*`` weights from safetensors files and builds the head,
-        sharing embed_tokens and lm_head with *main_model*.
-        """
-        # Get config from the main model (most reliable — already loaded)
+        # Get config
         model_config = main_model.config
         if hasattr(model_config, "text_config"):
             model_config = model_config.text_config
-        cfg = model_config.to_dict() if hasattr(model_config, "to_dict") else vars(model_config)
-        logger.info("MTP config: hidden_size=%s, num_attention_heads=%s, mtp_num_hidden_layers=%s",
-                     cfg.get("hidden_size"), cfg.get("num_attention_heads"),
-                     cfg.get("mtp_num_hidden_layers", "N/A"))
+        hidden_size = model_config.hidden_size
+        rms_eps = getattr(model_config, "rms_norm_eps", 1e-6)
 
-        # Get shared modules from main model
+        logger.info("MTP config: hidden_size=%d, rms_eps=%s", hidden_size, rms_eps)
+
+        # Get shared modules
         embed = _find_module(main_model, "embed_tokens")
-        lm_head = _find_module(main_model, "lm_head")
-        if embed is None or lm_head is None:
+        lm_head_mod = _find_module(main_model, "lm_head")
+        if embed is None or lm_head_mod is None:
             raise RuntimeError("Cannot find embed_tokens / lm_head on main model")
 
         if device is None:
@@ -248,45 +96,31 @@ class Qwen35MTPHead(nn.Module):
         if dtype is None:
             dtype = next(main_model.parameters()).dtype
 
-        # Load mtp.* weights from checkpoint FIRST to infer actual dimensions
+        # Find a full-attention decoder layer to clone as MTP layer
+        decoder_layer = _clone_full_attn_layer(main_model)
+        if decoder_layer is None:
+            raise RuntimeError(
+                "Cannot find a full-attention decoder layer in the model. "
+                "Is this a Qwen3.5 model?"
+            )
+        logger.info("Cloned decoder layer type: %s", type(decoder_layer).__name__)
+
+        head = cls(hidden_size, embed, lm_head_mod, decoder_layer, rms_eps)
+
+        # Load mtp.* weights
         mtp_weights = _load_mtp_weights(model_name_or_path)
         if not mtp_weights:
-            raise FileNotFoundError(
-                f"No mtp.* weights found in {model_name_or_path}. "
-                "Is this a Qwen3.5 model with MTP?"
-            )
-
-        # Infer attention dimensions from actual weight shapes
-        q_key = next((k for k in mtp_weights if "q_proj.weight" in k), None)
-        k_key = next((k for k in mtp_weights if "k_proj.weight" in k), None)
-        if q_key and k_key:
-            q_out_dim = mtp_weights[q_key].shape[0]  # num_heads * head_dim
-            k_out_dim = mtp_weights[k_key].shape[0]  # num_kv_heads * head_dim
-            hidden = cfg["hidden_size"]
-            # Solve: num_heads * head_dim = q_out_dim, num_kv_heads * head_dim = k_out_dim
-            # num_heads / num_kv_heads = q_out_dim / k_out_dim
-            num_heads = cfg.get("num_attention_heads", 16)
-            head_dim = q_out_dim // num_heads
-            num_kv_heads = k_out_dim // head_dim
-            cfg = dict(cfg)  # make a copy
-            cfg["head_dim"] = head_dim
-            cfg["num_key_value_heads"] = num_kv_heads
-            logger.info("MTP attention (from weights): num_heads=%d, num_kv_heads=%d, head_dim=%d",
-                        num_heads, num_kv_heads, head_dim)
-
-        head = cls(cfg, embed, lm_head)
+            raise FileNotFoundError(f"No mtp.* weights in {model_name_or_path}")
 
         # Map checkpoint keys → module keys
         state = {}
         for ck, tensor in mtp_weights.items():
-            # Strip "mtp." prefix
             key = ck[4:] if ck.startswith("mtp.") else ck
-            # Map layers.0.* → layer.*
             key = key.replace("layers.0.", "layer.")
             state[key] = tensor.to(dtype=dtype)
 
         missing, unexpected = head.load_state_dict(state, strict=False)
-        # embed_tokens and lm_head are shared, not in state_dict
+        # Filter out shared modules
         missing = [k for k in missing if "embed_tokens" not in k and "lm_head" not in k]
         if missing:
             logger.warning("MTP head missing keys: %s", missing)
@@ -295,11 +129,12 @@ class Qwen35MTPHead(nn.Module):
 
         head = head.to(device=device, dtype=dtype)
         head.eval()
-        logger.info(
-            "Loaded Qwen3.5 MTP head (%d params, device=%s, dtype=%s)",
-            sum(p.numel() for p in head.parameters() if p not in list(embed.parameters()) + list(lm_head.parameters())),
-            device, dtype,
+
+        own_params = sum(
+            p.numel() for n, p in head.named_parameters()
+            if "embed_tokens" not in n and "lm_head" not in n
         )
+        logger.info("MTP head loaded: %.1fM own params, device=%s", own_params / 1e6, device)
         return head
 
     @torch.no_grad()
@@ -308,21 +143,20 @@ class Qwen35MTPHead(nn.Module):
         input_ids: torch.Tensor,
         hidden_states: torch.Tensor,
         position_ids: torch.Tensor,
-        past_key_value: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
-    ) -> Tuple[torch.Tensor, torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Optional[torch.Tensor]]:
+        past_key_values: Any = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor, Any]:
         """Single MTP step.
 
         Args:
-            input_ids:     [B, 1] last predicted token
-            hidden_states: [B, 1, D] from main model or previous MTP step
-            position_ids:  [B, 1]
-            past_key_value: MTP layer KV cache (tuple of K, V)
+            input_ids:      [B, 1] last predicted token
+            hidden_states:  [B, 1, D] from main model or previous MTP step
+            position_ids:   [B, 1]
+            past_key_values: cache object for the MTP layer
 
         Returns:
-            logits:        [B, 1, V]
-            hidden_states: [B, 1, D] for next MTP step
-            past_key_value: updated MTP KV cache
-            attn_weights:  [B, H, 1, kv_len] from MTP attention
+            logits:         [B, 1, V]
+            hidden_states:  [B, 1, D] for next MTP step
+            past_key_values: updated cache
         """
         emb = self.embed_tokens(input_ids)
         if emb.dim() == 2:
@@ -336,11 +170,25 @@ class Qwen35MTPHead(nn.Module):
         fused = torch.cat([emb, hidden_states], dim=-1)
         fused = self.fc(fused)
 
-        fused, new_kv, attn_weights = self.layer(fused, position_ids, past_key_value)
+        # Call the decoder layer — use the model's native interface
+        layer_out = self.layer(
+            fused,
+            position_ids=position_ids,
+            past_key_value=past_key_values,
+            use_cache=True,
+        )
+        # Decoder layers return (hidden_states, ...) or (hidden_states, present_kv, ...)
+        if isinstance(layer_out, tuple):
+            fused = layer_out[0]
+            new_kv = layer_out[1] if len(layer_out) > 1 else None
+        else:
+            fused = layer_out
+            new_kv = None
+
         normed = self.norm(fused)
         logits = self.lm_head(normed)
 
-        return logits, fused, new_kv, attn_weights
+        return logits, fused, new_kv
 
     @torch.no_grad()
     def draft(
@@ -350,21 +198,13 @@ class Qwen35MTPHead(nn.Module):
         start_position: int,
         gamma: int,
         temperature: float = 1.0,
-    ) -> Tuple[torch.Tensor, List[torch.Tensor], List[torch.Tensor], List[Optional[torch.Tensor]]]:
+    ) -> Tuple[torch.Tensor, List[torch.Tensor], List[torch.Tensor]]:
         """Multi-step MTP drafting.
-
-        Args:
-            start_token:   [B] the token just generated by the main model
-            hidden_states: [B, D] last hidden state from main model
-            start_position: current sequence position
-            gamma:         number of tokens to draft
-            temperature:   sampling temperature
 
         Returns:
             draft_tokens: [gamma] drafted token ids
             draft_probs:  list of [V] probability vectors per step
             draft_hiddens: list of [B, D] hidden states per step
-            draft_attns:  list of attention weights per step
         """
         device = hidden_states.device
         temp = max(temperature, 1e-8)
@@ -372,7 +212,6 @@ class Qwen35MTPHead(nn.Module):
         tokens = []
         probs_list = []
         hiddens = []
-        attns = []
         mtp_kv = None
 
         cur_token = start_token.view(1, 1)
@@ -381,7 +220,7 @@ class Qwen35MTPHead(nn.Module):
         for step in range(gamma):
             pos = torch.tensor([[start_position + step + 1]], device=device)
 
-            logits, cur_hidden, mtp_kv, attn_w = self.forward(
+            logits, cur_hidden, mtp_kv = self.forward(
                 cur_token, cur_hidden, pos, mtp_kv,
             )
 
@@ -391,16 +230,14 @@ class Qwen35MTPHead(nn.Module):
             tokens.append(tok.cpu())
             probs_list.append(p.cpu())
             hiddens.append(cur_hidden.squeeze(1).cpu())
-            if attn_w is not None:
-                attns.append(attn_w.cpu())
 
             cur_token = tok.view(1, 1)
 
-        return torch.stack(tokens), probs_list, hiddens, attns
+        return torch.stack(tokens), probs_list, hiddens
 
 
 # ---------------------------------------------------------------------------
-# Weight loading helpers
+# Helpers
 # ---------------------------------------------------------------------------
 
 def _find_module(model: nn.Module, name: str) -> Optional[nn.Module]:
@@ -411,12 +248,41 @@ def _find_module(model: nn.Module, name: str) -> Optional[nn.Module]:
     return None
 
 
+def _clone_full_attn_layer(model: nn.Module) -> Optional[nn.Module]:
+    """Find and deep-copy a full-attention decoder layer from the model.
+
+    For Qwen3.5 hybrid models, selects a layer with ``self_attn``
+    (not ``linear_attn`` / GatedDeltaNet).
+    """
+    # Find decoder layers
+    layers = None
+    for attr_chain in (("model", "layers"), ("transformer", "h"), ("transformer", "layers")):
+        obj = model
+        for attr in attr_chain:
+            obj = getattr(obj, attr, None)
+            if obj is None:
+                break
+        if obj is not None and hasattr(obj, "__len__"):
+            layers = list(obj)
+            break
+
+    if not layers:
+        return None
+
+    # Find a full-attention layer (has self_attn, not linear_attn)
+    for layer in layers:
+        if hasattr(layer, "self_attn") and not hasattr(layer, "linear_attn"):
+            return copy.deepcopy(layer)
+
+    # Fallback: first layer
+    return copy.deepcopy(layers[0])
+
+
 def _load_mtp_weights(model_name_or_path: str) -> Dict[str, torch.Tensor]:
-    """Load all mtp.* weights from safetensors files in a model directory."""
+    """Load all mtp.* weights from safetensors files."""
     from huggingface_hub import snapshot_download
     from safetensors import safe_open
 
-    # Resolve to local path
     if os.path.isdir(model_name_or_path):
         model_dir = model_name_or_path
     else:
