@@ -248,15 +248,33 @@ class Qwen35MTPHead(nn.Module):
         if dtype is None:
             dtype = next(main_model.parameters()).dtype
 
-        head = cls(cfg, embed, lm_head)
-
-        # Load mtp.* weights from checkpoint
+        # Load mtp.* weights from checkpoint FIRST to infer actual dimensions
         mtp_weights = _load_mtp_weights(model_name_or_path)
         if not mtp_weights:
             raise FileNotFoundError(
                 f"No mtp.* weights found in {model_name_or_path}. "
                 "Is this a Qwen3.5 model with MTP?"
             )
+
+        # Infer attention dimensions from actual weight shapes
+        q_key = next((k for k in mtp_weights if "q_proj.weight" in k), None)
+        k_key = next((k for k in mtp_weights if "k_proj.weight" in k), None)
+        if q_key and k_key:
+            q_out_dim = mtp_weights[q_key].shape[0]  # num_heads * head_dim
+            k_out_dim = mtp_weights[k_key].shape[0]  # num_kv_heads * head_dim
+            hidden = cfg["hidden_size"]
+            # Solve: num_heads * head_dim = q_out_dim, num_kv_heads * head_dim = k_out_dim
+            # num_heads / num_kv_heads = q_out_dim / k_out_dim
+            num_heads = cfg.get("num_attention_heads", 16)
+            head_dim = q_out_dim // num_heads
+            num_kv_heads = k_out_dim // head_dim
+            cfg = dict(cfg)  # make a copy
+            cfg["head_dim"] = head_dim
+            cfg["num_key_value_heads"] = num_kv_heads
+            logger.info("MTP attention (from weights): num_heads=%d, num_kv_heads=%d, head_dim=%d",
+                        num_heads, num_kv_heads, head_dim)
+
+        head = cls(cfg, embed, lm_head)
 
         # Map checkpoint keys → module keys
         state = {}
