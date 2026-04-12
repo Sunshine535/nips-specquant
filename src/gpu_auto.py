@@ -220,10 +220,8 @@ def load_model_mtp(
         trust_remote_code=trust_remote_code,
     )
     if plan.num_gpus >= 2:
-        # Use 2 GPUs max for 9B model — avoid complex multi-device hook issues
         kwargs["device_map"] = "auto"
-        kwargs["max_memory"] = {0: "70GiB", 1: "70GiB"}
-        logger.info("Loading model: %s → device_map='auto' (2 GPUs)", model_name)
+        logger.info("Loading model: %s → device_map='auto' (%d GPUs)", model_name, plan.num_gpus)
     elif plan.num_gpus == 1:
         kwargs["device_map"] = "cuda:0"
         logger.info("Loading model: %s → cuda:0", model_name)

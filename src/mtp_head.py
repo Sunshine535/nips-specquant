@@ -166,19 +166,24 @@ class Qwen35MTPHead(nn.Module):
             hidden_states:  [B, 1, D] for next MTP step
             past_key_values: updated cache
         """
-        emb = self.embed_tokens(input_ids)
+        # MTP head device (where fc/layer weights live)
+        mtp_device = self.fc.weight.device
+
+        emb = self.embed_tokens(input_ids.to(self.embed_tokens.weight.device))
         if emb.dim() == 2:
             emb = emb.unsqueeze(1)
         if hidden_states.dim() == 2:
             hidden_states = hidden_states.unsqueeze(1)
 
-        emb = self.pre_fc_norm_embedding(emb)
-        hidden_states = self.pre_fc_norm_hidden(hidden_states)
+        # Move everything to MTP head's device
+        emb = self.pre_fc_norm_embedding(emb.to(mtp_device))
+        hidden_states = self.pre_fc_norm_hidden(hidden_states.to(mtp_device))
 
         fused = torch.cat([emb, hidden_states], dim=-1)
         fused = self.fc(fused)
 
         # Compute position embeddings (RoPE cos/sin) from position_ids
+        position_ids = position_ids.to(mtp_device)
         position_embeddings = None
         if self.rotary_emb is not None:
             position_embeddings = self.rotary_emb(fused, position_ids)
