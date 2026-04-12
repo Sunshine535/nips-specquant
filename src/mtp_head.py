@@ -55,11 +55,13 @@ class Qwen35MTPHead(nn.Module):
     """
 
     def __init__(self, hidden_size: int, embed_tokens: nn.Embedding,
-                 lm_head: nn.Linear, decoder_layer: nn.Module, rms_eps: float = 1e-6):
+                 lm_head: nn.Linear, decoder_layer: nn.Module,
+                 rotary_emb: nn.Module, rms_eps: float = 1e-6):
         super().__init__()
         self.hidden_size = hidden_size
         self.embed_tokens = embed_tokens  # shared
         self.lm_head = lm_head            # shared
+        self.rotary_emb = rotary_emb      # shared — for computing position_embeddings
 
         self.pre_fc_norm_embedding = RMSNorm(hidden_size, eps=rms_eps)
         self.pre_fc_norm_hidden = RMSNorm(hidden_size, eps=rms_eps)
@@ -97,6 +99,11 @@ class Qwen35MTPHead(nn.Module):
         if dtype is None:
             dtype = next(main_model.parameters()).dtype
 
+        # Find the rotary embedding module (shared, not cloned)
+        rotary_emb = _find_module(main_model, "rotary_emb")
+        if rotary_emb is None:
+            logger.warning("rotary_emb not found — decoder layer may handle RoPE internally")
+
         # Find a full-attention decoder layer to clone as MTP layer
         decoder_layer = _clone_full_attn_layer(main_model)
         if decoder_layer is None:
@@ -106,7 +113,7 @@ class Qwen35MTPHead(nn.Module):
             )
         logger.info("Cloned decoder layer type: %s", type(decoder_layer).__name__)
 
-        head = cls(hidden_size, embed, lm_head_mod, decoder_layer, rms_eps)
+        head = cls(hidden_size, embed, lm_head_mod, decoder_layer, rotary_emb, rms_eps)
 
         # Load mtp.* weights
         mtp_weights = _load_mtp_weights(model_name_or_path)
@@ -171,13 +178,21 @@ class Qwen35MTPHead(nn.Module):
         fused = torch.cat([emb, hidden_states], dim=-1)
         fused = self.fc(fused)
 
+        # Compute position embeddings (RoPE cos/sin) from position_ids
+        position_embeddings = None
+        if self.rotary_emb is not None:
+            position_embeddings = self.rotary_emb(fused, position_ids)
+
         # Call the decoder layer — use the model's native interface
-        layer_out = self.layer(
-            fused,
-            position_ids=position_ids,
-            past_key_value=past_key_values,
-            use_cache=True,
-        )
+        layer_kwargs = dict(use_cache=True)
+        if position_embeddings is not None:
+            layer_kwargs["position_embeddings"] = position_embeddings
+        else:
+            layer_kwargs["position_ids"] = position_ids
+        if past_key_values is not None:
+            layer_kwargs["past_key_value"] = past_key_values
+
+        layer_out = self.layer(fused, **layer_kwargs)
         # Decoder layers return (hidden_states, ...) or (hidden_states, present_kv, ...)
         if isinstance(layer_out, tuple):
             fused = layer_out[0]
