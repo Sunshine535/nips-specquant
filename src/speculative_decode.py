@@ -216,11 +216,19 @@ class SpeculativeDecoder:
             raise ValueError("Either mtp_head or draft_model must be provided")
 
         self.target_model.eval()
-        self.target_device = next(target_model.parameters()).device
+        # For device_map="auto" models, input must go to embed_tokens' device
+        if hasattr(target_model, "hf_device_map") and target_model.hf_device_map:
+            # Find embed_tokens device (where inputs should land)
+            for key, dev in target_model.hf_device_map.items():
+                self.target_device = torch.device(dev) if isinstance(dev, (str, int)) else dev
+                break  # first entry is typically embed_tokens
+            logger.info("Multi-GPU model, input device: %s", self.target_device)
+        else:
+            self.target_device = next(target_model.parameters()).device
 
         if self.use_mtp:
             logger.info("Speculative decoding: MTP self-speculation mode")
-            self.draft_device = self.target_device  # MTP head lives on target device
+            self.draft_device = self.target_device
         else:
             self.draft_model.eval()
             self.draft_device = next(draft_model.parameters()).device
