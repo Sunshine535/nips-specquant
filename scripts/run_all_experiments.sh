@@ -49,7 +49,7 @@ if [ "$FROM_MILESTONE" -le 0 ] && ! phase_done 0; then
     echo ""
     echo "=== M0: Oracle Sanity Check (10 problems) ==="
 
-    python scripts/oracle_sensitivity.py \
+    bash scripts/parallel_run.sh scripts/oracle_sensitivity.py \
         --model "$MODEL" \
         --num_problems 10 \
         --max_tokens 256 \
@@ -89,7 +89,7 @@ if [ "$FROM_MILESTONE" -le 1 ] && ! phase_done 1; then
     NUM_PROBLEMS=100
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=20
 
-    python scripts/oracle_sensitivity.py \
+    bash scripts/parallel_run.sh scripts/oracle_sensitivity.py \
         --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
         --max_tokens 256 \

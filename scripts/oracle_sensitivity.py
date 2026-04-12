@@ -88,9 +88,16 @@ def run_oracle_study(args):
         sample_fraction=args.sample_fraction,
     )
 
-    # Load problems
+    # Load problems (with optional sharding for parallel execution)
     logger.info("Loading GSM8K (%d problems)...", args.num_problems)
     problems = load_gsm8k(args.num_problems)
+    if args.shard is not None and args.num_shards is not None:
+        shard_size = len(problems) // args.num_shards
+        start = args.shard * shard_size
+        end = start + shard_size if args.shard < args.num_shards - 1 else len(problems)
+        problems = problems[start:end]
+        logger.info("Shard %d/%d: problems [%d, %d) (%d problems)",
+                     args.shard, args.num_shards, start, end, len(problems))
 
     # Run study
     all_sensitivities = []
@@ -410,6 +417,10 @@ def main():
     parser.add_argument("--samples_per_step", type=int, default=50)
     parser.add_argument("--sample_fraction", type=float, default=0.2)
     parser.add_argument("--output", type=str, default="results/oracle_sensitivity.json")
+    parser.add_argument("--shard", type=int, default=None,
+                        help="Shard index (0-based) for parallel execution")
+    parser.add_argument("--num_shards", type=int, default=None,
+                        help="Total number of shards for parallel execution")
     args = parser.parse_args()
     run_oracle_study(args)
 
