@@ -298,9 +298,8 @@ def run_instrumented_sd(
                 tok = cur_logits.argmax(dim=-1).item()
                 probs = torch.softmax(cur_logits, dim=-1)
 
-            prob_val = probs.squeeze(0)[tok].item()
             draft_tokens_list.append(tok)
-            draft_probs_list.append(prob_val)
+            draft_probs_list.append(probs.squeeze(0).cpu())  # full vocab distribution
 
             # Feed drafted token through target model to get hidden state for next MTP prediction
             tok_tensor = torch.tensor([[tok]], device=target_device)
@@ -311,7 +310,7 @@ def run_instrumented_sd(
             cur_logits = mtp_logits.squeeze(1)
 
         draft_tokens = torch.tensor(draft_tokens_list, device=target_device)
-        draft_probs = torch.tensor(draft_probs_list)
+        draft_probs = draft_probs_list  # list of [vocab_size] tensors
 
         # Generate coupled random seeds for paired comparison
         coupled_seeds = torch.rand(cur_gamma)
