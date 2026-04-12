@@ -348,6 +348,11 @@ def run_instrumented_sd(
         verify_logits = verify_out.logits
 
         # Rejection sampling
+        # DEBUG: check draft_probs structure
+        if n_steps <= 2:
+            logger.info("DEBUG draft_probs type=%s len=%s", type(draft_probs).__name__, len(draft_probs))
+            for di, dp in enumerate(draft_probs):
+                logger.info("  draft_probs[%d]: type=%s shape=%s dtype=%s", di, type(dp).__name__, getattr(dp, 'shape', 'N/A'), getattr(dp, 'dtype', 'N/A'))
         n_acc, accepted = decoder._rejection_sample(
             target_next_logits, verify_logits,
             draft_tokens, draft_probs,
