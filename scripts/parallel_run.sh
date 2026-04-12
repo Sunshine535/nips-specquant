@@ -1,28 +1,26 @@
 #!/bin/bash
 # ============================================================================
-# Parallel launcher: run a Python script across N GPUs (1 model per GPU)
+# Parallel launcher: run a Python script across GPUs
+#
+# Strategy: 2 GPUs per model instance (9B needs >80GB with KV cache)
+#   8 GPUs → 4 parallel instances
+#   4 GPUs → 2 parallel instances
+#   2 GPUs → 1 instance
 #
 # Usage:
-#   bash scripts/parallel_run.sh <script.py> [args...] --num_shards N
-#
-# Example:
 #   bash scripts/parallel_run.sh scripts/oracle_sensitivity.py \
 #       --model Qwen/Qwen3.5-9B --num_problems 100 --output results/oracle.json
-#
-# This will launch N parallel processes (one per GPU), each with:
-#   CUDA_VISIBLE_DEVICES=X python <script.py> [args...] --shard I --num_shards N
-#   --output results/oracle_shard_I.json
-#
-# Then merges shard results into the final output.
 # ============================================================================
 set -euo pipefail
 
-# Detect GPUs
 NUM_GPUS=$(python3 -c "import torch; print(torch.cuda.device_count())" 2>/dev/null || echo 1)
-echo "[parallel] $NUM_GPUS GPUs detected"
+GPUS_PER_INSTANCE=2
+NUM_INSTANCES=$((NUM_GPUS / GPUS_PER_INSTANCE))
+[ "$NUM_INSTANCES" -lt 1 ] && NUM_INSTANCES=1
 
-# Parse: find --num_shards or default to NUM_GPUS
-NUM_SHARDS=$NUM_GPUS
+echo "[parallel] $NUM_GPUS GPUs, $GPUS_PER_INSTANCE per instance → $NUM_INSTANCES parallel instances"
+
+# Parse script and args
 SCRIPT=""
 ARGS=()
 OUTPUT=""
@@ -34,12 +32,9 @@ for arg in "$@"; do
     fi
 done
 
-# Extract --output from args
+# Extract --output
 for i in "${!ARGS[@]}"; do
     if [ "${ARGS[$i]}" = "--output" ] && [ $((i+1)) -lt ${#ARGS[@]} ]; then
-        OUTPUT="${ARGS[$((i+1))]}"
-    fi
-    if [ "${ARGS[$i]}" = "--output_dir" ] && [ $((i+1)) -lt ${#ARGS[@]} ]; then
         OUTPUT="${ARGS[$((i+1))]}"
     fi
 done
@@ -49,17 +44,17 @@ if [ -z "$SCRIPT" ]; then
     exit 1
 fi
 
-echo "[parallel] Script: $SCRIPT"
-echo "[parallel] Shards: $NUM_SHARDS"
-echo "[parallel] Output: $OUTPUT"
+echo "[parallel] Script: $SCRIPT | Instances: $NUM_INSTANCES"
 
-# Launch shards
+# Launch instances
 PIDS=()
 SHARD_OUTPUTS=()
-for ((i=0; i<NUM_SHARDS; i++)); do
-    GPU=$i
+for ((i=0; i<NUM_INSTANCES; i++)); do
+    GPU_START=$((i * GPUS_PER_INSTANCE))
+    GPU_END=$((GPU_START + GPUS_PER_INSTANCE - 1))
+    GPU_LIST=$(seq -s, $GPU_START $GPU_END)
 
-    # Build shard-specific output path
+    # Shard-specific output
     if [ -n "$OUTPUT" ]; then
         BASE="${OUTPUT%.*}"
         EXT="${OUTPUT##*.}"
@@ -69,52 +64,44 @@ for ((i=0; i<NUM_SHARDS; i++)); do
     fi
     SHARD_OUTPUTS+=("$SHARD_OUT")
 
-    # Build args with shard info and shard-specific output
+    # Build args with shard info
     SHARD_ARGS=()
     SKIP_NEXT=0
     for j in "${!ARGS[@]}"; do
-        if [ "$SKIP_NEXT" -eq 1 ]; then
-            SKIP_NEXT=0
-            continue
-        fi
+        if [ "$SKIP_NEXT" -eq 1 ]; then SKIP_NEXT=0; continue; fi
         if [ "${ARGS[$j]}" = "--output" ]; then
             SHARD_ARGS+=("--output" "$SHARD_OUT")
-            SKIP_NEXT=1
-        elif [ "${ARGS[$j]}" = "--output_dir" ]; then
-            SHARD_ARGS+=("--output_dir" "$SHARD_OUT")
             SKIP_NEXT=1
         else
             SHARD_ARGS+=("${ARGS[$j]}")
         fi
     done
 
-    echo "[parallel] Launching shard $i on GPU $GPU → $SHARD_OUT"
-    CUDA_VISIBLE_DEVICES=$GPU python "$SCRIPT" "${SHARD_ARGS[@]}" \
-        --shard "$i" --num_shards "$NUM_SHARDS" &
+    echo "[parallel] Instance $i: GPUs $GPU_LIST → $SHARD_OUT"
+    CUDA_VISIBLE_DEVICES=$GPU_LIST python "$SCRIPT" "${SHARD_ARGS[@]}" \
+        --shard "$i" --num_shards "$NUM_INSTANCES" &
     PIDS+=($!)
 done
 
-# Wait for all shards
-echo "[parallel] Waiting for $NUM_SHARDS shards..."
+# Wait
+echo "[parallel] Waiting for $NUM_INSTANCES instances..."
 FAILED=0
-for ((i=0; i<NUM_SHARDS; i++)); do
+for ((i=0; i<NUM_INSTANCES; i++)); do
     if ! wait "${PIDS[$i]}"; then
-        echo "[parallel] Shard $i FAILED (PID ${PIDS[$i]})"
+        echo "[parallel] Instance $i FAILED"
         FAILED=$((FAILED+1))
     else
-        echo "[parallel] Shard $i done"
+        echo "[parallel] Instance $i done"
     fi
 done
 
-if [ "$FAILED" -gt 0 ]; then
-    echo "[parallel] $FAILED/$NUM_SHARDS shards failed"
-fi
+[ "$FAILED" -gt 0 ] && echo "[parallel] $FAILED/$NUM_INSTANCES failed"
 
-# Merge shard results
+# Merge
 if [ -n "$OUTPUT" ]; then
-    echo "[parallel] Merging ${#SHARD_OUTPUTS[@]} shards → $OUTPUT"
+    echo "[parallel] Merging → $OUTPUT"
     python3 -c "
-import json, sys, glob
+import json, sys
 
 shards = []
 for path in sys.argv[1:]:
@@ -125,10 +112,9 @@ for path in sys.argv[1:]:
         print(f'  Skip {path}: {e}')
 
 if not shards:
-    print('ERROR: No shard results to merge')
+    print('ERROR: No shard results')
     sys.exit(1)
 
-# Merge: combine per_problem lists, recompute aggregates
 merged = shards[0].copy()
 if 'per_problem' in merged:
     all_problems = []
@@ -137,7 +123,6 @@ if 'per_problem' in merged:
     merged['per_problem'] = all_problems
     merged['num_problems'] = len(all_problems)
 
-    # Recompute aggregates
     ginis = [p.get('mean_gini', 0) for p in all_problems if 'mean_gini' in p]
     top20s = [p.get('top20_coverage', 0) for p in all_problems if 'top20_coverage' in p]
     if ginis:
