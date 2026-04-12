@@ -261,7 +261,11 @@ def run_instrumented_sd(
     target_out = target_model(input_ids.to(target_device), use_cache=True, output_hidden_states=True)
     target_kv = target_out.past_key_values
     target_next_logits = target_out.logits[:, -1, :]
-    draft_next_logits = mtp_head(target_out.hidden_states[-1][:, -1:, :]).squeeze(1)
+    # MTP head needs (input_ids, hidden_states, position_ids)
+    last_token_id = target_out.logits[:, -1, :].argmax(dim=-1, keepdim=True)  # [B, 1]
+    last_pos = torch.tensor([[prefix_len]], device=target_device)
+    draft_next_logits, _, _ = mtp_head(last_token_id, target_out.hidden_states[-1][:, -1:, :], last_pos)
+    draft_next_logits = draft_next_logits.squeeze(1)
 
     all_token_ids = input_ids.cpu().clone()
     kv_len = prefix_len
@@ -301,7 +305,9 @@ def run_instrumented_sd(
             tok_tensor = torch.tensor([[tok]], device=target_device)
             d_out = target_model(tok_tensor, past_key_values=target_kv, use_cache=True, output_hidden_states=True)
             target_kv = d_out.past_key_values
-            cur_logits = mtp_head(d_out.hidden_states[-1][:, -1:, :]).squeeze(1)
+            mtp_pos = torch.tensor([[kv_len + len(draft_tokens_list)]], device=target_device)
+            mtp_logits, _, _ = mtp_head(tok_tensor, d_out.hidden_states[-1][:, -1:, :], mtp_pos)
+            cur_logits = mtp_logits.squeeze(1)
 
         draft_tokens = torch.tensor(draft_tokens_list, device=target_device)
         draft_probs = torch.tensor(draft_probs_list)
@@ -366,7 +372,9 @@ def run_instrumented_sd(
         )
         target_kv = t_out.past_key_values
         target_next_logits = t_out.logits[:, -1, :]
-        draft_next_logits = mtp_head(t_out.hidden_states[-1][:, -1:, :]).squeeze(1)
+        resync_pos = torch.tensor([[kv_len + 1]], device=target_device)
+        mtp_logits, _, _ = mtp_head(last_tok.view(1, 1).to(target_device), t_out.hidden_states[-1][:, -1:, :], resync_pos)
+        draft_next_logits = mtp_logits.squeeze(1)
 
         # Check for EOS
         if last_tok.item() == decoder.tokenizer.eos_token_id:
