@@ -217,12 +217,14 @@ class SpeculativeDecoder:
 
         self.target_model.eval()
         # For device_map="auto" models, input must go to embed_tokens' device
-        if hasattr(target_model, "hf_device_map") and target_model.hf_device_map:
-            # Find embed_tokens device (where inputs should land)
-            for key, dev in target_model.hf_device_map.items():
-                self.target_device = torch.device(dev) if isinstance(dev, (str, int)) else dev
-                break  # first entry is typically embed_tokens
-            logger.info("Multi-GPU model, input device: %s", self.target_device)
+        embed_mod = None
+        for name, mod in target_model.named_modules():
+            if name.endswith("embed_tokens"):
+                embed_mod = mod
+                break
+        if embed_mod is not None:
+            self.target_device = next(embed_mod.parameters()).device
+            logger.info("Input device (embed_tokens): %s", self.target_device)
         else:
             self.target_device = next(target_model.parameters()).device
 
