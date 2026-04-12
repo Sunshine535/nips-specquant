@@ -256,6 +256,10 @@ def run_instrumented_sd(
     mtp_head = decoder.mtp_head
     target_device = decoder.target_device
 
+    logger.info("DEBUG target_device=%s, hf_device_map=%s",
+                target_device,
+                getattr(target_model, 'hf_device_map', 'N/A'))
+
     prefix_len = input_ids.shape[1]
 
     # Prefill (single model — MTP head provides draft logits from target hidden states)
