@@ -133,7 +133,8 @@ def run_oracle_study(args):
                             problem_results[-1]['mean_alpha'])
 
         except Exception as e:
-            logger.error("  Failed: %s", e)
+            import traceback
+            logger.error("  Failed: %s\n%s", e, traceback.format_exc())
             continue
 
         # Clear CUDA cache between problems
