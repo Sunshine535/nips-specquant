@@ -215,15 +215,16 @@ def load_model_mtp(
         tokenizer.pad_token = tokenizer.eos_token
 
     # Single model uses device_map="auto" to spread across all GPUs
-    # MTP self-speculation: single model on one GPU (avoids cross-device issues)
-    # 9B FP16 ≈ 18GB, fits on one 80GB card easily
     kwargs = dict(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
     )
-    if plan.num_gpus >= 1:
+    if plan.num_gpus >= 2:
+        kwargs["device_map"] = "auto"
+        logger.info("Loading model: %s → device_map='auto' (%d GPUs)", model_name, plan.num_gpus)
+    elif plan.num_gpus == 1:
         kwargs["device_map"] = "cuda:0"
-        logger.info("Loading model: %s → cuda:0 (single GPU for MTP)", model_name)
+        logger.info("Loading model: %s → cuda:0", model_name)
     else:
         kwargs["device_map"] = "cpu"
         logger.info("Loading model: %s → cpu", model_name)
@@ -231,11 +232,32 @@ def load_model_mtp(
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     model.eval()
 
-    # Load MTP head (on same device as model)
+    # Find the device where the model's output lands (last layer's device)
+    output_device = _get_output_device(model)
+    logger.info("Model output device: %s", output_device)
+
+    # Load MTP head on the output device (must match hidden_states device)
     from .mtp_head import Qwen35MTPHead
-    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
+    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model, device=output_device)
 
     return model, mtp_head, tokenizer, plan
+
+
+def _get_output_device(model) -> torch.device:
+    """Find the device where a model's output hidden states land.
+
+    For device_map='auto' models, this is the device of the last decoder layer.
+    """
+    if hasattr(model, "hf_device_map") and model.hf_device_map:
+        # Find the highest-numbered layer in the device map
+        last_device = None
+        for key, device in model.hf_device_map.items():
+            last_device = device
+        if last_device is not None:
+            return torch.device(last_device) if isinstance(last_device, (str, int)) else last_device
+    # Fallback: device of the last parameter
+    *_, last_param = model.parameters()
+    return last_param.device
 
 
 def print_gpu_summary():
