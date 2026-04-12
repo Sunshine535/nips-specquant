@@ -95,9 +95,9 @@ echo ">>> $(date) - Installing flash-attn (optional, may take a few minutes)..."
 pip install flash-attn --no-build-isolation || echo "  flash-attn install failed (optional, skipping)"
 echo ""
 
-echo ">>> $(date) - Installing flash-linear-attention + causal-conv1d (required for Qwen3.5 GatedDeltaNet)..."
-pip install causal-conv1d || echo "  causal-conv1d install failed"
-pip install flash-linear-attention || echo "  flash-linear-attention install failed"
+echo ">>> $(date) - Installing flash-linear-attention + causal-conv1d (optional, for Qwen3.5 GatedDeltaNet efficiency)..."
+pip install causal-conv1d --no-build-isolation 2>/dev/null || echo "  causal-conv1d skipped (needs matching CUDA)"
+pip install flash-linear-attention --no-build-isolation 2>/dev/null || echo "  flash-linear-attention skipped"
 echo ""
 
 # --- Verify ---

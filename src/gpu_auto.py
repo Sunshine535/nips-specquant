@@ -219,7 +219,12 @@ def load_model_mtp(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
     )
-    if plan.num_gpus >= 1:
+    if plan.num_gpus >= 2:
+        # 2 GPUs: device_map="auto" to handle GatedDeltaNet memory
+        kwargs["device_map"] = "auto"
+        kwargs["max_memory"] = {0: "70GiB", 1: "70GiB"}
+        logger.info("Loading model: %s → 2 GPUs (device_map=auto)", model_name)
+    elif plan.num_gpus >= 1:
         kwargs["device_map"] = "cuda:0"
         logger.info("Loading model: %s → cuda:0", model_name)
     else:
@@ -229,11 +234,63 @@ def load_model_mtp(
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     model.eval()
 
-    # Load MTP head on same device as model
+    # Wrap model to handle multi-GPU device placement for input_ids
+    if hasattr(model, "hf_device_map") and model.hf_device_map:
+        model = _MultiGPUModelWrapper(model)
+        logger.info("Wrapped model with MultiGPUModelWrapper for device handling")
+
+    # Find output device for MTP head
+    output_device = _get_output_device(model.model if isinstance(model, _MultiGPUModelWrapper) else model)
+
+    # Load MTP head on output device
     from .mtp_head import Qwen35MTPHead
-    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
+    raw_model = model.model if isinstance(model, _MultiGPUModelWrapper) else model
+    mtp_head = Qwen35MTPHead.from_pretrained(model_name, raw_model, device=output_device)
 
     return model, mtp_head, tokenizer, plan
+
+
+class _MultiGPUModelWrapper(torch.nn.Module):
+    """Wraps a device_map='auto' model to handle input_ids device placement.
+
+    accelerate hooks don't move integer tensors (input_ids) correctly.
+    This wrapper computes inputs_embeds on the right device and passes
+    that instead, which accelerate handles correctly.
+    """
+
+    def __init__(self, model):
+        super().__init__()
+        self.model = model
+        # Find embed_tokens and its device
+        self._embed = None
+        self._embed_device = None
+        for name, mod in model.named_modules():
+            if name.endswith("embed_tokens"):
+                self._embed = mod
+                self._embed_device = next(mod.parameters()).device
+                break
+        self.config = model.config
+
+    def __call__(self, input_ids=None, inputs_embeds=None, **kwargs):
+        if input_ids is not None and inputs_embeds is None and self._embed is not None:
+            # Compute embeddings on the correct device, pass as float tensor
+            inputs_embeds = self._embed(input_ids.to(self._embed_device))
+            input_ids = None
+        return self.model(input_ids=input_ids, inputs_embeds=inputs_embeds, **kwargs)
+
+    def eval(self):
+        self.model.eval()
+        return self
+
+    def parameters(self):
+        return self.model.parameters()
+
+    def named_modules(self, *args, **kwargs):
+        return self.model.named_modules(*args, **kwargs)
+
+    @property
+    def hf_device_map(self):
+        return getattr(self.model, "hf_device_map", None)
 
 
 def _get_output_device(model) -> torch.device:
