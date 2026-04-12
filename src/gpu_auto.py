@@ -219,10 +219,7 @@ def load_model_mtp(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
     )
-    if plan.num_gpus >= 2:
-        kwargs["device_map"] = "auto"
-        logger.info("Loading model: %s → device_map='auto' (%d GPUs)", model_name, plan.num_gpus)
-    elif plan.num_gpus == 1:
+    if plan.num_gpus >= 1:
         kwargs["device_map"] = "cuda:0"
         logger.info("Loading model: %s → cuda:0", model_name)
     else:
@@ -232,13 +229,9 @@ def load_model_mtp(
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     model.eval()
 
-    # Find the device where the model's output lands (last layer's device)
-    output_device = _get_output_device(model)
-    logger.info("Model output device: %s", output_device)
-
-    # Load MTP head on the output device (must match hidden_states device)
+    # Load MTP head on same device as model
     from .mtp_head import Qwen35MTPHead
-    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model, device=output_device)
+    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
 
     return model, mtp_head, tokenizer, plan
 
