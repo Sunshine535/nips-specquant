@@ -214,17 +214,12 @@ def load_model_mtp(
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # Single model uses device_map="auto" to spread across all GPUs
+    # Single GPU per instance (with fla, 9B fits on one 80GB GPU)
     kwargs = dict(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
     )
-    if plan.num_gpus >= 2:
-        # 2 GPUs: device_map="auto" to handle GatedDeltaNet memory
-        kwargs["device_map"] = "auto"
-        kwargs["max_memory"] = {0: "70GiB", 1: "70GiB"}
-        logger.info("Loading model: %s → 2 GPUs (device_map=auto)", model_name)
-    elif plan.num_gpus >= 1:
+    if plan.num_gpus >= 1:
         kwargs["device_map"] = "cuda:0"
         logger.info("Loading model: %s → cuda:0", model_name)
     else:
@@ -234,18 +229,9 @@ def load_model_mtp(
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     model.eval()
 
-    # Wrap model to handle multi-GPU device placement for input_ids
-    if hasattr(model, "hf_device_map") and model.hf_device_map:
-        model = _MultiGPUModelWrapper(model)
-        logger.info("Wrapped model with MultiGPUModelWrapper for device handling")
-
-    # Find output device for MTP head
-    output_device = _get_output_device(model.model if isinstance(model, _MultiGPUModelWrapper) else model)
-
-    # Load MTP head on output device
+    # Load MTP head on same device
     from .mtp_head import Qwen35MTPHead
-    raw_model = model.model if isinstance(model, _MultiGPUModelWrapper) else model
-    mtp_head = Qwen35MTPHead.from_pretrained(model_name, raw_model, device=output_device)
+    mtp_head = Qwen35MTPHead.from_pretrained(model_name, model)
 
     return model, mtp_head, tokenizer, plan
 

@@ -14,11 +14,9 @@
 set -euo pipefail
 
 NUM_GPUS=$(python3 -c "import torch; print(torch.cuda.device_count())" 2>/dev/null || echo 1)
-GPUS_PER_INSTANCE=2
-NUM_INSTANCES=$((NUM_GPUS / GPUS_PER_INSTANCE))
-[ "$NUM_INSTANCES" -lt 1 ] && NUM_INSTANCES=1
+NUM_INSTANCES=$NUM_GPUS
 
-echo "[parallel] $NUM_GPUS GPUs, $GPUS_PER_INSTANCE per instance → $NUM_INSTANCES parallel"
+echo "[parallel] $NUM_GPUS GPUs → $NUM_INSTANCES parallel instances (1 GPU each)"
 
 # Parse script and args
 SCRIPT=""
@@ -50,9 +48,7 @@ echo "[parallel] Script: $SCRIPT | Instances: $NUM_INSTANCES"
 PIDS=()
 SHARD_OUTPUTS=()
 for ((i=0; i<NUM_INSTANCES; i++)); do
-    GPU_START=$((i * GPUS_PER_INSTANCE))
-    GPU_END=$((GPU_START + GPUS_PER_INSTANCE - 1))
-    GPU_LIST=$(seq -s, $GPU_START $GPU_END)
+    GPU_LIST=$i
 
     # Shard-specific output
     if [ -n "$OUTPUT" ]; then
