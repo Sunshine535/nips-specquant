@@ -258,8 +258,10 @@ class QuantizedKVCache:
             shape (batch, num_q_heads, q_len, head_dim)
         """
         if scale is None:
-            padded_dim = self.rotation.padded_dim
-            scale = 1.0 / math.sqrt(padded_dim)
+            # Use original head_dim for attention scale, NOT padded_dim.
+            # Padding is an implementation detail of the Hadamard transform;
+            # the semantic scale factor must match the model's head_dim.
+            scale = 1.0 / math.sqrt(self.head_dim)
 
         q_rotated = self.rotation.rotate(query.float())
 
@@ -310,26 +312,59 @@ class QuantizedKVCache:
         return fp / self.memory_bytes()
 
 
-def compute_tv_bound(
+def compute_quant_error_bound(
+    dim: int,
+    bits: int,
+) -> float:
+    """Worst-case per-coordinate quantization error for b-bit uniform scalar quantization.
+
+    For a per-block min-max quantizer with (2^b - 1) levels, the worst-case
+    rounding error per coordinate is range / (2 * (2^b - 1)).  Across d
+    coordinates, the worst-case L2 error is sqrt(d) times the per-coordinate
+    bound (not sqrt(d / block_size) — block-shared scale does not reduce
+    worst-case error).
+
+    Returns the per-coordinate worst-case relative error factor: 1 / (2 * (2^b - 1)).
+    """
+    n_levels = (1 << bits) - 1
+    return 1.0 / (2 * n_levels)
+
+
+def estimate_tv_proxy(
     w_o_fnorm: float,
     range_k: float,
     range_v: float,
     v_fnorm: float,
+    q_fnorm: float,
     dim: int,
     bits: int,
-    block_size: int,
     temperature: float = 1.0,
 ) -> float:
-    """Compute the theoretical TV bound from Proposition 1.
+    """Heuristic TV proxy for single-head, single-layer attention quantization.
 
-    Returns the upper bound on TV(p, p_tilde) where p is the full-precision
-    logit distribution and p_tilde is the quantized verification distribution.
+    NOT a rigorous upper bound.  This estimates the scale of logit perturbation
+    from quantizing one attention layer's KV cache, under a Gaussian-noise
+    approximation of uniform scalar quantization error.
+
+    Limitations (see PROOF_AUDIT.md Issues 1-4):
+      - Uses RMS error model (sigma = range / (2*sqrt(3)*(2^b-1))), not worst-case.
+      - Only covers one attention head; multi-layer error propagation is ignored.
+      - Requires query norm (q_fnorm) for the key-perturbation term.
+      - Temperature scaling applies to the output softmax only (single factor).
+
+    For a proper bound, compose per-layer Lipschitz constants across the
+    full transformer (which requires layer-norm Lipschitz, residual structure,
+    and LM head norm — well beyond a single closed-form expression).
     """
-    sigma = 1.0 / (2 * math.sqrt(3))
-    quant_std = sigma * math.sqrt(dim) / (2**bits * math.sqrt(block_size))
+    n_levels = (1 << bits) - 1
+    # RMS per-coordinate quantization noise (Gaussian approx of uniform)
+    sigma_per_coord = 1.0 / (2 * math.sqrt(3) * n_levels)
 
-    v_term = range_v * quant_std
-    k_term = v_fnorm * range_k * quant_std / temperature
+    # Value perturbation: ||delta_v|| ~ range_v * sigma * sqrt(d)
+    v_err = range_v * sigma_per_coord * math.sqrt(dim)
+    # Key perturbation: changes scores by q·epsilon_k, so depends on ||q||
+    k_err = q_fnorm * range_k * sigma_per_coord * math.sqrt(dim)
 
-    tv = w_o_fnorm / temperature * (v_term + k_term)
-    return tv
+    # Single-head output perturbation (heuristic, not a bound)
+    proxy = w_o_fnorm * (v_err + v_fnorm * k_err) / temperature
+    return proxy

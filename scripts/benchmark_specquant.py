@@ -16,7 +16,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.baselines import BaselineDecoder
 from src.speculative_decode import SpeculativeDecoder
-from src.turboquant_kv import QuantizedKVCache, compute_tv_bound
+from src.turboquant_kv import QuantizedKVCache, estimate_tv_proxy
 from src.utils import aggregate_trials, mean_confidence_interval, validate_dual_gpu
 
 logging.basicConfig(

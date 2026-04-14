@@ -224,6 +224,17 @@ class SpeculativeDecoder:
         else:
             self.draft_model.eval()
             self.draft_device = next(draft_model.parameters()).device
+            # Rejection sampling correctness requires identical tokenizer/vocab
+            target_vocab = target_model.config.vocab_size
+            draft_vocab = draft_model.config.vocab_size
+            if target_vocab != draft_vocab:
+                logger.warning(
+                    "Vocab size mismatch (target=%d, draft=%d). "
+                    "Rejection sampling correctness requires identical "
+                    "tokenizer/vocab mapping. Probabilities will be padded "
+                    "but semantic correctness is NOT guaranteed.",
+                    target_vocab, draft_vocab,
+                )
             logger.info("Speculative decoding: dual-model mode (legacy)")
 
         self.use_quant = quant_bits > 0

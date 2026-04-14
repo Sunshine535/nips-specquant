@@ -401,11 +401,11 @@ def generate_ablation_heatmap(data: dict, output_dir: str):
 
 
 # ---------------------------------------------------------------------------
-# Fig 5: TV distance validation (empirical vs theoretical bound)
+# Fig 5: TV distance validation (empirical vs heuristic TV proxy)
 # ---------------------------------------------------------------------------
 
 def generate_tv_distance_figure(data: dict, output_dir: str):
-    """Empirical TV distance vs theoretical upper bound across bit-widths."""
+    """Empirical TV distance vs heuristic TV proxy across bit-widths."""
     plt, sns = _setup_mpl()
 
     # Try to extract TV validation data
@@ -448,7 +448,7 @@ def generate_tv_distance_figure(data: dict, output_dir: str):
                       label="Empirical TV", color=C_SQ3, edgecolor="black", linewidth=0.5,
                       error_kw={"linewidth": 1.0})
     bars_theo = ax.bar(x + width / 2, theo_means, width,
-                       label="Theoretical Bound", color=C_FP, edgecolor="black", linewidth=0.5,
+                       label="Heuristic TV Proxy", color=C_FP, edgecolor="black", linewidth=0.5,
                        hatch="//", alpha=0.7)
 
     for bar, val in zip(bars_emp, emp_means):
@@ -464,7 +464,7 @@ def generate_tv_distance_figure(data: dict, output_dir: str):
     ax.set_xticklabels([f"{b}-bit" for b in bits_list])
     ax.set_xlabel("Quantization Bit-Width")
     ax.set_ylabel("Total Variation Distance")
-    ax.set_title("TV Distance: Empirical vs Theoretical Bound")
+    ax.set_title("TV Distance: Empirical vs Heuristic Proxy")
     ax.legend(loc="upper right", framealpha=0.9)
     ax.set_ylim(bottom=0)
 

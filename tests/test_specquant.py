@@ -9,7 +9,8 @@ from src.turboquant_kv import (
     HadamardRotation,
     QuantizedKVCache,
     ScalarQuantizer,
-    compute_tv_bound,
+    compute_quant_error_bound,
+    estimate_tv_proxy,
     fast_hadamard_inverse,
     fast_hadamard_transform,
 )
@@ -165,45 +166,50 @@ class TestQuantizedKVCache:
 
 
 # ---------------------------------------------------------------------------
-# compute_tv_bound
+# estimate_tv_proxy (renamed from compute_tv_bound — now a heuristic, not a bound)
 # ---------------------------------------------------------------------------
 
-class TestComputeTVBound:
+class TestEstimateTVProxy:
     def test_positive(self):
-        tv = compute_tv_bound(
+        tv = estimate_tv_proxy(
             w_o_fnorm=1.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=3, block_size=128,
+            q_fnorm=1.0, dim=128, bits=3,
         )
         assert tv > 0
 
-    def test_more_bits_tighter_bound(self):
-        tv3 = compute_tv_bound(
+    def test_more_bits_tighter(self):
+        tv3 = estimate_tv_proxy(
             w_o_fnorm=1.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=3, block_size=128,
+            q_fnorm=1.0, dim=128, bits=3,
         )
-        tv4 = compute_tv_bound(
+        tv4 = estimate_tv_proxy(
             w_o_fnorm=1.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=4, block_size=128,
+            q_fnorm=1.0, dim=128, bits=4,
         )
         assert tv4 < tv3
 
-    def test_higher_temperature_reduces_bound(self):
-        tv_t1 = compute_tv_bound(
+    def test_higher_temperature_reduces(self):
+        tv_t1 = estimate_tv_proxy(
             w_o_fnorm=1.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=3, block_size=128, temperature=1.0,
+            q_fnorm=1.0, dim=128, bits=3, temperature=1.0,
         )
-        tv_t2 = compute_tv_bound(
+        tv_t2 = estimate_tv_proxy(
             w_o_fnorm=1.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=3, block_size=128, temperature=2.0,
+            q_fnorm=1.0, dim=128, bits=3, temperature=2.0,
         )
         assert tv_t2 < tv_t1
 
-    def test_zero_norms_zero_bound(self):
-        tv = compute_tv_bound(
+    def test_zero_norms_zero(self):
+        tv = estimate_tv_proxy(
             w_o_fnorm=0.0, range_k=4.0, range_v=4.0, v_fnorm=1.0,
-            dim=128, bits=3, block_size=128,
+            q_fnorm=1.0, dim=128, bits=3,
         )
         assert tv == 0.0
+
+    def test_quant_error_bound_correct_levels(self):
+        # 3-bit: 7 levels, worst-case per-coord error = 1/(2*7) ≈ 0.0714
+        err = compute_quant_error_bound(dim=128, bits=3)
+        assert abs(err - 1.0 / 14) < 1e-10
 
 
 # ---------------------------------------------------------------------------

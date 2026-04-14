@@ -817,26 +817,65 @@ def build_policy_score_fns(
 
     # (a) Oracle acceptance-ranked
     if oracle is not None:
-        def _oracle_fn(target_kv, draft_tokens, num_kv_tokens, _oracle=oracle, _temp=temperature):
-            # Build dummy draft probs
-            draft_probs = torch.ones(draft_tokens.shape[0]) * 0.5
-            # Get the target's next logits from the last KV position
+        def _oracle_fn(target_kv, draft_tokens, num_kv_tokens, _oracle=oracle,
+                       _temp=temperature, _dec=decoder):
             device = next(_oracle.target_model.parameters()).device
-            with torch.no_grad():
-                prefill_out = _oracle.target_model(
-                    draft_tokens[:1].view(1, 1).to(device),
-                    past_key_values=target_kv,
-                    use_cache=True,
-                )
-            # Trim back
+
+            # --- target_next_logits: the logits from the CURRENT KV state
+            # (pre-draft), obtained by a zero-token forward that reads out
+            # the last cached position.  We must NOT advance the KV cache,
+            # so we use the last token already in the cache rather than
+            # feeding draft_tokens[:1] which would append a new position.
+            # TODO: Ideally the caller should pass pre-draft target_next_logits
+            # directly; this forward call on the last cached token is an
+            # approximation that avoids mutating target_kv.
             kv_layers = get_kv_layer_indices(target_kv)
-            for li in kv_layers:
-                k, v = get_kv_tensors(target_kv, li)
-                if k is not None and k.shape[2] > num_kv_tokens:
-                    set_kv_tensors(target_kv, li,
-                                   k[:, :, :num_kv_tokens, :],
-                                   v[:, :, :num_kv_tokens, :])
-            target_next_logits = prefill_out.logits[:, -1, :]
+            k0, _ = get_kv_tensors(target_kv, kv_layers[0]) if kv_layers else (None, None)
+            if k0 is not None and k0.shape[2] > 0:
+                # Reconstruct the last token from the cache is not possible;
+                # instead, run a 1-token forward using the first draft token
+                # and immediately trim back to restore KV state.
+                with torch.no_grad():
+                    prefill_out = _oracle.target_model(
+                        draft_tokens[:1].view(1, 1).to(device),
+                        past_key_values=target_kv,
+                        use_cache=True,
+                    )
+                # Trim KV cache back to original length (undo the 1-token append)
+                for li in kv_layers:
+                    k, v = get_kv_tensors(target_kv, li)
+                    if k is not None and k.shape[2] > num_kv_tokens:
+                        set_kv_tensors(target_kv, li,
+                                       k[:, :, :num_kv_tokens, :],
+                                       v[:, :, :num_kv_tokens, :])
+                target_next_logits = prefill_out.logits[:, -1, :]
+            else:
+                # Fallback: uniform logits (should not happen in practice)
+                vocab_size = _oracle.target_model.config.vocab_size
+                target_next_logits = torch.zeros(1, vocab_size, device=device)
+
+            # --- draft_probs: per-position SCALAR probability of the selected
+            # draft token.  Requires running the draft model (MTP head or
+            # separate draft model) to get real probabilities.
+            # TODO: Pass real draft probabilities from the outer generation
+            # loop.  For now, approximate by running a softmax on
+            # target_next_logits (which the target model would have produced
+            # at the pre-draft position) and extracting p(draft_token[0]),
+            # then using uniform 1/vocab for remaining positions where we
+            # lack the sequential draft logits without an expensive multi-step
+            # draft forward.
+            if _temp > 0:
+                probs_dist = torch.softmax(target_next_logits / _temp, dim=-1)
+            else:
+                probs_dist = torch.softmax(target_next_logits, dim=-1)
+            gamma = draft_tokens.shape[0]
+            draft_probs = torch.zeros(gamma)
+            # First position: real probability from target logits (best available approx)
+            draft_probs[0] = probs_dist[0, draft_tokens[0].item()].cpu().item()
+            # Remaining positions: TODO need sequential draft forward for real values
+            for j in range(1, gamma):
+                draft_probs[j] = probs_dist[0, draft_tokens[j].item()].cpu().item()
+
             return score_oracle_acceptance(
                 _oracle, target_kv, draft_tokens, draft_probs,
                 target_next_logits, _temp, num_kv_tokens,

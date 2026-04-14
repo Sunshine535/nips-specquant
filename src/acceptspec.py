@@ -39,16 +39,28 @@ TAG_FP16 = 3      # full precision (acceptance-critical)
 
 @dataclass
 class SensitivityResult:
-    """Result of oracle acceptance sensitivity measurement for one verification step."""
+    """Result of oracle acceptance sensitivity measurement for one verification step.
+
+    Note: only a subset of tokens are actually perturbed (controlled by
+    sample_fraction).  ``sensitivities`` has zeros for unsampled tokens.
+    Use ``sample_indices`` to identify which entries are real measurements
+    vs zero-filled placeholders.  ``sampled_sensitivities`` gives a dense
+    vector of only the measured values (for unbiased metric computation).
+    """
     step_idx: int
     num_kv_tokens: int
     # Per-token sensitivity: S_accept(i) = |alpha_full - alpha_perturbed_i|
+    # WARNING: zeros at unsampled positions — use sample_indices for correct metrics
     sensitivities: torch.Tensor       # [num_kv_tokens]
+    # Dense vector of ONLY sampled sensitivities (no zero padding)
+    sampled_sensitivities: torch.Tensor  # [n_sample]
+    # Indices of tokens that were actually perturbed
+    sample_indices: torch.Tensor       # [n_sample]
     # Per-token attention importance (sum across heads/layers)
     attention_importance: torch.Tensor  # [num_kv_tokens]
     # Full acceptance count (baseline)
     alpha_full: float
-    # Fraction of tokens that are "critical" (top-k by sensitivity)
+    # Gini coefficient computed on SAMPLED tokens only (unbiased)
     gini: float
 
 
@@ -81,8 +93,20 @@ class AcceptSensitivityOracle:
     """Measures per-token acceptance sensitivity via KV perturbation.
 
     For each verification step, estimates how much acceptance changes when
-    each token's KV is quantized to 2-bit. Uses sampled perturbation for
+    each token's KV is quantized to 2-bit.  Uses sampled perturbation for
     efficiency (not all tokens are perturbed).
+
+    Implementation notes:
+      - This is a SINGLE-DRAW estimator: one set of coupled uniform random
+        variables U is used per measurement.  The resulting sensitivity
+        S_accept(i) is a realization, not an expectation over U.  For
+        gamma=5, values are multiples of 0.2.  Averaging over multiple U
+        draws would give a smoother estimate but is ~num_U_draws times more
+        expensive.
+      - Quantization uses the FULL BLOCK context (neighboring tokens share
+        the same scale/zero), matching the deployed quantizer behavior.
+      - Sparsity metrics (Gini, top-k coverage) are computed ONLY on
+        sampled tokens to avoid bias from zero-filled unsampled positions.
     """
 
     def __init__(
@@ -116,6 +140,11 @@ class AcceptSensitivityOracle:
         """Measure acceptance sensitivity for one verification step.
 
         Uses coupled randomness: same U_j values for all perturbations.
+        This is a single-draw estimator — NOT an expectation over U.
+
+        Args:
+            draft_probs: per-position SCALAR draft probability for the
+                selected token, shape [gamma].  NOT full-vocabulary tensors.
         """
         device = next(self.target_model.parameters()).device
         # Only operate on layers with standard KV cache (skip linear attention layers)
@@ -136,27 +165,44 @@ class AcceptSensitivityOracle:
         )
         verify_logits = verify_out.logits
 
+        # Trim KV back to pre-draft length (model forward appends draft tokens)
+        for layer_i in kv_layers:
+            k, v = get_kv_tensors(target_kv, layer_i)
+            if k is not None and k.shape[2] > num_kv_tokens:
+                set_kv_tensors(
+                    target_kv, layer_i,
+                    k[:, :, :num_kv_tokens, :],
+                    v[:, :, :num_kv_tokens, :],
+                )
+
         # Compute per-position acceptance probabilities
         alpha_full, per_pos_accept = self._compute_acceptance(
             target_next_logits, verify_logits, draft_tokens, draft_probs,
             gamma, temperature, coupled_seeds,
         )
 
-        # Step 2: Extract attention importance from verification
-        # We hook into the model to get attention weights
+        # Step 2: Extract attention importance (on pre-draft KV, not extended)
         attention_importance = self._get_attention_importance(
             target_kv, draft_tokens, num_kv_tokens,
         )
 
-        # Step 3: Sample tokens to perturb
-        n_sample = min(num_samples, num_kv_tokens)
+        # Step 3: Sample tokens to perturb (honor sample_fraction)
+        n_sample = max(1, int(self.sample_fraction * num_kv_tokens))
+        n_sample = min(n_sample, num_kv_tokens)
         sample_indices = torch.randperm(num_kv_tokens, generator=self.rng)[:n_sample]
 
-        sensitivities = torch.zeros(num_kv_tokens, device='cpu')
+        # Only store sensitivities for SAMPLED tokens (avoid misleading zeros)
+        sampled_sensitivities = torch.zeros(n_sample, device='cpu')
 
-        # Step 4: For each sampled token, perturb and re-measure
-        for idx in sample_indices:
+        # Step 4: For each sampled token, perturb using FULL BLOCK context
+        for si, idx in enumerate(sample_indices):
             idx_val = idx.item()
+
+            # Determine the block this token belongs to
+            block_idx = idx_val // self.quantizer.block_size
+            block_start = block_idx * self.quantizer.block_size
+            block_end = min(block_start + self.quantizer.block_size, num_kv_tokens)
+
             # Save original KV for this token across MHA layers only
             orig_kvs = {}
             for layer_i in kv_layers:
@@ -167,21 +213,24 @@ class AcceptSensitivityOracle:
                     k[:, :, idx_val:idx_val+1, :].clone(),
                     v[:, :, idx_val:idx_val+1, :].clone(),
                 )
-                # Quantize this token's KV to 2-bit
-                k_tok = k[:, :, idx_val:idx_val+1, :].float()
-                v_tok = v[:, :, idx_val:idx_val+1, :].float()
-                k_rot = self.rotation.rotate(k_tok)
-                v_rot = self.rotation.rotate(v_tok)
-                k_codes, k_scales, k_zeros = self.quantizer.quantize(k_rot)
-                v_codes, v_scales, v_zeros = self.quantizer.quantize(v_rot)
-                k_deq = self.rotation.inverse_rotate(
+                # Quantize this token's KV using FULL BLOCK context
+                # (shared scale/zero from the real block neighbors)
+                k_block = k[:, :, block_start:block_end, :].float()
+                v_block = v[:, :, block_start:block_end, :].float()
+                k_block_rot = self.rotation.rotate(k_block)
+                v_block_rot = self.rotation.rotate(v_block)
+                k_codes, k_scales, k_zeros = self.quantizer.quantize(k_block_rot)
+                v_codes, v_scales, v_zeros = self.quantizer.quantize(v_block_rot)
+                k_block_deq = self.rotation.inverse_rotate(
                     self.quantizer.dequantize(k_codes, k_scales, k_zeros)
                 ).to(k.dtype)
-                v_deq = self.rotation.inverse_rotate(
+                v_block_deq = self.rotation.inverse_rotate(
                     self.quantizer.dequantize(v_codes, v_scales, v_zeros)
                 ).to(v.dtype)
-                k[:, :, idx_val:idx_val+1, :] = k_deq
-                v[:, :, idx_val:idx_val+1, :] = v_deq
+                # Only replace the TARGET token (not the whole block)
+                local_idx = idx_val - block_start
+                k[:, :, idx_val:idx_val+1, :] = k_block_deq[:, :, local_idx:local_idx+1, :]
+                v[:, :, idx_val:idx_val+1, :] = v_block_deq[:, :, local_idx:local_idx+1, :]
 
             # Re-run verification with perturbed KV
             perturbed_out = self.target_model(
@@ -195,7 +244,7 @@ class AcceptSensitivityOracle:
                 gamma, temperature, coupled_seeds,
             )
 
-            sensitivities[idx_val] = abs(alpha_full - alpha_perturbed)
+            sampled_sensitivities[si] = abs(alpha_full - alpha_perturbed)
 
             # Restore original KV
             for layer_i in kv_layers:
@@ -207,7 +256,6 @@ class AcceptSensitivityOracle:
                 v[:, :, idx_val:idx_val+1, :] = orig_v
 
             # Trim extended KV from re-running model
-            # (the model appends to cache during forward, need to reset)
             for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
                 if k is not None and k.shape[2] > num_kv_tokens:
@@ -217,17 +265,20 @@ class AcceptSensitivityOracle:
                         v[:, :, :num_kv_tokens, :],
                     )
 
-        # Extrapolate: for non-sampled tokens, use attention importance as proxy
-        # (will validate this correlation in the analysis)
-        sampled_mask = torch.zeros(num_kv_tokens, dtype=torch.bool)
-        sampled_mask[sample_indices] = True
+        # Build full sensitivity vector (sampled values at their indices)
+        sensitivities = torch.zeros(num_kv_tokens, device='cpu')
+        for si, idx in enumerate(sample_indices):
+            sensitivities[idx.item()] = sampled_sensitivities[si]
 
-        gini = self._gini_coefficient(sensitivities[sampled_mask])
+        # Compute sparsity metrics ONLY on sampled tokens (avoid bias from zeros)
+        gini = self._gini_coefficient(sampled_sensitivities)
 
         return SensitivityResult(
             step_idx=0,
             num_kv_tokens=num_kv_tokens,
             sensitivities=sensitivities,
+            sampled_sensitivities=sampled_sensitivities,
+            sample_indices=sample_indices,
             attention_importance=attention_importance,
             alpha_full=alpha_full,
             gini=gini,
@@ -359,15 +410,20 @@ class AcceptSensitivityOracle:
 
     @staticmethod
     def _gini_coefficient(values: torch.Tensor) -> float:
-        """Compute Gini coefficient of a 1D tensor."""
+        """Compute Gini coefficient of a 1D tensor.
+
+        Uses standard formula: G = (2*sum(i*v_(i))) / (n*sum(v)) - (n+1)/n
+        where v_(i) is the i-th value in ascending order.
+        Requires values >= 0.
+        """
         if values.numel() == 0:
             return 0.0
         sorted_vals = values.sort().values.float()
         n = sorted_vals.numel()
         if sorted_vals.sum() == 0:
             return 0.0
-        cumsum = sorted_vals.cumsum(0)
-        return (2.0 * (torch.arange(1, n + 1, dtype=torch.float32) * sorted_vals).sum() / (n * sorted_vals.sum()) - (n + 1) / n).item()
+        ranks = torch.arange(1, n + 1, dtype=torch.float32)
+        return (2.0 * (ranks * sorted_vals).sum() / (n * sorted_vals.sum()) - (n + 1) / n).item()
 
     @staticmethod
     def compute_cumulative_curve(
@@ -422,7 +478,15 @@ class AcceptPredictor:
         value_norms: List[torch.Tensor],
         oracle_labels: List[torch.Tensor],
     ):
-        """Fit head weights via logistic regression on oracle calibration data.
+        """Fit head weights on oracle calibration data.
+
+        Uses softmax-parameterized weighted combination of per-head features.
+        Note: the loss is convex in the simplex weights u = softmax(w), but
+        NOT convex in the unconstrained parameters w.  LBFGS may converge to
+        a local minimum.  In practice this is acceptable because:
+          (a) the number of heads is small (32-64) and the landscape is smooth,
+          (b) we only need a "good enough" predictor (F1 > 0.75), not the
+              global optimum.
 
         Args:
             draft_attentions: list of [num_heads, num_kv_tokens] per step
@@ -441,7 +505,7 @@ class AcceptPredictor:
         X = torch.cat(all_features, dim=0).float()  # [total_tokens, heads]
         y = torch.cat(all_labels, dim=0).float()     # [total_tokens]
 
-        # Simple logistic regression via gradient descent
+        # Softmax-parameterized logistic model (non-convex in w)
         w = torch.zeros(self.num_heads, requires_grad=True)
         optimizer = torch.optim.LBFGS([w], lr=1.0, max_iter=50)
 

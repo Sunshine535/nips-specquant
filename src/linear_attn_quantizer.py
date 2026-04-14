@@ -293,7 +293,7 @@ class LinearAttnVerifier:
     Provides the same interface expected by SpeculativeDecoder:
     compress the target model's cache after prefill and after each
     verification round, reducing memory traffic at the cost of a small
-    quantization error bounded by the same Proposition 1 analysis
+    quantization error estimated by the same RMS-noise TV proxy analysis
     (adapted for fixed-size state matrices rather than growing KV).
 
     Usage within SpeculativeDecoder:
@@ -619,10 +619,10 @@ class LinearAttnVerifier:
 
 
 # ---------------------------------------------------------------------------
-# Theoretical bound for state quantization
+# Heuristic TV proxy for state quantization
 # ---------------------------------------------------------------------------
 
-def compute_state_quant_tv_bound(
+def estimate_state_quant_tv_proxy(
     w_o_fnorm: float,
     state_range: float,
     state_dim: int,
@@ -630,19 +630,18 @@ def compute_state_quant_tv_bound(
     block_size: int,
     temperature: float = 1.0,
 ) -> float:
-    """Upper bound on TV(p, p_tilde) for state-matrix quantization.
+    """Heuristic TV proxy for state-matrix quantization.
 
-    Analogous to ``compute_tv_bound`` in turboquant_kv.py but adapted for
-    the fixed-size state matrix.  The quantization noise per element is
-    bounded by range / (2^b * sqrt(12)), and there are d^2 elements per
-    head.  After Hadamard rotation the noise distributes more uniformly,
-    so the effective noise scales as:
+    NOT a rigorous upper bound (see PROOF_AUDIT.md Issues 1-4).
+    Analogous to ``estimate_tv_proxy`` in turboquant_kv.py but adapted for
+    the fixed-size recurrent state matrix.  Uses RMS noise model:
 
-        sigma_eff = state_range / (2^b * sqrt(12 * d))
+        sigma_eff = state_range / ((2^b - 1) * sqrt(12 * d))
 
-    The TV bound then follows from the Lipschitz constant of softmax.
+    This is a heuristic scale estimate, not a deterministic bound.
     """
-    sigma = state_range / (2**bits * math.sqrt(12.0 * state_dim))
+    n_levels = (1 << bits) - 1
+    sigma = state_range / (n_levels * math.sqrt(12.0 * state_dim))
     noise_norm = sigma * state_dim  # summed over d rows of d columns
     tv = w_o_fnorm * noise_norm / temperature
     return min(tv, 1.0)

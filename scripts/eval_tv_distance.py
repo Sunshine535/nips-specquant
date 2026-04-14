@@ -1,14 +1,13 @@
 """Evaluate empirical TV distance between full-precision and quantized verification logits.
 
-Claim 3 validation: compare measured TV with theoretical bound from Proposition 1.
-
 Three measurement modes:
 1. **End-to-end** — uses SpeculativeDecoder.measure_tv_distance() to compare FP vs
    quantized logits via prefix/suffix split (the ground-truth empirical measurement).
 2. **Per-layer** — registers forward hooks on each transformer layer's attention module
    to capture K, V tensors, quantizes them with SpecQuant and baselines, recomputes
    attention, and measures per-layer output TV distance.
-3. **Theoretical bound** — computes Proposition 1 bound and validates empirical <= bound.
+3. **Heuristic TV proxy** — computes a single-head RMS-noise proxy for TV scale
+   (NOT a rigorous upper bound — see PROOF_AUDIT.md Issues 1-4).
 
 Output: JSON with per-bitwidth statistics, per-layer analysis, and per-position TV.
 """
@@ -32,7 +31,7 @@ from src.turboquant_kv import (
     HadamardRotation,
     QuantizedKVCache,
     ScalarQuantizer,
-    compute_tv_bound,
+    estimate_tv_proxy,
 )
 from src.baselines import RTNKVCache, KIVIKVCache
 from src.utils import aggregate_trials, save_results, validate_dual_gpu
@@ -391,7 +390,7 @@ def measure_per_layer_tv(
         layer_result["k_shape"] = list(k_fp.shape)
         layer_result["v_shape"] = list(v_fp.shape)
 
-        # Compute KV range statistics (useful for theoretical bound calibration)
+        # Compute KV range statistics (useful for heuristic TV proxy calibration)
         k_range = (k_fp.max() - k_fp.min()).item()
         v_range = (v_fp.max() - v_fp.min()).item()
         v_fnorm = v_fp.float().norm().item()
@@ -460,15 +459,21 @@ def measure_per_layer_tv(
         layer_result["rtn_l2"] = (attn_fp - attn_rtn).float().norm().item()
         layer_result["kivi_l2"] = (attn_fp - attn_kivi).float().norm().item()
 
-        # Per-layer theoretical bound with actual measured ranges
-        layer_result["theoretical_tv_bound"] = compute_tv_bound(
-            w_o_fnorm=1.0,
+        # Per-layer heuristic TV proxy with actual measured ranges
+        # w_o_fnorm=1.0: placeholder — measuring actual W_O Frobenius norm
+        # per layer requires accessing the output projection weight, which is
+        # architecture-dependent.  TODO: extract w_o_fnorm from module.o_proj.
+        # q_fnorm: measured from the captured query tensor for this layer.
+        q_fnorm = q_for_attn.float().norm().item() if q_for_attn is not None else 1.0
+        layer_result["q_frobenius_norm"] = q_fnorm
+        layer_result["tv_proxy"] = estimate_tv_proxy(
+            w_o_fnorm=1.0,  # WARNING: hard-coded; see TODO above
             range_k=k_range,
             range_v=v_range,
             v_fnorm=v_fnorm,
+            q_fnorm=q_fnorm,
             dim=head_dim,
             bits=bits,
-            block_size=block_size,
             temperature=1.0,
         )
 
@@ -508,23 +513,23 @@ def measure_e2e_tv(
 
 
 # ---------------------------------------------------------------------------
-# Theoretical bound computation with measured statistics
+# TV proxy computation with measured statistics
 # ---------------------------------------------------------------------------
 
 def compute_calibrated_bound(
     per_layer_results: List[Dict[str, Any]],
     bits: int,
-    block_size: int,
     head_dim: int,
 ) -> Dict[str, Any]:
-    """Compute theoretical TV bound using empirically measured KV range statistics.
+    """Compute heuristic TV proxy using empirically measured KV range statistics.
 
     Instead of assuming range_k=4, range_v=4, uses the actual measured ranges
-    from per-layer KV capture for a tighter bound estimate.
+    from per-layer KV capture. NOT a rigorous bound — see PROOF_AUDIT.md.
     """
     k_ranges = []
     v_ranges = []
     v_fnorms = []
+    q_fnorms = []
 
     for layer in per_layer_results:
         if layer.get("status") != "ok":
@@ -532,43 +537,49 @@ def compute_calibrated_bound(
         k_ranges.append(layer["k_range"])
         v_ranges.append(layer["v_range"])
         v_fnorms.append(layer["v_frobenius_norm"])
+        q_fnorms.append(layer.get("q_frobenius_norm", 1.0))
 
     if not k_ranges:
         return {"error": "no_valid_layers"}
 
+    # WARNING: w_o_fnorm=1.0 is a placeholder.  TODO: measure actual W_O norms.
+    # q_fnorm: use worst-case (max) measured value from per-layer capture.
+    q_fnorm_worst = max(q_fnorms)
+    q_fnorm_avg = float(np.mean(q_fnorms))
+
     # Use worst-case (max) ranges for the bound
-    bound_worst = compute_tv_bound(
+    bound_worst = estimate_tv_proxy(
         w_o_fnorm=1.0,
         range_k=max(k_ranges),
         range_v=max(v_ranges),
         v_fnorm=max(v_fnorms),
+        q_fnorm=q_fnorm_worst,
         dim=head_dim,
         bits=bits,
-        block_size=block_size,
         temperature=1.0,
     )
 
     # Also compute with average ranges for comparison
-    bound_avg = compute_tv_bound(
+    bound_avg = estimate_tv_proxy(
         w_o_fnorm=1.0,
         range_k=float(np.mean(k_ranges)),
         range_v=float(np.mean(v_ranges)),
         v_fnorm=float(np.mean(v_fnorms)),
+        q_fnorm=q_fnorm_avg,
         dim=head_dim,
         bits=bits,
-        block_size=block_size,
         temperature=1.0,
     )
 
     # Default assumption bound (range=4, fnorm=1) for comparison
-    bound_default = compute_tv_bound(
+    bound_default = estimate_tv_proxy(
         w_o_fnorm=1.0,
         range_k=4.0,
         range_v=4.0,
         v_fnorm=1.0,
+        q_fnorm=1.0,  # WARNING: hard-coded default
         dim=head_dim,
         bits=bits,
-        block_size=block_size,
         temperature=1.0,
     )
 
@@ -642,7 +653,7 @@ def run_evaluation(
     """Run full TV distance evaluation across bit-widths, prompts, and layers.
 
     Returns a structured result dict with:
-    - per_bitwidth: empirical TV stats, theoretical bounds, bound validation
+    - per_bitwidth: empirical TV stats, heuristic TV proxys, bound validation
     - per_layer_analysis: which layers contribute most TV
     - per_position_analysis: how TV varies across sequence positions
     """
@@ -811,7 +822,7 @@ def run_evaluation(
                 "late_half_tv_mean": float(np.mean(position_means[max_pos // 2 :])) if max_pos > 1 else 0.0,
             }
 
-        # -- Theoretical bound with calibrated ranges --
+        # -- TV proxy with calibrated ranges --
         all_per_layer = []
         for sample in per_layer_tv_samples:
             all_per_layer.extend(sample.get("per_layer", []))
@@ -819,7 +830,7 @@ def run_evaluation(
         config = target_model.config
         head_dim = config.hidden_size // config.num_attention_heads
         calibrated_bound = compute_calibrated_bound(
-            all_per_layer, bits, block_size, head_dim,
+            all_per_layer, bits, head_dim,
         )
 
         # -- Bound validation: does empirical <= theoretical? --
@@ -880,7 +891,7 @@ def run_evaluation(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Empirical TV distance validation (Claim 3 / Proposition 1)",
+        description="Empirical TV distance validation (Claim 3 / TV proxy calibration)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""\
 Examples:

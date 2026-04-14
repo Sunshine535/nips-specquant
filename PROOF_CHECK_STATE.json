@@ -1,0 +1,39 @@
+{
+  "status": "completed",
+  "rounds": 2,
+  "threadId": "019d8b2d-79a2-7420-bf65-d0d0bf3c269f",
+  "fatal_found": 9,
+  "fatal_fixed": 9,
+  "critical_found": 3,
+  "critical_fixed": 3,
+  "major_found": 0,
+  "major_fixed": 0,
+  "minor_found": 0,
+  "minor_fixed": 0,
+  "partial_fixes": 2,
+  "counterexamples_found": 12,
+  "counterexample_candidates": 1,
+  "acceptance_gate": "CONDITIONAL_PASS",
+  "remaining_items": [
+    "Issue 9: MTP path KV rewind in oracle_sensitivity.py (TODO)",
+    "Issue 12: core_comparison oracle uses target-logit proxy for draft probs (TODO)",
+    "eval_tv_distance.py measures per-layer TV, not full-model token distribution TV",
+    "FINAL_PROPOSAL.md historical doc uses old alpha(KV,U) notation"
+  ],
+  "files_modified": [
+    "src/turboquant_kv.py",
+    "src/acceptspec.py",
+    "src/speculative_decode.py",
+    "src/quantized_verifier.py",
+    "src/linear_attn_quantizer.py",
+    "scripts/eval_tv_distance.py",
+    "scripts/oracle_sensitivity.py",
+    "scripts/core_comparison.py",
+    "scripts/benchmark_specquant.py",
+    "scripts/generate_figures.py",
+    "tests/test_specquant.py",
+    "PROOF_SKELETON.md",
+    "PROOF_AUDIT.md"
+  ],
+  "timestamp": "2026-04-14T12:00:00Z"
+}

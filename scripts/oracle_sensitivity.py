@@ -330,10 +330,17 @@ def run_instrumented_sd(
         # Only do this every few steps to save compute
         if n_steps % max(1, gamma) == 1 or n_steps <= 3:
             try:
+                # measure_step_sensitivity expects per-position SCALAR draft
+                # probabilities for the selected token (shape [gamma]), NOT
+                # full-vocabulary distribution tensors.
+                draft_probs_scalar = torch.tensor([
+                    draft_probs[j][draft_tokens_list[j]].item()
+                    for j in range(len(draft_tokens_list))
+                ])
                 sens_result = oracle.measure_step_sensitivity(
                     target_kv=target_kv,
                     draft_tokens=draft_tokens,
-                    draft_probs=draft_probs,
+                    draft_probs=draft_probs_scalar,
                     target_next_logits=target_next_logits,
                     temperature=temperature,
                     num_samples=num_samples_per_step,

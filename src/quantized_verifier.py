@@ -444,7 +444,8 @@ class QuantizedVerifier:
         head_dim = verifier.head_dim
         gqa_repeat = verifier.gqa_repeat
         scale = 1.0 / math.sqrt(head_dim)
-        padded_scale = 1.0 / math.sqrt(verifier.qkv_cache.rotation.padded_dim)
+        # Use head_dim scale everywhere (not padded_dim) — see PROOF_AUDIT.md Issue 6
+        prefix_scale = scale
 
         def patched_forward(
             hidden_states: torch.Tensor,
@@ -555,7 +556,7 @@ class QuantizedVerifier:
             # compressed_attention handles GQA internally and returns output
             # in original (non-rotated) space: (B, num_q_heads, L, head_dim)
             prefix_attn = verifier.qkv_cache.compressed_attention(
-                layer_idx, q, scale=None,  # uses padded_dim scale internally
+                layer_idx, q, scale=prefix_scale,
             )
 
             # Compute LSE for prefix to enable correct merge.
@@ -572,7 +573,7 @@ class QuantizedVerifier:
 
             prefix_scores = torch.matmul(
                 q_rotated, k_rot_exp.float().transpose(-2, -1)
-            ) * padded_scale  # (B, num_q_heads, L, prefix_len)
+            ) * prefix_scale  # (B, num_q_heads, L, prefix_len)
             lse_prefix = torch.logsumexp(prefix_scores, dim=-1)  # (B, H, L)
 
             verifier.t_decompress_attn += time.perf_counter() - t_decomp
