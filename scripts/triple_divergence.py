@@ -246,21 +246,31 @@ def run_instrumented_sd(
     """
     assert input_ids.shape[0] == 1
 
-    draft_model = decoder.draft_model
+    use_mtp = decoder.use_mtp
     target_model = decoder.target_model
-    draft_device = decoder.draft_device
     target_device = decoder.target_device
+    mtp_head = decoder.mtp_head if use_mtp else None
+    draft_model = decoder.draft_model if not use_mtp else None
+    draft_device = decoder.draft_device
 
     prefix_len = input_ids.shape[1]
 
-    # Prefill
-    draft_out = draft_model(input_ids.to(draft_device), use_cache=True)
-    draft_kv = draft_out.past_key_values
-    draft_next_logits = draft_out.logits[:, -1, :]
-
-    target_out = target_model(input_ids.to(target_device), use_cache=True)
+    # Prefill target
+    target_out = target_model(
+        input_ids.to(target_device), use_cache=True,
+        output_hidden_states=use_mtp,
+    )
     target_kv = target_out.past_key_values
     target_next_logits = target_out.logits[:, -1, :]
+
+    if use_mtp:
+        last_hidden = target_out.hidden_states[-1][:, -1, :]
+        draft_kv = None  # MTP mode: no separate draft KV
+    else:
+        draft_out = draft_model(input_ids.to(draft_device), use_cache=True)
+        draft_kv = draft_out.past_key_values
+        draft_next_logits = draft_out.logits[:, -1, :]
+        last_hidden = None
 
     all_token_ids = input_ids.cpu().clone()
     kv_len = prefix_len
@@ -285,29 +295,49 @@ def run_instrumented_sd(
         n_steps += 1
 
         # --- Draft phase ---
-        draft_tokens_list = []
-        draft_probs_list = []
-        cur_logits = draft_next_logits
-
-        for _ in range(cur_gamma):
+        if use_mtp:
+            # MTP self-speculation: sample first token from target logits
+            temp = max(temperature, 1e-8)
+            p0 = F.softmax(target_next_logits.squeeze(0) / temp, dim=-1)
             if temperature > 0:
-                probs = torch.softmax(cur_logits / temperature, dim=-1)
-                tok = torch.multinomial(probs.squeeze(0), 1).item()
+                tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
             else:
-                tok = cur_logits.argmax(dim=-1).item()
-                probs = torch.softmax(cur_logits, dim=-1)
+                tok0 = target_next_logits.argmax(dim=-1).squeeze(0)
+                p0 = F.softmax(target_next_logits.squeeze(0), dim=-1)
 
-            prob_val = probs.squeeze(0)[tok].item()
-            draft_tokens_list.append(tok)
-            draft_probs_list.append(prob_val)
+            draft_tokens_mtp, draft_probs_mtp, _, _ = mtp_head.draft(
+                tok0, last_hidden, kv_len, cur_gamma - 1, temperature,
+            )
+            draft_tokens_list = [tok0.item()] + [t.item() for t in draft_tokens_mtp]
+            draft_probs_list = [p0[tok0.item()].item()] + [
+                dp[draft_tokens_list[j+1]].item() if dp.dim() > 0 else dp.item()
+                for j, dp in enumerate(draft_probs_mtp)
+            ]
+        else:
+            # Dual-model draft
+            draft_tokens_list = []
+            draft_probs_list = []
+            cur_logits = draft_next_logits
 
-            tok_tensor = torch.tensor([[tok]], device=draft_device)
-            d_out = draft_model(tok_tensor, past_key_values=draft_kv, use_cache=True)
-            draft_kv = d_out.past_key_values
-            cur_logits = d_out.logits[:, -1, :]
+            for _ in range(cur_gamma):
+                if temperature > 0:
+                    probs = torch.softmax(cur_logits / temperature, dim=-1)
+                    tok = torch.multinomial(probs.squeeze(0), 1).item()
+                else:
+                    tok = cur_logits.argmax(dim=-1).item()
+                    probs = torch.softmax(cur_logits, dim=-1)
 
-        draft_tokens = torch.tensor(draft_tokens_list, device=target_device)
-        draft_probs = torch.tensor(draft_probs_list)
+                prob_val = probs.squeeze(0)[tok].item()
+                draft_tokens_list.append(tok)
+                draft_probs_list.append(prob_val)
+
+                tok_tensor = torch.tensor([[tok]], device=draft_device)
+                d_out = draft_model(tok_tensor, past_key_values=draft_kv, use_cache=True)
+                draft_kv = d_out.past_key_values
+                cur_logits = d_out.logits[:, -1, :]
+
+        draft_tokens = torch.tensor(draft_tokens_list[:cur_gamma], device=target_device)
+        draft_probs = torch.tensor(draft_probs_list[:cur_gamma])
         coupled_seeds = torch.rand(cur_gamma)
 
         # --- Measure all 3 rankings (every few steps to save compute) ---
@@ -345,8 +375,11 @@ def run_instrumented_sd(
                     step_attn_imp.append(attn_imp)
 
                     # Collect draft-model features for predictor training
+                    # In MTP mode, use target KV (MTP shares the target's KV)
+                    feat_kv = target_kv if use_mtp else draft_kv
+                    feat_model = target_model if use_mtp else draft_model
                     draft_attn, v_norms = _extract_draft_features(
-                        draft_model, draft_kv, draft_tokens, draft_device,
+                        feat_model, feat_kv, draft_tokens, target_device,
                     )
                     step_draft_attns.append(draft_attn)
                     step_value_norms.append(v_norms)
@@ -373,28 +406,43 @@ def run_instrumented_sd(
 
         # Trim KV caches
         new_kv_len = kv_len + n_acc
-        draft_kv = _trim_kv_cache(draft_kv, new_kv_len)
+        if draft_kv is not None:
+            draft_kv = _trim_kv_cache(draft_kv, new_kv_len)
         target_kv = _trim_kv_cache(target_kv_ext, new_kv_len)
 
         last_tok = accepted[-1]
         kv_len = new_kv_len
 
-        # Update draft and target next logits
-        d_out = draft_model(
-            last_tok.view(1, 1).to(draft_device),
-            past_key_values=draft_kv,
-            use_cache=True,
-        )
-        draft_kv = d_out.past_key_values
-        draft_next_logits = d_out.logits[:, -1, :]
+        if use_mtp:
+            # MTP: re-sync target model, get new hidden states
+            t_out = target_model(
+                last_tok.view(1, 1).to(target_device),
+                past_key_values=target_kv,
+                use_cache=True,
+                output_hidden_states=True,
+            )
+            target_kv = t_out.past_key_values
+            target_next_logits = t_out.logits[:, -1, :]
+            last_hidden = t_out.hidden_states[-1][:, -1, :]
+        else:
+            # Dual-model: update both
+            d_out = draft_model(
+                last_tok.view(1, 1).to(draft_device),
+                past_key_values=draft_kv,
+                use_cache=True,
+            )
+            draft_kv = d_out.past_key_values
+            draft_next_logits = d_out.logits[:, -1, :]
 
-        t_out = target_model(
-            last_tok.view(1, 1).to(target_device),
-            past_key_values=target_kv,
-            use_cache=True,
-        )
-        target_kv = t_out.past_key_values
-        target_next_logits = t_out.logits[:, -1, :]
+            t_out = target_model(
+                last_tok.view(1, 1).to(target_device),
+                past_key_values=target_kv,
+                use_cache=True,
+            )
+            target_kv = t_out.past_key_values
+            target_next_logits = t_out.logits[:, -1, :]
+
+        kv_len = new_kv_len + 1
 
         # Check for EOS
         if last_tok.item() == decoder.tokenizer.eos_token_id:
