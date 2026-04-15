@@ -309,35 +309,49 @@ def run_instrumented_sd(
                 tok0, last_hidden, kv_len, cur_gamma - 1, temperature,
             )
             draft_tokens_list = [tok0.item()] + [t.item() for t in draft_tokens_mtp]
-            draft_probs_list = [p0[tok0.item()].item()] + [
-                dp[draft_tokens_list[j+1]].item() if dp.dim() > 0 else dp.item()
-                for j, dp in enumerate(draft_probs_mtp)
-            ]
+            # Store FULL vocab distributions (not scalars) for _rejection_sample
+            draft_probs_full = [p0.cpu()]  # [vocab_size]
+            for dp in draft_probs_mtp:
+                if dp.dim() == 0:
+                    # scalar → fake a one-hot-ish distribution
+                    draft_probs_full.append(p0.cpu())
+                else:
+                    draft_probs_full.append(dp.cpu() if dp.dim() == 1 else dp.squeeze(0).cpu())
+            # Scalar probs for oracle sensitivity measurement
+            draft_probs_scalar = torch.tensor([
+                draft_probs_full[j][draft_tokens_list[j]].item()
+                for j in range(len(draft_tokens_list))
+            ])
         else:
-            # Dual-model draft
+            # Dual-model draft — store full vocab distributions
             draft_tokens_list = []
-            draft_probs_list = []
+            draft_probs_full = []
             cur_logits = draft_next_logits
 
             for _ in range(cur_gamma):
                 if temperature > 0:
-                    probs = torch.softmax(cur_logits / temperature, dim=-1)
-                    tok = torch.multinomial(probs.squeeze(0), 1).item()
+                    probs = torch.softmax(cur_logits / temperature, dim=-1).squeeze(0)
+                    tok = torch.multinomial(probs, 1).item()
                 else:
                     tok = cur_logits.argmax(dim=-1).item()
-                    probs = torch.softmax(cur_logits, dim=-1)
+                    probs = torch.softmax(cur_logits, dim=-1).squeeze(0)
 
-                prob_val = probs.squeeze(0)[tok].item()
                 draft_tokens_list.append(tok)
-                draft_probs_list.append(prob_val)
+                draft_probs_full.append(probs.cpu())  # full vocab distribution
 
                 tok_tensor = torch.tensor([[tok]], device=draft_device)
                 d_out = draft_model(tok_tensor, past_key_values=draft_kv, use_cache=True)
                 draft_kv = d_out.past_key_values
                 cur_logits = d_out.logits[:, -1, :]
 
+            draft_probs_scalar = torch.tensor([
+                draft_probs_full[j][draft_tokens_list[j]].item()
+                for j in range(len(draft_tokens_list))
+            ])
+
         draft_tokens = torch.tensor(draft_tokens_list[:cur_gamma], device=target_device)
-        draft_probs = torch.tensor(draft_probs_list[:cur_gamma])
+        # Full vocab distributions for _rejection_sample
+        draft_probs = draft_probs_full[:cur_gamma]
         coupled_seeds = torch.rand(cur_gamma)
 
         # --- Measure all 3 rankings (every few steps to save compute) ---
@@ -347,7 +361,7 @@ def run_instrumented_sd(
                 sens_result = oracle.measure_step_sensitivity(
                     target_kv=target_kv,
                     draft_tokens=draft_tokens,
-                    draft_probs=draft_probs,
+                    draft_probs=draft_probs_scalar,  # scalar probs for oracle
                     target_next_logits=target_next_logits,
                     temperature=temperature,
                     num_samples=num_samples_per_step,
