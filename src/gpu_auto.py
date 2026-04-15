@@ -218,6 +218,7 @@ def load_model_mtp(
     kwargs = dict(
         torch_dtype=plan.dtype,
         trust_remote_code=trust_remote_code,
+        attn_implementation="eager",  # needed for output_attentions=True (sdpa doesn't support it)
     )
     if plan.num_gpus >= 1:
         kwargs["device_map"] = "cuda:0"
