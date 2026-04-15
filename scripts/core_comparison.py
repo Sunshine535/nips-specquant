@@ -930,13 +930,12 @@ def run_comparison(args):
 
     model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
     target_model = model
-    draft_model = model  # MTP mode: same model
 
-    # Create SD decoder (no built-in quantization -- we handle it per-policy)
+    # Create SD decoder with MTP self-speculation (not dual-model legacy)
     decoder = SpeculativeDecoder(
-        draft_model=draft_model,
         target_model=target_model,
         tokenizer=tokenizer,
+        mtp_head=mtp_head,
         quant_bits=0,
     )
 

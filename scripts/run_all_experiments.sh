@@ -133,7 +133,7 @@ if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
     NUM_PROBLEMS=100
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=30
 
-    python scripts/triple_divergence.py \
+    bash scripts/parallel_run.sh scripts/triple_divergence.py \
         --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
         --output_dir "${RESULTS_DIR}/divergence" \
@@ -153,7 +153,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=100
 
     for DATASET in gsm8k math500; do
-        python scripts/core_comparison.py \
+        bash scripts/parallel_run.sh scripts/core_comparison.py \
             --model "$MODEL" \
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
@@ -163,7 +163,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
     done
 
     # Anti-claim ablation
-    python scripts/core_comparison.py \
+    bash scripts/parallel_run.sh scripts/core_comparison.py \
         --model "$MODEL" \
         --dataset gsm8k \
         --num_problems $NUM_PROBLEMS \
@@ -174,7 +174,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
 
     # Budget sweep
     for BUDGET in 0.1 0.2 0.3 0.5; do
-        python scripts/core_comparison.py \
+        bash scripts/parallel_run.sh scripts/core_comparison.py \
             --model "$MODEL" \
             --dataset gsm8k \
             --num_problems 500 \

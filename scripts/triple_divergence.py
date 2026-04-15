@@ -601,13 +601,12 @@ def run_triple_divergence(args):
 
     model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
     target_model = model
-    draft_model = model  # MTP mode: same model for both
 
-    # Create SD decoder (no quantization -- baseline acceptance)
+    # Create SD decoder with MTP self-speculation (not dual-model legacy)
     decoder = SpeculativeDecoder(
-        draft_model=draft_model,
         target_model=target_model,
         tokenizer=tokenizer,
+        mtp_head=mtp_head,
         quant_bits=0,
     )
 
