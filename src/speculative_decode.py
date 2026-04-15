@@ -403,8 +403,8 @@ class SpeculativeDecoder:
                 p0 = F.softmax(target_next_logits.squeeze(0) / temp, dim=-1)
                 tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
 
-                # MTP head drafts remaining tokens
-                draft_tokens_mtp, draft_probs_mtp, draft_hiddens, draft_attns = (
+                # MTP head drafts remaining tokens (returns 3 values)
+                draft_tokens_mtp, draft_probs_mtp, draft_hiddens = (
                     self.mtp_head.draft(
                         tok0, last_hidden, kv_len, cur_gamma - 1, temperature,
                     )

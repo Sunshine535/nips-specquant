@@ -305,7 +305,7 @@ def run_instrumented_sd(
                 tok0 = target_next_logits.argmax(dim=-1).squeeze(0)
                 p0 = F.softmax(target_next_logits.squeeze(0), dim=-1)
 
-            draft_tokens_mtp, draft_probs_mtp, _, _ = mtp_head.draft(
+            draft_tokens_mtp, draft_probs_mtp, _ = mtp_head.draft(
                 tok0, last_hidden, kv_len, cur_gamma - 1, temperature,
             )
             draft_tokens_list = [tok0.item()] + [t.item() for t in draft_tokens_mtp]
