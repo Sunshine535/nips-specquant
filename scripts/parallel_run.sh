@@ -74,7 +74,7 @@ for ((i=0; i<NUM_INSTANCES; i++)); do
     done
 
     echo "[parallel] Instance $i: GPUs $GPU_LIST → $SHARD_OUT"
-    CUDA_VISIBLE_DEVICES=$GPU_LIST python "$SCRIPT" "${SHARD_ARGS[@]}" \
+    CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" \
         --shard "$i" --num_shards "$NUM_INSTANCES" &
     PIDS+=($!)
 done

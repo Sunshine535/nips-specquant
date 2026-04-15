@@ -201,7 +201,7 @@ if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=100
 
     for DATASET in gsm8k math500; do
-        python scripts/e2e_benchmark.py \
+        python scripts/torch_patch.py scripts/e2e_benchmark.py \
             --model "$MODEL" \
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
@@ -211,7 +211,7 @@ if [ "$FROM_MILESTONE" -le 4 ] && ! phase_done 4; then
     done
 
     # Profiling
-    python scripts/e2e_benchmark.py \
+    python scripts/torch_patch.py scripts/e2e_benchmark.py \
         --model "$MODEL" \
         --dataset gsm8k \
         --num_problems 50 \
@@ -234,7 +234,7 @@ if [ "$FROM_MILESTONE" -le 5 ] && ! phase_done 5; then
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=50
 
     for TEMP in 0.0 0.3 0.6 0.9; do
-        python scripts/oracle_sensitivity.py \
+        python scripts/torch_patch.py scripts/oracle_sensitivity.py \
             --model "$MODEL" \
             --num_problems $NUM_PROBLEMS \
             --temperature $TEMP \
@@ -243,7 +243,7 @@ if [ "$FROM_MILESTONE" -le 5 ] && ! phase_done 5; then
     done
 
     for GAMMA in 3 5 7 10; do
-        python scripts/oracle_sensitivity.py \
+        python scripts/torch_patch.py scripts/oracle_sensitivity.py \
             --model "$MODEL" \
             --num_problems $NUM_PROBLEMS \
             --gamma $GAMMA \
