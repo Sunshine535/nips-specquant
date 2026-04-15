@@ -626,6 +626,15 @@ def run_triple_divergence(args):
     logger.info("Loading GSM8K (%d problems)...", args.num_problems)
     problems = load_gsm8k(args.num_problems)
 
+    # Shard for parallel execution
+    if args.shard is not None and args.num_shards is not None:
+        shard_size = len(problems) // args.num_shards
+        start = args.shard * shard_size
+        end = start + shard_size if args.shard < args.num_shards - 1 else len(problems)
+        problems = problems[start:end]
+        logger.info("Shard %d/%d: problems [%d, %d) (%d problems)",
+                     args.shard, args.num_shards, start, end, len(problems))
+
     # Split 50/50 for predictor train/test
     split_idx = len(problems) // 2
     train_problems = problems[:split_idx]
@@ -903,6 +912,12 @@ def main():
     parser.add_argument("--samples_per_step", type=int, default=50)
     parser.add_argument("--sample_fraction", type=float, default=0.2)
     parser.add_argument("--output_dir", type=str, default="results/triple_divergence")
+    parser.add_argument("--output", type=str, default=None,
+                        help="Override output path (used by parallel_run.sh)")
+    parser.add_argument("--shard", type=int, default=None,
+                        help="Shard index (0-based) for parallel execution")
+    parser.add_argument("--num_shards", type=int, default=None,
+                        help="Total number of shards for parallel execution")
     args = parser.parse_args()
     run_triple_divergence(args)
 

@@ -137,6 +137,7 @@ if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
         --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
         --output_dir "${RESULTS_DIR}/divergence" \
+        --output "${RESULTS_DIR}/divergence/triple_divergence.json" \
         2>&1 | tee "${LOG_DIR}/M2_divergence.log"
 
     mark_done 2
@@ -159,6 +160,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
             --num_problems $NUM_PROBLEMS \
             --kv_budget 0.2 \
             --output_dir "${RESULTS_DIR}/comparison" \
+            --output "${RESULTS_DIR}/comparison/core_${DATASET}_b0.2.json" \
             2>&1 | tee "${LOG_DIR}/M3_comparison_${DATASET}.log"
     done
 
@@ -170,6 +172,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
         --kv_budget 0.2 \
         --ablation no_sd \
         --output_dir "${RESULTS_DIR}/comparison" \
+        --output "${RESULTS_DIR}/comparison/core_gsm8k_nosd.json" \
         2>&1 | tee "${LOG_DIR}/M3_anticlaim.log"
 
     # Budget sweep
@@ -180,6 +183,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
             --num_problems 500 \
             --kv_budget $BUDGET \
             --output_dir "${RESULTS_DIR}/comparison" \
+            --output "${RESULTS_DIR}/comparison/core_gsm8k_b${BUDGET}.json" \
             2>&1 | tee -a "${LOG_DIR}/M3_budget_sweep.log"
     done
 

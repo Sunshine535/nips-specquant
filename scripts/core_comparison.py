@@ -991,6 +991,15 @@ def run_comparison(args):
     else:
         raise ValueError(f"Unknown dataset: {args.dataset}")
 
+    # Shard for parallel execution
+    if args.shard is not None and args.num_shards is not None:
+        shard_size = len(problems) // args.num_shards
+        start = args.shard * shard_size
+        end = start + shard_size if args.shard < args.num_shards - 1 else len(problems)
+        problems = problems[start:end]
+        logger.info("Shard %d/%d: problems [%d, %d) (%d problems)",
+                     args.shard, args.num_shards, start, end, len(problems))
+
     logger.info("Loaded %d problems.", len(problems))
 
     # Build scoring functions
@@ -1245,6 +1254,12 @@ def main():
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max_tokens", type=int, default=256)
     parser.add_argument("--output_dir", type=str, default="results/comparison")
+    parser.add_argument("--output", type=str, default=None,
+                        help="Override output path (used by parallel_run.sh)")
+    parser.add_argument("--shard", type=int, default=None,
+                        help="Shard index (0-based) for parallel execution")
+    parser.add_argument("--num_shards", type=int, default=None,
+                        help="Total number of shards for parallel execution")
     args = parser.parse_args()
 
     run_comparison(args)
