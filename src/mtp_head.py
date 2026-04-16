@@ -228,7 +228,7 @@ class Qwen35MTPHead(nn.Module):
             draft_hiddens: list of [B, D] hidden states per step
         """
         device = hidden_states.device
-        temp = max(temperature, 1e-8)
+        greedy = temperature <= 0
 
         tokens = []
         probs_list = []
@@ -245,8 +245,14 @@ class Qwen35MTPHead(nn.Module):
                 cur_token, cur_hidden, pos, mtp_kv,
             )
 
-            p = F.softmax(logits.squeeze(0).squeeze(0) / temp, dim=-1)
-            tok = torch.multinomial(p, num_samples=1).squeeze(-1)
+            flat_logits = logits.squeeze(0).squeeze(0).float()
+            if greedy:
+                tok = flat_logits.argmax(dim=-1, keepdim=True).squeeze(-1)
+                # Use unscaled softmax for probability tracking
+                p = F.softmax(flat_logits, dim=-1)
+            else:
+                p = F.softmax(flat_logits / temperature, dim=-1)
+                tok = torch.multinomial(p, num_samples=1).squeeze(-1)
 
             tokens.append(tok.cpu())
             probs_list.append(p.cpu())

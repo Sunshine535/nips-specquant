@@ -297,13 +297,14 @@ def run_instrumented_sd(
         # --- Draft phase ---
         if use_mtp:
             # MTP self-speculation: sample first token from target logits
-            temp = max(temperature, 1e-8)
-            p0 = F.softmax(target_next_logits.squeeze(0) / temp, dim=-1)
+            flat_logits = target_next_logits.squeeze(0).float()
             if temperature > 0:
+                p0 = F.softmax(flat_logits / temperature, dim=-1)
                 tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
             else:
-                tok0 = target_next_logits.argmax(dim=-1).squeeze(0)
-                p0 = F.softmax(target_next_logits.squeeze(0), dim=-1)
+                # Greedy: argmax + unscaled softmax for prob tracking
+                tok0 = flat_logits.argmax(dim=-1)
+                p0 = F.softmax(flat_logits, dim=-1)
 
             draft_tokens_mtp, draft_probs_mtp, _ = mtp_head.draft(
                 tok0, last_hidden, kv_len, cur_gamma - 1, temperature,

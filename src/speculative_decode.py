@@ -402,9 +402,13 @@ class SpeculativeDecoder:
             t0 = time.perf_counter()
             if self.use_mtp:
                 # Sample first token from target logits
-                temp = max(temperature, 1e-8)
-                p0 = F.softmax(target_next_logits.squeeze(0) / temp, dim=-1)
-                tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
+                flat_logits = target_next_logits.squeeze(0).float()
+                if temperature > 0:
+                    p0 = F.softmax(flat_logits / temperature, dim=-1)
+                    tok0 = torch.multinomial(p0, num_samples=1).squeeze(-1)
+                else:
+                    tok0 = flat_logits.argmax(dim=-1)
+                    p0 = F.softmax(flat_logits, dim=-1)
 
                 # MTP head drafts remaining tokens (returns 3 values)
                 draft_tokens_mtp, draft_probs_mtp, draft_hiddens = (
@@ -533,9 +537,12 @@ class SpeculativeDecoder:
                     generated[:, -1:], past_key_values=past, use_cache=True
                 )
             past = out.past_key_values
-            logits = out.logits[:, -1, :]
-            probs = F.softmax(logits / max(temperature, 1e-8), dim=-1)
-            tok = torch.multinomial(probs, num_samples=1)
+            logits = out.logits[:, -1, :].float()
+            if temperature > 0:
+                probs = F.softmax(logits / temperature, dim=-1)
+                tok = torch.multinomial(probs, num_samples=1)
+            else:
+                tok = logits.argmax(dim=-1, keepdim=True)
             generated = torch.cat([generated, tok], dim=1)
         wall = time.perf_counter() - start
         return generated.cpu(), wall
@@ -553,8 +560,13 @@ class SpeculativeDecoder:
         current_kv = kv
 
         for _ in range(gamma):
-            p = F.softmax(logits / max(temperature, 1e-8), dim=-1).squeeze(0)
-            tok = torch.multinomial(p, num_samples=1).squeeze(-1)
+            flat = logits.float().squeeze(0)
+            if temperature > 0:
+                p = F.softmax(flat / temperature, dim=-1)
+                tok = torch.multinomial(p, num_samples=1).squeeze(-1)
+            else:
+                tok = flat.argmax(dim=-1)
+                p = F.softmax(flat, dim=-1)
             tokens.append(tok.cpu())
             probs_list.append(p.cpu())
 
