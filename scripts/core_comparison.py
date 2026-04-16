@@ -1231,10 +1231,18 @@ def run_comparison(args):
         }
 
     # Save results
-    ablation_tag = f"_ablation_{args.ablation}" if args.ablation else ""
-    filename = f"core_comparison_{args.dataset}_budget{args.kv_budget}{ablation_tag}.json"
-    save_results(all_results, args.output_dir, filename)
-    logger.info("Results saved to %s/%s", args.output_dir, filename)
+    if args.output is not None:
+        # Honor --output for parallel_run.sh shard files
+        out_path = Path(args.output)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_path, "w") as f:
+            json.dump(all_results, f, indent=2, default=str)
+        logger.info("Results saved to %s", out_path)
+    else:
+        ablation_tag = f"_ablation_{args.ablation}" if args.ablation else ""
+        filename = f"core_comparison_{args.dataset}_budget{args.kv_budget}{ablation_tag}.json"
+        save_results(all_results, args.output_dir, filename)
+        logger.info("Results saved to %s/%s", args.output_dir, filename)
 
 
 def main():

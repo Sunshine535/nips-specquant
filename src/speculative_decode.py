@@ -206,7 +206,6 @@ class SpeculativeDecoder:
         self.target_model = target_model
         self.tokenizer = tokenizer
         self.mtp_head = mtp_head
-        self.draft_model = draft_model
         self.quant_bits = quant_bits
         self.quant_block_size = quant_block_size
         self.quant_seed = quant_seed
@@ -219,9 +218,13 @@ class SpeculativeDecoder:
         self.target_device = next(target_model.parameters()).device
 
         if self.use_mtp:
+            # MTP mode: draft = target (so legacy scripts that access
+            # decoder.draft_model still work — they get the target model)
+            self.draft_model = target_model
             logger.info("Speculative decoding: MTP self-speculation mode")
             self.draft_device = self.target_device
         else:
+            self.draft_model = draft_model
             self.draft_model.eval()
             self.draft_device = next(draft_model.parameters()).device
             # Rejection sampling correctness requires identical tokenizer/vocab
