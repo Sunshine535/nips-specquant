@@ -825,7 +825,9 @@ def run_triple_divergence(args):
             )
 
         except Exception as e:
+            import traceback
             logger.error("  Failed: %s", e)
+            logger.error("  Traceback:\n%s", traceback.format_exc())
             continue
 
         # Clear CUDA cache between problems
