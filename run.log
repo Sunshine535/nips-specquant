@@ -1,698 +1,0 @@
-============================================
- AcceptSpec v3.0 — MTP Self-Speculation
- Thu Apr 16 03:35:42 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
- Model : Qwen/Qwen3.5-9B
- HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
-============================================
-Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
-  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
-  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
-============================================
- AcceptSpec v3.0 — MTP Self-Speculation
- Thu Apr 16 03:35:48 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
- Model: Qwen/Qwen3.5-9B
- Quick: 0 | From M: 2
-============================================
-
-=== M2: Triple Divergence + Predictor Validation ===
-[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
-[parallel] Script: scripts/triple_divergence.py | Instances: 8
-[parallel] Instance 0: GPUs 0 → results/acceptspec/divergence/triple_divergence_shard0.json
-[parallel] Instance 1: GPUs 1 → results/acceptspec/divergence/triple_divergence_shard1.json
-[parallel] Instance 2: GPUs 2 → results/acceptspec/divergence/triple_divergence_shard2.json
-[parallel] Instance 3: GPUs 3 → results/acceptspec/divergence/triple_divergence_shard3.json
-[parallel] Instance 4: GPUs 4 → results/acceptspec/divergence/triple_divergence_shard4.json
-[parallel] Instance 5: GPUs 5 → results/acceptspec/divergence/triple_divergence_shard5.json
-[parallel] Instance 6: GPUs 6 → results/acceptspec/divergence/triple_divergence_shard6.json
-[parallel] Instance 7: GPUs 7 → results/acceptspec/divergence/triple_divergence_shard7.json
-[parallel] Waiting for 8 instances...
-2026-04-16 03:36:15,897 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:15,898 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:15,899 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:15,900 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:15,901 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:15,910 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,003 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,303 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,303 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,303 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,303 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,304 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,304 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,304 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,305 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,305 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,306 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,306 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,306 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,306 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,307 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,363 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,549 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-2026-04-16 03:36:16,549 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
-2026-04-16 03:36:16,923 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:16,931 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:16,934 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:16,935 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:16,942 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:16,947 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:16,955 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:16,991 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,001 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,002 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,003 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,011 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,024 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,033 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,091 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,178 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,250 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,323 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,323 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,329 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,330 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,331 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,331 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,344 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,394 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,399 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,399 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,404 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,404 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,413 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,413 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,418 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,486 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,554 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,626 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,681 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,681 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,685 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,688 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,692 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,692 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:17,695 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,707 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,752 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,753 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,757 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,763 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,763 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,781 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,794 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,872 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:17,914 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:17,986 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,042 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,048 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,050 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,053 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,068 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,101 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,168 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,278 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:18,326 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,334 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,334 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,349 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,358 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,390 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,469 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:18,566 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,003 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,023 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,041 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,048 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,058 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,059 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,061 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,078 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,095 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,103 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,113 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,118 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,204 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,258 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,290 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,356 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
-2026-04-16 03:36:20,359 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,361 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,378 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,396 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,405 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,405 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,431 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,433 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-`torch_dtype` is deprecated! Use `dtype` instead!
-`torch_dtype` is deprecated! Use `dtype` instead!
-2026-04-16 03:36:20,458 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,464 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-`torch_dtype` is deprecated! Use `dtype` instead!
-`torch_dtype` is deprecated! Use `dtype` instead!
-2026-04-16 03:36:20,473 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:20,481 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-`torch_dtype` is deprecated! Use `dtype` instead!
-`torch_dtype` is deprecated! Use `dtype` instead!
-2026-04-16 03:36:20,551 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,639 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-`torch_dtype` is deprecated! Use `dtype` instead!
-2026-04-16 03:36:20,655 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:20,738 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-`torch_dtype` is deprecated! Use `dtype` instead!
-2026-04-16 03:36:23,684 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,688 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,689 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,691 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:23,691 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:23,695 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,695 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,699 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,702 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:23,978 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:23,978 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:23,979 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:23,982 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:23,996 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:23,998 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:24,004 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:24,010 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:24,047 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,049 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,052 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,054 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,067 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,075 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,089 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,095 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,340 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,344 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,344 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]2026-04-16 03:36:24,362 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,362 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 406.63it/s]
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 14450.66it/s]
-Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4103.01it/s]
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 11658.94it/s]
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Traceback (most recent call last):
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 29228.60it/s]
-    runpy.run_path(target, run_name="__main__")
-  File "<frozen runpy>", line 287, in run_path
-  File "<frozen runpy>", line 98, in _run_module_code
-  File "<frozen runpy>", line 88, in _run_code
-  File "scripts/triple_divergence.py", line 992, in <module>
-    main()
-  File "scripts/triple_divergence.py", line 988, in main
-    run_triple_divergence(args)
-  File "scripts/triple_divergence.py", line 664, in run_triple_divergence
-    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
-                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/src/gpu_auto.py", line 230, in load_model_mtp
-    model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 387, in from_pretrained
-    return model_class.from_pretrained(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4057, in from_pretrained
-    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
-                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 737, in _get_resolved_checkpoint_files
-    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
-                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/transformers/utils/hub.py", line 879, in get_checkpoint_shard_files
-    cached_filenames = cached_files(
-                       ^^^^^^^^^^^^^
-  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/transformers/utils/hub.py", line 528, in cached_files
-    raise OSError(
-OSError: Qwen/Qwen3.5-9B does not appear to have a file named model.safetensors-00002-of-00004.safetensors. Checkout 'https://huggingface.co/Qwen/Qwen3.5-9B/tree/main' for available files.
-2026-04-16 03:36:24,392 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,395 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:24,396 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 34952.53it/s]
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4296.34it/s]
-
-==================================================
-  1 GPU(s) detected
-==================================================
-  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
-
-  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
-==================================================
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 7688.92it/s]
-[parallel] Instance 0 FAILED
-Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<02:08,  3.32it/s]Loading weights:   0%|          | 1/427 [00:00<02:11,  3.25it/s]Loading weights:   0%|          | 1/427 [00:00<01:59,  3.58it/s]Loading weights:   0%|          | 1/427 [00:00<02:24,  2.95it/s]Loading weights:   0%|          | 1/427 [00:00<02:24,  2.95it/s]Loading weights:   0%|          | 1/427 [00:00<02:23,  2.96it/s]Loading weights:   0%|          | 2/427 [00:00<02:24,  2.93it/s]Loading weights:   0%|          | 2/427 [00:00<02:09,  3.28it/s]Loading weights:   0%|          | 1/427 [00:00<04:57,  1.43it/s]Loading weights:   0%|          | 2/427 [00:00<02:28,  2.86it/s]Loading weights:   5%|▌         | 23/427 [00:00<00:09, 43.10it/s]Loading weights:   7%|▋         | 28/427 [00:00<00:06, 57.40it/s]Loading weights:   0%|          | 2/427 [00:00<02:29,  2.85it/s]Loading weights:   0%|          | 2/427 [00:00<02:29,  2.84it/s]Loading weights:   0%|          | 2/427 [00:00<02:29,  2.84it/s]Loading weights:   5%|▍         | 21/427 [00:00<00:11, 34.51it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:10, 39.81it/s]Loading weights:  12%|█▏        | 53/427 [00:00<00:03, 101.00it/s]Loading weights:  10%|▉         | 42/427 [00:00<00:05, 70.52it/s]Loading weights:   3%|▎         | 13/427 [00:00<00:17, 23.10it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:08, 49.89it/s]Loading weights:  10%|▉         | 41/427 [00:00<00:05, 65.71it/s]Loading weights:   7%|▋         | 28/427 [00:00<00:07, 51.29it/s]Loading weights:  10%|▉         | 41/427 [00:00<00:05, 70.47it/s]Loading weights:  19%|█▉        | 81/427 [00:00<00:02, 142.53it/s]Loading weights:  15%|█▍        | 62/427 [00:01<00:03, 98.17it/s]Loading weights:  11%|█         | 46/427 [00:00<00:04, 79.13it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:05, 70.70it/s]Loading weights:  11%|█         | 47/427 [00:00<00:04, 79.54it/s]Loading weights:  13%|█▎        | 56/427 [00:01<00:04, 81.70it/s]Loading weights:  12%|█▏        | 53/427 [00:01<00:04, 81.29it/s]Loading weights:  24%|██▎       | 101/427 [00:01<00:02, 156.68it/s]Loading weights:  19%|█▊        | 80/427 [00:01<00:02, 116.04it/s]Loading weights:  16%|█▌        | 68/427 [00:01<00:03, 109.22it/s]Loading weights:  17%|█▋        | 74/427 [00:01<00:02, 121.59it/s]Loading weights:  12%|█▏        | 51/427 [00:01<00:04, 80.83it/s]Loading weights:  19%|█▊        | 80/427 [00:01<00:03, 113.39it/s]Loading weights:  18%|█▊        | 76/427 [00:01<00:03, 114.52it/s]Loading weights:  31%|███▏      | 134/427 [00:01<00:01, 198.02it/s]Loading weights:  22%|██▏       | 94/427 [00:01<00:02, 145.83it/s]Loading weights:  22%|██▏       | 96/427 [00:01<00:02, 122.07it/s]Loading weights:  22%|██▏       | 95/427 [00:01<00:02, 140.23it/s]Loading weights:  18%|█▊        | 75/427 [00:01<00:03, 115.38it/s]Loading weights:  23%|██▎       | 97/427 [00:01<00:02, 124.02it/s]Loading weights:  22%|██▏       | 94/427 [00:01<00:02, 129.05it/s]Loading weights:  37%|███▋      | 158/427 [00:01<00:01, 207.26it/s]Loading weights:  27%|██▋       | 114/427 [00:01<00:01, 156.67it/s]Loading weights:  27%|██▋       | 115/427 [00:01<00:02, 152.56it/s]Loading weights:  28%|██▊       | 119/427 [00:01<00:02, 144.24it/s]Loading weights:  22%|██▏       | 94/427 [00:01<00:02, 133.02it/s]Loading weights:  27%|██▋       | 117/427 [00:01<00:02, 142.06it/s]Loading weights:  26%|██▌       | 110/427 [00:01<00:02, 132.99it/s]Loading weights:  44%|████▍     | 187/427 [00:01<00:01, 229.52it/s]Loading weights:  26%|██▌       | 111/427 [00:01<00:02, 136.70it/s]Loading weights:  32%|███▏      | 136/427 [00:01<00:02, 141.71it/s]Loading weights:  31%|███▏      | 134/427 [00:01<00:01, 153.25it/s]Loading weights:  31%|███▏      | 134/427 [00:01<00:01, 152.04it/s]Loading weights:  30%|██▉       | 128/427 [00:01<00:02, 145.22it/s]Loading weights:  32%|███▏      | 135/427 [00:01<00:02, 136.90it/s]Loading weights:  50%|████▉     | 212/427 [00:01<00:00, 232.81it/s]Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 160.12it/s]Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 158.83it/s]Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 145.63it/s]Loading weights:  30%|███       | 130/427 [00:01<00:02, 148.26it/s]Loading weights:  34%|███▍      | 147/427 [00:01<00:01, 152.17it/s]Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 143.82it/s]Loading weights:  56%|█████▌    | 240/427 [00:01<00:00, 245.41it/s]Loading weights:  41%|████      | 174/427 [00:01<00:01, 174.12it/s]Loading weights:  41%|████      | 174/427 [00:01<00:01, 171.83it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 157.34it/s]Loading weights:  34%|███▍      | 147/427 [00:01<00:01, 149.64it/s]Loading weights:  38%|███▊      | 164/427 [00:01<00:01, 150.34it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 153.71it/s]Loading weights:  62%|██████▏   | 266/427 [00:01<00:00, 236.16it/s]Loading weights:  47%|████▋     | 199/427 [00:01<00:01, 190.83it/s]Loading weights:  47%|████▋     | 202/427 [00:01<00:01, 195.83it/s]Loading weights:  44%|████▍     | 189/427 [00:01<00:01, 151.87it/s]Loading weights:  43%|████▎     | 182/427 [00:01<00:01, 158.30it/s]Loading weights:  38%|███▊      | 164/427 [00:01<00:01, 145.23it/s]Loading weights:  69%|██████▊   | 293/427 [00:01<00:00, 245.56it/s]Loading weights:  44%|████▍     | 189/427 [00:01<00:01, 148.56it/s]Loading weights:  53%|█████▎    | 226/427 [00:01<00:00, 206.31it/s]Loading weights:  53%|█████▎    | 227/427 [00:01<00:00, 204.84it/s]Loading weights:  42%|████▏     | 181/427 [00:01<00:01, 151.26it/s]Loading weights:  48%|████▊     | 206/427 [00:01<00:01, 150.60it/s]Loading weights:  47%|████▋     | 200/427 [00:01<00:01, 157.07it/s]Loading weights:  48%|████▊     | 205/427 [00:01<00:01, 148.94it/s]Loading weights:  75%|███████▍  | 319/427 [00:01<00:00, 237.37it/s]Loading weights:  59%|█████▉    | 253/427 [00:01<00:00, 220.85it/s]Loading weights:  59%|█████▉    | 254/427 [00:01<00:00, 220.17it/s]Loading weights:  47%|████▋     | 199/427 [00:01<00:01, 158.16it/s]Loading weights:  53%|█████▎    | 227/427 [00:02<00:01, 158.66it/s]Loading weights:  51%|█████     | 217/427 [00:02<00:01, 154.83it/s]Loading weights:  53%|█████▎    | 225/427 [00:02<00:01, 160.60it/s]Loading weights:  81%|████████▏ | 347/427 [00:01<00:00, 241.11it/s]Loading weights:  65%|██████▌   | 278/427 [00:02<00:00, 222.45it/s]Loading weights:  65%|██████▌   | 279/427 [00:02<00:00, 223.35it/s]Loading weights:  59%|█████▉    | 252/427 [00:02<00:00, 181.93it/s]Loading weights:  55%|█████▍    | 233/427 [00:02<00:01, 155.59it/s]Loading weights:  51%|█████     | 216/427 [00:02<00:01, 146.47it/s]Loading weights:  87%|████████▋ | 372/427 [00:02<00:00, 239.59it/s]Loading weights:  57%|█████▋    | 242/427 [00:02<00:01, 153.85it/s]Loading weights:  71%|███████▏  | 305/427 [00:02<00:00, 234.70it/s]Loading weights:  72%|███████▏  | 306/427 [00:02<00:00, 234.79it/s]Loading weights:  59%|█████▉    | 252/427 [00:02<00:01, 161.14it/s]Loading weights:  55%|█████▍    | 234/427 [00:02<00:01, 154.94it/s]Loading weights:  63%|██████▎   | 271/427 [00:02<00:00, 169.21it/s]Loading weights:  94%|█████████▎| 400/427 [00:02<00:00, 243.80it/s]Loading weights:  61%|██████    | 259/427 [00:02<00:01, 143.79it/s]Loading weights:  77%|███████▋  | 329/427 [00:02<00:00, 229.14it/s]Loading weights:  78%|███████▊  | 331/427 [00:02<00:00, 232.01it/s]Loading weights:  59%|█████▉    | 252/427 [00:02<00:01, 156.95it/s]Loading weights:  63%|██████▎   | 269/427 [00:02<00:01, 156.24it/s]Loading weights:  68%|██████▊   | 290/427 [00:02<00:00, 172.79it/s]Loading weights: 100%|█████████▉| 425/427 [00:02<00:00, 242.58it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 184.20it/s]
-Loading weights:  66%|██████▌   | 280/427 [00:02<00:00, 158.25it/s]Loading weights:  83%|████████▎ | 353/427 [00:02<00:00, 227.62it/s]Loading weights:  84%|████████▍ | 359/427 [00:02<00:00, 238.55it/s]Loading weights:  68%|██████▊   | 290/427 [00:02<00:00, 168.67it/s]Loading weights:  63%|██████▎   | 269/427 [00:02<00:01, 155.75it/s]Loading weights:  72%|███████▏  | 308/427 [00:02<00:00, 162.17it/s]Loading weights:  71%|███████▏  | 305/427 [00:02<00:00, 180.78it/s]Loading weights:  89%|████████▊ | 378/427 [00:02<00:00, 230.77it/s]Loading weights:  90%|████████▉ | 384/427 [00:02<00:00, 238.27it/s]Loading weights:  68%|██████▊   | 289/427 [00:02<00:00, 167.74it/s]Loading weights:  72%|███████▏  | 308/427 [00:02<00:00, 156.52it/s]Loading weights:  78%|███████▊  | 331/427 [00:02<00:00, 174.18it/s]Loading weights:  76%|███████▌  | 324/427 [00:02<00:00, 170.18it/s]Loading weights:  95%|█████████▌| 407/427 [00:02<00:00, 240.95it/s]Loading weights:  96%|█████████▋| 412/427 [00:02<00:00, 244.92it/s]Loading weights:  72%|███████▏  | 307/427 [00:02<00:00, 162.02it/s]Loading weights:  78%|███████▊  | 331/427 [00:02<00:00, 169.38it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 163.08it/s]
-Loading weights:  82%|████████▏ | 349/427 [00:02<00:00, 171.33it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 162.31it/s]
-Loading weights:  81%|████████  | 345/427 [00:02<00:00, 175.06it/s]Loading weights:  77%|███████▋  | 328/427 [00:02<00:00, 173.66it/s]Loading weights:  82%|████████▏ | 349/427 [00:02<00:00, 170.85it/s]Loading weights:  86%|████████▌ | 367/427 [00:02<00:00, 169.75it/s]Loading weights:  85%|████████▌ | 363/427 [00:02<00:00, 175.08it/s]Loading weights:  81%|████████  | 346/427 [00:02<00:00, 172.59it/s]Loading weights:  93%|█████████▎| 396/427 [00:02<00:00, 200.67it/s]Loading weights:  86%|████████▌ | 367/427 [00:02<00:00, 165.54it/s]Loading weights:  90%|█████████ | 385/427 [00:02<00:00, 180.90it/s]Loading weights:  85%|████████▌ | 365/427 [00:02<00:00, 170.55it/s]2026-04-16 03:36:28,767 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-Loading weights:  92%|█████████▏| 394/427 [00:03<00:00, 192.93it/s]Loading weights:  98%|█████████▊| 417/427 [00:03<00:00, 189.95it/s]Loading weights:  96%|█████████▋| 411/427 [00:03<00:00, 199.97it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 136.88it/s]
-Loading weights:  90%|█████████ | 386/427 [00:03<00:00, 178.83it/s]Loading weights:  97%|█████████▋| 414/427 [00:03<00:00, 186.36it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 133.76it/s]
-Loading weights: 100%|██████████| 427/427 [00:03<00:00, 134.00it/s]
-Loading weights:  96%|█████████▋| 412/427 [00:03<00:00, 201.27it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 133.03it/s]
-2026-04-16 03:36:29,063 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:29,063 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:29,091 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,102 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,135 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:29,402 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:29,407 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:29,450 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,458 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:29,462 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:29,479 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:29,492 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:29,600 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,763 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,770 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:29,774 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:29,788 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,795 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:29,799 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:29,881 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:29,890 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:29,912 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 6424.98it/s]
-2026-04-16 03:36:29,938 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:29,963 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:29,974 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,081 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:30,098 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:30,098 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:30,118 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,170 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:30,223 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,239 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,255 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,259 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,267 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 14817.59it/s]
-2026-04-16 03:36:30,271 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:30,276 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:30,278 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:30,374 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,395 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:30,408 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:30,420 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:30,421 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:30,449 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:30,476 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,526 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,529 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,536 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:30,539 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 30026.34it/s]
-2026-04-16 03:36:30,685 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:30,690 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,698 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:30,706 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:30,722 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:30,768 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,795 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:30,801 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:30,817 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:30,818 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:30,836 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:30,843 INFO MTP config: hidden_size=4096, rms_eps=1e-06
-2026-04-16 03:36:30,853 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
-2026-04-16 03:36:30,922 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 15063.72it/s]
-2026-04-16 03:36:30,940 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:30,993 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 22958.90it/s]
-2026-04-16 03:36:31,015 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:31,078 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:31,085 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:31,089 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:31,090 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:31,101 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:31,169 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,172 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,181 INFO MTP head loaded: 243.3M own params, device=cuda:0
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 27880.71it/s]
-2026-04-16 03:36:31,193 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:31,199 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:31,200 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:31,330 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:31,338 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,346 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:31,347 INFO Loading GSM8K (100 problems)...
-Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 25153.25it/s]
-2026-04-16 03:36:31,362 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
-2026-04-16 03:36:31,376 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:31,451 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,459 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:31,486 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:31,496 INFO MTP head loaded: 243.3M own params, device=cuda:0
-2026-04-16 03:36:31,511 INFO Speculative decoding: MTP self-speculation mode
-2026-04-16 03:36:31,512 INFO Loading GSM8K (100 problems)...
-2026-04-16 03:36:31,556 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,631 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-2026-04-16 03:36:31,714 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:31,736 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:31,737 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:31,814 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:31,815 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-2026-04-16 03:36:31,838 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:31,904 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,022 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,029 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,087 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,208 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,325 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,379 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,414 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,662 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,676 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,699 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,742 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,923 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,971 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:32,984 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:32,988 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,024 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,136 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,218 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,256 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,283 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,297 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,322 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,436 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,506 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,545 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,579 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,651 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,726 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,798 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:33,811 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,826 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,839 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:33,886 INFO Shard 2/8: problems [24, 36) (12 problems)
-2026-04-16 03:36:33,886 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:33,888 INFO [1/12 TRAIN] Running SD for 'Aiden is making his famous steakhouse-seasoned mea...'
-2026-04-16 03:36:33,944 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,098 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,123 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:34,125 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,161 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,179 INFO Shard 1/8: problems [12, 24) (12 problems)
-2026-04-16 03:36:34,179 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:34,180 INFO [1/12 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
-2026-04-16 03:36:34,224 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,237 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,371 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,413 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,459 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,513 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:34,530 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,607 INFO Shard 3/8: problems [36, 48) (12 problems)
-2026-04-16 03:36:34,607 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:34,608 INFO [1/12 TRAIN] Running SD for 'Solo has to read 4 pages from his Science textbook...'
-2026-04-16 03:36:34,654 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:34,708 INFO Shard 6/8: problems [72, 84) (12 problems)
-2026-04-16 03:36:34,708 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:34,709 INFO [1/12 TRAIN] Running SD for 'To make a call from a payphone, you must pay $0.25...'
-2026-04-16 03:36:34,710 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:34,752 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:34,792 INFO Shard 5/8: problems [60, 72) (12 problems)
-2026-04-16 03:36:34,792 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:34,792 INFO [1/12 TRAIN] Running SD for 'In a company of 50 employees, 20% of the employees...'
-2026-04-16 03:36:34,824 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
-2026-04-16 03:36:35,060 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:35,118 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
-2026-04-16 03:36:35,120 INFO Shard 7/8: problems [84, 100) (16 problems)
-2026-04-16 03:36:35,120 INFO Split: 8 train, 8 test problems
-2026-04-16 03:36:35,122 INFO [1/16 TRAIN] Running SD for 'A candle melts by 2 centimeters every hour that it...'
-2026-04-16 03:36:35,172 INFO Shard 4/8: problems [48, 60) (12 problems)
-2026-04-16 03:36:35,172 INFO Split: 6 train, 6 test problems
-2026-04-16 03:36:35,173 INFO [1/12 TRAIN] Running SD for 'Tom's ship can travel at 10 miles per hour.  He is...'
-2026-04-16 03:36:37,474 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:37,475 INFO [2/12 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
-2026-04-16 03:36:38,363 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:38,365 INFO [2/12 TRAIN] Running SD for 'Martin's weight is 55 kg. Carl’s weight is 16 kg m...'
-2026-04-16 03:36:38,428 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:38,430 INFO [2/12 TRAIN] Running SD for 'Nathan has a bouncy ball that bounces to 2/3rds of...'
-2026-04-16 03:36:38,522 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:38,524 INFO [2/12 TRAIN] Running SD for 'Ryan’s allowance is $6 each week he completes his ...'
-2026-04-16 03:36:38,529 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:38,531 INFO [2/16 TRAIN] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
-2026-04-16 03:36:38,726 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:38,727 INFO [2/12 TRAIN] Running SD for 'Bill is signing up for a new streaming service. He...'
-2026-04-16 03:36:39,202 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:39,204 INFO [2/12 TRAIN] Running SD for 'Anna is trying to buy books for her local library....'
-2026-04-16 03:36:40,421 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:40,422 INFO [3/12 TRAIN] Running SD for 'The Hortex company produces bottled carrot juices....'
-2026-04-16 03:36:40,933 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:40,935 INFO [3/16 TRAIN] Running SD for 'According to its nutritional info, a bag of chips ...'
-2026-04-16 03:36:41,130 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:41,131 INFO [3/12 TRAIN] Running SD for 'Melissa is summoned to jury duty. She spends 6 hou...'
-2026-04-16 03:36:41,202 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:41,203 INFO [3/12 TRAIN] Running SD for 'A basket of green food costs $25 and a basket of r...'
-2026-04-16 03:36:41,658 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:41,659 INFO [3/12 TRAIN] Running SD for 'Nick had twice as many candies as George. Then Geo...'
-2026-04-16 03:36:42,136 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:42,137 INFO [3/12 TRAIN] Running SD for 'A food caterer was told to prepare gourmet hot dog...'
-2026-04-16 03:36:42,304 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:42,306 INFO [3/12 TRAIN] Running SD for 'Heather's razors come 4 to a pack and cost $4.00 a...'
-2026-04-16 03:36:43,558 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:43,559 INFO [4/12 TRAIN] Running SD for 'Carly is making cupcakes and brownies for her art ...'
-2026-04-16 03:36:43,872 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:43,874 INFO [4/16 TRAIN] Running SD for 'There are 36 penguins sunbathing in the snow.  One...'
-2026-04-16 03:36:43,896 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:43,898 INFO [4/12 TRAIN] Running SD for 'Four friends ordered four pizzas for a total of 64...'
-2026-04-16 03:36:43,921 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:43,922 INFO [4/12 TRAIN] Running SD for 'A singer has 50 microphones that he wants to arran...'
-2026-04-16 03:36:43,958 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:43,960 INFO [4/12 TRAIN] Running SD for 'Last Friday, 13 of the 82 teachers at Rydell Eleme...'
-2026-04-16 03:36:45,353 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:45,354 INFO [4/12 TRAIN] Running SD for 'For one medical dosage, Saanvi had to combine 14 m...'
-2026-04-16 03:36:45,563 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:45,564 INFO [4/12 TRAIN] Running SD for 'When the water is cold Ray swims a mile in 16 minu...'
-2026-04-16 03:36:45,973 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:45,974 INFO [5/12 TRAIN] Running SD for 'Jim spends 2 hours watching TV and then decides to...'
-2026-04-16 03:36:46,144 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:46,146 INFO [5/12 TRAIN] Running SD for 'A toy manufacturer receives an order for 400 toys....'
-2026-04-16 03:36:46,194 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:46,195 INFO [5/12 TRAIN] Running SD for 'A water tank is filled with 120 liters of water. C...'
-2026-04-16 03:36:46,455 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:46,457 INFO [5/16 TRAIN] Running SD for 'The number of songs in a playlist is 300. If John ...'
-2026-04-16 03:36:47,064 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:47,065 INFO [5/12 TRAIN] Running SD for 'Joelle has 5 orchids and 4 African daisies on her ...'
-2026-04-16 03:36:47,554 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:47,555 INFO [5/12 TRAIN] Running SD for 'Mia and Emma are currently 16 years apart in age. ...'
-2026-04-16 03:36:48,127 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:48,129 INFO [5/12 TRAIN] Running SD for 'Romeo boards a train with 120 people. At the first...'
-2026-04-16 03:36:48,385 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:48,387 INFO [6/12 TRAIN] Running SD for 'Kenny is selling his Pokemon cards to buy a ticket...'
-2026-04-16 03:36:48,854 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:48,855 INFO [6/16 TRAIN] Running SD for 'It takes Carmen 10 minutes to finish a crossword p...'
-2026-04-16 03:36:49,117 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:49,118 INFO [6/12 TRAIN] Running SD for 'To fund his store, Mr. Josue solicited money from ...'
-2026-04-16 03:36:49,589 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:49,590 INFO [6/12 TRAIN] Running SD for 'Ali had $21. Leila gave him half of her $100. How ...'
-2026-04-16 03:36:49,680 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:49,681 INFO [6/12 TRAIN] Running SD for 'Jen got 3 fish.  They each need $1 worth of food a...'
-2026-04-16 03:36:50,294 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:50,296 INFO [6/12 TRAIN] Running SD for 'Jayden had $70 from selling pictures he took as a ...'
-2026-04-16 03:36:51,250 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,252 INFO [7/16 TRAIN] Running SD for 'If Mark weighs 150 pounds and Susan weighs 20 poun...'
-2026-04-16 03:36:51,282 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,283 INFO [7/12 TEST] Running SD for 'In Tate’s garden pond, there are 4 male guppies, 7...'
-2026-04-16 03:36:51,373 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,374 INFO [6/12 TRAIN] Running SD for 'Tom has 4 bedrooms in his house.  They measure 20 ...'
-2026-04-16 03:36:51,589 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,590 INFO [7/12 TEST] Running SD for 'A family of parents and a child go to the cinema. ...'
-2026-04-16 03:36:51,647 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,649 INFO [7/12 TEST] Running SD for 'Ashley has an internet connection speed of 20kb pe...'
-2026-04-16 03:36:51,856 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:51,858 INFO [7/12 TEST] Running SD for 'Liam is 16 years old now. Two years ago, Liam’s ag...'
-2026-04-16 03:36:52,876 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:52,878 INFO [7/12 TEST] Running SD for 'Helena is a mad scientist testing her latest creat...'
-2026-04-16 03:36:53,473 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:53,475 INFO [8/16 TRAIN] Running SD for 'Nick is choosing between two jobs. Job A pays $15 ...'
-2026-04-16 03:36:53,563 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:53,564 INFO [8/12 TEST] Running SD for '90 single use contacts come in 1 box and will last...'
-2026-04-16 03:36:54,190 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:54,191 INFO [8/12 TEST] Running SD for 'Kelly has 5 quarters and 2 dimes. If she buys a ca...'
-2026-04-16 03:36:54,227 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:54,229 INFO [8/12 TEST] Running SD for 'Anthony is sending out coupons for his pizza parlo...'
-2026-04-16 03:36:54,436 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:54,437 INFO [7/12 TEST] Running SD for 'Rayna has 60 more dollars than Kassidy, and Kassid...'
-2026-04-16 03:36:54,681 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:54,683 INFO [8/12 TEST] Running SD for 'Kylie and Robert enjoy going to the beach to colle...'
-2026-04-16 03:36:55,785 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:55,787 INFO [8/12 TEST] Running SD for 'Jen works for 7.5 hours a day 6 days a week. Her h...'
-2026-04-16 03:36:56,089 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:56,090 INFO [9/12 TEST] Running SD for 'Leila buys 3 cucumbers from the market. Cucumbers ...'
-2026-04-16 03:36:56,289 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:56,290 INFO [9/12 TEST] Running SD for 'Lani baked 55 cookies. She ate 5 five cookies and ...'
-2026-04-16 03:36:57,151 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:57,153 INFO [8/12 TEST] Running SD for 'Isabelle bought party supplies for her little sist...'
-2026-04-16 03:36:57,168 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:57,170 INFO [9/12 TEST] Running SD for 'Stephen placed an online order for groceries.  His...'
-2026-04-16 03:36:57,396 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:57,397 INFO [9/12 TEST] Running SD for 'Mrs. Cruz is looking for a house that will not go ...'
-2026-04-16 03:36:58,167 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:58,168 INFO [10/12 TEST] Running SD for 'Jenna starts out with 8 sapphires. She trades 3 sa...'
-2026-04-16 03:36:58,875 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:58,877 INFO [9/12 TEST] Running SD for 'Nate's dog can dig six holes a day. He digs for 14...'
-2026-04-16 03:36:59,567 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:59,568 INFO [10/12 TEST] Running SD for 'Gerald and Julia divided $100 in the ratio 3:2. If...'
-2026-04-16 03:36:59,734 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:36:59,736 INFO [9/16 TEST] Running SD for 'Adam really wants to ride the biggest roller coast...'
-2026-04-16 03:37:00,381 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:00,382 INFO [9/12 TEST] Running SD for 'Charlie wants to sell beeswax candles.  For every ...'
-2026-04-16 03:37:00,734 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:00,735 INFO [11/12 TEST] Running SD for 'Cecilia just bought a new puppy. According to her ...'
-2026-04-16 03:37:00,801 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:00,802 INFO [10/12 TEST] Running SD for 'Lucy sells apples from her orchard at $4 per piece...'
-2026-04-16 03:37:01,475 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:01,476 INFO [11/12 TEST] Running SD for 'Peter has 4 boxes with the same number of chocolat...'
-2026-04-16 03:37:01,494 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:01,495 INFO [10/12 TEST] Running SD for 'There are 6 girls in the park. If there are twice ...'
-2026-04-16 03:37:01,791 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:01,792 INFO [10/12 TEST] Running SD for 'At a restaurant, Juice Box A is 4 dollars. Juice B...'
-2026-04-16 03:37:02,300 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:02,301 INFO [10/16 TEST] Running SD for 'Robert had 3 pounds of candy, Cindy had 5 pounds o...'
-2026-04-16 03:37:03,197 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:03,198 INFO [11/12 TEST] Running SD for 'Damien created a currency based on bottle caps and...'
-2026-04-16 03:37:03,819 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:03,821 INFO [10/12 TEST] Running SD for 'Paul is driving a car twice a day: in the morning,...'
-2026-04-16 03:37:04,106 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:04,107 INFO [11/12 TEST] Running SD for 'Tim grows 5 trees.  Each year he collects 6 lemons...'
-2026-04-16 03:37:04,324 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:04,325 INFO [12/12 TEST] Running SD for 'There are 9,300 pennies in a cup. What is the tota...'
-2026-04-16 03:37:04,362 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:04,364 INFO [11/12 TEST] Running SD for 'Bubbles collects stuffed animals. She has three st...'
-2026-04-16 03:37:04,441 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:04,442 INFO [12/12 TEST] Running SD for 'Billy is volunteering his time to help people do t...'
-2026-04-16 03:37:04,857 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:04,859 INFO [11/16 TEST] Running SD for 'John drinks a bottle of water every half hour.  A ...'
-2026-04-16 03:37:05,912 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:05,913 INFO [12/12 TEST] Running SD for 'Laurel's friend gave her 24 baby outfits that her ...'
-2026-04-16 03:37:05,987 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:05,988 INFO [12/12 TEST] Running SD for 'Tom plants 10 trees a year.  Every year he also ch...'
-2026-04-16 03:37:06,381 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:06,381 ERROR No results collected. Aborting.
-2026-04-16 03:37:06,733 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:06,735 INFO [11/12 TEST] Running SD for 'Aleena subscribed to a streaming service that char...'
-2026-04-16 03:37:07,244 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:07,245 INFO [12/16 TEST] Running SD for 'Charlotte went into the kitchen supply store knowi...'
-2026-04-16 03:37:07,266 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:07,267 INFO [12/12 TEST] Running SD for 'In a jewelers store, the price of a gold Jewell is...'
-2026-04-16 03:37:07,915 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:07,915 ERROR No results collected. Aborting.
-2026-04-16 03:37:08,725 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:08,726 ERROR No results collected. Aborting.
-2026-04-16 03:37:08,797 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:08,797 ERROR No results collected. Aborting.
-[parallel] Instance 1 done
-[parallel] Instance 2 done
-2026-04-16 03:37:09,802 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:09,803 INFO [12/12 TEST] Running SD for 'There are forty apples in one box. Uncle Franky or...'
-2026-04-16 03:37:10,551 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:10,551 ERROR No results collected. Aborting.
-2026-04-16 03:37:10,714 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:10,716 INFO [13/16 TEST] Running SD for 'Carmen goes to an auction to win an antique desk. ...'
-2026-04-16 03:37:12,194 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:12,194 ERROR No results collected. Aborting.
-[parallel] Instance 3 done
-[parallel] Instance 4 done
-[parallel] Instance 5 done
-[parallel] Instance 6 done
-2026-04-16 03:37:14,215 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:14,217 INFO [14/16 TEST] Running SD for 'Roger goes to the store to buy some coffee.  The n...'
-2026-04-16 03:37:18,216 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:18,218 INFO [15/16 TEST] Running SD for 'A perfume company is trying to create new scents. ...'
-2026-04-16 03:37:22,726 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:22,728 INFO [16/16 TEST] Running SD for 'It takes Matthew 3 minutes to dig a small hole for...'
-2026-04-16 03:37:25,143 ERROR   Failed: Expected all tensors to be on the same device, but got tensors is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA_cat)
-2026-04-16 03:37:25,143 ERROR No results collected. Aborting.
-[parallel] Instance 7 done
-[parallel] 1/8 failed
-[parallel] Merging → results/acceptspec/divergence/triple_divergence.json
-  Skip results/acceptspec/divergence/triple_divergence_shard0.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard0.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard1.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard1.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard2.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard2.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard3.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard3.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard4.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard4.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard5.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard5.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard6.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard6.json'
-  Skip results/acceptspec/divergence/triple_divergence_shard7.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard7.json'
-ERROR: No shard results
