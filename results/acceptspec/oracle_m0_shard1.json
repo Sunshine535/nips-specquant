@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.4418483520751058,
+      0.4872998351269679,
+      0.5255291980257031,
+      0.5609186697484762,
+      0.6285273337893065,
+      0.6924108447010974,
+      0.7526784793020563,
+      0.8095190775120934,
+      0.8633371485890448,
+      0.9139004248734935,
+      0.9605277765563348,
+      1.0
+    ],
+    "top10_coverage": 0.4872998351269679,
+    "top20_coverage": 0.5609186697484762,
+    "top50_coverage": 0.7526784793020563,
+    "mean_gini": 0.15812377368702607,
+    "std_gini": 0.14767286636104704,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 1729,
+    "total_tokens": 1729
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "num_steps": 73,
+      "mean_gini": 0.15812377368702607,
+      "mean_alpha": 0.2823529411764706,
+      "num_tokens_generated": 184
+    }
+  ]
+}

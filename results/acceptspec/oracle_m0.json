@@ -1,0 +1,119 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.08854633138076477,
+      0.15402059189970257,
+      0.21580460508993704,
+      0.2750578410882678,
+      0.3875199095217923,
+      0.4935298071828163,
+      0.5940892416231766,
+      0.6897327411126558,
+      0.7804930044293233,
+      0.8655939849466239,
+      0.9421909217696985,
+      1.0
+    ],
+    "top10_coverage": 0.15402059189970257,
+    "top20_coverage": 0.2750578410882678,
+    "top50_coverage": 0.5940892416231766,
+    "mean_gini": 0.13711729475012863,
+    "std_gini": 0.06552010474737628,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 4658,
+    "total_tokens": 4658
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "num_steps": 104,
+      "mean_gini": 0.11448777240255605,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "num_steps": 73,
+      "mean_gini": 0.15812377368702607,
+      "mean_alpha": 0.2823529411764706,
+      "num_tokens_generated": 184
+    },
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "num_steps": 97,
+      "mean_gini": 0.13353562355041504,
+      "mean_alpha": 0.3333333333333333,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "num_steps": 94,
+      "mean_gini": 0.1295478968393235,
+      "mean_alpha": 0.3999999999999999,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "num_steps": 92,
+      "mean_gini": 0.12596196220034644,
+      "mean_alpha": 0.3333333333333333,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "num_steps": 97,
+      "mean_gini": 0.11391468481584029,
+      "mean_alpha": 0.3060606060606061,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "num_steps": 89,
+      "mean_gini": 0.18163199424743653,
+      "mean_alpha": 0.39,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "num_steps": 103,
+      "mean_gini": 0.138935721438864,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "num_steps": 97,
+      "mean_gini": 0.13791622356934982,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 256
+    }
+  ],
+  "num_problems": 9
+}

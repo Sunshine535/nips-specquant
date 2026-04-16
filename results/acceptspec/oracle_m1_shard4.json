@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.24595342639851406,
+      0.30399186347978063,
+      0.3571522050401377,
+      0.4073292828948096,
+      0.5012548651050878,
+      0.5887116142094726,
+      0.6709130889564463,
+      0.7483779404409039,
+      0.8210975262672463,
+      0.8887277609957843,
+      0.9501950014316316,
+      1.0
+    ],
+    "top10_coverage": 0.30399186347978063,
+    "top20_coverage": 0.4073292828948096,
+    "top50_coverage": 0.6709130889564463,
+    "mean_gini": 0.12382765787619132,
+    "std_gini": 0.08659291069013453,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 37663,
+    "total_tokens": 37663
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "Tom's ship can travel at 10 miles per hour.  He is sailing from 1 to 4 PM.  He then travels back at ",
+      "num_steps": 99,
+      "mean_gini": 0.13528463515368375,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Bill is signing up for a new streaming service. He got a special introductory deal where the first 6",
+      "num_steps": 96,
+      "mean_gini": 0.1212677305394953,
+      "mean_alpha": 0.30909090909090914,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A food caterer was told to prepare gourmet hot dogs for 36 guests. While most people would only eat ",
+      "num_steps": 106,
+      "mean_gini": 0.11162215967973073,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "For one medical dosage, Saanvi had to combine 14 mL of one medicine with 3 times that amount of the ",
+      "num_steps": 99,
+      "mean_gini": 0.15752456404946066,
+      "mean_alpha": 0.36363636363636365,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mia and Emma are currently 16 years apart in age. If Mia, who is younger than Emma, is 40 years old,",
+      "num_steps": 102,
+      "mean_gini": 0.12274101506108823,
+      "mean_alpha": 0.3130434782608696,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ali had $21. Leila gave him half of her $100. How much does Ali have now?",
+      "num_steps": 102,
+      "mean_gini": 0.11090827506521474,
+      "mean_alpha": 0.3130434782608696,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "In Tate\u2019s garden pond, there are 4 male guppies, 7 female guppies, 3 male goldfishes, and 5 female g",
+      "num_steps": 104,
+      "mean_gini": 0.10600618694139563,
+      "mean_alpha": 0.26956521739130446,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Kylie and Robert enjoy going to the beach to collect shells. On Monday, Kylie collects 5 more shells",
+      "num_steps": 93,
+      "mean_gini": 0.11560564949398949,
+      "mean_alpha": 0.35238095238095235,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Mrs. Cruz is looking for a house that will not go beyond her $400 000 budget. She saw a property tha",
+      "num_steps": 104,
+      "mean_gini": 0.15828125373176907,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "There are 6 girls in the park. If there are twice the number of boys in the park, how many kids are ",
+      "num_steps": 93,
+      "mean_gini": 0.10336221967424665,
+      "mean_alpha": 0.39047619047619053,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Damien created a currency based on bottle caps and got his friends to take part.  He finds 10 bottle",
+      "num_steps": 105,
+      "mean_gini": 0.12464089497275975,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Laurel's friend gave her 24 baby outfits that her child no longer needed.  At her baby shower, Laure",
+      "num_steps": 103,
+      "mean_gini": 0.1185753345489502,
+      "mean_alpha": 0.39130434782608703,
+      "num_tokens_generated": 257
+    }
+  ]
+}

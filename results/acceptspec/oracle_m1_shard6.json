@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.45093347858416927,
+      0.4928735269046064,
+      0.5311447103296064,
+      0.5673139305682395,
+      0.6351671719180401,
+      0.6984943194598877,
+      0.758084067455873,
+      0.8143769011250832,
+      0.8675003775643284,
+      0.9172211358990658,
+      0.9626288114212566,
+      1.0
+    ],
+    "top10_coverage": 0.4928735269046064,
+    "top20_coverage": 0.5673139305682395,
+    "top50_coverage": 0.758084067455873,
+    "mean_gini": 0.12380879641485758,
+    "std_gini": 0.10592185739130193,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 36813,
+    "total_tokens": 36813
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "To make a call from a payphone, you must pay $0.25 for each minute of your call. After 16 minutes, t",
+      "num_steps": 101,
+      "mean_gini": 0.13064782515816067,
+      "mean_alpha": 0.40869565217391296,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ryan\u2019s allowance is $6 each week he completes his chores. He did his chores for 3 weeks. Then he bou",
+      "num_steps": 104,
+      "mean_gini": 0.15401826734128204,
+      "mean_alpha": 0.24347826086956528,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Nick had twice as many candies as George. Then George ate 5 candies. Now George has 3 candies left. ",
+      "num_steps": 104,
+      "mean_gini": 0.12541943011076553,
+      "mean_alpha": 0.31304347826086965,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Carly is making cupcakes and brownies for her art class. She makes 2 less than three times as many b",
+      "num_steps": 94,
+      "mean_gini": 0.13025819687616258,
+      "mean_alpha": 0.2952380952380953,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jim spends 2 hours watching TV and then decides to go to bed and reads for half as long.  He does th",
+      "num_steps": 94,
+      "mean_gini": 0.12020694641839891,
+      "mean_alpha": 0.2952380952380953,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Kenny is selling his Pokemon cards to buy a ticket to an amusement park, which costs $100. He has a ",
+      "num_steps": 99,
+      "mean_gini": 0.1276398626240817,
+      "mean_alpha": 0.35454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ashley has an internet connection speed of 20kb per second. Knowing that 1 Mb has 1000 kb, she wants",
+      "num_steps": 97,
+      "mean_gini": 0.09930567849766124,
+      "mean_alpha": 0.3590909090909092,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Anthony is sending out coupons for his pizza parlor through the mail. He wants to send out 700 small",
+      "num_steps": 96,
+      "mean_gini": 0.13046733357689597,
+      "mean_alpha": 0.33333333333333337,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Stephen placed an online order for groceries.  His final bill came to $40.00.  Because this was thro",
+      "num_steps": 93,
+      "mean_gini": 0.12784714358193533,
+      "mean_alpha": 0.31428571428571433,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Lucy sells apples from her orchard at $4 per piece. On Monday, she sold all the apples picked. On Tu",
+      "num_steps": 92,
+      "mean_gini": 0.12022783642723447,
+      "mean_alpha": 0.4000000000000001,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tim grows 5 trees.  Each year he collects 6 lemons from each tree.  How many lemons does he get in a",
+      "num_steps": 99,
+      "mean_gini": 0.11131004853682085,
+      "mean_alpha": 0.2454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tom plants 10 trees a year.  Every year he also chops down 2 trees a year.  He starts with 50 trees.",
+      "num_steps": 98,
+      "mean_gini": 0.10674997893246738,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 256
+    }
+  ]
+}

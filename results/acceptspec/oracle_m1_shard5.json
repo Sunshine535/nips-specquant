@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.43438209084399887,
+      0.4777031515639371,
+      0.5172531738167285,
+      0.55455700979655,
+      0.6246640984091877,
+      0.6902329328236352,
+      0.7520852773798665,
+      0.8103940530688402,
+      0.8651427622624893,
+      0.9161585980087591,
+      0.9625198978880452,
+      1.0
+    ],
+    "top10_coverage": 0.4777031515639371,
+    "top20_coverage": 0.55455700979655,
+    "top50_coverage": 0.7520852773798665,
+    "mean_gini": 0.11975197713164722,
+    "std_gini": 0.0805397273623747,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 39448,
+    "total_tokens": 39448
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "In a company of 50 employees, 20% of the employees are management.  Out of this 20%, only 30% overse",
+      "num_steps": 96,
+      "mean_gini": 0.10652495514262807,
+      "mean_alpha": 0.2681818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Martin's weight is 55 kg. Carl\u2019s weight is 16 kg more than Martin\u2019s weight. Christian\u2019s weight is 8 ",
+      "num_steps": 101,
+      "mean_gini": 0.1172533190768698,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Melissa is summoned to jury duty. She spends 6 hours a day for 3 days listening to a court case. If ",
+      "num_steps": 100,
+      "mean_gini": 0.10318746891888705,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Four friends ordered four pizzas for a total of 64 dollars. If two of the pizzas cost 30 dollars, ho",
+      "num_steps": 105,
+      "mean_gini": 0.11067280043726382,
+      "mean_alpha": 0.23478260869565218,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A toy manufacturer receives an order for 400 toys. 5 workers are available to work on the order. 2 o",
+      "num_steps": 102,
+      "mean_gini": 0.14422556110050366,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jayden had $70 from selling pictures he took as a hobby.  His sister Ava gave him half of her $90 al",
+      "num_steps": 109,
+      "mean_gini": 0.11549903452396393,
+      "mean_alpha": 0.26666666666666666,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Helena is a mad scientist testing her latest creation, the Lots-of-Limbs Serum. The serum will make ",
+      "num_steps": 103,
+      "mean_gini": 0.13752714447353198,
+      "mean_alpha": 0.26956521739130446,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jen works for 7.5 hours a day 6 days a week. Her hourly rate is $1.5. Jen also receives an additiona",
+      "num_steps": 105,
+      "mean_gini": 0.110843477041825,
+      "mean_alpha": 0.2782608695652174,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Nate's dog can dig six holes a day. He digs for 14 days while Nate is on vacation. When Nate gets ho",
+      "num_steps": 102,
+      "mean_gini": 0.1202193135800569,
+      "mean_alpha": 0.31884057971014496,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "At a restaurant, Juice Box A is 4 dollars. Juice Box B is 5 dollars more than Juice Box A. Juice Box",
+      "num_steps": 104,
+      "mean_gini": 0.14339959103128183,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Bubbles collects stuffed animals. She has three stuffed puppies, five stuffed koalas, two stuffed ze",
+      "num_steps": 96,
+      "mean_gini": 0.11420817266811024,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "In a jewelers store, the price of a gold Jewell is 4/5 times as much as the price of a diamond Jewel",
+      "num_steps": 95,
+      "mean_gini": 0.11138381276811872,
+      "mean_alpha": 0.38095238095238093,
+      "num_tokens_generated": 256
+    }
+  ]
+}

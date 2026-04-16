@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.6156806015779949,
+      0.6481184916602859,
+      0.6759341917163632,
+      0.7017719471201731,
+      0.7496900828414492,
+      0.7939870143863799,
+      0.8354196995962822,
+      0.874293027943562,
+      0.9107079765352066,
+      0.9445667436449517,
+      0.9752625140166598,
+      1.0
+    ],
+    "top10_coverage": 0.6481184916602859,
+    "top20_coverage": 0.7017719471201731,
+    "top50_coverage": 0.8354196995962822,
+    "mean_gini": 0.12488661556882043,
+    "std_gini": 0.08547160064506416,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 37698,
+    "total_tokens": 37698
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "Jillian's handbag cost $20 less than 3 times as much as her shoes cost. If her shoes cost $80, how m",
+      "num_steps": 100,
+      "mean_gini": 0.136887404051694,
+      "mean_alpha": 0.35454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "On a certain day, the total cost of filling up 20 helium balloons was $900. Two days later, the cost",
+      "num_steps": 96,
+      "mean_gini": 0.10201275890523737,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "The Hortex company produces bottled carrot juices. Every day it can produce 4200 bottles of these ju",
+      "num_steps": 101,
+      "mean_gini": 0.15912751529527747,
+      "mean_alpha": 0.36086956521739133,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A singer has 50 microphones that he wants to arrange in pairs on a stage. While making the arrangeme",
+      "num_steps": 91,
+      "mean_gini": 0.13604852699098133,
+      "mean_alpha": 0.38095238095238093,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Joelle has 5 orchids and 4 African daisies on her balcony.  If the orchids have 5 petals and daisies",
+      "num_steps": 101,
+      "mean_gini": 0.13249947195467743,
+      "mean_alpha": 0.36086956521739133,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Jen got 3 fish.  They each need $1 worth of food a day.  How much does she spend on food in the mont",
+      "num_steps": 97,
+      "mean_gini": 0.11217065832831642,
+      "mean_alpha": 0.2818181818181818,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A family of parents and a child go to the cinema. The cost of an adult ticket is $12 and a child tic",
+      "num_steps": 97,
+      "mean_gini": 0.11573714559728449,
+      "mean_alpha": 0.2727272727272728,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Kelly has 5 quarters and 2 dimes. If she buys a can of pop for 55 cents, how many cents will she hav",
+      "num_steps": 102,
+      "mean_gini": 0.11590770016545834,
+      "mean_alpha": 0.36521739130434794,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Leila buys 3 cucumbers from the market. Cucumbers are $2 each. Jack buys 5 tomatoes from the grocery",
+      "num_steps": 95,
+      "mean_gini": 0.13563594363984607,
+      "mean_alpha": 0.4,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Gerald and Julia divided $100 in the ratio 3:2. If Gerald spent $10 on a book, how much money did he",
+      "num_steps": 106,
+      "mean_gini": 0.1307427982489268,
+      "mean_alpha": 0.3416666666666666,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Peter has 4 boxes with the same number of chocolate bars in each, while Martha has 7 boxes with the ",
+      "num_steps": 101,
+      "mean_gini": 0.09992305092189623,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Billy is volunteering his time to help people do their taxes. He can help 2 people per hour for 3 ho",
+      "num_steps": 101,
+      "mean_gini": 0.12217370841814124,
+      "mean_alpha": 0.37391304347826093,
+      "num_tokens_generated": 257
+    }
+  ]
+}

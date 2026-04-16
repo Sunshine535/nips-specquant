@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.28031095391149086,
+      0.33670491026377053,
+      0.3871986347658698,
+      0.43467246876251203,
+      0.5229101102450274,
+      0.6054739747601021,
+      0.6834756460166608,
+      0.757166841081292,
+      0.82630912874847,
+      0.8904983140766126,
+      0.9495952526713628,
+      1.0
+    ],
+    "top10_coverage": 0.33670491026377053,
+    "top20_coverage": 0.43467246876251203,
+    "top50_coverage": 0.6834756460166608,
+    "mean_gini": 0.11391468481584029,
+    "std_gini": 0.04573876123990583,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 2671,
+    "total_tokens": 2671
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "num_steps": 97,
+      "mean_gini": 0.11391468481584029,
+      "mean_alpha": 0.3060606060606061,
+      "num_tokens_generated": 257
+    }
+  ]
+}

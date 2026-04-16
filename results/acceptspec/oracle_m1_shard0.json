@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.44129399814918835,
+      0.48378944434139226,
+      0.5229524295057695,
+      0.5600014033085857,
+      0.6296248364030311,
+      0.6946292570631942,
+      0.7557808892388694,
+      0.8133828967956226,
+      0.8675306062951883,
+      0.9179033522010077,
+      0.963508103194297,
+      1.0
+    ],
+    "top10_coverage": 0.48378944434139226,
+    "top20_coverage": 0.5600014033085857,
+    "top50_coverage": 0.7557808892388694,
+    "mean_gini": 0.11454258347625162,
+    "std_gini": 0.07181220459991984,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 38259,
+    "total_tokens": 38259
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "num_steps": 99,
+      "mean_gini": 0.10093306411396373,
+      "mean_alpha": 0.3090909090909091,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "num_steps": 100,
+      "mean_gini": 0.1149683107029308,
+      "mean_alpha": 0.31818181818181823,
+      "num_tokens_generated": 239
+    },
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "num_steps": 103,
+      "mean_gini": 0.10319333491118057,
+      "mean_alpha": 0.2608695652173914,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "num_steps": 99,
+      "mean_gini": 0.13758595965125345,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "An ice cream truck is traveling through a neighborhood. Children from various homes have started cha",
+      "num_steps": 101,
+      "mean_gini": 0.10066150064053743,
+      "mean_alpha": 0.31304347826086965,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "num_steps": 100,
+      "mean_gini": 0.12854831327091565,
+      "mean_alpha": 0.28181818181818186,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "num_steps": 94,
+      "mean_gini": 0.12819378148941768,
+      "mean_alpha": 0.42857142857142855,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "num_steps": 99,
+      "mean_gini": 0.12307111241600731,
+      "mean_alpha": 0.4,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "num_steps": 109,
+      "mean_gini": 0.11510361234347026,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "num_steps": 100,
+      "mean_gini": 0.11192617091265591,
+      "mean_alpha": 0.3181818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Sara wants to buy herself a new jacket and 2 pairs of shoes. The jacket she wants costs $30 and each",
+      "num_steps": 99,
+      "mean_gini": 0.10200546546415849,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jerry is rolling a six-sided die. How much more likely is it (expressed as a percentage) that he rol",
+      "num_steps": 101,
+      "mean_gini": 0.11023262272710385,
+      "mean_alpha": 0.2898550724637682,
+      "num_tokens_generated": 256
+    }
+  ]
+}

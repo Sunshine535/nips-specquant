@@ -1,0 +1,167 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.48781623095843213,
+      0.5275574829385662,
+      0.5637283523709645,
+      0.5977805701736429,
+      0.6616088609229394,
+      0.7211280439476919,
+      0.7771028263035292,
+      0.8297310376899958,
+      0.879089259038807,
+      0.9249774561273668,
+      0.9665768061079986,
+      1.0
+    ],
+    "top10_coverage": 0.5275574829385662,
+    "top20_coverage": 0.5977805701736429,
+    "top50_coverage": 0.7771028263035292,
+    "mean_gini": 0.11285217791214627,
+    "std_gini": 0.06909388498312424,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 52428,
+    "total_tokens": 52428
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "A candle melts by 2 centimeters every hour that it burns. How many centimeters shorter will a candle",
+      "num_steps": 99,
+      "mean_gini": 0.10345648635517467,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes James 10 minutes to read 3 pages of his book before he goes to bed. He reads 18 pages of hi",
+      "num_steps": 98,
+      "mean_gini": 0.10172677581960504,
+      "mean_alpha": 0.29090909090909095,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "According to its nutritional info, a bag of chips has 250 calories per serving. If a 300g bag has 5 ",
+      "num_steps": 106,
+      "mean_gini": 0.11033721268177032,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "There are 36 penguins sunbathing in the snow.  One-third of them jump in and swim in the ocean.  Ano",
+      "num_steps": 98,
+      "mean_gini": 0.11156684160232544,
+      "mean_alpha": 0.3181818181818183,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "The number of songs in a playlist is 300. If John has 20 such playlists, and each song is 10 hours l",
+      "num_steps": 96,
+      "mean_gini": 0.0976156538183039,
+      "mean_alpha": 0.30909090909090914,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle.  Ov",
+      "num_steps": 102,
+      "mean_gini": 0.11905898218569548,
+      "mean_alpha": 0.26376811594202904,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "If Mark weighs 150 pounds and Susan weighs 20 pounds less than Mark.  And their friend Bob weighs tw",
+      "num_steps": 101,
+      "mean_gini": 0.13438158968220587,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Nick is choosing between two jobs. Job A pays $15 an hour for 2000 hours a year, and is in a state w",
+      "num_steps": 96,
+      "mean_gini": 0.10319431803443214,
+      "mean_alpha": 0.38181818181818183,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Adam really wants to ride the biggest roller coaster at the park. You have to be 4 feet tall to ride",
+      "num_steps": 100,
+      "mean_gini": 0.09887350147420709,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Robert had 3 pounds of candy, Cindy had 5 pounds of candy, and Aaron had 4 pounds of candy after Hal",
+      "num_steps": 97,
+      "mean_gini": 0.11645602638071234,
+      "mean_alpha": 0.2931818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "John drinks a bottle of water every half hour.  A normal sudoku puzzle takes him 45 minutes.  An ext",
+      "num_steps": 94,
+      "mean_gini": 0.13085533323742093,
+      "mean_alpha": 0.41904761904761906,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Charlotte went into the kitchen supply store knowing she wanted a set of pot and pans for $120.00, a",
+      "num_steps": 97,
+      "mean_gini": 0.11329041827808727,
+      "mean_alpha": 0.33333333333333337,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Carmen goes to an auction to win an antique desk. She accepts the opening bid of $200 and continues ",
+      "num_steps": 106,
+      "mean_gini": 0.11984183887640636,
+      "mean_alpha": 0.2708333333333333,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Roger goes to the store to buy some coffee.  The normal brand of coffee he buys cost $5 per pound.  ",
+      "num_steps": 101,
+      "mean_gini": 0.1266005920327228,
+      "mean_alpha": 0.28260869565217395,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A perfume company is trying to create new scents. They already have 4 vanilla scents and 8 fruity sc",
+      "num_steps": 95,
+      "mean_gini": 0.1088367189679827,
+      "mean_alpha": 0.40952380952380957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes Matthew 3 minutes to dig a small hole for shrubs and 10 minutes to dig a large hole for tre",
+      "num_steps": 110,
+      "mean_gini": 0.10829976201057434,
+      "mean_alpha": 0.225,
+      "num_tokens_generated": 257
+    }
+  ]
+}

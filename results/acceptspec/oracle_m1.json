@@ -1,0 +1,756 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.44129399814918835,
+      0.48378944434139226,
+      0.5229524295057695,
+      0.5600014033085857,
+      0.6296248364030311,
+      0.6946292570631942,
+      0.7557808892388694,
+      0.8133828967956226,
+      0.8675306062951883,
+      0.9179033522010077,
+      0.963508103194297,
+      1.0
+    ],
+    "top10_coverage": 0.48378944434139226,
+    "top20_coverage": 0.5600014033085857,
+    "top50_coverage": 0.7557808892388694,
+    "mean_gini": 0.12005712059332606,
+    "std_gini": 0.07181220459991984,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 38259,
+    "total_tokens": 38259
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "num_steps": 99,
+      "mean_gini": 0.10093306411396373,
+      "mean_alpha": 0.3090909090909091,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "num_steps": 100,
+      "mean_gini": 0.1149683107029308,
+      "mean_alpha": 0.31818181818181823,
+      "num_tokens_generated": 239
+    },
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "num_steps": 103,
+      "mean_gini": 0.10319333491118057,
+      "mean_alpha": 0.2608695652173914,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "num_steps": 99,
+      "mean_gini": 0.13758595965125345,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "An ice cream truck is traveling through a neighborhood. Children from various homes have started cha",
+      "num_steps": 101,
+      "mean_gini": 0.10066150064053743,
+      "mean_alpha": 0.31304347826086965,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "num_steps": 100,
+      "mean_gini": 0.12854831327091565,
+      "mean_alpha": 0.28181818181818186,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "num_steps": 94,
+      "mean_gini": 0.12819378148941768,
+      "mean_alpha": 0.42857142857142855,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "num_steps": 99,
+      "mean_gini": 0.12307111241600731,
+      "mean_alpha": 0.4,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "num_steps": 109,
+      "mean_gini": 0.11510361234347026,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "num_steps": 100,
+      "mean_gini": 0.11192617091265591,
+      "mean_alpha": 0.3181818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Sara wants to buy herself a new jacket and 2 pairs of shoes. The jacket she wants costs $30 and each",
+      "num_steps": 99,
+      "mean_gini": 0.10200546546415849,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jerry is rolling a six-sided die. How much more likely is it (expressed as a percentage) that he rol",
+      "num_steps": 101,
+      "mean_gini": 0.11023262272710385,
+      "mean_alpha": 0.2898550724637682,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Jillian's handbag cost $20 less than 3 times as much as her shoes cost. If her shoes cost $80, how m",
+      "num_steps": 100,
+      "mean_gini": 0.136887404051694,
+      "mean_alpha": 0.35454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "On a certain day, the total cost of filling up 20 helium balloons was $900. Two days later, the cost",
+      "num_steps": 96,
+      "mean_gini": 0.10201275890523737,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "The Hortex company produces bottled carrot juices. Every day it can produce 4200 bottles of these ju",
+      "num_steps": 101,
+      "mean_gini": 0.15912751529527747,
+      "mean_alpha": 0.36086956521739133,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A singer has 50 microphones that he wants to arrange in pairs on a stage. While making the arrangeme",
+      "num_steps": 91,
+      "mean_gini": 0.13604852699098133,
+      "mean_alpha": 0.38095238095238093,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Joelle has 5 orchids and 4 African daisies on her balcony.  If the orchids have 5 petals and daisies",
+      "num_steps": 101,
+      "mean_gini": 0.13249947195467743,
+      "mean_alpha": 0.36086956521739133,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Jen got 3 fish.  They each need $1 worth of food a day.  How much does she spend on food in the mont",
+      "num_steps": 97,
+      "mean_gini": 0.11217065832831642,
+      "mean_alpha": 0.2818181818181818,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A family of parents and a child go to the cinema. The cost of an adult ticket is $12 and a child tic",
+      "num_steps": 97,
+      "mean_gini": 0.11573714559728449,
+      "mean_alpha": 0.2727272727272728,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Kelly has 5 quarters and 2 dimes. If she buys a can of pop for 55 cents, how many cents will she hav",
+      "num_steps": 102,
+      "mean_gini": 0.11590770016545834,
+      "mean_alpha": 0.36521739130434794,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Leila buys 3 cucumbers from the market. Cucumbers are $2 each. Jack buys 5 tomatoes from the grocery",
+      "num_steps": 95,
+      "mean_gini": 0.13563594363984607,
+      "mean_alpha": 0.4,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Gerald and Julia divided $100 in the ratio 3:2. If Gerald spent $10 on a book, how much money did he",
+      "num_steps": 106,
+      "mean_gini": 0.1307427982489268,
+      "mean_alpha": 0.3416666666666666,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Peter has 4 boxes with the same number of chocolate bars in each, while Martha has 7 boxes with the ",
+      "num_steps": 101,
+      "mean_gini": 0.09992305092189623,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Billy is volunteering his time to help people do their taxes. He can help 2 people per hour for 3 ho",
+      "num_steps": 101,
+      "mean_gini": 0.12217370841814124,
+      "mean_alpha": 0.37391304347826093,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Aiden is making his famous steakhouse-seasoned meatballs for a neighborhood cookout. He adds two tab",
+      "num_steps": 103,
+      "mean_gini": 0.10358376606650975,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Nathan has a bouncy ball that bounces to 2/3rds of its starting height with each bounce. If he drops",
+      "num_steps": 98,
+      "mean_gini": 0.1033038551157171,
+      "mean_alpha": 0.23636363636363641,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A basket of green food costs $25 and a basket of red food costs $18. If you buy 3 baskets of green f",
+      "num_steps": 102,
+      "mean_gini": 0.1194781375967938,
+      "mean_alpha": 0.36231884057971014,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Last Friday, 13 of the 82 teachers at Rydell Elementary School were sick. There were 9 substitute te",
+      "num_steps": 102,
+      "mean_gini": 0.10836082956065303,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A water tank is filled with 120 liters of water. Celine used 90 liters of water from the tank to wat",
+      "num_steps": 97,
+      "mean_gini": 0.1242157058282332,
+      "mean_alpha": 0.2727272727272728,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "To fund his store, Mr. Josue solicited money from two banks. The first bank gave him $4000, and the ",
+      "num_steps": 96,
+      "mean_gini": 0.16284935582767834,
+      "mean_alpha": 0.3454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Liam is 16 years old now. Two years ago, Liam\u2019s age was twice the age of Vince. How old is Vince now",
+      "num_steps": 108,
+      "mean_gini": 0.11756133039792378,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "90 single use contacts come in 1 box and will last Pete 45 days.  Each box is $100.00 and currently ",
+      "num_steps": 98,
+      "mean_gini": 0.13271596756848422,
+      "mean_alpha": 0.3818181818181819,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Lani baked 55 cookies. She ate 5 five cookies and placed the rest equally into five jars. How many c",
+      "num_steps": 100,
+      "mean_gini": 0.10208925333890048,
+      "mean_alpha": 0.29090909090909095,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jenna starts out with 8 sapphires. She trades 3 sapphires for two rubies. If sapphires are worth $80",
+      "num_steps": 103,
+      "mean_gini": 0.13485519264055335,
+      "mean_alpha": 0.36521739130434777,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Cecilia just bought a new puppy. According to her veterinarian, she has to feed the puppy 1 cup of d",
+      "num_steps": 102,
+      "mean_gini": 0.110903174980827,
+      "mean_alpha": 0.24565217391304353,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "There are 9,300 pennies in a cup. What is the total dollar amount in a stack that contains two third",
+      "num_steps": 107,
+      "mean_gini": 0.10733884572982788,
+      "mean_alpha": 0.2416666666666667,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Solo has to read 4 pages from his Science textbook, 20 pages from his Social Studies textbook, 7 pag",
+      "num_steps": 103,
+      "mean_gini": 0.11241551067518152,
+      "mean_alpha": 0.3217391304347827,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Anna is trying to buy books for her local library. She had a budget of $16, and she has already spen",
+      "num_steps": 98,
+      "mean_gini": 0.11927769400856712,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Heather's razors come 4 to a pack and cost $4.00 a pack.  They are currently on sale for buy one get",
+      "num_steps": 100,
+      "mean_gini": 0.12053807215257124,
+      "mean_alpha": 0.2545454545454546,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "When the water is cold Ray swims a mile in 16 minutes. When the water is warm Ray swims a mile in 2 ",
+      "num_steps": 96,
+      "mean_gini": 0.12042054263028232,
+      "mean_alpha": 0.4454545454545454,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Romeo boards a train with 120 people. At the first stop, 20 more people board the train. At the seco",
+      "num_steps": 99,
+      "mean_gini": 0.14723724126815796,
+      "mean_alpha": 0.30909090909090914,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tom has 4 bedrooms in his house.  They measure 20 by 12 feet each.  The living room is 5 times bigge",
+      "num_steps": 103,
+      "mean_gini": 0.13699294173199197,
+      "mean_alpha": 0.37391304347826093,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Rayna has 60 more dollars than Kassidy, and Kassidy has 3/4 times as much money as Aurelia. If Areli",
+      "num_steps": 96,
+      "mean_gini": 0.1193232536315918,
+      "mean_alpha": 0.25909090909090915,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Isabelle bought party supplies for her little sister\u2019s birthday party. She spent $12 on ingredients ",
+      "num_steps": 99,
+      "mean_gini": 0.1433246460827914,
+      "mean_alpha": 0.35454545454545466,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Charlie wants to sell beeswax candles.  For every pound of beeswax, he can make 10 tapered candles. ",
+      "num_steps": 96,
+      "mean_gini": 0.10271813110871748,
+      "mean_alpha": 0.43636363636363645,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Paul is driving a car twice a day: in the morning, and in the afternoon. He did that for 14 days. Ea",
+      "num_steps": 97,
+      "mean_gini": 0.12550608678297562,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Aleena subscribed to a streaming service that charges her $140 per month. If the streaming company c",
+      "num_steps": 102,
+      "mean_gini": 0.13353001553079355,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "There are forty apples in one box. Uncle Franky ordered two boxes of apples. He is planning to pack ",
+      "num_steps": 98,
+      "mean_gini": 0.11262740872123024,
+      "mean_alpha": 0.3636363636363637,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tom's ship can travel at 10 miles per hour.  He is sailing from 1 to 4 PM.  He then travels back at ",
+      "num_steps": 99,
+      "mean_gini": 0.13528463515368375,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Bill is signing up for a new streaming service. He got a special introductory deal where the first 6",
+      "num_steps": 96,
+      "mean_gini": 0.1212677305394953,
+      "mean_alpha": 0.30909090909090914,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A food caterer was told to prepare gourmet hot dogs for 36 guests. While most people would only eat ",
+      "num_steps": 106,
+      "mean_gini": 0.11162215967973073,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "For one medical dosage, Saanvi had to combine 14 mL of one medicine with 3 times that amount of the ",
+      "num_steps": 99,
+      "mean_gini": 0.15752456404946066,
+      "mean_alpha": 0.36363636363636365,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mia and Emma are currently 16 years apart in age. If Mia, who is younger than Emma, is 40 years old,",
+      "num_steps": 102,
+      "mean_gini": 0.12274101506108823,
+      "mean_alpha": 0.3130434782608696,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ali had $21. Leila gave him half of her $100. How much does Ali have now?",
+      "num_steps": 102,
+      "mean_gini": 0.11090827506521474,
+      "mean_alpha": 0.3130434782608696,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "In Tate\u2019s garden pond, there are 4 male guppies, 7 female guppies, 3 male goldfishes, and 5 female g",
+      "num_steps": 104,
+      "mean_gini": 0.10600618694139563,
+      "mean_alpha": 0.26956521739130446,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Kylie and Robert enjoy going to the beach to collect shells. On Monday, Kylie collects 5 more shells",
+      "num_steps": 93,
+      "mean_gini": 0.11560564949398949,
+      "mean_alpha": 0.35238095238095235,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Mrs. Cruz is looking for a house that will not go beyond her $400 000 budget. She saw a property tha",
+      "num_steps": 104,
+      "mean_gini": 0.15828125373176907,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "There are 6 girls in the park. If there are twice the number of boys in the park, how many kids are ",
+      "num_steps": 93,
+      "mean_gini": 0.10336221967424665,
+      "mean_alpha": 0.39047619047619053,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Damien created a currency based on bottle caps and got his friends to take part.  He finds 10 bottle",
+      "num_steps": 105,
+      "mean_gini": 0.12464089497275975,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Laurel's friend gave her 24 baby outfits that her child no longer needed.  At her baby shower, Laure",
+      "num_steps": 103,
+      "mean_gini": 0.1185753345489502,
+      "mean_alpha": 0.39130434782608703,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "In a company of 50 employees, 20% of the employees are management.  Out of this 20%, only 30% overse",
+      "num_steps": 96,
+      "mean_gini": 0.10652495514262807,
+      "mean_alpha": 0.2681818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Martin's weight is 55 kg. Carl\u2019s weight is 16 kg more than Martin\u2019s weight. Christian\u2019s weight is 8 ",
+      "num_steps": 101,
+      "mean_gini": 0.1172533190768698,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Melissa is summoned to jury duty. She spends 6 hours a day for 3 days listening to a court case. If ",
+      "num_steps": 100,
+      "mean_gini": 0.10318746891888705,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Four friends ordered four pizzas for a total of 64 dollars. If two of the pizzas cost 30 dollars, ho",
+      "num_steps": 105,
+      "mean_gini": 0.11067280043726382,
+      "mean_alpha": 0.23478260869565218,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A toy manufacturer receives an order for 400 toys. 5 workers are available to work on the order. 2 o",
+      "num_steps": 102,
+      "mean_gini": 0.14422556110050366,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jayden had $70 from selling pictures he took as a hobby.  His sister Ava gave him half of her $90 al",
+      "num_steps": 109,
+      "mean_gini": 0.11549903452396393,
+      "mean_alpha": 0.26666666666666666,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Helena is a mad scientist testing her latest creation, the Lots-of-Limbs Serum. The serum will make ",
+      "num_steps": 103,
+      "mean_gini": 0.13752714447353198,
+      "mean_alpha": 0.26956521739130446,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jen works for 7.5 hours a day 6 days a week. Her hourly rate is $1.5. Jen also receives an additiona",
+      "num_steps": 105,
+      "mean_gini": 0.110843477041825,
+      "mean_alpha": 0.2782608695652174,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Nate's dog can dig six holes a day. He digs for 14 days while Nate is on vacation. When Nate gets ho",
+      "num_steps": 102,
+      "mean_gini": 0.1202193135800569,
+      "mean_alpha": 0.31884057971014496,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "At a restaurant, Juice Box A is 4 dollars. Juice Box B is 5 dollars more than Juice Box A. Juice Box",
+      "num_steps": 104,
+      "mean_gini": 0.14339959103128183,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Bubbles collects stuffed animals. She has three stuffed puppies, five stuffed koalas, two stuffed ze",
+      "num_steps": 96,
+      "mean_gini": 0.11420817266811024,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "In a jewelers store, the price of a gold Jewell is 4/5 times as much as the price of a diamond Jewel",
+      "num_steps": 95,
+      "mean_gini": 0.11138381276811872,
+      "mean_alpha": 0.38095238095238093,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "To make a call from a payphone, you must pay $0.25 for each minute of your call. After 16 minutes, t",
+      "num_steps": 101,
+      "mean_gini": 0.13064782515816067,
+      "mean_alpha": 0.40869565217391296,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ryan\u2019s allowance is $6 each week he completes his chores. He did his chores for 3 weeks. Then he bou",
+      "num_steps": 104,
+      "mean_gini": 0.15401826734128204,
+      "mean_alpha": 0.24347826086956528,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Nick had twice as many candies as George. Then George ate 5 candies. Now George has 3 candies left. ",
+      "num_steps": 104,
+      "mean_gini": 0.12541943011076553,
+      "mean_alpha": 0.31304347826086965,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Carly is making cupcakes and brownies for her art class. She makes 2 less than three times as many b",
+      "num_steps": 94,
+      "mean_gini": 0.13025819687616258,
+      "mean_alpha": 0.2952380952380953,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jim spends 2 hours watching TV and then decides to go to bed and reads for half as long.  He does th",
+      "num_steps": 94,
+      "mean_gini": 0.12020694641839891,
+      "mean_alpha": 0.2952380952380953,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Kenny is selling his Pokemon cards to buy a ticket to an amusement park, which costs $100. He has a ",
+      "num_steps": 99,
+      "mean_gini": 0.1276398626240817,
+      "mean_alpha": 0.35454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Ashley has an internet connection speed of 20kb per second. Knowing that 1 Mb has 1000 kb, she wants",
+      "num_steps": 97,
+      "mean_gini": 0.09930567849766124,
+      "mean_alpha": 0.3590909090909092,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Anthony is sending out coupons for his pizza parlor through the mail. He wants to send out 700 small",
+      "num_steps": 96,
+      "mean_gini": 0.13046733357689597,
+      "mean_alpha": 0.33333333333333337,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Stephen placed an online order for groceries.  His final bill came to $40.00.  Because this was thro",
+      "num_steps": 93,
+      "mean_gini": 0.12784714358193533,
+      "mean_alpha": 0.31428571428571433,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Lucy sells apples from her orchard at $4 per piece. On Monday, she sold all the apples picked. On Tu",
+      "num_steps": 92,
+      "mean_gini": 0.12022783642723447,
+      "mean_alpha": 0.4000000000000001,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tim grows 5 trees.  Each year he collects 6 lemons from each tree.  How many lemons does he get in a",
+      "num_steps": 99,
+      "mean_gini": 0.11131004853682085,
+      "mean_alpha": 0.2454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Tom plants 10 trees a year.  Every year he also chops down 2 trees a year.  He starts with 50 trees.",
+      "num_steps": 98,
+      "mean_gini": 0.10674997893246738,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A candle melts by 2 centimeters every hour that it burns. How many centimeters shorter will a candle",
+      "num_steps": 99,
+      "mean_gini": 0.10345648635517467,
+      "mean_alpha": 0.30000000000000004,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes James 10 minutes to read 3 pages of his book before he goes to bed. He reads 18 pages of hi",
+      "num_steps": 98,
+      "mean_gini": 0.10172677581960504,
+      "mean_alpha": 0.29090909090909095,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "According to its nutritional info, a bag of chips has 250 calories per serving. If a 300g bag has 5 ",
+      "num_steps": 106,
+      "mean_gini": 0.11033721268177032,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "There are 36 penguins sunbathing in the snow.  One-third of them jump in and swim in the ocean.  Ano",
+      "num_steps": 98,
+      "mean_gini": 0.11156684160232544,
+      "mean_alpha": 0.3181818181818183,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "The number of songs in a playlist is 300. If John has 20 such playlists, and each song is 10 hours l",
+      "num_steps": 96,
+      "mean_gini": 0.0976156538183039,
+      "mean_alpha": 0.30909090909090914,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle.  Ov",
+      "num_steps": 102,
+      "mean_gini": 0.11905898218569548,
+      "mean_alpha": 0.26376811594202904,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "If Mark weighs 150 pounds and Susan weighs 20 pounds less than Mark.  And their friend Bob weighs tw",
+      "num_steps": 101,
+      "mean_gini": 0.13438158968220587,
+      "mean_alpha": 0.3304347826086957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Nick is choosing between two jobs. Job A pays $15 an hour for 2000 hours a year, and is in a state w",
+      "num_steps": 96,
+      "mean_gini": 0.10319431803443214,
+      "mean_alpha": 0.38181818181818183,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Adam really wants to ride the biggest roller coaster at the park. You have to be 4 feet tall to ride",
+      "num_steps": 100,
+      "mean_gini": 0.09887350147420709,
+      "mean_alpha": 0.27272727272727276,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Robert had 3 pounds of candy, Cindy had 5 pounds of candy, and Aaron had 4 pounds of candy after Hal",
+      "num_steps": 97,
+      "mean_gini": 0.11645602638071234,
+      "mean_alpha": 0.2931818181818182,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "John drinks a bottle of water every half hour.  A normal sudoku puzzle takes him 45 minutes.  An ext",
+      "num_steps": 94,
+      "mean_gini": 0.13085533323742093,
+      "mean_alpha": 0.41904761904761906,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Charlotte went into the kitchen supply store knowing she wanted a set of pot and pans for $120.00, a",
+      "num_steps": 97,
+      "mean_gini": 0.11329041827808727,
+      "mean_alpha": 0.33333333333333337,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Carmen goes to an auction to win an antique desk. She accepts the opening bid of $200 and continues ",
+      "num_steps": 106,
+      "mean_gini": 0.11984183887640636,
+      "mean_alpha": 0.2708333333333333,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Roger goes to the store to buy some coffee.  The normal brand of coffee he buys cost $5 per pound.  ",
+      "num_steps": 101,
+      "mean_gini": 0.1266005920327228,
+      "mean_alpha": 0.28260869565217395,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A perfume company is trying to create new scents. They already have 4 vanilla scents and 8 fruity sc",
+      "num_steps": 95,
+      "mean_gini": 0.1088367189679827,
+      "mean_alpha": 0.40952380952380957,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "It takes Matthew 3 minutes to dig a small hole for shrubs and 10 minutes to dig a large hole for tre",
+      "num_steps": 110,
+      "mean_gini": 0.10829976201057434,
+      "mean_alpha": 0.225,
+      "num_tokens_generated": 257
+    }
+  ],
+  "num_problems": 100
+}

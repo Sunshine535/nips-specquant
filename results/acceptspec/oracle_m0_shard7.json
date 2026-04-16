@@ -1,0 +1,76 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.42286556220791444,
+      0.47593092626773736,
+      0.519307113506914,
+      0.5587696007098166,
+      0.6315265596064928,
+      0.6982758531285308,
+      0.7604877165016004,
+      0.8184085783652248,
+      0.8724221621755732,
+      0.9220143901880397,
+      0.9659032590885619,
+      1.0
+    ],
+    "top10_coverage": 0.47593092626773736,
+    "top20_coverage": 0.5587696007098166,
+    "top50_coverage": 0.7604877165016004,
+    "mean_gini": 0.15172797533181998,
+    "std_gini": 0.14070035723497615,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 9194,
+    "total_tokens": 9194
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "num_steps": 89,
+      "mean_gini": 0.18163199424743653,
+      "mean_alpha": 0.39,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "num_steps": 103,
+      "mean_gini": 0.138935721438864,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "num_steps": 97,
+      "mean_gini": 0.13791622356934982,
+      "mean_alpha": 0.3272727272727273,
+      "num_tokens_generated": 256
+    }
+  ]
+}

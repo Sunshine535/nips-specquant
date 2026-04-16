@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.1027625872861841,
+      0.17104910733393813,
+      0.23416548558369057,
+      0.29315141619110563,
+      0.40484022509974543,
+      0.5087255454364469,
+      0.6067671390193744,
+      0.6989355656588117,
+      0.7859340974356689,
+      0.8669551457720156,
+      0.9408274685256112,
+      1.0
+    ],
+    "top10_coverage": 0.17104910733393813,
+    "top20_coverage": 0.29315141619110563,
+    "top50_coverage": 0.6067671390193744,
+    "mean_gini": 0.13353562355041504,
+    "std_gini": 0.06594499528821016,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 2894,
+    "total_tokens": 2894
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "num_steps": 97,
+      "mean_gini": 0.13353562355041504,
+      "mean_alpha": 0.3333333333333333,
+      "num_tokens_generated": 257
+    }
+  ]
+}

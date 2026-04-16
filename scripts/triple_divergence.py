@@ -842,7 +842,7 @@ def run_triple_divergence(args):
     global_rhos = pairwise_spearman(cat_accept, cat_ppl, cat_attn)
 
     # --- Train and evaluate predictors ---
-    num_heads = draft_model.config.num_attention_heads
+    num_heads = target_model.config.num_attention_heads
     accept_predictor_metrics = {'f1': 0.0, 'precision': 0.0, 'recall': 0.0}
     attn_proxy_metrics = {'f1': 0.0, 'precision': 0.0, 'recall': 0.0}
 
@@ -956,7 +956,11 @@ def run_triple_divergence(args):
     }
 
     os.makedirs(args.output_dir, exist_ok=True)
-    output_path = os.path.join(args.output_dir, 'triple_divergence.json')
+    if args.output is not None:
+        output_path = args.output
+        os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
+    else:
+        output_path = os.path.join(args.output_dir, 'triple_divergence.json')
     with open(output_path, 'w') as f:
         json.dump(output, f, indent=2)
     logger.info("Results saved to %s", output_path)

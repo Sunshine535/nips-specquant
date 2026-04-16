@@ -259,13 +259,11 @@ def run_instrumented_sd(
     """
     assert input_ids.shape[0] == 1
 
+    from src.speculative_decode import _trim_kv_cache as _tkv
+
     target_model = decoder.target_model
     mtp_head = decoder.mtp_head
     target_device = decoder.target_device
-
-    logger.info("DEBUG target_device=%s, hf_device_map=%s",
-                target_device,
-                getattr(target_model, 'hf_device_map', 'N/A'))
 
     prefix_len = input_ids.shape[1]
 
@@ -326,6 +324,11 @@ def run_instrumented_sd(
         # Generate coupled random seeds for paired comparison
         coupled_seeds = torch.rand(cur_gamma)
 
+        # Rewind target KV to pre-draft length before oracle measurement and verify.
+        # The draft loop extended target_kv by cur_gamma tokens; trim it back so
+        # both the oracle and the verify pass see only the prefix KV.
+        target_kv = _tkv(target_kv, kv_len)
+
         # Measure oracle sensitivity BEFORE standard verification
         # Only do this every few steps to save compute
         if n_steps % max(1, gamma) == 1 or n_steps <= 3:
@@ -353,10 +356,6 @@ def run_instrumented_sd(
                     step_alphas.append(sens_result.alpha_full)
             except Exception as e:
                 logger.debug("Oracle measurement failed at step %d: %s", n_steps, e)
-
-        # Standard verification (rewind target KV to pre-draft state, then verify)
-        from src.speculative_decode import _trim_kv_cache as _tkv
-        target_kv = _tkv(target_kv, kv_len)
         verify_out = target_model(
             draft_tokens.view(1, -1).to(target_device),
             past_key_values=target_kv,
@@ -366,11 +365,6 @@ def run_instrumented_sd(
         verify_logits = verify_out.logits
 
         # Rejection sampling
-        # DEBUG: check draft_probs structure
-        if n_steps <= 2:
-            logger.info("DEBUG draft_probs type=%s len=%s", type(draft_probs).__name__, len(draft_probs))
-            for di, dp in enumerate(draft_probs):
-                logger.info("  draft_probs[%d]: type=%s shape=%s dtype=%s", di, type(dp).__name__, getattr(dp, 'shape', 'N/A'), getattr(dp, 'dtype', 'N/A'))
         n_acc, accepted = decoder._rejection_sample(
             target_next_logits, verify_logits,
             draft_tokens, draft_probs,

@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.12650982010691283,
+      0.18979985783751122,
+      0.25000656336513355,
+      0.30721323673226675,
+      0.41593475118064,
+      0.51770724809914,
+      0.613401221135961,
+      0.7031120305170225,
+      0.7873537518164113,
+      0.8662679349421746,
+      0.9386916062873537,
+      1.0
+    ],
+    "top10_coverage": 0.18979985783751122,
+    "top20_coverage": 0.30721323673226675,
+    "top50_coverage": 0.613401221135961,
+    "mean_gini": 0.1295478968393235,
+    "std_gini": 0.12644062353354218,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 2688,
+    "total_tokens": 2688
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "num_steps": 94,
+      "mean_gini": 0.1295478968393235,
+      "mean_alpha": 0.3999999999999999,
+      "num_tokens_generated": 257
+    }
+  ]
+}

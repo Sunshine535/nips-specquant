@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.17780750006122437,
+      0.23777159258850172,
+      0.2924157989881235,
+      0.34455462888781047,
+      0.44285331588730115,
+      0.5368284372989903,
+      0.6260545961515106,
+      0.7111186968253785,
+      0.7921950163856426,
+      0.8683058140168339,
+      0.939148366408658,
+      1.0
+    ],
+    "top10_coverage": 0.23777159258850172,
+    "top20_coverage": 0.34455462888781047,
+    "top50_coverage": 0.6260545961515106,
+    "mean_gini": 0.12596196220034644,
+    "std_gini": 0.11146164536588571,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 2673,
+    "total_tokens": 2673
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "num_steps": 92,
+      "mean_gini": 0.12596196220034644,
+      "mean_alpha": 0.3333333333333333,
+      "num_tokens_generated": 257
+    }
+  ]
+}

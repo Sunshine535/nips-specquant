@@ -1,0 +1,62 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 10,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.08854633138076477,
+      0.15402059189970257,
+      0.21580460508993704,
+      0.2750578410882678,
+      0.3875199095217923,
+      0.4935298071828163,
+      0.5940892416231766,
+      0.6897327411126558,
+      0.7804930044293233,
+      0.8655939849466239,
+      0.9421909217696985,
+      1.0
+    ],
+    "top10_coverage": 0.15402059189970257,
+    "top20_coverage": 0.2750578410882678,
+    "top50_coverage": 0.5940892416231766,
+    "mean_gini": 0.11448777240255605,
+    "std_gini": 0.06552010474737628,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 4658,
+    "total_tokens": 4658
+  },
+  "gate": {
+    "name": "M0",
+    "passed": false,
+    "criterion": "gini > 0.5"
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "num_steps": 104,
+      "mean_gini": 0.11448777240255605,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    }
+  ]
+}

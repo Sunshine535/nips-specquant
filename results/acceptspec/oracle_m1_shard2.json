@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "gamma": 5,
+    "temperature": 1.0,
+    "samples_per_step": 50
+  },
+  "aggregate": {
+    "retained_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "sensitivity_captured": [
+      0.17342734536572793,
+      0.23647898681843352,
+      0.29445332588724077,
+      0.349293543709051,
+      0.4522653560316418,
+      0.5482891178315821,
+      0.6385773368448929,
+      0.7235435745115154,
+      0.8034439869576937,
+      0.8778761358556264,
+      0.9455701571562976,
+      1.0
+    ],
+    "top10_coverage": 0.23647898681843352,
+    "top20_coverage": 0.349293543709051,
+    "top50_coverage": 0.6385773368448929,
+    "mean_gini": 0.11877875668661934,
+    "std_gini": 0.08376051180527037,
+    "spearman_rho": NaN,
+    "spearman_pval": NaN,
+    "total_tokens_measured": 37198,
+    "total_tokens": 37198
+  },
+  "gate": {
+    "name": "M1",
+    "passed": false,
+    "criterion": "top20 > 0.8"
+  },
+  "per_problem": [
+    {
+      "question": "Aiden is making his famous steakhouse-seasoned meatballs for a neighborhood cookout. He adds two tab",
+      "num_steps": 103,
+      "mean_gini": 0.10358376606650975,
+      "mean_alpha": 0.30434782608695654,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Nathan has a bouncy ball that bounces to 2/3rds of its starting height with each bounce. If he drops",
+      "num_steps": 98,
+      "mean_gini": 0.1033038551157171,
+      "mean_alpha": 0.23636363636363641,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "A basket of green food costs $25 and a basket of red food costs $18. If you buy 3 baskets of green f",
+      "num_steps": 102,
+      "mean_gini": 0.1194781375967938,
+      "mean_alpha": 0.36231884057971014,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Last Friday, 13 of the 82 teachers at Rydell Elementary School were sick. There were 9 substitute te",
+      "num_steps": 102,
+      "mean_gini": 0.10836082956065303,
+      "mean_alpha": 0.29565217391304355,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "A water tank is filled with 120 liters of water. Celine used 90 liters of water from the tank to wat",
+      "num_steps": 97,
+      "mean_gini": 0.1242157058282332,
+      "mean_alpha": 0.2727272727272728,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "To fund his store, Mr. Josue solicited money from two banks. The first bank gave him $4000, and the ",
+      "num_steps": 96,
+      "mean_gini": 0.16284935582767834,
+      "mean_alpha": 0.3454545454545455,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Liam is 16 years old now. Two years ago, Liam\u2019s age was twice the age of Vince. How old is Vince now",
+      "num_steps": 108,
+      "mean_gini": 0.11756133039792378,
+      "mean_alpha": 0.2833333333333334,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "90 single use contacts come in 1 box and will last Pete 45 days.  Each box is $100.00 and currently ",
+      "num_steps": 98,
+      "mean_gini": 0.13271596756848422,
+      "mean_alpha": 0.3818181818181819,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Lani baked 55 cookies. She ate 5 five cookies and placed the rest equally into five jars. How many c",
+      "num_steps": 100,
+      "mean_gini": 0.10208925333890048,
+      "mean_alpha": 0.29090909090909095,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "Jenna starts out with 8 sapphires. She trades 3 sapphires for two rubies. If sapphires are worth $80",
+      "num_steps": 103,
+      "mean_gini": 0.13485519264055335,
+      "mean_alpha": 0.36521739130434777,
+      "num_tokens_generated": 256
+    },
+    {
+      "question": "Cecilia just bought a new puppy. According to her veterinarian, she has to feed the puppy 1 cup of d",
+      "num_steps": 102,
+      "mean_gini": 0.110903174980827,
+      "mean_alpha": 0.24565217391304353,
+      "num_tokens_generated": 257
+    },
+    {
+      "question": "There are 9,300 pennies in a cup. What is the total dollar amount in a stack that contains two third",
+      "num_steps": 107,
+      "mean_gini": 0.10733884572982788,
+      "mean_alpha": 0.2416666666666667,
+      "num_tokens_generated": 256
+    }
+  ]
+}
