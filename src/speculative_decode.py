@@ -622,7 +622,7 @@ class SpeculativeDecoder:
             p_d = dp[tok_id].clamp(min=1e-10)
 
             if torch.rand(1, device=device).item() < min(1.0, (p_t / p_d).item()):
-                accepted.append(draft_tokens[i])
+                accepted.append(draft_tokens[i].cpu())
                 n_accepted += 1
             else:
                 adjusted = (tp - dp).clamp(min=0)
