@@ -590,9 +590,19 @@ class SpeculativeDecoder:
         temperature: float,
     ) -> Tuple[int, torch.Tensor]:
         device = verify_logits.device
-        temp = max(temperature, 1e-8)
+        greedy = temperature <= 0
         accepted: List[torch.Tensor] = []
         n_accepted = 0
+
+        def _softmax(logits):
+            """Compute softmax, handling temperature=0 as greedy (one-hot)."""
+            flat = logits.float()
+            if greedy:
+                # One-hot at argmax to avoid 1e-8 division overflow
+                result = torch.zeros_like(flat)
+                result[flat.argmax(dim=-1)] = 1.0
+                return result
+            return F.softmax(flat / temperature, dim=-1)
 
         for i in range(gamma):
             if i == 0:
@@ -600,7 +610,7 @@ class SpeculativeDecoder:
             else:
                 tgt_logits_i = verify_logits[:, i - 1, :].squeeze(0)
 
-            tp = F.softmax(tgt_logits_i.to(device) / temp, dim=-1)
+            tp = _softmax(tgt_logits_i.to(device))
             dp = draft_probs[i].to(device)
             if tp.shape[-1] != dp.shape[-1]:
                 mv = max(tp.shape[-1], dp.shape[-1])
@@ -619,15 +629,19 @@ class SpeculativeDecoder:
                 s = adjusted.sum()
                 if s > 0:
                     adjusted = adjusted / s
+                    new_tok = torch.multinomial(adjusted, num_samples=1).squeeze(-1)
                 else:
-                    adjusted = tp
-                new_tok = torch.multinomial(adjusted, num_samples=1).squeeze(-1)
+                    # Fallback: pick argmax of target distribution
+                    new_tok = tp.argmax(dim=-1)
                 accepted.append(new_tok.cpu())
                 break
         else:
             bonus_logits = verify_logits[:, gamma - 1, :].squeeze(0)
-            bonus_p = F.softmax(bonus_logits.to(device) / temp, dim=-1)
-            bonus = torch.multinomial(bonus_p, num_samples=1).squeeze(-1)
+            if greedy:
+                bonus = bonus_logits.argmax(dim=-1)
+            else:
+                bonus_p = _softmax(bonus_logits.to(device))
+                bonus = torch.multinomial(bonus_p, num_samples=1).squeeze(-1)
             accepted.append(bonus.cpu())
 
         return n_accepted, torch.stack(accepted)
