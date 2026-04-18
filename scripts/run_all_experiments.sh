@@ -133,9 +133,14 @@ if [ "$FROM_MILESTONE" -le 2 ] && ! phase_done 2; then
     NUM_PROBLEMS=100
     [ "$QUICK" = "1" ] && NUM_PROBLEMS=30
 
+    # Reduced sampling: 100 problems × 128 tokens × 25 samples = ~1 hr on 8 GPUs
+    # (was 256 × 50, which would be 8+ hr and likely still produce sparse accept_sens
+    # given α ≈ 0.33 from M1)
     bash scripts/parallel_run.sh scripts/triple_divergence.py \
         --model "$MODEL" \
         --num_problems $NUM_PROBLEMS \
+        --max_tokens 128 \
+        --samples_per_step 25 \
         --output_dir "${RESULTS_DIR}/divergence" \
         --output "${RESULTS_DIR}/divergence/triple_divergence.json" \
         2>&1 | tee "${LOG_DIR}/M2_divergence.log"
@@ -150,8 +155,11 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
     echo ""
     echo "=== M3: Core Comparison (8 retention policies) ==="
 
-    NUM_PROBLEMS=1319
-    [ "$QUICK" = "1" ] && NUM_PROBLEMS=100
+    # Reduced from 1319 to 300 problems (paper typically reports ≥300) and
+    # max_tokens from 256 to 128 to stay within budget. Core claim (C3: ≥3pp gap)
+    # only needs statistical significance, not full test set.
+    NUM_PROBLEMS=300
+    [ "$QUICK" = "1" ] && NUM_PROBLEMS=50
 
     for DATASET in gsm8k math500; do
         bash scripts/parallel_run.sh scripts/core_comparison.py \
@@ -159,6 +167,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
             --kv_budget 0.2 \
+            --max_tokens 128 \
             --output_dir "${RESULTS_DIR}/comparison" \
             --output "${RESULTS_DIR}/comparison/core_${DATASET}_b0.2.json" \
             2>&1 | tee "${LOG_DIR}/M3_comparison_${DATASET}.log"
@@ -171,17 +180,19 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
         --num_problems $NUM_PROBLEMS \
         --kv_budget 0.2 \
         --ablation no_sd \
+        --max_tokens 128 \
         --output_dir "${RESULTS_DIR}/comparison" \
         --output "${RESULTS_DIR}/comparison/core_gsm8k_nosd.json" \
         2>&1 | tee "${LOG_DIR}/M3_anticlaim.log"
 
-    # Budget sweep
+    # Budget sweep (reduced to 200 problems)
     for BUDGET in 0.1 0.2 0.3 0.5; do
         bash scripts/parallel_run.sh scripts/core_comparison.py \
             --model "$MODEL" \
             --dataset gsm8k \
-            --num_problems 500 \
+            --num_problems 200 \
             --kv_budget $BUDGET \
+            --max_tokens 128 \
             --output_dir "${RESULTS_DIR}/comparison" \
             --output "${RESULTS_DIR}/comparison/core_gsm8k_b${BUDGET}.json" \
             2>&1 | tee -a "${LOG_DIR}/M3_budget_sweep.log"
