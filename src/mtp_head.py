@@ -230,6 +230,10 @@ class Qwen35MTPHead(nn.Module):
         device = hidden_states.device
         greedy = temperature <= 0
 
+        # Handle gamma=0: return empty tensors instead of stacking empty list
+        if gamma <= 0:
+            return torch.empty(0, dtype=torch.long), [], []
+
         tokens = []
         probs_list = []
         hiddens = []
