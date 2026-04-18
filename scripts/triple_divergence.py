@@ -845,7 +845,13 @@ def run_triple_divergence(args):
     global_rhos = pairwise_spearman(cat_accept, cat_ppl, cat_attn)
 
     # --- Train and evaluate predictors ---
-    num_heads = target_model.config.num_attention_heads
+    # Use num_key_value_heads (GQA): features come from KV cache which has
+    # num_kv_heads, not num_attention_heads (they differ under GQA, e.g.
+    # Qwen3.5: 16 attn heads but 4 kv heads).
+    num_heads = getattr(
+        target_model.config, 'num_key_value_heads',
+        target_model.config.num_attention_heads,
+    )
     accept_predictor_metrics = {'f1': 0.0, 'precision': 0.0, 'recall': 0.0}
     attn_proxy_metrics = {'f1': 0.0, 'precision': 0.0, 'recall': 0.0}
 

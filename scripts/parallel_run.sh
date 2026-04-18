@@ -77,6 +77,9 @@ for ((i=0; i<NUM_INSTANCES; i++)); do
     CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" \
         --shard "$i" --num_shards "$NUM_INSTANCES" &
     PIDS+=($!)
+    # Stagger launches by 5s to avoid HF dataset cache filelock race
+    # (6/8 shards died with fchmod FileNotFoundError on simultaneous load)
+    sleep 5
 done
 
 # Wait
