@@ -208,12 +208,15 @@ class AcceptSensitivityOracle:
             target_kv, draft_tokens, num_kv_tokens,
         )
 
-        # Step 2.5: Compute margin-sensitivity score (closed-form, no extra forward)
-        # m(i) = attention_sum_i × ||v_i||_2 × (1 / (top2_margin + eps))
-        # High margin → verifier is confident → perturbing any one token matters less
-        # Low margin → argmax can flip → sensitivity amplified
-        margin_sensitivities = self._compute_margin_sensitivity(
-            target_kv, attention_importance, num_kv_tokens, top2_margin,
+        # Step 2.5: Compute margin-sensitivity score (proper per-token Jacobian)
+        #   m(i) = a_i × |<margin_dir, o_proj @ v_i>|
+        # where margin_dir = lm_head[top1,:] - lm_head[top2,:] is the direction
+        # in residual space that encodes the top1-top2 gap, and o_proj @ v_i is
+        # per-token's contribution. The inner product is PER-TOKEN DIFFERENT
+        # (unlike the previous formula where 1/margin was a per-step constant).
+        margin_sensitivities = self._compute_margin_sensitivity_jacobian(
+            target_kv, attention_importance, num_kv_tokens,
+            verify_logits,
         )
 
         # Step 3: Sample tokens to perturb (honor sample_fraction)
@@ -420,6 +423,111 @@ class AcceptSensitivityOracle:
         attn_cpu = attention_importance.float().cpu()
         scores = attn_cpu * v_norms * margin_factor
         return scores
+
+    def _compute_margin_sensitivity_jacobian(
+        self,
+        target_kv: Any,
+        attention_importance: torch.Tensor,
+        num_kv_tokens: int,
+        verify_logits: torch.Tensor,
+    ) -> torch.Tensor:
+        """Proper per-token margin-sensitivity via closed-form Jacobian.
+
+            m(i) = a_i × |<margin_dir, o_proj @ v_i>|
+
+        where:
+            margin_dir = lm_head_top1 - lm_head_top2   [model_dim]
+            v_i        = last layer's value vector for token i
+            o_proj     = attention output projection of last MHA layer
+
+        This properly differentiates per token — previous version used
+        1/margin as a per-step constant, making it rank-equivalent to
+        attention×value_norm (the 'margin' dimension provided no info).
+
+        Returns:
+            scores: [num_kv_tokens] per-token margin sensitivity
+        """
+        try:
+            with torch.no_grad():
+                # 1. Extract top1, top2 at first verification position
+                pos0_logits = verify_logits[0, 0, :].float()
+                top2_vals, top2_ids = pos0_logits.topk(2)
+
+                # 2. margin_dir in residual stream space
+                lm_head = getattr(self.target_model, 'lm_head', None)
+                if lm_head is None:
+                    lm_head = getattr(self.target_model.model, 'lm_head', None)
+                if lm_head is None:
+                    return attention_importance.float().cpu()  # fallback
+                W_emb = lm_head.weight  # [vocab, model_dim]
+                margin_dir = (W_emb[top2_ids[0]] - W_emb[top2_ids[1]]).float()  # [model_dim]
+
+                # 3. Find last MHA layer with o_proj
+                try:
+                    layers = self.target_model.model.layers
+                except AttributeError:
+                    return attention_importance.float().cpu()
+                last_layer_idx = None
+                for i in reversed(range(len(layers))):
+                    try:
+                        _ = layers[i].self_attn.o_proj.weight
+                        last_layer_idx = i
+                        break
+                    except AttributeError:
+                        continue
+                if last_layer_idx is None:
+                    return attention_importance.float().cpu()
+
+                W_o = layers[last_layer_idx].self_attn.o_proj.weight.float()
+                # W_o: [model_dim, num_heads * head_dim]
+                model_dim = W_o.shape[0]
+                total_head_dim = W_o.shape[1]
+
+                num_heads = self.target_model.config.num_attention_heads
+                head_dim = total_head_dim // num_heads
+
+                # 4. Pull v_margin through o_proj: which v_i direction most affects margin?
+                # v_margin[h, d] = dot(margin_dir, W_o[:, h*head_dim+d])
+                margin_dir_d = margin_dir.to(W_o.device)
+                v_margin = (margin_dir_d @ W_o).view(num_heads, head_dim)
+
+                # 5. Get last layer's V cache
+                _, v = get_kv_tensors(target_kv, last_layer_idx)
+                if v is None:
+                    return attention_importance.float().cpu()
+                v_last = v[0].float()  # [num_kv_heads, seq, head_dim]
+                num_kv_heads = v_last.shape[0]
+
+                # 6. Handle GQA: group v_margin into num_kv_heads
+                if num_heads != num_kv_heads and num_kv_heads > 0:
+                    group = num_heads // num_kv_heads
+                    # Average margin direction within each GQA group
+                    v_margin = v_margin.view(num_kv_heads, group, head_dim).mean(dim=1)
+                    # Now v_margin: [num_kv_heads, head_dim]
+
+                # 7. Per-token, per-head contribution: <v_margin[h], v_last[h, i, :]>
+                # v_last: [num_kv_heads, seq, head_dim], v_margin: [num_kv_heads, head_dim]
+                seq = min(v_last.shape[1], num_kv_tokens)
+                margin_contrib = (
+                    v_last[:, :seq, :] * v_margin.unsqueeze(1)
+                ).sum(dim=-1)  # [num_kv_heads, seq]
+
+                # 8. Aggregate per-head (sum of absolute contributions)
+                per_token_margin = margin_contrib.abs().sum(dim=0).cpu()  # [seq]
+
+                # 9. Pad to num_kv_tokens
+                out = torch.zeros(num_kv_tokens)
+                out[:seq] = per_token_margin
+
+                # 10. Weight by attention importance (a_i)
+                attn_cpu = attention_importance.float().cpu()[:num_kv_tokens]
+                if attn_cpu.numel() < num_kv_tokens:
+                    attn_cpu = torch.cat([attn_cpu, torch.zeros(num_kv_tokens - attn_cpu.numel())])
+                scores = out * attn_cpu
+                return scores
+        except Exception as e:
+            logger.debug("Margin-sensitivity Jacobian failed (%s), falling back to attention", e)
+            return attention_importance.float().cpu()[:num_kv_tokens]
 
     def _get_attention_importance(
         self,
