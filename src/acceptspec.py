@@ -46,6 +46,12 @@ class SensitivityResult:
     Use ``sample_indices`` to identify which entries are real measurements
     vs zero-filled placeholders.  ``sampled_sensitivities`` gives a dense
     vector of only the measured values (for unbiased metric computation).
+
+    Additional signals for MarginSpec (C2 mechanism validation):
+      - logit_tv_sensitivities: |TV(p_full, p_perturbed_i)| — continuous
+        signal, not subject to gamma=5 discretization of acceptance count.
+      - margin_sensitivities: predicted sensitivity from top-2 logit margin
+        × attention × value_norm (closed-form, zero extra forward pass).
     """
     step_idx: int
     num_kv_tokens: int
@@ -62,6 +68,13 @@ class SensitivityResult:
     alpha_full: float
     # Gini coefficient computed on SAMPLED tokens only (unbiased)
     gini: float
+    # Continuous logit-TV sensitivity (MarginSpec C2 signal, dense over sample_indices)
+    sampled_logit_tv: Optional[torch.Tensor] = None  # [n_sample]
+    # Margin-sensitivity proxy: score(i) = attention_sum_i * ||v_i|| * margin_factor
+    # Computable from single forward pass (no per-token perturbation)
+    margin_sensitivities: Optional[torch.Tensor] = None  # [num_kv_tokens]
+    # Scalar: top-2 logit margin at this verification step (for diagnostics)
+    top2_margin: float = 0.0
 
 
 @dataclass
@@ -181,9 +194,26 @@ class AcceptSensitivityOracle:
             gamma, temperature, coupled_seeds,
         )
 
+        # Compute baseline softmax for logit-TV signal + top-2 margin (for MarginSpec)
+        with torch.no_grad():
+            # Use verify_logits[0, 0, :] — first draft position's target prediction
+            # (continuous signal, not subject to gamma=5 accept/reject discretization)
+            baseline_probs = torch.softmax(verify_logits[0].float(), dim=-1).detach().cpu()
+            # Top-2 logit margin at first position (proxy for verifier decision "tightness")
+            top2_vals, _ = verify_logits[0, 0, :].float().topk(2)
+            top2_margin = float((top2_vals[0] - top2_vals[1]).item())
+
         # Step 2: Extract attention importance (on pre-draft KV, not extended)
         attention_importance = self._get_attention_importance(
             target_kv, draft_tokens, num_kv_tokens,
+        )
+
+        # Step 2.5: Compute margin-sensitivity score (closed-form, no extra forward)
+        # m(i) = attention_sum_i × ||v_i||_2 × (1 / (top2_margin + eps))
+        # High margin → verifier is confident → perturbing any one token matters less
+        # Low margin → argmax can flip → sensitivity amplified
+        margin_sensitivities = self._compute_margin_sensitivity(
+            target_kv, attention_importance, num_kv_tokens, top2_margin,
         )
 
         # Step 3: Sample tokens to perturb (honor sample_fraction)
@@ -193,6 +223,7 @@ class AcceptSensitivityOracle:
 
         # Only store sensitivities for SAMPLED tokens (avoid misleading zeros)
         sampled_sensitivities = torch.zeros(n_sample, device='cpu')
+        sampled_logit_tv = torch.zeros(n_sample, device='cpu')
 
         # Step 4: For each sampled token, perturb using FULL BLOCK context
         for si, idx in enumerate(sample_indices):
@@ -246,6 +277,13 @@ class AcceptSensitivityOracle:
 
             sampled_sensitivities[si] = abs(alpha_full - alpha_perturbed)
 
+            # Logit-TV sensitivity: continuous alternative to accept/reject count
+            # TV(p, p') = 0.5 * ||p - p'||_1, averaged across gamma positions
+            with torch.no_grad():
+                perturbed_probs = torch.softmax(perturbed_logits[0].float(), dim=-1).detach().cpu()
+                tv_per_pos = 0.5 * (baseline_probs - perturbed_probs).abs().sum(dim=-1)
+                sampled_logit_tv[si] = float(tv_per_pos.mean().item())
+
             # Restore original KV
             for layer_i in kv_layers:
                 k, v = get_kv_tensors(target_kv, layer_i)
@@ -282,6 +320,9 @@ class AcceptSensitivityOracle:
             attention_importance=attention_importance,
             alpha_full=alpha_full,
             gini=gini,
+            sampled_logit_tv=sampled_logit_tv,
+            margin_sensitivities=margin_sensitivities,
+            top2_margin=top2_margin,
         )
 
     def _compute_acceptance(
@@ -336,6 +377,49 @@ class AcceptSensitivityOracle:
 
         alpha = n_accepted / gamma if gamma > 0 else 0.0
         return alpha, per_pos
+
+    def _compute_margin_sensitivity(
+        self,
+        target_kv: Any,
+        attention_importance: torch.Tensor,
+        num_kv_tokens: int,
+        top2_margin: float,
+    ) -> torch.Tensor:
+        """Margin-sensitivity proxy (MarginSpec C2):
+
+            m(i) = attention_sum_i × ||v_i||_2 × margin_factor
+
+        where margin_factor = 1 / (top2_margin + eps) captures how "tight"
+        the verifier's decision is. Low margin → argmax easily flips →
+        sensitivity amplified. High margin → verifier is confident → robust.
+
+        This is closed-form (no extra forward pass) once attention_importance
+        and value norms are available.
+        """
+        # Compute per-token value norm across all MHA layers (average)
+        kv_layers = get_kv_layer_indices(target_kv)
+        v_norms = torch.zeros(num_kv_tokens, device='cpu')
+        n_layers_ok = 0
+        for layer_i in kv_layers:
+            _, v = get_kv_tensors(target_kv, layer_i)
+            if v is None:
+                continue
+            # v: [batch, num_kv_heads, seq, head_dim]
+            seq = min(v.shape[2], num_kv_tokens)
+            layer_norms = v[0, :, :seq, :].float().norm(dim=-1).mean(dim=0).cpu()
+            v_norms[:seq] += layer_norms
+            n_layers_ok += 1
+        if n_layers_ok > 0:
+            v_norms = v_norms / n_layers_ok
+
+        # Margin factor: amplify when verifier is close to flipping argmax
+        eps = 1e-3
+        margin_factor = 1.0 / (abs(top2_margin) + eps)
+
+        # Compose: attention × value_norm × margin_factor
+        attn_cpu = attention_importance.float().cpu()
+        scores = attn_cpu * v_norms * margin_factor
+        return scores
 
     def _get_attention_importance(
         self,

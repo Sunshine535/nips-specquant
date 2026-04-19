@@ -279,6 +279,10 @@ def run_instrumented_sd(
     step_accept_sens = []   # acceptance sensitivity rankings
     step_ppl_sens = []      # perplexity sensitivity rankings
     step_attn_imp = []      # attention importance rankings
+    # MarginSpec C2: new continuous signals
+    step_logit_tv = []      # logit-TV sensitivity (continuous, same indices as accept_sens)
+    step_margin_sens = []   # margin-sensitivity proxy (closed-form, no extra forward)
+    step_top2_margin = []   # top-2 logit margin at each step (diagnostic scalar)
     # Features for predictor training
     step_draft_attns = []   # draft model attention weights per head
     step_value_norms = []   # value vector L2 norms
@@ -389,6 +393,21 @@ def run_instrumented_sd(
                     step_ppl_sens.append(ppl_sens)
                     step_attn_imp.append(attn_imp)
 
+                    # MarginSpec C2: log new signals (zero-cost if None)
+                    if sens_result.margin_sensitivities is not None:
+                        step_margin_sens.append(sens_result.margin_sensitivities)
+                    else:
+                        step_margin_sens.append(torch.zeros_like(accept_sens))
+                    if sens_result.sampled_logit_tv is not None:
+                        # Expand sampled logit-tv to full token vector for alignment
+                        logit_tv_full = torch.zeros_like(accept_sens)
+                        for si, idx in enumerate(sens_result.sample_indices):
+                            logit_tv_full[idx.item()] = sens_result.sampled_logit_tv[si]
+                        step_logit_tv.append(logit_tv_full)
+                    else:
+                        step_logit_tv.append(torch.zeros_like(accept_sens))
+                    step_top2_margin.append(float(sens_result.top2_margin))
+
                     # Collect draft-model features for predictor training
                     # In MTP mode, use target KV (MTP shares the target's KV)
                     feat_kv = target_kv if use_mtp else draft_kv
@@ -472,6 +491,10 @@ def run_instrumented_sd(
         'step_accept_sens': step_accept_sens,
         'step_ppl_sens': step_ppl_sens,
         'step_attn_imp': step_attn_imp,
+        # MarginSpec C2 signals
+        'step_logit_tv': step_logit_tv,
+        'step_margin_sens': step_margin_sens,
+        'step_top2_margin': step_top2_margin,
         'step_draft_attns': step_draft_attns,
         'step_value_norms': step_value_norms,
     }
@@ -724,6 +747,9 @@ def run_triple_divergence(args):
     all_accept_sens = []
     all_ppl_sens = []
     all_attn_imp = []
+    # MarginSpec C2 aggregated signals
+    all_margin_sens = []
+    all_logit_tv = []
 
     # Predictor training features: per-split
     train_draft_attns = []
@@ -781,6 +807,14 @@ def run_triple_divergence(args):
                 all_accept_sens.append(a_sens)
                 all_ppl_sens.append(p_sens)
                 all_attn_imp.append(attn)
+
+                # MarginSpec C2: aggregate margin-sens and logit-tv signals
+                if step_i < len(result.get('step_margin_sens', [])):
+                    m = result['step_margin_sens'][step_i][:min_len]
+                    all_margin_sens.append(m)
+                if step_i < len(result.get('step_logit_tv', [])):
+                    lt = result['step_logit_tv'][step_i][:min_len]
+                    all_logit_tv.append(lt)
 
                 # Make binary labels for predictor training
                 accept_labels = _make_oracle_labels(a_sens, critical_fraction=0.2)
@@ -859,6 +893,36 @@ def run_triple_divergence(args):
     cat_attn = torch.cat(all_attn_imp)
 
     global_rhos = pairwise_spearman(cat_accept, cat_ppl, cat_attn)
+
+    # MarginSpec C2: correlate margin-sens and logit-tv with accept_sens
+    margin_spec_rhos = {}
+    if all_margin_sens and all_logit_tv:
+        try:
+            cat_margin = torch.cat(all_margin_sens)
+            cat_logit_tv = torch.cat(all_logit_tv)
+            # Align lengths (safety)
+            N = min(cat_accept.numel(), cat_margin.numel(), cat_logit_tv.numel())
+            a = cat_accept[:N]
+            m = cat_margin[:N]
+            lt = cat_logit_tv[:N]
+            # Key MarginSpec correlations
+            mask_am = (a > 0) | (m > 0)
+            if mask_am.sum() >= 10:
+                rho_am, p_am = spearmanr(a[mask_am].numpy(), m[mask_am].numpy())
+                margin_spec_rhos['accept_vs_margin'] = (float(rho_am), float(p_am))
+            mask_alt = (a > 0) | (lt > 0)
+            if mask_alt.sum() >= 10:
+                rho_alt, p_alt = spearmanr(a[mask_alt].numpy(), lt[mask_alt].numpy())
+                margin_spec_rhos['accept_vs_logit_tv'] = (float(rho_alt), float(p_alt))
+            mask_mlt = (m > 0) | (lt > 0)
+            if mask_mlt.sum() >= 10:
+                rho_mlt, p_mlt = spearmanr(m[mask_mlt].numpy(), lt[mask_mlt].numpy())
+                margin_spec_rhos['margin_vs_logit_tv'] = (float(rho_mlt), float(p_mlt))
+            logger.info("[MarginSpec C2] accept_vs_margin rho=%.3f  accept_vs_logit_tv rho=%.3f",
+                        margin_spec_rhos.get('accept_vs_margin', (0,0))[0],
+                        margin_spec_rhos.get('accept_vs_logit_tv', (0,0))[0])
+        except Exception as e:
+            logger.warning("MarginSpec correlation computation failed: %s", e)
 
     # --- Train and evaluate predictors ---
     # Use num_key_value_heads (GQA): features come from KV cache which has
@@ -948,6 +1012,11 @@ def run_triple_divergence(args):
         'spearman_correlations': {
             name: {'rho': rho, 'pval': pval}
             for name, (rho, pval) in global_rhos.items()
+        },
+        # MarginSpec C2: new continuous-signal correlations
+        'marginspec_correlations': {
+            name: {'rho': rho, 'pval': pval}
+            for name, (rho, pval) in margin_spec_rhos.items()
         },
         'accept_predictor': accept_predictor_metrics,
         'attention_proxy': attn_proxy_metrics,
