@@ -18,6 +18,23 @@ NUM_INSTANCES=$NUM_GPUS
 
 echo "[parallel] $NUM_GPUS GPUs → $NUM_INSTANCES parallel instances (1 GPU each)"
 
+# Pre-download datasets so shards don't race on HF filelock (6/8 shards died
+# with FileNotFoundError on fchmod when loading gsm8k/math500 simultaneously)
+echo "[parallel] Pre-downloading datasets to avoid filelock race..."
+python3 -c "
+from datasets import load_dataset
+try:
+    load_dataset('openai/gsm8k', 'main', split='test')
+    print('  gsm8k cached')
+except Exception as e:
+    print(f'  gsm8k fetch failed: {e}')
+try:
+    load_dataset('HuggingFaceH4/MATH-500', split='test')
+    print('  MATH-500 cached')
+except Exception:
+    pass
+" 2>&1 | grep -v "HTTP\|hf-mirror\|Fetching\|Downloading" | tail -5
+
 # Parse script and args
 SCRIPT=""
 ARGS=()
@@ -77,9 +94,10 @@ for ((i=0; i<NUM_INSTANCES; i++)); do
     CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" \
         --shard "$i" --num_shards "$NUM_INSTANCES" &
     PIDS+=($!)
-    # Stagger launches by 5s to avoid HF dataset cache filelock race
-    # (6/8 shards died with fchmod FileNotFoundError on simultaneous load)
-    sleep 5
+    # Stagger launches by 10s to avoid HF dataset cache filelock race
+    # (6/8 shards died with fchmod FileNotFoundError on simultaneous load).
+    # Combined with pre-download above, this should eliminate the race.
+    sleep 10
 done
 
 # Wait

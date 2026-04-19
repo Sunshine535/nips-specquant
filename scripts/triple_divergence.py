@@ -600,19 +600,35 @@ def train_and_evaluate_predictor(
     test_value_norms: List[torch.Tensor],
     test_labels: List[torch.Tensor],
     num_heads: int,
+    predictor_type: str = "accept",
 ) -> Dict[str, float]:
-    """Train AcceptPredictor on train set, evaluate on test set.
+    """Train predictor on train set, evaluate on test set.
+
+    Two predictor types:
+      - "accept": AcceptPredictor with learned head weights × attention × value_norm
+      - "attention_proxy": pure SmallKV-style — uniform head weights × attention only,
+        NO value_norm multiplier and NO learning. This differentiates from AcceptPredictor
+        so we can measure whether learning from accept_labels helps.
 
     Returns dict with F1, precision, recall.
     """
-    predictor = AcceptPredictor(num_heads=num_heads)
-    predictor.fit(train_draft_attns, train_value_norms, train_labels)
+    if predictor_type == "accept":
+        predictor = AcceptPredictor(num_heads=num_heads)
+        predictor.fit(train_draft_attns, train_value_norms, train_labels)
+        score_fn = lambda attn, vnorm: predictor.predict_scores(attn, vnorm)
+    elif predictor_type == "attention_proxy":
+        # SmallKV-style: sum attention across heads, uniform weights, NO value_norm
+        def score_fn(attn, vnorm):
+            # attn: [num_heads, num_kv_tokens] → [num_kv_tokens] via uniform sum
+            return attn.float().sum(dim=0)
+    else:
+        raise ValueError(f"Unknown predictor_type: {predictor_type}")
 
     # Evaluate on test set
     all_preds = []
     all_true = []
     for attn, vnorm, labels in zip(test_draft_attns, test_value_norms, test_labels):
-        scores = predictor.predict_scores(attn, vnorm)
+        scores = score_fn(attn, vnorm)
         # Use same threshold: top 20% predicted as critical
         n = scores.numel()
         n_critical = max(1, int(0.2 * n))
@@ -862,13 +878,15 @@ def run_triple_divergence(args):
             train_draft_attns, train_value_norms, train_accept_labels,
             test_draft_attns, test_value_norms, test_accept_labels,
             num_heads=num_heads,
+            predictor_type="accept",
         )
 
-        logger.info("Training AttentionProxy predictor...")
+        logger.info("Evaluating AttentionProxy (SmallKV-style, no learning)...")
         attn_proxy_metrics = train_and_evaluate_predictor(
             train_draft_attns, train_value_norms, train_attn_labels,
             test_draft_attns, test_value_norms, test_accept_labels,
             num_heads=num_heads,
+            predictor_type="attention_proxy",
         )
     else:
         logger.warning("Insufficient data for predictor training/testing.")
