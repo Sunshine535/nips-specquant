@@ -141,12 +141,63 @@ merged = {'num_shards': len(shards), 'shard_paths': shard_paths}
 if 'config' in shards[0]:
     merged['config'] = shards[0]['config']
 
-# Merge per_problem
+# Merge per_problem (top-level for M2 oracle/divergence)
 all_problems = []
 for s in shards:
     all_problems.extend(s.get('per_problem', []))
 merged['per_problem'] = all_problems
 merged['num_problems'] = len(all_problems)
+
+# Round 2 reviewer fix: M3 core_comparison stores data under
+# per_policy.<policy_name>.per_problem + per_policy.<policy_name>.accuracy
+# Need to merge policy-by-policy and recompute accuracy.
+if any('per_policy' in s for s in shards):
+    merged_per_policy = {}
+    # Collect the set of all policies across shards
+    policy_names = set()
+    for s in shards:
+        for pname in s.get('per_policy', {}).keys():
+            policy_names.add(pname)
+    for pname in policy_names:
+        policy_problems = []
+        total_correct = 0
+        total_probs = 0
+        for s in shards:
+            pdata = s.get('per_policy', {}).get(pname, {})
+            policy_problems.extend(pdata.get('per_problem', []))
+        # Recompute accuracy from merged per-problem entries
+        correct_entries = [p for p in policy_problems if 'correct' in p]
+        if correct_entries:
+            total_correct = sum(1 for p in correct_entries if p.get('correct'))
+            total_probs = len(correct_entries)
+            accuracy = total_correct / max(total_probs, 1)
+        else:
+            accuracy = None
+        # Recompute mean acceptance rate if present
+        ar_vals = [p.get('acceptance_rate') for p in policy_problems
+                   if p.get('acceptance_rate') is not None]
+        mean_ar = sum(ar_vals) / len(ar_vals) if ar_vals else None
+        merged_per_policy[pname] = {
+            'per_problem': policy_problems,
+            'num_problems': len(policy_problems),
+            'accuracy': accuracy,
+            'num_correct': total_correct,
+            'mean_acceptance_rate': mean_ar,
+        }
+    merged['per_policy'] = merged_per_policy
+    # Recompute claim_c3 from merged accuracies if present
+    ac_map = {k: v.get('accuracy') for k, v in merged_per_policy.items()
+              if v.get('accuracy') is not None}
+    if 'oracle_accept' in ac_map and 'perplexity' in ac_map and 'attention_h2o' in ac_map:
+        gap_ppl = (ac_map['oracle_accept'] - ac_map['perplexity']) * 100
+        gap_attn = (ac_map['oracle_accept'] - ac_map['attention_h2o']) * 100
+        merged['claim_c3'] = {
+            'gap_vs_perplexity_pp': gap_ppl,
+            'gap_vs_attention_pp': gap_attn,
+            'passed': gap_ppl >= 3.0 and gap_attn >= 3.0,
+        }
+        print(f'  [M3] oracle_accept vs perplexity: {gap_ppl:+.2f}pp')
+        print(f'  [M3] oracle_accept vs attention_h2o: {gap_attn:+.2f}pp')
 
 # Recompute mean_gini + top-k coverage from per-problem data when present
 agg = {}

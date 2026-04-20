@@ -97,3 +97,53 @@ MarginSpec reads like story rescue after C2 failed once, not like a robust mecha
 - Priority 2: add dense-oracle subset mode (100% perturbation on small subset)
 - Priority 3: fix GQA extract_draft_features to not silently fallback
 - Continuing to Round 2 after fixes + partial rerun
+
+---
+
+## Round 2 — 2026-04-21
+
+### Assessment
+- **Score**: **4 / 10** (up from 2.5)
+- **Verdict**: NOT READY but clear path forward
+- **Codex threadId**: `019dac53-601b-7ca2-abc0-d0a2015d34e5`
+
+### New reviewer findings (2 additional blockers)
+
+6. **M3 `oracle_accept` still fabricates draft_probs** — core_comparison.py:818-877 reconstructs target_next_logits from first draft token and reuses that target softmax as draft_probs proxy. "Good enough for triage, not paper-quality oracle."
+
+7. **M3 shard merge broken** — parallel_run.sh:144 only merges top-level `per_problem`, but core_comparison.py:1176 stores under `per_policy.*.per_problem`. M3 merged JSON won't have per-policy data.
+
+### Architectural concern
+- Repo's own landscape (`LITERATURE_LANDSCAPE.md:53`) states Qwen3.5 is mostly GatedDeltaNet (linear attention). KV-cache studies should use Qwen3-8B + Qwen3-0.6B (pure MHA). Current primary = Qwen3.5-9B → most layers irrelevant for KV findings.
+
+### Decision: ONE experiment to prioritize = **(b) M3 core_comparison** (direct downstream accuracy, no correlation bias possible)
+
+### Pivot if M3 shows no gap
+Switch primary to **Qwen3-8B + Qwen3-0.6B (pure MHA)** and rerun same direct-metric study.
+
+### Minimum workshop paper (worst case)
+"Audited measurement benchmark for verifier-side KV sensitivity in SD" — anchored on the matched-support + shard-audit harness that changes qualitative conclusions.
+
+### Concurrent-work threats (Feb-Apr 2026)
+- **ForesightKV** (arXiv:2602.03203) — biggest threat to generic downstream-accuracy-KV paper
+- **SpecAttn** (arXiv:2602.07223) — closest to verifier-side KV importance in SD
+- **SideQuest** (arXiv:2602.22603) — weakens broad reasoning-KV framing
+- **Acceptance Dynamics** (arXiv:2604.14682) — task-level, not token-level; weak threat to workshop null result
+- **Quasar** (arXiv:2603.01399) — occupies pure quantized-verification-throughput story
+- **No paper** does acceptance-ranked verifier-side KV importance yet
+
+### 48-hour action schedule (Asia/Taipei)
+| Time | Action | Gate |
+|------|--------|------|
+| 04-21 09:00-11:00 | Fix M3 oracle_accept draft_probs + per_policy shard merge | — |
+| 04-21 11:00-13:00 | Smoke test on 8 problems (4 policies) | merge validates |
+| 04-21 13:00-20:00 | GSM8K 64 problems, {oracle_accept, attention_h2o, random, fp16} | — |
+| 04-21 20:00 | **Gate A**: oracle_accept - attention_h2o ≥ 1pp? | if no → pivot to Qwen3 |
+| 04-21 20:30 - 04-22 06:30 | Full GSM8K 300 problems | — |
+| 04-22 08:30 | **Gate B**: gap ≥ 2pp? | branch: MATH-500 confirm OR budget sweep OR Qwen3 pivot |
+| 04-22 09:00 - 04-22 21:00 | Execute gate-B branch using all 8 GPUs | — |
+| 04-22 21:00+ | M2 matched-support rerun **only if** M3 already positive | — |
+
+### Status
+- Phase C: implementing 2 new blockers before launching M3
+- M2 matched-support rerun DEFERRED until M3 gate passes
