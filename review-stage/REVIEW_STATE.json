@@ -1,22 +1,24 @@
 {
-  "round": 1,
-  "threadId": "019dabcb-87dc-7d80-876e-31180b22c645",
+  "round": 2,
+  "threadId": "019dac53-601b-7ca2-abc0-d0a2015d34e5",
   "status": "in_progress",
   "difficulty": "nightmare",
-  "last_score": 2.5,
-  "last_verdict": "not ready",
-  "pending_experiments": ["M2 rerun with matched-support Spearman"],
-  "fixes_implemented_round_1": [
-    "pairwise_spearman_matched function",
-    "step_sampled_mask tracking through pipeline",
-    "matched_spearman_correlations in output JSON",
-    "parallel_run.sh: recompute aggregates from per_problem, flag cross-shard divergence",
-    "per_shard_spearman_correlations saved for audit"
+  "last_score": 4.0,
+  "last_verdict": "not ready but clear path",
+  "pending_experiments": [
+    "M3 core_comparison on Qwen3.5-9B (Gate A: 64 problems)"
   ],
-  "fixes_pending_round_2": [
-    "Dense oracle subset (100% sample_fraction on 20 problems)",
-    "GQA _extract_draft_features — remove silent uniform fallback",
-    "High-α control on Llama-EAGLE or Medusa"
+  "fixes_implemented_round_2": [
+    "score_fn API accepts target_next_logits + draft_probs_list",
+    "oracle_accept uses real per-position draft probabilities",
+    "parallel_run.sh merges per_policy.*.per_problem correctly",
+    "M3 claim_c3 recomputed from merged shard data",
+    "reviewer memory updated with Round 2 suspicions"
   ],
-  "timestamp": "2026-04-21T00:00:00"
+  "decision": "Run M3 on current Qwen3.5-9B. If Gate A fails (oracle_accept - attention_h2o < 1pp on 64 problems), pivot to Qwen3-8B + Qwen3-0.6B (pure MHA).",
+  "next_round_triggers": [
+    "M3 Gate A result (pass/fail)",
+    "Corrected M2 matched-support Spearman (deferred until M3 outcome)"
+  ],
+  "timestamp": "2026-04-21T12:00:00"
 }
