@@ -1,0 +1,22 @@
+{
+  "round": 1,
+  "threadId": "019dabcb-87dc-7d80-876e-31180b22c645",
+  "status": "in_progress",
+  "difficulty": "nightmare",
+  "last_score": 2.5,
+  "last_verdict": "not ready",
+  "pending_experiments": ["M2 rerun with matched-support Spearman"],
+  "fixes_implemented_round_1": [
+    "pairwise_spearman_matched function",
+    "step_sampled_mask tracking through pipeline",
+    "matched_spearman_correlations in output JSON",
+    "parallel_run.sh: recompute aggregates from per_problem, flag cross-shard divergence",
+    "per_shard_spearman_correlations saved for audit"
+  ],
+  "fixes_pending_round_2": [
+    "Dense oracle subset (100% sample_fraction on 20 problems)",
+    "GQA _extract_draft_features — remove silent uniform fallback",
+    "High-α control on Llama-EAGLE or Medusa"
+  ],
+  "timestamp": "2026-04-21T00:00:00"
+}
