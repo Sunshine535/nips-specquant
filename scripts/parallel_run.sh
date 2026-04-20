@@ -114,17 +114,20 @@ done
 
 [ "$FAILED" -gt 0 ] && echo "[parallel] $FAILED/$NUM_INSTANCES failed"
 
-# Merge
+# Merge — Round 1 reviewer fix: recompute aggregate from all shards'
+# aggregate fields (not just shards[0]); flag missing/divergent keys.
 if [ -n "$OUTPUT" ]; then
     echo "[parallel] Merging → $OUTPUT"
     python3 -c "
 import json, sys
 
 shards = []
+shard_paths = []
 for path in sys.argv[1:]:
     try:
         with open(path) as f:
             shards.append(json.load(f))
+        shard_paths.append(path)
     except Exception as e:
         print(f'  Skip {path}: {e}')
 
@@ -132,24 +135,72 @@ if not shards:
     print('ERROR: No shard results')
     sys.exit(1)
 
-merged = shards[0].copy()
-if 'per_problem' in merged:
-    all_problems = []
-    for s in shards:
-        all_problems.extend(s.get('per_problem', []))
-    merged['per_problem'] = all_problems
-    merged['num_problems'] = len(all_problems)
+# Start with a clean dict — do NOT inherit shard[0]'s stale aggregate
+merged = {'num_shards': len(shards), 'shard_paths': shard_paths}
+# Preserve any config from shard 0 (assumed identical across shards)
+if 'config' in shards[0]:
+    merged['config'] = shards[0]['config']
 
-    ginis = [p.get('mean_gini', 0) for p in all_problems if 'mean_gini' in p]
-    top20s = [p.get('top20_coverage', 0) for p in all_problems if 'top20_coverage' in p]
-    if ginis:
-        merged.setdefault('aggregate', {})['mean_gini'] = sum(ginis)/len(ginis)
-    if top20s:
-        merged.setdefault('aggregate', {})['top20_coverage'] = sum(top20s)/len(top20s)
+# Merge per_problem
+all_problems = []
+for s in shards:
+    all_problems.extend(s.get('per_problem', []))
+merged['per_problem'] = all_problems
+merged['num_problems'] = len(all_problems)
+
+# Recompute mean_gini + top-k coverage from per-problem data when present
+agg = {}
+for k in ('mean_gini', 'top10_coverage', 'top20_coverage', 'top50_coverage',
+         'mean_alpha'):
+    vals = [p.get(k) for p in all_problems if k in p and p.get(k) is not None]
+    if vals:
+        agg[k] = float(sum(vals) / len(vals))
+        agg[f'{k}_n'] = len(vals)
+
+# Also weighted-aggregate shards' own 'aggregate' block (for legacy fields)
+shard_aggs = [s.get('aggregate', {}) for s in shards if 'aggregate' in s]
+# Cross-shard sanity: if shards disagree on keys present, flag loudly
+all_keys = set()
+for sa in shard_aggs:
+    all_keys.update(sa.keys())
+key_divergence = {}
+for k in sorted(all_keys):
+    vals = [sa[k] for sa in shard_aggs if k in sa and isinstance(sa[k], (int, float))]
+    if len(vals) >= 2:
+        key_divergence[k] = {
+            'min': float(min(vals)), 'max': float(max(vals)),
+            'mean': float(sum(vals) / len(vals)), 'n_shards': len(vals),
+        }
+        if k not in agg:
+            agg[k] = key_divergence[k]['mean']
+merged['aggregate'] = agg
+merged['per_shard_aggregate_diagnostics'] = key_divergence
+
+# Merge Spearman correlations — do NOT average correlations across shards
+# (that's wrong statistically). Report per-shard values and flag.
+corr_by_shard = []
+for s in shards:
+    if 'spearman_correlations' in s:
+        corr_by_shard.append(s['spearman_correlations'])
+    if 'matched_spearman_correlations' in s:
+        pass  # handled separately below
+if corr_by_shard:
+    merged['per_shard_spearman_correlations'] = corr_by_shard
+
+matched_by_shard = [s.get('matched_spearman_correlations', {}) for s in shards
+                    if s.get('matched_spearman_correlations')]
+if matched_by_shard:
+    merged['per_shard_matched_spearman_correlations'] = matched_by_shard
 
 with open('$OUTPUT', 'w') as f:
-    json.dump(merged, f, indent=2)
+    json.dump(merged, f, indent=2, default=str)
 print(f'  Merged {len(shards)} shards → $OUTPUT')
+print(f'  Aggregate keys: {sorted(agg.keys())}')
+if key_divergence:
+    for k, v in key_divergence.items():
+        rng = v['max'] - v['min']
+        if rng > 0.1 * abs(v['mean']):
+            print(f'  WARN: shards disagree on {k}: min={v[\"min\"]:.3f} max={v[\"max\"]:.3f} (range {rng:.3f})')
 " "${SHARD_OUTPUTS[@]}"
 fi
 

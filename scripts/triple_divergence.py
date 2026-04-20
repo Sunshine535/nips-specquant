@@ -283,6 +283,9 @@ def run_instrumented_sd(
     step_logit_tv = []      # logit-TV sensitivity (continuous, same indices as accept_sens)
     step_margin_sens = []   # margin-sensitivity proxy (closed-form, no extra forward)
     step_top2_margin = []   # top-2 logit margin at each step (diagnostic scalar)
+    # Round 1 reviewer fix: track which positions were ACTUALLY sampled
+    # (used for matched-support Spearman — avoids sparse-vs-dense null bias)
+    step_sampled_mask = []  # [num_kv_tokens] bool, True where oracle measured
     # Features for predictor training
     step_draft_attns = []   # draft model attention weights per head
     step_value_norms = []   # value vector L2 norms
@@ -407,6 +410,14 @@ def run_instrumented_sd(
                     else:
                         step_logit_tv.append(torch.zeros_like(accept_sens))
                     step_top2_margin.append(float(sens_result.top2_margin))
+                    # Build sampled-mask: which positions were actually measured
+                    samp_mask = torch.zeros(accept_sens.numel(), dtype=torch.bool)
+                    if sens_result.sample_indices is not None:
+                        for idx in sens_result.sample_indices:
+                            ii = int(idx.item())
+                            if ii < samp_mask.numel():
+                                samp_mask[ii] = True
+                    step_sampled_mask.append(samp_mask)
 
                     # Collect draft-model features for predictor training
                     # In MTP mode, use target KV (MTP shares the target's KV)
@@ -495,6 +506,7 @@ def run_instrumented_sd(
         'step_logit_tv': step_logit_tv,
         'step_margin_sens': step_margin_sens,
         'step_top2_margin': step_top2_margin,
+        'step_sampled_mask': step_sampled_mask,  # Round 1 reviewer fix
         'step_draft_attns': step_draft_attns,
         'step_value_norms': step_value_norms,
     }
@@ -578,7 +590,9 @@ def pairwise_spearman(
 ) -> Dict[str, Tuple[float, float]]:
     """Compute pairwise Spearman rho between 3 ranking vectors.
 
-    Only considers tokens where at least one of the pair is nonzero.
+    Uses (a>0)|(b>0) mask. WARNING: biased when one series is zero-padded
+    (unsampled tokens) and the other is dense. Prefer
+    `pairwise_spearman_matched` with an explicit sampled-indices mask.
 
     Returns dict mapping pair name -> (rho, p-value).
     """
@@ -595,6 +609,51 @@ def pairwise_spearman(
             results[name] = (float(rho), float(pval))
         else:
             results[name] = (0.0, 1.0)
+    return results
+
+
+def pairwise_spearman_matched(
+    accept: torch.Tensor,
+    ppl: torch.Tensor,
+    attn: torch.Tensor,
+    sampled_mask: torch.Tensor,
+    min_n: int = 20,
+) -> Dict[str, Tuple[float, float]]:
+    """Matched-support Spearman: only compares positions that were
+    ACTUALLY sampled by the oracle (regardless of whether the measured
+    value happens to be zero). This eliminates the 'sparse-vs-dense null
+    ρ ≈ 0' artifact that the (a>0)|(b>0) mask suffers from.
+
+    Args:
+        accept, ppl, attn: per-token values (any padding convention)
+        sampled_mask: boolean [num_tokens], True where accept was actually measured
+        min_n: minimum number of matched points for a valid correlation
+
+    Returns:
+        dict of pair_name -> (rho, pval), computed on the sampled subset only.
+        If fewer than min_n samples, returns (nan, nan) so the caller can
+        detect and skip rather than silently using a biased estimate.
+    """
+    pairs = {
+        'accept_vs_ppl': (accept, ppl),
+        'accept_vs_attn': (accept, attn),
+        'ppl_vs_attn': (ppl, attn),
+    }
+    results = {}
+    if sampled_mask.sum() < min_n:
+        for name in pairs:
+            results[name] = (float('nan'), float('nan'))
+        return results
+    idx = sampled_mask.nonzero(as_tuple=True)[0]
+    for name, (a, b) in pairs.items():
+        a_s = a[idx].float().numpy()
+        b_s = b[idx].float().numpy()
+        # Require non-constant both series
+        if (a_s.std() < 1e-12) or (b_s.std() < 1e-12):
+            results[name] = (float('nan'), float('nan'))
+            continue
+        rho, pval = spearmanr(a_s, b_s)
+        results[name] = (float(rho), float(pval))
     return results
 
 
@@ -750,6 +809,8 @@ def run_triple_divergence(args):
     # MarginSpec C2 aggregated signals
     all_margin_sens = []
     all_logit_tv = []
+    # Round 1 reviewer fix: matched-support masks per step
+    all_sampled_masks = []
 
     # Predictor training features: per-split
     train_draft_attns = []
@@ -815,6 +876,10 @@ def run_triple_divergence(args):
                 if step_i < len(result.get('step_logit_tv', [])):
                     lt = result['step_logit_tv'][step_i][:min_len]
                     all_logit_tv.append(lt)
+                # Round 1 reviewer fix: matched-support mask
+                if step_i < len(result.get('step_sampled_mask', [])):
+                    msk = result['step_sampled_mask'][step_i][:min_len]
+                    all_sampled_masks.append(msk)
 
                 # Make binary labels for predictor training
                 accept_labels = _make_oracle_labels(a_sens, critical_fraction=0.2)
@@ -892,7 +957,37 @@ def run_triple_divergence(args):
     cat_ppl = torch.cat(all_ppl_sens)
     cat_attn = torch.cat(all_attn_imp)
 
+    # BIASED (legacy) — keep for back-compat only, reviewer flagged this
     global_rhos = pairwise_spearman(cat_accept, cat_ppl, cat_attn)
+
+    # MATCHED-SUPPORT (Round 1 reviewer fix) — only correlate positions
+    # that were ACTUALLY sampled (not inferred from "a > 0 | b > 0")
+    matched_rhos = {}
+    try:
+        # Per-problem matched masks accumulated during aggregation — see below
+        if all_sampled_masks:
+            cat_mask = torch.cat(all_sampled_masks)
+            # Safety: align length
+            N = min(cat_accept.numel(), cat_ppl.numel(), cat_attn.numel(),
+                    cat_mask.numel())
+            matched_rhos = pairwise_spearman_matched(
+                cat_accept[:N], cat_ppl[:N], cat_attn[:N], cat_mask[:N],
+            )
+            logger.info(
+                "[Round 1 fix] Matched-support Spearman: "
+                "accept_vs_attn=%.3f (p=%s), accept_vs_ppl=%.3f (p=%s), "
+                "ppl_vs_attn=%.3f (p=%s)",
+                matched_rhos.get('accept_vs_attn', (float('nan'), None))[0],
+                f"{matched_rhos.get('accept_vs_attn', (None, float('nan')))[1]:.4g}" if matched_rhos.get('accept_vs_attn') else 'nan',
+                matched_rhos.get('accept_vs_ppl', (float('nan'), None))[0],
+                f"{matched_rhos.get('accept_vs_ppl', (None, float('nan')))[1]:.4g}" if matched_rhos.get('accept_vs_ppl') else 'nan',
+                matched_rhos.get('ppl_vs_attn', (float('nan'), None))[0],
+                f"{matched_rhos.get('ppl_vs_attn', (None, float('nan')))[1]:.4g}" if matched_rhos.get('ppl_vs_attn') else 'nan',
+            )
+        else:
+            logger.warning("No sampled-mask tracking available; skipping matched-support correlations")
+    except Exception as e:
+        logger.warning("Matched-support correlation failed: %s", e)
 
     # MarginSpec C2: correlate margin-sens and logit-tv with accept_sens
     margin_spec_rhos = {}
@@ -1012,6 +1107,11 @@ def run_triple_divergence(args):
         'spearman_correlations': {
             name: {'rho': rho, 'pval': pval}
             for name, (rho, pval) in global_rhos.items()
+        },
+        # Round 1 reviewer fix — matched-support Spearman (unbiased)
+        'matched_spearman_correlations': {
+            name: {'rho': rho, 'pval': pval}
+            for name, (rho, pval) in matched_rhos.items()
         },
         # MarginSpec C2: new continuous-signal correlations
         'marginspec_correlations': {
