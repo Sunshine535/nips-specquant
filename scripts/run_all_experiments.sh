@@ -167,7 +167,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
             --dataset "$DATASET" \
             --num_problems $NUM_PROBLEMS \
             --kv_budget 0.2 \
-            --max_tokens 128 \
+            --max_tokens 512 \
             --output_dir "${RESULTS_DIR}/comparison" \
             --output "${RESULTS_DIR}/comparison/core_${DATASET}_b0.2.json" \
             2>&1 | tee "${LOG_DIR}/M3_comparison_${DATASET}.log"
@@ -192,7 +192,7 @@ if [ "$FROM_MILESTONE" -le 3 ] && ! phase_done 3; then
             --dataset gsm8k \
             --num_problems 200 \
             --kv_budget $BUDGET \
-            --max_tokens 128 \
+            --max_tokens 512 \
             --output_dir "${RESULTS_DIR}/comparison" \
             --output "${RESULTS_DIR}/comparison/core_gsm8k_b${BUDGET}.json" \
             2>&1 | tee -a "${LOG_DIR}/M3_budget_sweep.log"

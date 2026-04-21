@@ -1244,7 +1244,7 @@ def main():
                         help="Ablation mode: 'no_sd' runs AR without speculative decoding")
     parser.add_argument("--gamma", type=int, default=5)
     parser.add_argument("--temperature", type=float, default=0.0)
-    parser.add_argument("--max_tokens", type=int, default=256)
+    parser.add_argument("--max_tokens", type=int, default=512)
     parser.add_argument("--output_dir", type=str, default="results/comparison")
     parser.add_argument("--output", type=str, default=None,
                         help="Override output path (used by parallel_run.sh)")
