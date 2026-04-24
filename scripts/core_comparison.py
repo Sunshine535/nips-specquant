@@ -485,6 +485,64 @@ def score_random(num_kv_tokens: int, seed: int = 42) -> torch.Tensor:
 
 
 # ---------------------------------------------------------------------------
+# MARA score function
+# ---------------------------------------------------------------------------
+
+@torch.no_grad()
+def _score_mara(predictor, allocator, target_kv, draft_tokens, num_kv_tokens,
+                target_next_logits=None, use_gate=False, gate=None):
+    """Score KV tokens using MARA risk predictor and budget allocator.
+
+    Returns scores tensor where HIGHER = more important (keep at FP16).
+    This is consistent with other score functions in this file.
+    """
+    from src.accept_risk import ACTION_LIST
+
+    # Build pre-decision features for each token
+    # Features: [alpha_full, margin_full, action_idx, step_idx, relative_position]
+    if target_next_logits is not None and target_next_logits.dim() >= 1:
+        logits = target_next_logits.squeeze(0) if target_next_logits.dim() > 1 else target_next_logits
+        top2 = logits.topk(2, dim=-1).values
+        margin = (top2[0] - top2[1]).abs().item()
+        alpha = 0.5  # placeholder; real alpha from draft probs not available here
+    else:
+        margin = 5.0
+        alpha = 0.5
+
+    # Predict risk for each token under each action
+    risk_mu_per_action = {}
+    risk_sigma_per_action = {}
+
+    for action_name in ACTION_LIST:
+        action_idx = ACTION_LIST.index(action_name)
+        features = torch.tensor(
+            [[alpha, margin, action_idx, 0, i / max(1, num_kv_tokens)]
+             for i in range(num_kv_tokens)],
+            dtype=torch.float32,
+        )
+        mu, sigma = predictor.predict(features)
+        risk_mu_per_action[action_name] = mu.detach()
+        risk_sigma_per_action[action_name] = sigma.detach()
+
+    # Adjust budget via gate if enabled
+    if use_gate and gate is not None:
+        mean_unc = risk_sigma_per_action.get("2bit", torch.zeros(1)).mean().item()
+        decision = gate.compute_budget(margin, mean_unc, step_idx=0)
+        allocator_copy = type(allocator)(beta=allocator.beta, budget=decision.budget_adjusted)
+    else:
+        allocator_copy = allocator
+
+    # Allocate actions
+    actions = allocator_copy.allocate(risk_mu_per_action, risk_sigma_per_action, num_kv_tokens)
+
+    # Convert to scores (higher = more important)
+    # fp16 → 3.0, 4bit → 2.0, 2bit → 1.0, evict → 0.0
+    action_to_score = {"fp16": 3.0, "4bit": 2.0, "2bit": 1.0, "evict": 0.0}
+    scores = torch.tensor([action_to_score.get(a, 0.0) for a in actions])
+    return scores
+
+
+# ---------------------------------------------------------------------------
 # Tag computation from scores
 # ---------------------------------------------------------------------------
 
@@ -900,6 +958,56 @@ def build_policy_score_fns(
         _random_seed_counter[0] += 1
         return score_random(num_kv_tokens, seed=42 + _random_seed_counter[0])
     policies["random"] = _rand_fn
+
+    # (g) MARA policies — Variant A: existing best fragment (old AcceptPredictor)
+    # This is identical to acceptspec_predicted above, kept as explicit ablation name
+    if predictor is not None:
+        def _existing_best_fn(target_kv, draft_tokens, num_kv_tokens,
+                              target_next_logits=None, draft_probs_list=None,
+                              _pred=predictor, _dec=decoder):
+            return score_accept_predicted(
+                _pred, _dec.draft_model, _dec.draft_model(
+                    draft_tokens[:1].view(1, 1).to(_dec.draft_device),
+                    use_cache=True,
+                ).past_key_values,
+                target_kv, draft_tokens, num_kv_tokens,
+            )
+        policies["existing_best_fragment_only"] = _existing_best_fn
+
+    # (h) MARA: risk allocation WITHOUT margin/uncertainty gate (Variant B)
+    try:
+        from src.accept_risk import AcceptanceRiskPredictor, RiskBudgetAllocator, ACTION_LIST
+        _mara_predictor_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "results", "mara", "calib", "predictor_weights.pt"
+        )
+        if os.path.exists(_mara_predictor_path):
+            _mara_pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=32)
+            _mara_pred.load(_mara_predictor_path)
+            _mara_alloc = RiskBudgetAllocator(beta=1.0, budget=kv_budget)
+
+            def _mara_no_gate_fn(target_kv, draft_tokens, num_kv_tokens,
+                                 target_next_logits=None, draft_probs_list=None,
+                                 _pred=_mara_pred, _alloc=_mara_alloc):
+                return _score_mara(_pred, _alloc, target_kv, draft_tokens, num_kv_tokens,
+                                   target_next_logits, use_gate=False)
+            policies["mara_no_gate_or_uncertainty"] = _mara_no_gate_fn
+
+            # (i) MARA full with gate (Variant C)
+            from src.accept_risk import MarginUncertaintyGate
+            _mara_gate = MarginUncertaintyGate(budget_base=kv_budget)
+
+            def _mara_full_fn(target_kv, draft_tokens, num_kv_tokens,
+                              target_next_logits=None, draft_probs_list=None,
+                              _pred=_mara_pred, _alloc=_mara_alloc, _gate=_mara_gate):
+                return _score_mara(_pred, _alloc, target_kv, draft_tokens, num_kv_tokens,
+                                   target_next_logits, use_gate=True, gate=_gate)
+            policies["mara_full"] = _mara_full_fn
+
+            logger.info("MARA policies loaded from %s", _mara_predictor_path)
+        else:
+            logger.warning("MARA predictor not found at %s — MARA policies unavailable", _mara_predictor_path)
+    except ImportError:
+        logger.warning("src.accept_risk not available — MARA policies skipped")
 
     return policies
 

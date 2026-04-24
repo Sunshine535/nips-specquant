@@ -60,26 +60,41 @@ class RiskLabelSet:
     metadata: Dict = field(default_factory=dict)
 
     def to_tensors(self) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Convert to feature tensor X and risk target y for predictor training."""
+        """Convert to feature tensor X and risk target y for predictor training.
+
+        Features are PRE-DECISION only (available before perturbation):
+          - alpha_full: current step acceptance rate
+          - margin_full: top-2 logit margin (verifier confidence)
+          - action_idx: which precision action (0=fp16, 1=4bit, 2=2bit, 3=evict)
+          - step_idx: generation step position
+          - relative_position: token_idx / step_idx (recency)
+
+        Post-perturbation signals (tv_distance, margin_risk) are LABELS ONLY,
+        never used as inference features.
+        """
         if not self.labels:
-            return torch.empty(0, 6), torch.empty(0)
+            return torch.empty(0, 5), torch.empty(0)
 
         X = torch.tensor(
             [
                 [
                     l.alpha_full,
                     l.margin_full,
-                    l.tv_distance,
                     ACTION_LIST.index(l.action),
                     l.step_idx,
-                    l.token_idx / max(1, l.step_idx),  # relative position
+                    l.token_idx / max(1, l.step_idx),
                 ]
                 for l in self.labels
             ],
             dtype=torch.float32,
         )
+        # Combined risk target: acceptance_risk + weighted TV + margin_risk
         y = torch.tensor(
-            [l.acceptance_risk for l in self.labels], dtype=torch.float32
+            [
+                l.acceptance_risk + 0.5 * l.tv_distance + 0.3 * l.margin_risk
+                for l in self.labels
+            ],
+            dtype=torch.float32,
         )
         return X, y
 
@@ -307,7 +322,7 @@ class AcceptanceRiskPredictor:
     Trained on oracle risk labels with Huber + ranking + calibration loss.
     """
 
-    def __init__(self, input_dim: int = 6, hidden_dim: int = 32):
+    def __init__(self, input_dim: int = 5, hidden_dim: int = 32):
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.weights: Optional[Dict[str, torch.Tensor]] = None

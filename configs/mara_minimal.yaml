@@ -8,7 +8,9 @@ model:
 
 dataset:
   name: "gsm8k"
-  split: "test"
+  # Calibration uses train split; evaluation uses test split
+  calib_split: "train"
+  eval_split: "test"
   num_calib: 8
   num_eval: 16
   calib_fraction: 0.3
@@ -27,7 +29,7 @@ mara:
 
   # Risk predictor
   predictor:
-    input_dim: 6
+    input_dim: 5
     hidden_dim: 32
     lr: 0.01
     epochs: 100

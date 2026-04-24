@@ -152,9 +152,25 @@ def run_oracle_study(args):
         logger.error("No results collected. Aborting.")
         return
 
-    # Compute cumulative curve
-    all_sens = torch.cat(all_sensitivities)
-    all_attn = torch.cat(all_attention_importances)
+    # Compute cumulative curve using MATCHED-SUPPORT only
+    # (P1 FIX: use sampled_sensitivities, not zero-padded full vectors)
+    all_sampled_sens = []
+    all_sampled_attn = []
+    for sens_result in all_sensitivities:
+        if hasattr(sens_result, 'sampled_sensitivities'):
+            all_sampled_sens.append(sens_result.sampled_sensitivities)
+            # Extract attention importance for sampled positions only
+            if hasattr(sens_result, 'sample_indices') and hasattr(sens_result, 'attention_importance'):
+                all_sampled_attn.append(sens_result.attention_importance[sens_result.sample_indices])
+            else:
+                all_sampled_attn.append(torch.zeros_like(sens_result.sampled_sensitivities))
+        else:
+            # Fallback for old-format SensitivityResult stored as plain tensors
+            all_sampled_sens.append(sens_result if isinstance(sens_result, torch.Tensor) else sens_result.sensitivities)
+            all_sampled_attn.append(torch.zeros(1))
+
+    all_sens = torch.cat(all_sampled_sens) if all_sampled_sens else torch.zeros(1)
+    all_attn = torch.cat(all_sampled_attn) if all_sampled_attn else torch.zeros(1)
 
     sorted_sens, sort_idx = all_sens.sort(descending=True)
     total_sens = sorted_sens.sum().item()
@@ -173,14 +189,12 @@ def run_oracle_study(args):
     mean_gini = float(np.mean(all_ginis)) if all_ginis else 0
     std_gini = float(np.std(all_ginis)) if all_ginis else 0
 
-    # Spearman correlation between sensitivity and attention importance
+    # Spearman correlation on matched-support tokens only
     from scipy.stats import spearmanr
-    # Only correlate for tokens that were actually sampled (non-zero sensitivity)
-    nonzero_mask = all_sens > 0
-    if nonzero_mask.sum() > 10:
+    if len(all_sens) > 10 and len(all_attn) == len(all_sens):
         rho, pval = spearmanr(
-            all_sens[nonzero_mask].numpy(),
-            all_attn[nonzero_mask].numpy(),
+            all_sens.numpy(),
+            all_attn.numpy(),
         )
     else:
         rho, pval = 0.0, 1.0
@@ -378,7 +392,6 @@ def run_instrumented_sd(
         target_kv = _tkv(target_kv_ext, new_kv_len)
 
         last_tok = accepted[-1]
-        kv_len = new_kv_len
 
         # Update target and draft (MTP) next logits from single model
         t_out = target_model(
@@ -389,7 +402,14 @@ def run_instrumented_sd(
         )
         target_kv = t_out.past_key_values
         target_next_logits = t_out.logits[:, -1, :]
-        resync_pos = torch.tensor([[kv_len + 1]], device=target_device)
+
+        # P0 FIX: advance kv_len AFTER target forward on last_tok
+        # (matches src/speculative_decode.py:498)
+        kv_len = new_kv_len + 1
+        assert target_kv[0][0].shape[2] == kv_len, \
+            f"KV length mismatch: expected {kv_len}, got {target_kv[0][0].shape[2]}"
+
+        resync_pos = torch.tensor([[kv_len]], device=target_device)
         mtp_logits, _, _ = mtp_head(last_tok.view(1, 1).to(target_device), t_out.hidden_states[-1][:, -1:, :], resync_pos)
         draft_next_logits = mtp_logits.squeeze(1)
 

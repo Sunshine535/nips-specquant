@@ -31,8 +31,8 @@ from src.repro import make_calib_eval_split, make_coupled_uniforms, set_global_s
 
 class TestAcceptanceRiskPredictor:
     def test_predict_shape(self):
-        pred = AcceptanceRiskPredictor(input_dim=6, hidden_dim=16)
-        X = torch.randn(10, 6)
+        pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=16)
+        X = torch.randn(10, 5)
         mu, sigma = pred.predict(X)
         assert mu.shape == (10,)
         assert sigma.shape == (10,)
@@ -41,10 +41,10 @@ class TestAcceptanceRiskPredictor:
     def test_overfit_toy_data(self):
         """Predictor should be able to overfit a simple pattern."""
         torch.manual_seed(42)
-        pred = AcceptanceRiskPredictor(input_dim=6, hidden_dim=32)
+        pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=32)
 
         # Create toy data: risk = sum of features (simple linear pattern)
-        X = torch.randn(50, 6)
+        X = torch.randn(50, 5)
         y = X.sum(dim=1).abs()  # positive risk values
 
         losses = pred.fit(X, y, lr=0.01, epochs=200)
@@ -53,9 +53,9 @@ class TestAcceptanceRiskPredictor:
     def test_ranking_preserved(self):
         """After fitting, predicted ranking should roughly match true ranking."""
         torch.manual_seed(42)
-        pred = AcceptanceRiskPredictor(input_dim=6, hidden_dim=32)
+        pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=32)
 
-        X = torch.randn(30, 6)
+        X = torch.randn(30, 5)
         y = X[:, 0].abs() + 0.5 * X[:, 1].abs()  # risk depends on features 0,1
 
         pred.fit(X, y, lr=0.01, epochs=300, lambda_rank=0.5)
@@ -69,9 +69,9 @@ class TestAcceptanceRiskPredictor:
     def test_calibration_metrics(self):
         """Calibration metrics should be finite and non-NaN."""
         torch.manual_seed(42)
-        pred = AcceptanceRiskPredictor(input_dim=6, hidden_dim=16)
+        pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=16)
 
-        X = torch.randn(20, 6)
+        X = torch.randn(20, 5)
         y = X.sum(dim=1).abs()
         pred.fit(X, y, lr=0.01, epochs=50)
 
@@ -82,7 +82,7 @@ class TestAcceptanceRiskPredictor:
 
     def test_empty_data(self):
         """Should handle empty training data gracefully."""
-        pred = AcceptanceRiskPredictor(input_dim=6, hidden_dim=16)
+        pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=16)
         X = torch.empty(0, 6)
         y = torch.empty(0)
         losses = pred.fit(X, y)
@@ -201,7 +201,7 @@ class TestRiskLabelSet:
         ]
         rls = RiskLabelSet(labels=labels)
         X, y = rls.to_tensors()
-        assert X.shape == (5, 6)
+        assert X.shape == (5, 5), f"Expected (5, 5), got {X.shape}"
         assert y.shape == (5,)
         assert (y >= 0).all()
 
