@@ -292,7 +292,7 @@ def main():
 
     # Load model with MTP
     logger.info("Loading model: %s", args.model)
-    target_model, mtp_head, tokenizer = load_model_mtp(args.model)
+    target_model, mtp_head, tokenizer, _plan = load_model_mtp(args.model)
     device = next(target_model.parameters()).device
 
     decoder = SpeculativeDecoder(
