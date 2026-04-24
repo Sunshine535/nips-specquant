@@ -283,6 +283,9 @@ def main():
     parser.add_argument("--sample_fraction", type=float, default=0.3)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output_dir", type=str, default="results/mara/calib")
+    parser.add_argument("--shard", type=int, default=None, help="Shard index (0-based)")
+    parser.add_argument("--num_shards", type=int, default=None, help="Total number of shards")
+    parser.add_argument("--output", type=str, default=None, help="Output file path (for shard mode)")
     args = parser.parse_args()
 
     print_gpu_summary()
@@ -311,7 +314,19 @@ def main():
 
     # Load calibration problems (from TRAIN split, not test)
     logger.info("Loading %d calibration problems from train split", args.num_calib)
-    calib_problems = load_gsm8k_split("train", args.num_calib, seed=args.seed)
+    all_calib_problems = load_gsm8k_split("train", args.num_calib, seed=args.seed)
+
+    # Shard support: split problems across GPUs
+    if args.shard is not None and args.num_shards is not None:
+        n = len(all_calib_problems)
+        shard_size = (n + args.num_shards - 1) // args.num_shards
+        start = args.shard * shard_size
+        end = min(start + shard_size, n)
+        calib_problems = all_calib_problems[start:end]
+        logger.info("Shard %d/%d: problems [%d, %d) (%d problems)",
+                     args.shard, args.num_shards, start, end, len(calib_problems))
+    else:
+        calib_problems = all_calib_problems
 
     # Save split manifest
     split = SplitManifest(

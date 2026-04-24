@@ -57,10 +57,10 @@ class TestKVLengthInvariant:
 
     def test_oracle_script_has_kv_assertion(self):
         """oracle_sensitivity.py must contain kv_len assertion after resync."""
-        import ast
         oracle_path = Path(__file__).parent.parent / "scripts" / "oracle_sensitivity.py"
         source = oracle_path.read_text()
-        assert "assert target_kv[0][0].shape[2] == kv_len" in source, \
+        assert "assert _k.shape[2] == kv_len" in source or \
+               "assert target_kv[0][0].shape[2] == kv_len" in source, \
             "oracle_sensitivity.py must assert KV length matches kv_len after resync"
 
     def test_oracle_script_advances_kv_len(self):

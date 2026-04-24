@@ -406,8 +406,14 @@ def run_instrumented_sd(
         # P0 FIX: advance kv_len AFTER target forward on last_tok
         # (matches src/speculative_decode.py:498)
         kv_len = new_kv_len + 1
-        assert target_kv[0][0].shape[2] == kv_len, \
-            f"KV length mismatch: expected {kv_len}, got {target_kv[0][0].shape[2]}"
+        # KV length assertion (handles DynamicCache/HybridCache)
+        from src.utils import get_kv_tensors, get_kv_layer_indices
+        _mha = get_kv_layer_indices(target_kv)
+        if _mha:
+            _k, _ = get_kv_tensors(target_kv, _mha[0])
+            if _k is not None:
+                assert _k.shape[2] == kv_len, \
+                    f"KV length mismatch: expected {kv_len}, got {_k.shape[2]}"
 
         resync_pos = torch.tensor([[kv_len]], device=target_device)
         mtp_logits, _, _ = mtp_head(last_tok.view(1, 1).to(target_device), t_out.hidden_states[-1][:, -1:, :], resync_pos)

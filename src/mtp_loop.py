@@ -201,8 +201,15 @@ def resync_after_accept(
 
     # Advance kv_len AFTER target forward
     kv_len = new_kv_len + 1
-    assert target_kv[0][0].shape[2] == kv_len, \
-        f"KV length mismatch after resync: expected {kv_len}, got {target_kv[0][0].shape[2]}"
+
+    # KV length assertion (handles DynamicCache, HybridCache, and tuple formats)
+    from .utils import get_kv_tensors, get_kv_layer_indices
+    _mha_layers = get_kv_layer_indices(target_kv)
+    if _mha_layers:
+        _k, _ = get_kv_tensors(target_kv, _mha_layers[0])
+        if _k is not None:
+            assert _k.shape[2] == kv_len, \
+                f"KV length mismatch after resync: expected {kv_len}, got {_k.shape[2]}"
 
     # MTP head for next draft
     resync_pos = torch.tensor([[kv_len]], device=device)
