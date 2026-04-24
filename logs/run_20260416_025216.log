@@ -1,0 +1,696 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:52:16 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:52:23 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Script: scripts/triple_divergence.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/divergence/triple_divergence_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/divergence/triple_divergence_shard1.json
+[parallel] Instance 2: GPUs 2 → results/acceptspec/divergence/triple_divergence_shard2.json
+[parallel] Instance 3: GPUs 3 → results/acceptspec/divergence/triple_divergence_shard3.json
+[parallel] Instance 4: GPUs 4 → results/acceptspec/divergence/triple_divergence_shard4.json
+[parallel] Instance 5: GPUs 5 → results/acceptspec/divergence/triple_divergence_shard5.json
+[parallel] Instance 6: GPUs 6 → results/acceptspec/divergence/triple_divergence_shard6.json
+[parallel] Instance 7: GPUs 7 → results/acceptspec/divergence/triple_divergence_shard7.json
+[parallel] Waiting for 8 instances...
+2026-04-16 02:52:51,306 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,306 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,308 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,309 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,310 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,311 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,314 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,316 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,861 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,861 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,865 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,865 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,867 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,868 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,872 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,872 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,874 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,874 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,875 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,876 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,876 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,876 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:51,876 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:52:51,877 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:52:52,630 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,653 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,655 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,667 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,683 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,708 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,775 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:52,856 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:52,891 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:52,916 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:52,958 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:52,992 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,088 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,097 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,102 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,232 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,232 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,241 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,249 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,352 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,369 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,416 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,480 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,526 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,548 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,550 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,703 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,751 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,778 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,794 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,840 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:53,858 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,871 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:53,931 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:53,974 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,004 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:54,008 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,013 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,034 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,035 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,078 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,120 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:54,144 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:54,157 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:54,170 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:54,189 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:54,281 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,304 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,333 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,334 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,348 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:54,561 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,562 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,576 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:54,715 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:54,930 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:55,062 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:55,187 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,515 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,601 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,624 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,683 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:55,832 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,879 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,891 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:55,899 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:55,939 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:55,951 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:55,994 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:56,129 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:56,246 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:56,249 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:56,262 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:56,282 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:56,392 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:56,428 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:56,499 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:52:56,512 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:56,515 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:56,638 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:56,656 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:52:56,827 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:52:56,938 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:57,183 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:57,195 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:57,249 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:57,593 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:57,777 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:57,965 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:58,088 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:58,377 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:52:58,385 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:58,436 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:52:58,670 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:52:58,789 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:52:58,954 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:53:00,811 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:00,818 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:00,822 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:00,822 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:00,873 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:00,927 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:01,148 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,150 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,151 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,158 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,263 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,294 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,300 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,301 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,402 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,421 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,443 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,448 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:01,450 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2111.94it/s]
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 7479.81it/s]
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 7034.47it/s]
+2026-04-16 02:53:01,554 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:01,566 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 5938.84it/s]
+2026-04-16 02:53:01,587 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 36711.63it/s]
+2026-04-16 02:53:01,751 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:02,053 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:02,061 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:02,369 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-16 02:53:02,551 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 1/427 [00:00<01:23,  5.12it/s]2026-04-16 02:53:02,696 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 3345.41it/s]
+2026-04-16 02:53:02,721 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:   0%|          | 1/427 [00:00<02:04,  3.42it/s]Loading weights:   0%|          | 1/427 [00:00<02:03,  3.45it/s]Loading weights:   0%|          | 1/427 [00:00<01:58,  3.59it/s]Loading weights:   0%|          | 2/427 [00:00<01:35,  4.45it/s]Loading weights:   0%|          | 1/427 [00:00<03:11,  2.22it/s]Loading weights:   7%|▋         | 29/427 [00:00<00:05, 74.76it/s]Loading weights:   7%|▋         | 28/427 [00:00<00:06, 64.64it/s]Loading weights:   0%|          | 2/427 [00:00<02:17,  3.10it/s]Loading weights:   0%|          | 2/427 [00:00<02:16,  3.11it/s]Loading weights:   0%|          | 2/427 [00:00<02:14,  3.15it/s]Loading weights:  12%|█▏        | 53/427 [00:00<00:03, 119.53it/s]Loading weights:  11%|█         | 48/427 [00:00<00:03, 98.32it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-16 02:53:03,155 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+Loading weights:   6%|▌         | 24/427 [00:00<00:08, 47.77it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:07, 53.16it/s]Loading weights:  19%|█▉        | 81/427 [00:00<00:02, 157.59it/s]2026-04-16 02:53:03,214 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Loading weights:  18%|█▊        | 77/427 [00:00<00:02, 148.54it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:07, 50.81it/s]
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 6168.09it/s]
+Loading weights:  10%|▉         | 42/427 [00:00<00:05, 76.58it/s]Loading weights:  11%|█         | 47/427 [00:00<00:04, 86.09it/s]Loading weights:  24%|██▎       | 101/427 [00:00<00:02, 160.84it/s]Loading weights:  11%|█         | 48/427 [00:00<00:04, 84.52it/s]Loading weights:  23%|██▎       | 99/427 [00:00<00:02, 155.85it/s]Loading weights:   0%|          | 1/427 [00:00<01:44,  4.07it/s]Loading weights:  15%|█▍        | 63/427 [00:00<00:03, 108.39it/s]Loading weights:  18%|█▊        | 75/427 [00:00<00:02, 131.10it/s]Loading weights:  31%|███       | 133/427 [00:01<00:01, 197.23it/s]Loading weights:  19%|█▊        | 80/427 [00:00<00:02, 135.74it/s]Loading weights:  28%|██▊       | 120/427 [00:01<00:01, 167.01it/s]Loading weights:  19%|█▉        | 82/427 [00:01<00:02, 124.94it/s]Loading weights:  22%|██▏       | 96/427 [00:01<00:02, 149.29it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 99/427 [00:01<00:02, 147.69it/s]Loading weights:  35%|███▍      | 148/427 [00:01<00:01, 192.96it/s]Loading weights:  36%|███▋      | 155/427 [00:01<00:01, 184.56it/s]Loading weights:  28%|██▊       | 120/427 [00:01<00:01, 170.63it/s]Loading weights:  23%|██▎       | 100/427 [00:01<00:02, 130.27it/s]Loading weights:  28%|██▊       | 121/427 [00:01<00:01, 162.95it/s]Loading weights:   0%|          | 2/427 [00:00<01:56,  3.64it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 201.51it/s]Loading weights:  43%|████▎     | 185/427 [00:01<00:01, 213.22it/s]2026-04-16 02:53:03,692 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4207.98it/s]
+Loading weights:  34%|███▍      | 147/427 [00:01<00:01, 193.50it/s]Loading weights:  30%|███       | 129/427 [00:01<00:01, 169.46it/s]Loading weights:  35%|███▍      | 148/427 [00:01<00:01, 185.95it/s]Loading weights:  45%|████▌     | 194/427 [00:01<00:01, 205.80it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:06, 60.24it/s]Loading weights:  49%|████▊     | 208/427 [00:01<00:01, 194.89it/s]Loading weights:  40%|███▉      | 169/427 [00:01<00:01, 196.71it/s]Loading weights:  40%|████      | 171/427 [00:01<00:01, 196.51it/s]Loading weights:  35%|███▍      | 149/427 [00:01<00:01, 159.07it/s]Loading weights:  10%|▉         | 42/427 [00:00<00:04, 81.53it/s]Loading weights:  51%|█████     | 216/427 [00:01<00:01, 202.12it/s]Loading weights:  56%|█████▌    | 238/427 [00:01<00:00, 216.11it/s]Loading weights:  45%|████▍     | 191/427 [00:01<00:01, 195.89it/s]Loading weights:  45%|████▌     | 193/427 [00:01<00:01, 199.23it/s]Loading weights:  16%|█▌        | 67/427 [00:00<00:02, 124.62it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 170.72it/s]Loading weights:  56%|█████▌    | 240/427 [00:01<00:00, 206.50it/s]Loading weights:  50%|████▉     | 212/427 [00:01<00:01, 192.93it/s]Loading weights:  61%|██████    | 261/427 [00:01<00:00, 204.71it/s]Loading weights:  21%|██▏       | 91/427 [00:00<00:02, 155.58it/s]Loading weights:  50%|█████     | 215/427 [00:01<00:01, 194.88it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:  45%|████▍     | 191/427 [00:01<00:01, 168.24it/s]Loading weights:  61%|██████▏   | 262/427 [00:01<00:00, 198.49it/s]Loading weights:  68%|██████▊   | 291/427 [00:01<00:00, 227.22it/s]Loading weights:  56%|█████▌    | 238/427 [00:01<00:00, 205.23it/s]Loading weights:  26%|██▌       | 111/427 [00:01<00:01, 161.51it/s]Loading weights:  56%|█████▌    | 240/427 [00:01<00:00, 203.51it/s]Loading weights:  68%|██████▊   | 291/427 [00:01<00:00, 212.34it/s]Loading weights:  49%|████▉     | 209/427 [00:01<00:01, 155.50it/s]Loading weights:   0%|          | 1/427 [00:00<05:19,  1.33it/s]Loading weights:  31%|███       | 133/427 [00:01<00:01, 176.47it/s]Loading weights:  61%|██████    | 260/427 [00:01<00:00, 188.42it/s]Loading weights:  74%|███████▍  | 315/427 [00:01<00:00, 202.64it/s]Loading weights:  61%|██████    | 261/427 [00:01<00:00, 193.03it/s]Loading weights:  53%|█████▎    | 227/427 [00:01<00:01, 159.56it/s]Loading weights:  73%|███████▎  | 313/427 [00:01<00:00, 193.18it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:11, 34.05it/s]Loading weights:  80%|████████  | 342/427 [00:01<00:00, 219.07it/s]Loading weights:  36%|███▌      | 153/427 [00:01<00:01, 172.00it/s]Loading weights:  68%|██████▊   | 289/427 [00:01<00:00, 214.98it/s]Loading weights:  68%|██████▊   | 292/427 [00:01<00:00, 207.59it/s]Loading weights:  59%|█████▊    | 250/427 [00:02<00:01, 176.01it/s]Loading weights:  10%|▉         | 41/427 [00:00<00:06, 62.53it/s]Loading weights:  42%|████▏     | 180/427 [00:01<00:01, 198.85it/s]Loading weights:  81%|████████  | 344/427 [00:02<00:00, 199.13it/s]Loading weights:  74%|███████▎  | 314/427 [00:02<00:00, 198.17it/s]Loading weights:  85%|████████▌ | 365/427 [00:02<00:00, 196.38it/s]Loading weights:  73%|███████▎  | 312/427 [00:02<00:00, 198.07it/s]Loading weights:  63%|██████▎   | 269/427 [00:02<00:00, 162.56it/s]Loading weights:  13%|█▎        | 56/427 [00:01<00:04, 76.34it/s]Loading weights:  85%|████████▌ | 365/427 [00:02<00:00, 196.20it/s]Loading weights:  47%|████▋     | 202/427 [00:01<00:01, 186.59it/s]Loading weights:  81%|████████  | 344/427 [00:02<00:00, 222.55it/s]Loading weights:  93%|█████████▎| 397/427 [00:02<00:00, 226.38it/s]Loading weights:  80%|███████▉  | 341/427 [00:02<00:00, 217.34it/s]Loading weights:  67%|██████▋   | 288/427 [00:02<00:00, 168.09it/s]Loading weights:  19%|█▊        | 80/427 [00:01<00:03, 108.58it/s]Loading weights:  93%|█████████▎| 397/427 [00:02<00:00, 219.62it/s]Loading weights:  53%|█████▎    | 226/427 [00:01<00:01, 193.13it/s]Loading weights:  85%|████████▌ | 364/427 [00:02<00:00, 207.65it/s]Loading weights:  72%|███████▏  | 306/427 [00:02<00:00, 167.60it/s]Loading weights:  99%|█████████▊| 421/427 [00:02<00:00, 203.27it/s]Loading weights:  86%|████████▌ | 367/427 [00:02<00:00, 195.66it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 178.27it/s]
+Loading weights:  23%|██▎       | 97/427 [00:01<00:02, 119.68it/s]Loading weights:  59%|█████▉    | 252/427 [00:01<00:00, 204.68it/s]Loading weights:  98%|█████████▊| 420/427 [00:02<00:00, 205.45it/s]Loading weights:   0%|          | 1/427 [00:00<05:34,  1.27it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 174.63it/s]
+Loading weights:  90%|█████████ | 386/427 [00:02<00:00, 208.77it/s]Loading weights:  76%|███████▌  | 324/427 [00:02<00:00, 167.80it/s]Loading weights:  93%|█████████▎| 398/427 [00:02<00:00, 221.00it/s]Loading weights:  28%|██▊       | 119/427 [00:01<00:02, 141.73it/s]Loading weights:   6%|▌         | 24/427 [00:00<00:11, 35.79it/s]Loading weights:  65%|██████▍   | 277/427 [00:01<00:00, 207.78it/s]Loading weights:  97%|█████████▋| 414/427 [00:02<00:00, 225.53it/s]Loading weights:  81%|████████  | 345/427 [00:02<00:00, 174.75it/s]Loading weights:  99%|█████████▉| 422/427 [00:02<00:00, 215.79it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 164.01it/s]
+Loading weights: 100%|██████████| 427/427 [00:02<00:00, 164.58it/s]
+Loading weights:  32%|███▏      | 137/427 [00:01<00:01, 149.55it/s]Loading weights:  72%|███████▏  | 307/427 [00:01<00:00, 232.06it/s]Loading weights:  10%|█         | 43/427 [00:01<00:06, 61.50it/s]Loading weights:  85%|████████▌ | 364/427 [00:02<00:00, 172.72it/s]Loading weights:  36%|███▋      | 155/427 [00:01<00:01, 154.26it/s]Loading weights:  79%|███████▉  | 338/427 [00:02<00:00, 251.11it/s]Loading weights:  16%|█▌        | 67/427 [00:01<00:03, 95.60it/s]Loading weights:  90%|█████████ | 385/427 [00:02<00:00, 177.44it/s]Loading weights:  43%|████▎     | 185/427 [00:01<00:01, 191.47it/s]Loading weights:  86%|████████▌ | 366/427 [00:02<00:00, 253.88it/s]Loading weights:  22%|██▏       | 94/427 [00:01<00:02, 126.28it/s]Loading weights:  96%|█████████▋| 412/427 [00:02<00:00, 187.55it/s]Loading weights:  48%|████▊     | 206/427 [00:01<00:01, 178.56it/s]Loading weights:  96%|█████████▌| 408/427 [00:02<00:00, 294.95it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 142.31it/s]
+Loading weights:  28%|██▊       | 119/427 [00:01<00:02, 152.64it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 180.53it/s]
+2026-04-16 02:53:05,504 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  55%|█████▌    | 235/427 [00:01<00:00, 206.61it/s]Loading weights:  34%|███▎      | 144/427 [00:01<00:01, 172.74it/s]Loading weights:  60%|██████    | 257/427 [00:02<00:00, 203.92it/s]Loading weights:  39%|███▉      | 168/427 [00:01<00:01, 186.21it/s]2026-04-16 02:53:05,674 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:05,723 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  65%|██████▌   | 279/427 [00:02<00:00, 205.51it/s]2026-04-16 02:53:05,750 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  44%|████▍     | 190/427 [00:01<00:01, 188.50it/s]2026-04-16 02:53:05,813 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  72%|███████▏  | 306/427 [00:02<00:00, 215.00it/s]Loading weights:  49%|████▉     | 211/427 [00:01<00:01, 191.54it/s]Loading weights:  77%|███████▋  | 328/427 [00:02<00:00, 210.49it/s]2026-04-16 02:53:05,970 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:05,979 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  56%|█████▌    | 239/427 [00:01<00:00, 213.14it/s]2026-04-16 02:53:06,057 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  82%|████████▏ | 350/427 [00:02<00:00, 206.54it/s]2026-04-16 02:53:06,069 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  61%|██████▏   | 262/427 [00:02<00:00, 202.30it/s]2026-04-16 02:53:06,134 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  87%|████████▋ | 371/427 [00:02<00:00, 202.58it/s]2026-04-16 02:53:06,178 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,213 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  68%|██████▊   | 292/427 [00:02<00:00, 222.95it/s]2026-04-16 02:53:06,228 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:06,228 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,293 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,300 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:06,303 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+Loading weights:  93%|█████████▎| 398/427 [00:02<00:00, 201.98it/s]Loading weights:  74%|███████▍  | 316/427 [00:02<00:00, 209.14it/s]Loading weights:  98%|█████████▊| 419/427 [00:02<00:00, 201.51it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 147.37it/s]
+2026-04-16 02:53:06,460 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,466 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:06,470 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+Loading weights:  81%|████████  | 345/427 [00:02<00:00, 218.41it/s]2026-04-16 02:53:06,490 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:06,537 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,544 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:06,547 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:06,554 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:06,560 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:06,563 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:06,574 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:06,590 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Loading weights:  86%|████████▌ | 368/427 [00:02<00:00, 214.08it/s]Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 4343.62it/s]
+2026-04-16 02:53:06,609 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:06,663 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  93%|█████████▎| 397/427 [00:02<00:00, 224.31it/s]2026-04-16 02:53:06,711 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:06,722 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:06,737 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:06,737 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:06,783 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 16668.87it/s]
+2026-04-16 02:53:06,801 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Loading weights:  98%|█████████▊| 420/427 [00:02<00:00, 208.54it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 154.80it/s]
+2026-04-16 02:53:06,886 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:06,900 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 3352.59it/s]
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 6325.65it/s]
+2026-04-16 02:53:06,917 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:06,920 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:06,927 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:06,948 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:06,949 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:07,020 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:07,040 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:07,044 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:07,061 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:07,081 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:07,082 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:07,083 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:07,098 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:07,101 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:07,102 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:07,104 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:07,108 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:07,113 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,242 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:07,268 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,385 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:07,404 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 12237.21it/s]
+2026-04-16 02:53:07,412 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,417 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:07,417 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:07,418 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1231.04it/s]
+2026-04-16 02:53:07,466 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:07,472 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,534 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:07,544 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:07,545 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:07,557 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,560 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:07,612 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:07,629 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:07,629 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:07,685 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:07,686 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:07,708 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:53:07,708 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:53:07,773 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:53:07,773 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:53:07,796 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:07,872 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:07,888 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:07,964 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:08,013 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:08,038 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,124 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:08,233 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,241 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:08,245 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:08,331 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:08,333 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,442 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,487 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:53:08,586 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 14444.44it/s]
+2026-04-16 02:53:08,606 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:08,694 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,734 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:08,738 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,750 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:08,750 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:08,840 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,842 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:08,848 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:53:08,852 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:53:08,861 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:08,897 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:08,979 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,023 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,120 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:09,146 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,200 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,211 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,225 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,276 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,357 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,367 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,504 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,568 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,591 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,600 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 11177.36it/s]
+2026-04-16 02:53:09,610 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:53:09,667 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:09,673 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,688 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,706 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,748 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:53:09,764 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:53:09,765 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:53:09,806 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,850 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,850 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:09,985 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,021 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,052 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,077 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:53:10,122 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,157 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,159 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,191 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,197 INFO Shard 3/8: problems [36, 48) (12 problems)
+2026-04-16 02:53:10,197 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:10,198 INFO [1/12 TRAIN] Running SD for 'Solo has to read 4 pages from his Science textbook...'
+2026-04-16 02:53:10,235 INFO Shard 7/8: problems [84, 100) (16 problems)
+2026-04-16 02:53:10,235 INFO Split: 8 train, 8 test problems
+2026-04-16 02:53:10,236 INFO [1/16 TRAIN] Running SD for 'A candle melts by 2 centimeters every hour that it...'
+2026-04-16 02:53:10,289 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,322 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,347 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,389 INFO Shard 4/8: problems [48, 60) (12 problems)
+2026-04-16 02:53:10,389 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:10,390 INFO [1/12 TRAIN] Running SD for 'Tom's ship can travel at 10 miles per hour.  He is...'
+2026-04-16 02:53:10,473 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,517 INFO Shard 0/8: problems [0, 12) (12 problems)
+2026-04-16 02:53:10,517 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:10,518 INFO [1/12 TRAIN] Running SD for 'Carol and Jennifer are sisters from Los Angeles wh...'
+2026-04-16 02:53:10,527 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,531 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,606 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,647 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:10,648 INFO Shard 5/8: problems [60, 72) (12 problems)
+2026-04-16 02:53:10,648 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:10,648 INFO [1/12 TRAIN] Running SD for 'In a company of 50 employees, 20% of the employees...'
+2026-04-16 02:53:10,669 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:10,973 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:11,019 INFO Shard 2/8: problems [24, 36) (12 problems)
+2026-04-16 02:53:11,019 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:11,020 INFO [1/12 TRAIN] Running SD for 'Aiden is making his famous steakhouse-seasoned mea...'
+2026-04-16 02:53:11,508 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,509 INFO [2/16 TRAIN] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
+2026-04-16 02:53:11,511 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,512 INFO [2/12 TRAIN] Running SD for 'Anna is trying to buy books for her local library....'
+2026-04-16 02:53:11,583 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,584 INFO [3/16 TRAIN] Running SD for 'According to its nutritional info, a bag of chips ...'
+2026-04-16 02:53:11,589 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,590 INFO [3/12 TRAIN] Running SD for 'Heather's razors come 4 to a pack and cost $4.00 a...'
+2026-04-16 02:53:11,597 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,598 INFO [2/12 TRAIN] Running SD for 'Bill is signing up for a new streaming service. He...'
+2026-04-16 02:53:11,664 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,665 INFO [4/12 TRAIN] Running SD for 'When the water is cold Ray swims a mile in 16 minu...'
+2026-04-16 02:53:11,679 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,680 INFO [4/16 TRAIN] Running SD for 'There are 36 penguins sunbathing in the snow.  One...'
+2026-04-16 02:53:11,696 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,697 INFO [3/12 TRAIN] Running SD for 'A food caterer was told to prepare gourmet hot dog...'
+2026-04-16 02:53:11,716 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,717 INFO [2/12 TRAIN] Running SD for 'A team of 4 painters worked on a mansion for 3/8th...'
+2026-04-16 02:53:11,738 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,739 INFO [5/12 TRAIN] Running SD for 'Romeo boards a train with 120 people. At the first...'
+2026-04-16 02:53:11,755 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,756 INFO [5/16 TRAIN] Running SD for 'The number of songs in a playlist is 300. If John ...'
+2026-04-16 02:53:11,771 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,771 INFO [4/12 TRAIN] Running SD for 'For one medical dosage, Saanvi had to combine 14 m...'
+2026-04-16 02:53:11,798 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,799 INFO [3/12 TRAIN] Running SD for 'It costs $194 per meter to repave a street. Monica...'
+2026-04-16 02:53:11,812 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,812 INFO [6/12 TRAIN] Running SD for 'Tom has 4 bedrooms in his house.  They measure 20 ...'
+2026-04-16 02:53:11,828 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,829 INFO [6/16 TRAIN] Running SD for 'It takes Carmen 10 minutes to finish a crossword p...'
+2026-04-16 02:53:11,844 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,844 INFO [5/12 TRAIN] Running SD for 'Mia and Emma are currently 16 years apart in age. ...'
+2026-04-16 02:53:11,873 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,874 INFO [4/12 TRAIN] Running SD for 'Richard lives in an apartment building with 15 flo...'
+2026-04-16 02:53:11,885 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,886 INFO [7/12 TEST] Running SD for 'Rayna has 60 more dollars than Kassidy, and Kassid...'
+2026-04-16 02:53:11,896 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,898 INFO [2/12 TRAIN] Running SD for 'Martin's weight is 55 kg. Carl’s weight is 16 kg m...'
+2026-04-16 02:53:11,901 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,902 INFO [7/16 TRAIN] Running SD for 'If Mark weighs 150 pounds and Susan weighs 20 poun...'
+2026-04-16 02:53:11,916 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,917 INFO [6/12 TRAIN] Running SD for 'Ali had $21. Leila gave him half of her $100. How ...'
+2026-04-16 02:53:11,924 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:53:11,946 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,947 INFO [5/12 TRAIN] Running SD for 'An ice cream truck is traveling through a neighbor...'
+2026-04-16 02:53:11,958 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,959 INFO [8/12 TEST] Running SD for 'Isabelle bought party supplies for her little sist...'
+2026-04-16 02:53:11,973 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,974 INFO [8/16 TRAIN] Running SD for 'Nick is choosing between two jobs. Job A pays $15 ...'
+2026-04-16 02:53:11,988 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,988 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:11,989 INFO [7/12 TEST] Running SD for 'In Tate’s garden pond, there are 4 male guppies, 7...'
+2026-04-16 02:53:11,989 INFO [3/12 TRAIN] Running SD for 'Melissa is summoned to jury duty. She spends 6 hou...'
+2026-04-16 02:53:12,022 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,023 INFO [6/12 TRAIN] Running SD for 'James runs 12 miles a day for 5 days a week.  If h...'
+2026-04-16 02:53:12,032 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,032 INFO [9/12 TEST] Running SD for 'Charlie wants to sell beeswax candles.  For every ...'
+2026-04-16 02:53:12,048 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,049 INFO [9/16 TEST] Running SD for 'Adam really wants to ride the biggest roller coast...'
+2026-04-16 02:53:12,061 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,061 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,061 INFO [8/12 TEST] Running SD for 'Kylie and Robert enjoy going to the beach to colle...'
+2026-04-16 02:53:12,062 INFO [4/12 TRAIN] Running SD for 'Four friends ordered four pizzas for a total of 64...'
+2026-04-16 02:53:12,095 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,095 INFO [7/12 TEST] Running SD for 'Mark was unwell for 3 months, during which he lost...'
+2026-04-16 02:53:12,104 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,105 INFO [10/12 TEST] Running SD for 'Paul is driving a car twice a day: in the morning,...'
+2026-04-16 02:53:12,121 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,122 INFO [10/16 TEST] Running SD for 'Robert had 3 pounds of candy, Cindy had 5 pounds o...'
+2026-04-16 02:53:12,133 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,134 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,134 INFO [9/12 TEST] Running SD for 'Mrs. Cruz is looking for a house that will not go ...'
+2026-04-16 02:53:12,135 INFO [5/12 TRAIN] Running SD for 'A toy manufacturer receives an order for 400 toys....'
+2026-04-16 02:53:12,167 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,167 INFO [8/12 TEST] Running SD for 'Craig and his brother take turns spelling out the ...'
+2026-04-16 02:53:12,177 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,178 INFO [11/12 TEST] Running SD for 'Aleena subscribed to a streaming service that char...'
+2026-04-16 02:53:12,193 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,194 INFO [11/16 TEST] Running SD for 'John drinks a bottle of water every half hour.  A ...'
+2026-04-16 02:53:12,211 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,212 INFO [6/12 TRAIN] Running SD for 'Jayden had $70 from selling pictures he took as a ...'
+2026-04-16 02:53:12,212 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,213 INFO [2/12 TRAIN] Running SD for 'Nathan has a bouncy ball that bounces to 2/3rds of...'
+2026-04-16 02:53:12,214 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,214 INFO [10/12 TEST] Running SD for 'There are 6 girls in the park. If there are twice ...'
+2026-04-16 02:53:12,240 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,240 INFO [9/12 TEST] Running SD for 'Vincent can buy flowers in packages of 3 for $2.50...'
+2026-04-16 02:53:12,250 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,251 INFO [12/12 TEST] Running SD for 'There are forty apples in one box. Uncle Franky or...'
+2026-04-16 02:53:12,265 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,266 INFO [12/16 TEST] Running SD for 'Charlotte went into the kitchen supply store knowi...'
+2026-04-16 02:53:12,286 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,287 INFO [11/12 TEST] Running SD for 'Damien created a currency based on bottle caps and...'
+2026-04-16 02:53:12,288 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,289 INFO [3/12 TRAIN] Running SD for 'A basket of green food costs $25 and a basket of r...'
+2026-04-16 02:53:12,289 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,290 INFO [7/12 TEST] Running SD for 'Helena is a mad scientist testing her latest creat...'
+2026-04-16 02:53:12,312 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,313 INFO [10/12 TEST] Running SD for 'Mario needs to buy snowshoes for his 6 sled dogs. ...'
+2026-04-16 02:53:12,328 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,328 ERROR No results collected. Aborting.
+2026-04-16 02:53:12,337 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,338 INFO [13/16 TEST] Running SD for 'Carmen goes to an auction to win an antique desk. ...'
+2026-04-16 02:53:12,359 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,359 INFO [12/12 TEST] Running SD for 'Laurel's friend gave her 24 baby outfits that her ...'
+2026-04-16 02:53:12,364 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,365 INFO [8/12 TEST] Running SD for 'Jen works for 7.5 hours a day 6 days a week. Her h...'
+2026-04-16 02:53:12,365 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,366 INFO [4/12 TRAIN] Running SD for 'Last Friday, 13 of the 82 teachers at Rydell Eleme...'
+2026-04-16 02:53:12,384 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,385 INFO [11/12 TEST] Running SD for 'Sara wants to buy herself a new jacket and 2 pairs...'
+2026-04-16 02:53:12,409 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,410 INFO [14/16 TEST] Running SD for 'Roger goes to the store to buy some coffee.  The n...'
+2026-04-16 02:53:12,431 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,431 ERROR No results collected. Aborting.
+2026-04-16 02:53:12,441 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,442 INFO [9/12 TEST] Running SD for 'Nate's dog can dig six holes a day. He digs for 14...'
+2026-04-16 02:53:12,442 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,443 INFO [5/12 TRAIN] Running SD for 'A water tank is filled with 120 liters of water. C...'
+2026-04-16 02:53:12,458 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,458 INFO [12/12 TEST] Running SD for 'Jerry is rolling a six-sided die. How much more li...'
+2026-04-16 02:53:12,482 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,483 INFO [15/16 TEST] Running SD for 'A perfume company is trying to create new scents. ...'
+2026-04-16 02:53:12,513 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,514 INFO [10/12 TEST] Running SD for 'At a restaurant, Juice Box A is 4 dollars. Juice B...'
+2026-04-16 02:53:12,515 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,516 INFO [6/12 TRAIN] Running SD for 'To fund his store, Mr. Josue solicited money from ...'
+2026-04-16 02:53:12,529 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:12,530 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,530 ERROR No results collected. Aborting.
+2026-04-16 02:53:12,555 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,555 INFO [16/16 TEST] Running SD for 'It takes Matthew 3 minutes to dig a small hole for...'
+2026-04-16 02:53:12,585 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,585 INFO [11/12 TEST] Running SD for 'Bubbles collects stuffed animals. She has three st...'
+2026-04-16 02:53:12,588 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,588 INFO [7/12 TEST] Running SD for 'Liam is 16 years old now. Two years ago, Liam’s ag...'
+2026-04-16 02:53:12,626 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,627 ERROR No results collected. Aborting.
+2026-04-16 02:53:12,657 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,658 INFO [12/12 TEST] Running SD for 'In a jewelers store, the price of a gold Jewell is...'
+2026-04-16 02:53:12,660 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,660 INFO [8/12 TEST] Running SD for '90 single use contacts come in 1 box and will last...'
+2026-04-16 02:53:12,701 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:12,729 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,729 ERROR No results collected. Aborting.
+2026-04-16 02:53:12,732 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,732 INFO [9/12 TEST] Running SD for 'Lani baked 55 cookies. She ate 5 five cookies and ...'
+2026-04-16 02:53:12,803 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,804 INFO [10/12 TEST] Running SD for 'Jenna starts out with 8 sapphires. She trades 3 sa...'
+2026-04-16 02:53:12,875 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,876 INFO [11/12 TEST] Running SD for 'Cecilia just bought a new puppy. According to her ...'
+2026-04-16 02:53:12,948 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:12,948 INFO [12/12 TEST] Running SD for 'There are 9,300 pennies in a cup. What is the tota...'
+2026-04-16 02:53:12,999 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:13,019 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:13,019 ERROR No results collected. Aborting.
+2026-04-16 02:53:13,146 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:13,477 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:13,528 INFO Shard 1/8: problems [12, 24) (12 problems)
+2026-04-16 02:53:13,528 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:13,529 INFO [1/12 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
+2026-04-16 02:53:13,708 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+[parallel] Instance 0 done
+2026-04-16 02:53:14,290 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:14,880 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:14,882 INFO [2/12 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
+2026-04-16 02:53:14,973 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:14,974 INFO [3/12 TRAIN] Running SD for 'The Hortex company produces bottled carrot juices....'
+2026-04-16 02:53:15,051 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,052 INFO [4/12 TRAIN] Running SD for 'A singer has 50 microphones that he wants to arran...'
+2026-04-16 02:53:15,100 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:15,124 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,124 INFO [5/12 TRAIN] Running SD for 'Joelle has 5 orchids and 4 African daisies on her ...'
+2026-04-16 02:53:15,196 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,196 INFO [6/12 TRAIN] Running SD for 'Jen got 3 fish.  They each need $1 worth of food a...'
+2026-04-16 02:53:15,252 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:53:15,267 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,268 INFO [7/12 TEST] Running SD for 'A family of parents and a child go to the cinema. ...'
+2026-04-16 02:53:15,338 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,339 INFO [8/12 TEST] Running SD for 'Kelly has 5 quarters and 2 dimes. If she buys a ca...'
+2026-04-16 02:53:15,409 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,410 INFO [9/12 TEST] Running SD for 'Leila buys 3 cucumbers from the market. Cucumbers ...'
+2026-04-16 02:53:15,482 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,482 INFO [10/12 TEST] Running SD for 'Gerald and Julia divided $100 in the ratio 3:2. If...'
+2026-04-16 02:53:15,553 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,553 INFO [11/12 TEST] Running SD for 'Peter has 4 boxes with the same number of chocolat...'
+2026-04-16 02:53:15,589 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:53:15,624 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,625 INFO [12/12 TEST] Running SD for 'Billy is volunteering his time to help people do t...'
+2026-04-16 02:53:15,641 INFO Shard 6/8: problems [72, 84) (12 problems)
+2026-04-16 02:53:15,641 INFO Split: 6 train, 6 test problems
+2026-04-16 02:53:15,642 INFO [1/12 TRAIN] Running SD for 'To make a call from a payphone, you must pay $0.25...'
+2026-04-16 02:53:15,696 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:15,696 ERROR No results collected. Aborting.
+2026-04-16 02:53:16,846 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:16,848 INFO [2/12 TRAIN] Running SD for 'Ryan’s allowance is $6 each week he completes his ...'
+2026-04-16 02:53:16,928 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:16,929 INFO [3/12 TRAIN] Running SD for 'Nick had twice as many candies as George. Then Geo...'
+2026-04-16 02:53:17,007 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,008 INFO [4/12 TRAIN] Running SD for 'Carly is making cupcakes and brownies for her art ...'
+[parallel] Instance 1 done
+[parallel] Instance 2 done
+[parallel] Instance 3 done
+[parallel] Instance 4 done
+[parallel] Instance 5 done
+2026-04-16 02:53:17,081 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,082 INFO [5/12 TRAIN] Running SD for 'Jim spends 2 hours watching TV and then decides to...'
+2026-04-16 02:53:17,154 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,155 INFO [6/12 TRAIN] Running SD for 'Kenny is selling his Pokemon cards to buy a ticket...'
+2026-04-16 02:53:17,238 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,239 INFO [7/12 TEST] Running SD for 'Ashley has an internet connection speed of 20kb pe...'
+2026-04-16 02:53:17,311 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,311 INFO [8/12 TEST] Running SD for 'Anthony is sending out coupons for his pizza parlo...'
+2026-04-16 02:53:17,383 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,384 INFO [9/12 TEST] Running SD for 'Stephen placed an online order for groceries.  His...'
+2026-04-16 02:53:17,459 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,460 INFO [10/12 TEST] Running SD for 'Lucy sells apples from her orchard at $4 per piece...'
+2026-04-16 02:53:17,532 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,532 INFO [11/12 TEST] Running SD for 'Tim grows 5 trees.  Each year he collects 6 lemons...'
+2026-04-16 02:53:17,606 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,607 INFO [12/12 TEST] Running SD for 'Tom plants 10 trees a year.  Every year he also ch...'
+2026-04-16 02:53:17,679 ERROR   Failed: not enough values to unpack (expected 4, got 3)
+2026-04-16 02:53:17,679 ERROR No results collected. Aborting.
+[parallel] Instance 6 done
+[parallel] Instance 7 done
+[parallel] Merging → results/acceptspec/divergence/triple_divergence.json
+  Skip results/acceptspec/divergence/triple_divergence_shard0.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard0.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard1.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard1.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard2.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard2.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard3.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard3.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard4.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard4.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard5.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard5.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard6.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard6.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard7.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard7.json'
+ERROR: No shard results

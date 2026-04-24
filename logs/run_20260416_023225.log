@@ -1,0 +1,366 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:32:25 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:32:31 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===
+2026-04-16 02:32:52,059 INFO Loading models with auto device plan: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+2026-04-16 02:32:52,542 INFO Device plan: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+2026-04-16 02:32:52,542 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 1: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 2: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 3: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 4: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 5: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 6: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:52,542 INFO   GPU 7: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:32:53,337 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:32:53,476 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:32:53,854 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:32:54,021 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:32:54,426 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:32:54,686 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:32:55,405 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:32:56,124 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:32:57,701 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:32:57,754 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:32:58,091 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:32:58,262 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:33:02,488 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:02,939 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:33:03,079 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:33:03,306 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  8 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [1] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [2] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [3] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [4] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [5] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [6] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [7] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 75.14it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<01:07,  6.36it/s]Loading weights:   0%|          | 2/427 [00:00<01:20,  5.28it/s]Loading weights:   9%|▊         | 37/427 [00:00<00:03, 111.16it/s]Loading weights:  15%|█▌        | 65/427 [00:00<00:02, 162.36it/s]Loading weights:  22%|██▏       | 93/427 [00:00<00:01, 197.05it/s]Loading weights:  28%|██▊       | 120/427 [00:00<00:01, 213.62it/s]Loading weights:  36%|███▌      | 152/427 [00:00<00:01, 238.67it/s]Loading weights:  44%|████▎     | 186/427 [00:00<00:00, 264.71it/s]Loading weights:  50%|█████     | 214/427 [00:01<00:00, 264.49it/s]Loading weights:  59%|█████▉    | 252/427 [00:01<00:00, 287.22it/s]Loading weights:  66%|██████▌   | 282/427 [00:01<00:00, 285.15it/s]Loading weights:  73%|███████▎  | 311/427 [00:01<00:00, 285.58it/s]Loading weights:  81%|████████  | 345/427 [00:01<00:00, 300.16it/s]Loading weights:  88%|████████▊ | 376/427 [00:01<00:00, 298.93it/s]Loading weights:  96%|█████████▋| 411/427 [00:01<00:00, 311.89it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 237.40it/s]
+2026-04-16 02:33:06,530 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:06,932 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:33:07,191 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:33:07,650 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:07,776 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:33:07,780 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:33:08,086 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 336.39it/s]
+2026-04-16 02:33:08,149 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:33:08,269 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:33:08,283 INFO Speculative decoding: dual-model mode (legacy)
+2026-04-16 02:33:08,284 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:33:08,688 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:33:08,838 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:33:09,158 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:10,313 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:10,475 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:33:10,774 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:11,263 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:33:11,387 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:33:11,728 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:33:11,801 INFO Split: 50 train, 50 test problems
+2026-04-16 02:33:11,803 INFO [1/100 TRAIN] Running SD for 'Carol and Jennifer are sisters from Los Angeles wh...'
+2026-04-16 02:33:18,162 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:18,163 INFO [2/100 TRAIN] Running SD for 'A team of 4 painters worked on a mansion for 3/8th...'
+2026-04-16 02:33:20,466 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:20,467 INFO [3/100 TRAIN] Running SD for 'It costs $194 per meter to repave a street. Monica...'
+2026-04-16 02:33:23,096 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:23,097 INFO [4/100 TRAIN] Running SD for 'Richard lives in an apartment building with 15 flo...'
+2026-04-16 02:33:25,554 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:25,555 INFO [5/100 TRAIN] Running SD for 'An ice cream truck is traveling through a neighbor...'
+2026-04-16 02:33:29,932 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:29,933 INFO [6/100 TRAIN] Running SD for 'James runs 12 miles a day for 5 days a week.  If h...'
+2026-04-16 02:33:32,067 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:32,068 INFO [7/100 TRAIN] Running SD for 'Mark was unwell for 3 months, during which he lost...'
+2026-04-16 02:33:34,369 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:34,371 INFO [8/100 TRAIN] Running SD for 'Craig and his brother take turns spelling out the ...'
+2026-04-16 02:33:38,222 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:38,223 INFO [9/100 TRAIN] Running SD for 'Vincent can buy flowers in packages of 3 for $2.50...'
+2026-04-16 02:33:40,707 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:40,709 INFO [10/100 TRAIN] Running SD for 'Mario needs to buy snowshoes for his 6 sled dogs. ...'
+2026-04-16 02:33:43,506 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:43,508 INFO [11/100 TRAIN] Running SD for 'Sara wants to buy herself a new jacket and 2 pairs...'
+2026-04-16 02:33:48,033 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:48,034 INFO [12/100 TRAIN] Running SD for 'Jerry is rolling a six-sided die. How much more li...'
+2026-04-16 02:33:50,505 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:50,506 INFO [13/100 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
+2026-04-16 02:33:52,807 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:52,808 INFO [14/100 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
+2026-04-16 02:33:55,959 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:55,961 INFO [15/100 TRAIN] Running SD for 'The Hortex company produces bottled carrot juices....'
+2026-04-16 02:33:59,637 ERROR   Failed: tuple index out of range
+2026-04-16 02:33:59,638 INFO [16/100 TRAIN] Running SD for 'A singer has 50 microphones that he wants to arran...'
+2026-04-16 02:34:02,962 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:02,963 INFO [17/100 TRAIN] Running SD for 'Joelle has 5 orchids and 4 African daisies on her ...'
+2026-04-16 02:34:05,778 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:05,779 INFO [18/100 TRAIN] Running SD for 'Jen got 3 fish.  They each need $1 worth of food a...'
+2026-04-16 02:34:07,908 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:07,909 INFO [19/100 TRAIN] Running SD for 'A family of parents and a child go to the cinema. ...'
+2026-04-16 02:34:10,721 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:10,722 INFO [20/100 TRAIN] Running SD for 'Kelly has 5 quarters and 2 dimes. If she buys a ca...'
+2026-04-16 02:34:12,839 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:12,840 INFO [21/100 TRAIN] Running SD for 'Leila buys 3 cucumbers from the market. Cucumbers ...'
+2026-04-16 02:34:16,509 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:16,510 INFO [22/100 TRAIN] Running SD for 'Gerald and Julia divided $100 in the ratio 3:2. If...'
+2026-04-16 02:34:18,634 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:18,635 INFO [23/100 TRAIN] Running SD for 'Peter has 4 boxes with the same number of chocolat...'
+2026-04-16 02:34:21,789 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:21,790 INFO [24/100 TRAIN] Running SD for 'Billy is volunteering his time to help people do t...'
+2026-04-16 02:34:25,420 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:25,422 INFO [25/100 TRAIN] Running SD for 'Aiden is making his famous steakhouse-seasoned mea...'
+2026-04-16 02:34:28,915 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:28,916 INFO [26/100 TRAIN] Running SD for 'Nathan has a bouncy ball that bounces to 2/3rds of...'
+2026-04-16 02:34:31,883 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:31,884 INFO [27/100 TRAIN] Running SD for 'A basket of green food costs $25 and a basket of r...'
+2026-04-16 02:34:34,855 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:34,856 INFO [28/100 TRAIN] Running SD for 'Last Friday, 13 of the 82 teachers at Rydell Eleme...'
+2026-04-16 02:34:37,317 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:37,318 INFO [29/100 TRAIN] Running SD for 'A water tank is filled with 120 liters of water. C...'
+2026-04-16 02:34:40,473 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:40,474 INFO [30/100 TRAIN] Running SD for 'To fund his store, Mr. Josue solicited money from ...'
+2026-04-16 02:34:43,444 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:43,445 INFO [31/100 TRAIN] Running SD for 'Liam is 16 years old now. Two years ago, Liam’s ag...'
+2026-04-16 02:34:45,405 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:45,406 INFO [32/100 TRAIN] Running SD for '90 single use contacts come in 1 box and will last...'
+2026-04-16 02:34:48,381 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:48,382 INFO [33/100 TRAIN] Running SD for 'Lani baked 55 cookies. She ate 5 five cookies and ...'
+2026-04-16 02:34:50,515 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:50,516 INFO [34/100 TRAIN] Running SD for 'Jenna starts out with 8 sapphires. She trades 3 sa...'
+2026-04-16 02:34:53,313 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:53,314 INFO [35/100 TRAIN] Running SD for 'Cecilia just bought a new puppy. According to her ...'
+2026-04-16 02:34:57,155 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:57,156 INFO [36/100 TRAIN] Running SD for 'There are 9,300 pennies in a cup. What is the tota...'
+2026-04-16 02:34:59,439 ERROR   Failed: tuple index out of range
+2026-04-16 02:34:59,440 INFO [37/100 TRAIN] Running SD for 'Solo has to read 4 pages from his Science textbook...'
+2026-04-16 02:35:03,097 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:03,098 INFO [38/100 TRAIN] Running SD for 'Anna is trying to buy books for her local library....'
+2026-04-16 02:35:06,412 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:06,413 INFO [39/100 TRAIN] Running SD for 'Heather's razors come 4 to a pack and cost $4.00 a...'
+2026-04-16 02:35:09,895 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:09,896 INFO [40/100 TRAIN] Running SD for 'When the water is cold Ray swims a mile in 16 minu...'
+2026-04-16 02:35:12,703 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:12,704 INFO [41/100 TRAIN] Running SD for 'Romeo boards a train with 120 people. At the first...'
+2026-04-16 02:35:16,190 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:16,191 INFO [42/100 TRAIN] Running SD for 'Tom has 4 bedrooms in his house.  They measure 20 ...'
+2026-04-16 02:35:19,514 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:19,515 INFO [43/100 TRAIN] Running SD for 'Rayna has 60 more dollars than Kassidy, and Kassid...'
+2026-04-16 02:35:22,474 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:22,475 INFO [44/100 TRAIN] Running SD for 'Isabelle bought party supplies for her little sist...'
+2026-04-16 02:35:25,934 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:25,935 INFO [45/100 TRAIN] Running SD for 'Charlie wants to sell beeswax candles.  For every ...'
+2026-04-16 02:35:29,588 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:29,589 INFO [46/100 TRAIN] Running SD for 'Paul is driving a car twice a day: in the morning,...'
+2026-04-16 02:35:32,734 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:32,736 INFO [47/100 TRAIN] Running SD for 'Aleena subscribed to a streaming service that char...'
+2026-04-16 02:35:36,052 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:36,053 INFO [48/100 TRAIN] Running SD for 'There are forty apples in one box. Uncle Franky or...'
+2026-04-16 02:35:38,683 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:38,684 INFO [49/100 TRAIN] Running SD for 'Tom's ship can travel at 10 miles per hour.  He is...'
+2026-04-16 02:35:41,311 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:41,312 INFO [50/100 TRAIN] Running SD for 'Bill is signing up for a new streaming service. He...'
+2026-04-16 02:35:44,974 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:44,975 INFO [51/100 TEST] Running SD for 'A food caterer was told to prepare gourmet hot dog...'
+2026-04-16 02:35:48,456 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:48,457 INFO [52/100 TEST] Running SD for 'For one medical dosage, Saanvi had to combine 14 m...'
+2026-04-16 02:35:50,933 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:50,934 INFO [53/100 TEST] Running SD for 'Mia and Emma are currently 16 years apart in age. ...'
+2026-04-16 02:35:53,223 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:53,224 INFO [54/100 TEST] Running SD for 'Ali had $21. Leila gave him half of her $100. How ...'
+2026-04-16 02:35:55,171 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:55,172 INFO [55/100 TEST] Running SD for 'In Tate’s garden pond, there are 4 male guppies, 7...'
+2026-04-16 02:35:58,832 ERROR   Failed: tuple index out of range
+2026-04-16 02:35:58,833 INFO [56/100 TEST] Running SD for 'Kylie and Robert enjoy going to the beach to colle...'
+2026-04-16 02:36:01,817 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:01,818 INFO [57/100 TEST] Running SD for 'Mrs. Cruz is looking for a house that will not go ...'
+2026-04-16 02:36:06,170 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:06,171 INFO [58/100 TEST] Running SD for 'There are 6 girls in the park. If there are twice ...'
+2026-04-16 02:36:08,108 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:08,109 INFO [59/100 TEST] Running SD for 'Damien created a currency based on bottle caps and...'
+2026-04-16 02:36:11,096 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:11,097 INFO [60/100 TEST] Running SD for 'Laurel's friend gave her 24 baby outfits that her ...'
+2026-04-16 02:36:14,247 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:14,248 INFO [61/100 TEST] Running SD for 'In a company of 50 employees, 20% of the employees...'
+2026-04-16 02:36:16,885 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:16,886 INFO [62/100 TEST] Running SD for 'Martin's weight is 55 kg. Carl’s weight is 16 kg m...'
+2026-04-16 02:36:19,859 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:19,860 INFO [63/100 TEST] Running SD for 'Melissa is summoned to jury duty. She spends 6 hou...'
+2026-04-16 02:36:22,824 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:22,825 INFO [64/100 TEST] Running SD for 'Four friends ordered four pizzas for a total of 64...'
+2026-04-16 02:36:25,266 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:25,267 INFO [65/100 TEST] Running SD for 'A toy manufacturer receives an order for 400 toys....'
+2026-04-16 02:36:29,610 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:29,611 INFO [66/100 TEST] Running SD for 'Jayden had $70 from selling pictures he took as a ...'
+2026-04-16 02:36:32,418 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:32,419 INFO [67/100 TEST] Running SD for 'Helena is a mad scientist testing her latest creat...'
+2026-04-16 02:36:35,570 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:35,571 INFO [68/100 TEST] Running SD for 'Jen works for 7.5 hours a day 6 days a week. Her h...'
+2026-04-16 02:36:38,889 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:38,890 INFO [69/100 TEST] Running SD for 'Nate's dog can dig six holes a day. He digs for 14...'
+2026-04-16 02:36:42,037 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:42,038 INFO [70/100 TEST] Running SD for 'At a restaurant, Juice Box A is 4 dollars. Juice B...'
+2026-04-16 02:36:44,853 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:44,854 INFO [71/100 TEST] Running SD for 'Bubbles collects stuffed animals. She has three st...'
+2026-04-16 02:36:48,000 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:48,001 INFO [72/100 TEST] Running SD for 'In a jewelers store, the price of a gold Jewell is...'
+2026-04-16 02:36:51,503 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:51,504 INFO [73/100 TEST] Running SD for 'To make a call from a payphone, you must pay $0.25...'
+2026-04-16 02:36:54,314 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:54,315 INFO [74/100 TEST] Running SD for 'Ryan’s allowance is $6 each week he completes his ...'
+2026-04-16 02:36:57,641 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:57,642 INFO [75/100 TEST] Running SD for 'Nick had twice as many candies as George. Then Geo...'
+2026-04-16 02:36:59,765 ERROR   Failed: tuple index out of range
+2026-04-16 02:36:59,766 INFO [76/100 TEST] Running SD for 'Carly is making cupcakes and brownies for her art ...'
+2026-04-16 02:37:02,393 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:02,394 INFO [77/100 TEST] Running SD for 'Jim spends 2 hours watching TV and then decides to...'
+2026-04-16 02:37:05,019 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:05,020 INFO [78/100 TEST] Running SD for 'Kenny is selling his Pokemon cards to buy a ticket...'
+2026-04-16 02:37:08,510 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:08,511 INFO [79/100 TEST] Running SD for 'Ashley has an internet connection speed of 20kb pe...'
+2026-04-16 02:37:11,318 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:11,319 INFO [80/100 TEST] Running SD for 'Anthony is sending out coupons for his pizza parlo...'
+2026-04-16 02:37:14,462 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:14,463 INFO [81/100 TEST] Running SD for 'Stephen placed an online order for groceries.  His...'
+2026-04-16 02:37:18,295 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:18,296 INFO [82/100 TEST] Running SD for 'Lucy sells apples from her orchard at $4 per piece...'
+2026-04-16 02:37:21,770 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:21,770 INFO [83/100 TEST] Running SD for 'Tim grows 5 trees.  Each year he collects 6 lemons...'
+2026-04-16 02:37:23,871 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:23,872 INFO [84/100 TEST] Running SD for 'Tom plants 10 trees a year.  Every year he also ch...'
+2026-04-16 02:37:26,835 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:26,836 INFO [85/100 TEST] Running SD for 'A candle melts by 2 centimeters every hour that it...'
+2026-04-16 02:37:29,292 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:29,293 INFO [86/100 TEST] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
+2026-04-16 02:37:31,916 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:31,917 INFO [87/100 TEST] Running SD for 'According to its nutritional info, a bag of chips ...'
+2026-04-16 02:37:35,056 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:35,057 INFO [88/100 TEST] Running SD for 'There are 36 penguins sunbathing in the snow.  One...'
+2026-04-16 02:37:37,847 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:37,848 INFO [89/100 TEST] Running SD for 'The number of songs in a playlist is 300. If John ...'
+2026-04-16 02:37:40,487 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:40,488 INFO [90/100 TEST] Running SD for 'It takes Carmen 10 minutes to finish a crossword p...'
+2026-04-16 02:37:43,100 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:43,101 INFO [91/100 TEST] Running SD for 'If Mark weighs 150 pounds and Susan weighs 20 poun...'
+2026-04-16 02:37:45,553 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:45,554 INFO [92/100 TEST] Running SD for 'Nick is choosing between two jobs. Job A pays $15 ...'
+2026-04-16 02:37:50,223 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:50,224 INFO [93/100 TEST] Running SD for 'Adam really wants to ride the biggest roller coast...'
+2026-04-16 02:37:53,007 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:53,008 INFO [94/100 TEST] Running SD for 'Robert had 3 pounds of candy, Cindy had 5 pounds o...'
+2026-04-16 02:37:55,803 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:55,804 INFO [95/100 TEST] Running SD for 'John drinks a bottle of water every half hour.  A ...'
+2026-04-16 02:37:58,419 ERROR   Failed: tuple index out of range
+2026-04-16 02:37:58,420 INFO [96/100 TEST] Running SD for 'Charlotte went into the kitchen supply store knowi...'
+2026-04-16 02:38:02,111 ERROR   Failed: tuple index out of range
+2026-04-16 02:38:02,112 INFO [97/100 TEST] Running SD for 'Carmen goes to an auction to win an antique desk. ...'
+2026-04-16 02:38:05,771 ERROR   Failed: tuple index out of range
+2026-04-16 02:38:05,773 INFO [98/100 TEST] Running SD for 'Roger goes to the store to buy some coffee.  The n...'
+2026-04-16 02:38:09,955 ERROR   Failed: tuple index out of range
+2026-04-16 02:38:09,956 INFO [99/100 TEST] Running SD for 'A perfume company is trying to create new scents. ...'
+2026-04-16 02:38:14,644 ERROR   Failed: tuple index out of range
+2026-04-16 02:38:14,645 INFO [100/100 TEST] Running SD for 'It takes Matthew 3 minutes to dig a small hole for...'
+2026-04-16 02:38:17,272 ERROR   Failed: tuple index out of range
+2026-04-16 02:38:17,272 ERROR No results collected. Aborting.
+
+=== M3: Core Comparison (8 retention policies) ===
+2026-04-16 02:38:42,903 INFO Loading models with auto device plan: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+2026-04-16 02:38:43,361 INFO Device plan: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+2026-04-16 02:38:43,361 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 1: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 2: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 3: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 4: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 5: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 6: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:43,361 INFO   GPU 7: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:38:44,136 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:44,284 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:38:44,667 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:44,830 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:38:45,123 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:45,275 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:38:45,445 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:38:45,613 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:38:47,167 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:38:47,219 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:38:47,518 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:47,646 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:38:52,256 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:38:52,608 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:52,858 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:38:53,007 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  8 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [1] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [2] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [3] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [4] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [5] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [6] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+  [7] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Multi-GPU (8) — draft→cuda:0, target→device_map='auto' across [1, 2, 3, 4, 5, 6, 7]
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1920.03it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<03:57,  1.79it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:07, 54.12it/s]Loading weights:  11%|█         | 47/427 [00:00<00:04, 84.41it/s]Loading weights:  15%|█▍        | 64/427 [00:00<00:03, 99.74it/s]Loading weights:  19%|█▉        | 83/427 [00:00<00:02, 121.74it/s]Loading weights:  24%|██▍       | 104/427 [00:01<00:02, 144.29it/s]Loading weights:  29%|██▉       | 123/427 [00:02<00:07, 38.42it/s] Loading weights:  35%|███▍      | 148/427 [00:02<00:04, 56.31it/s]Loading weights:  40%|████      | 172/427 [00:02<00:03, 75.67it/s]Loading weights:  44%|████▍     | 190/427 [00:03<00:05, 44.80it/s]Loading weights:  48%|████▊     | 207/427 [00:03<00:03, 55.66it/s]Loading weights:  56%|█████▌    | 239/427 [00:03<00:02, 83.96it/s]Loading weights:  60%|██████    | 258/427 [00:03<00:01, 97.98it/s]Loading weights:  66%|██████▌   | 280/427 [00:03<00:01, 116.55it/s]Loading weights:  72%|███████▏  | 307/427 [00:03<00:00, 142.11it/s]Loading weights:  78%|███████▊  | 331/427 [00:04<00:00, 160.84it/s]Loading weights:  83%|████████▎ | 354/427 [00:04<00:00, 175.12it/s]Loading weights:  88%|████████▊ | 376/427 [00:04<00:00, 184.76it/s]Loading weights:  93%|█████████▎| 399/427 [00:04<00:00, 193.04it/s]Loading weights:  99%|█████████▊| 421/427 [00:04<00:00, 192.15it/s]Loading weights: 100%|██████████| 427/427 [00:04<00:00, 95.29it/s] 
+2026-04-16 02:38:59,047 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:38:59,465 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:38:59,618 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:38:59,998 INFO HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:39:00,075 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:39:00,079 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:39:00,373 INFO HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 657.62it/s]
+2026-04-16 02:39:00,430 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:39:00,562 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:39:00,577 INFO Speculative decoding: dual-model mode (legacy)
+2026-04-16 02:39:00,579 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-16 02:39:00,579 INFO Loading dataset 'gsm8k' (1319 problems)...
+2026-04-16 02:39:00,939 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:39:01,094 INFO HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:39:01,471 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:39:02,449 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:39:02,625 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:39:02,946 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:39:03,436 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:39:03,645 INFO HTTP Request: GET https://hf-mirror.com/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:39:04,003 INFO HTTP Request: HEAD https://hf-mirror.com/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:39:04,112 INFO Loaded 1319 problems.
+2026-04-16 02:39:04,112 INFO ============================================================
+2026-04-16 02:39:04,112 INFO POLICY: oracle_accept
+2026-04-16 02:39:04,112 INFO ============================================================
+2026-04-16 02:39:04,114 INFO [oracle_accept] [1/1319] 'Carol and Jennifer are sisters from Los Angeles wh...'
+Terminated

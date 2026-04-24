@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.14016787465468905,
+      "pval": 1.1622369686614648e-12
+    },
+    "accept_vs_attn": {
+      "rho": -0.004266669016923403,
+      "pval": 0.5261686956684465
+    },
+    "ppl_vs_attn": {
+      "rho": 0.004897715253466709,
+      "pval": 0.4668487016163233
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.002249637545447674,
+      "pval": 0.7382212455802108
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.052211835231723916,
+      "pval": 0.0005872602492789596
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.008578436074169643,
+      "pval": 0.20250461190489477
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.24281150102615356,
+    "recall": 0.24281150102615356,
+    "f1": 0.24281150102615356,
+    "tp": 532,
+    "fp": 1659,
+    "fn": 1659
+  },
+  "attention_proxy": {
+    "precision": 0.9963486790657043,
+    "recall": 0.9963486790657043,
+    "f1": 0.9963486790657043,
+    "tp": 2183,
+    "fp": 8,
+    "fn": 8
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.14016787465468905,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": -0.004266669016923403,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.004897715253466709,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.24281150102615356
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.24281150102615356,
+      "attn_f1": 0.9963486790657043
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 22073,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 88
+  },
+  "per_problem": [
+    {
+      "question": "To make a call from a payphone, you must pay $0.25 for each minute of your call. After 16 minutes, t",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.030475807245461988
+      }
+    },
+    {
+      "question": "Ryan\u2019s allowance is $6 each week he completes his chores. He did his chores for 3 weeks. Then he bou",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01888740474213991
+      }
+    },
+    {
+      "question": "Nick had twice as many candies as George. Then George ate 5 candies. Now George has 3 candies left. ",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.003474881641535715
+      }
+    },
+    {
+      "question": "Carly is making cupcakes and brownies for her art class. She makes 2 less than three times as many b",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02488457118865527
+      }
+    },
+    {
+      "question": "Jim spends 2 hours watching TV and then decides to go to bed and reads for half as long.  He does th",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.006997789632516285
+      }
+    },
+    {
+      "question": "Kenny is selling his Pokemon cards to buy a ticket to an amusement park, which costs $100. He has a ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.006112472859749964
+      }
+    },
+    {
+      "question": "Ashley has an internet connection speed of 20kb per second. Knowing that 1 Mb has 1000 kb, she wants",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.018722091330772603
+      }
+    },
+    {
+      "question": "Anthony is sending out coupons for his pizza parlor through the mail. He wants to send out 700 small",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.00398148141933906
+      }
+    },
+    {
+      "question": "Stephen placed an online order for groceries.  His final bill came to $40.00.  Because this was thro",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Lucy sells apples from her orchard at $4 per piece. On Monday, she sold all the apples picked. On Tu",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02561774803617137
+      }
+    },
+    {
+      "question": "Tim grows 5 trees.  Each year he collects 6 lemons from each tree.  How many lemons does he get in a",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.024832179687874486
+      }
+    },
+    {
+      "question": "Tom plants 10 trees a year.  Every year he also chops down 2 trees a year.  He starts with 50 trees.",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 5.285384381420918e-05
+      }
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.3047742682249997,
+      "pval": 5.716510316438331e-60
+    },
+    "accept_vs_attn": {
+      "rho": 0.005210183803382151,
+      "pval": 0.4287729209202158
+    },
+    "ppl_vs_attn": {
+      "rho": -0.0007918037941286857,
+      "pval": 0.9042820405229166
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.017035714509175365,
+      "pval": 0.009668699060267976
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.007672098638589048,
+      "pval": 0.6049328788713164
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.004741212808283531,
+      "pval": 0.47148331745283933
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.23252688348293304,
+    "recall": 0.23252688348293304,
+    "f1": 0.23252688348293304,
+    "tp": 519,
+    "fp": 1713,
+    "fn": 1713
+  },
+  "attention_proxy": {
+    "precision": 0.9843189716339111,
+    "recall": 0.9843189716339111,
+    "f1": 0.9843189716339111,
+    "tp": 2197,
+    "fp": 35,
+    "fn": 35
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.3047742682249997,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.005210183803382151,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": -0.0007918037941286857,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.23252688348293304
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.23252688348293304,
+      "attn_f1": 0.9843189716339111
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 23068,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 89
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02848677440076949
+      }
+    },
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.019775569386944268
+      }
+    },
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.04535396114907751
+      }
+    },
+    {
+      "question": "An ice cream truck is traveling through a neighborhood. Children from various homes have started cha",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -1.1178904664248257e-05
+      }
+    },
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0166948082283479
+      }
+    },
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.030429088806192474
+      }
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02218553177830717
+      }
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "split": "TEST",
+      "num_steps": 58,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02789301642155303
+      }
+    },
+    {
+      "question": "Sara wants to buy herself a new jacket and 2 pairs of shoes. The jacket she wants costs $30 and each",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02058837817561038
+      }
+    },
+    {
+      "question": "Jerry is rolling a six-sided die. How much more likely is it (expressed as a percentage) that he rol",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.020320344075397567
+      }
+    }
+  ]
+}

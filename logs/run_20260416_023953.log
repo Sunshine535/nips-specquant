@@ -1,0 +1,35 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:39:53 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:39:59 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M3: Core Comparison (8 retention policies) ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Script: scripts/core_comparison.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/shard_0.json
+[parallel] Instance 1: GPUs 1 → results/shard_1.json
+[parallel] Instance 2: GPUs 2 → results/shard_2.json
+[parallel] Instance 3: GPUs 3 → results/shard_3.json
+[parallel] Instance 4: GPUs 4 → results/shard_4.json
+[parallel] Instance 5: GPUs 5 → results/shard_5.json
+[parallel] Instance 6: GPUs 6 → results/shard_6.json
+[parallel] Instance 7: GPUs 7 → results/shard_7.json
+[parallel] Waiting for 8 instances...
+Terminated

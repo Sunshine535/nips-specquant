@@ -1,0 +1,23 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Wed Apr 15 03:42:09 PM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Wed Apr 15 03:42:38 PM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===

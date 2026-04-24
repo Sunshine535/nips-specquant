@@ -1,0 +1,805 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Sat Apr 18 04:07:10 PM CST 2026 | codelab-prod-617694020-13969510-nvwrb
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A800-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Sat Apr 18 04:07:43 PM CST 2026 | codelab-prod-617694020-13969510-nvwrb
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Script: scripts/triple_divergence.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/divergence/triple_divergence_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/divergence/triple_divergence_shard1.json
+[parallel] Instance 2: GPUs 2 → results/acceptspec/divergence/triple_divergence_shard2.json
+[parallel] Instance 3: GPUs 3 → results/acceptspec/divergence/triple_divergence_shard3.json
+[parallel] Instance 4: GPUs 4 → results/acceptspec/divergence/triple_divergence_shard4.json
+[parallel] Instance 5: GPUs 5 → results/acceptspec/divergence/triple_divergence_shard5.json
+[parallel] Instance 6: GPUs 6 → results/acceptspec/divergence/triple_divergence_shard6.json
+[parallel] Instance 7: GPUs 7 → results/acceptspec/divergence/triple_divergence_shard7.json
+[parallel] Waiting for 8 instances...
+2026-04-18 16:09:29,896 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,897 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,898 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,900 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,901 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,902 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,902 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:29,902 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,413 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,413 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,413 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,413 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,413 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,413 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,413 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,413 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,414 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,414 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,415 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,415 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,416 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,416 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:33,416 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-18 16:09:33,416 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-18 16:09:34,010 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,017 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,027 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,037 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,038 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,041 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,043 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,044 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,056 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,057 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,079 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,090 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,109 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,117 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,121 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,122 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,125 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,149 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,332 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,425 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,430 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,430 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:34,430 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,432 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,442 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,464 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,479 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,495 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,508 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,508 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,511 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,525 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,548 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,552 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,642 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,718 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,781 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,796 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,797 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,824 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,826 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,847 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,852 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,854 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:34,870 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,874 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,897 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,922 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,927 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:34,934 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,088 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:35,143 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,180 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,187 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,194 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,222 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,222 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,242 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:35,430 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,494 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,495 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,497 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,512 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,522 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,553 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,560 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:35,925 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:36,287 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,099 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,102 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,105 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,113 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,132 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,134 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,142 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,145 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,147 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,155 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,158 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,181 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,183 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,190 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:37,432 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:37,432 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:37,434 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:37,449 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:37,449 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:37,450 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:37,482 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:37,482 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:37,503 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:37,508 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,519 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:37,521 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:37,532 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:37,556 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,558 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:37,607 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:37,809 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-18 16:09:37,861 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-18 16:09:38,152 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:38,152 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:38,226 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-18 16:09:47,530 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,535 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,543 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,556 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,571 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,589 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:47,590 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-18 16:09:47,596 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,631 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-18 16:09:47,822 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,827 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,831 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,845 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,872 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,895 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,895 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,898 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:47,900 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:47,907 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:47,928 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:09:47,933 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:47,948 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:47,987 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,007 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,008 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,215 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,219 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,225 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,233 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:09:48,241 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 156.82it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 158.61it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 155.94it/s]
+
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 181.85it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 158.92it/s]
+2026-04-18 16:09:48,284 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 36954.22it/s]
+2026-04-18 16:09:48,307 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 37282.70it/s]
+2026-04-18 16:09:48,367 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 37957.50it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:54,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 1/427 [00:06<48:55,  6.89s/it]Loading weights:   0%|          | 2/427 [00:07<21:06,  2.98s/it]Loading weights:   0%|          | 2/427 [00:07<21:14,  3.00s/it]Loading weights:   0%|          | 2/427 [00:07<21:27,  3.03s/it]Loading weights:   2%|▏         | 7/427 [00:07<04:09,  1.68it/s]Loading weights:   2%|▏         | 9/427 [00:07<03:07,  2.23it/s]Loading weights:   2%|▏         | 7/427 [00:07<05:26,  1.29it/s]Loading weights:   2%|▏         | 8/427 [00:07<04:43,  1.48it/s]Loading weights:   2%|▏         | 9/427 [00:07<04:10,  1.67it/s]Loading weights:   2%|▏         | 9/427 [00:07<04:10,  1.67it/s]Loading weights:   2%|▏         | 8/427 [00:07<04:43,  1.48it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:49,  2.45it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:22,  2.91it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:43,  2.53it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:02,  3.38it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:54,  2.38it/s]Loading weights:   3%|▎         | 11/427 [00:07<03:16,  2.11it/s]Loading weights:   3%|▎         | 12/427 [00:07<02:49,  2.45it/s]Loading weights:   3%|▎         | 13/427 [00:07<02:50,  2.43it/s]Loading weights:   3%|▎         | 13/427 [00:07<02:17,  3.02it/s]Loading weights:   3%|▎         | 14/427 [00:07<02:32,  2.71it/s]Loading weights:   3%|▎         | 14/427 [00:07<02:32,  2.71it/s]Loading weights:   3%|▎         | 14/427 [00:07<02:36,  2.64it/s]Loading weights:   3%|▎         | 14/427 [00:07<02:28,  2.77it/s]Loading weights:   4%|▎         | 15/427 [00:08<02:19,  2.95it/s]Loading weights:   4%|▎         | 15/427 [00:08<01:56,  3.54it/s]Loading weights:   4%|▎         | 15/427 [00:08<02:11,  3.14it/s]Loading weights:   4%|▎         | 16/427 [00:08<02:10,  3.15it/s]Loading weights:   4%|▎         | 16/427 [00:08<02:08,  3.21it/s]Loading weights:   4%|▎         | 16/427 [00:08<02:05,  3.27it/s]Loading weights:   4%|▎         | 16/427 [00:08<02:08,  3.21it/s]Loading weights:   4%|▎         | 16/427 [00:08<01:46,  3.84it/s]Loading weights:   5%|▌         | 23/427 [00:08<01:02,  6.44it/s]Loading weights:   5%|▌         | 23/427 [00:08<01:03,  6.34it/s]Loading weights:   5%|▌         | 23/427 [00:08<01:03,  6.39it/s]Loading weights:   5%|▌         | 23/427 [00:08<01:08,  5.89it/s]Loading weights:   5%|▌         | 22/427 [00:08<01:08,  5.88it/s]Loading weights:   4%|▍         | 19/427 [00:08<01:20,  5.04it/s]Loading weights:   5%|▌         | 23/427 [00:08<01:00,  6.64it/s]Loading weights:   5%|▌         | 22/427 [00:08<01:03,  6.37it/s]Loading weights:   6%|▌         | 26/427 [00:08<00:49,  8.16it/s]Loading weights:   6%|▌         | 25/427 [00:08<00:55,  7.24it/s]Loading weights:   6%|▌         | 25/427 [00:08<00:55,  7.28it/s]Loading weights:   6%|▌         | 25/427 [00:08<00:54,  7.34it/s]Loading weights:   6%|▌         | 26/427 [00:08<00:56,  7.11it/s]Loading weights:   6%|▌         | 25/427 [00:08<00:52,  7.73it/s]Loading weights:   6%|▋         | 27/427 [00:08<00:50,  7.99it/s]Loading weights:   6%|▋         | 27/427 [00:08<00:49,  8.03it/s]Loading weights:   6%|▋         | 27/427 [00:08<00:50,  7.94it/s]Loading weights:   6%|▌         | 26/427 [00:08<00:54,  7.40it/s]Loading weights:   6%|▋         | 27/427 [00:08<00:50,  7.96it/s]Loading weights:   7%|▋         | 28/427 [00:08<00:53,  7.44it/s]Loading weights:   7%|▋         | 28/427 [00:08<00:47,  8.35it/s]Loading weights:   7%|▋         | 29/427 [00:08<00:51,  7.73it/s]Loading weights:   7%|▋         | 29/427 [00:08<00:56,  7.01it/s]Loading weights:   7%|▋         | 29/427 [00:09<00:51,  7.68it/s]Loading weights:   7%|▋         | 29/427 [00:09<00:48,  8.21it/s]Loading weights:   7%|▋         | 29/427 [00:09<00:51,  7.71it/s]Loading weights:   7%|▋         | 29/427 [00:09<00:52,  7.64it/s]Loading weights:   8%|▊         | 35/427 [00:09<00:31, 12.50it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:30, 12.73it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:36, 10.64it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:30, 12.87it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:31, 12.34it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:31, 12.30it/s]Loading weights:   8%|▊         | 34/427 [00:09<00:40,  9.59it/s]Loading weights:   9%|▊         | 37/427 [00:09<00:30, 12.81it/s]Loading weights:   8%|▊         | 34/427 [00:09<00:39, 10.03it/s]Loading weights:   9%|▉         | 39/427 [00:09<00:33, 11.62it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:30, 12.67it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:30, 12.65it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:35, 11.01it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:31, 12.29it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:30, 12.58it/s]Loading weights:  10%|▉         | 42/427 [00:09<00:29, 13.11it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:33, 11.37it/s]Loading weights:  10%|▉         | 41/427 [00:09<00:34, 11.07it/s]Loading weights:  10%|█         | 43/427 [00:09<00:36, 10.41it/s]Loading weights:  10%|█         | 43/427 [00:09<00:37, 10.16it/s]Loading weights:  10%|█         | 43/427 [00:09<00:36, 10.40it/s]Loading weights:  10%|█         | 43/427 [00:09<00:34, 11.01it/s]Loading weights:  10%|█         | 43/427 [00:09<00:39,  9.61it/s]Loading weights:  10%|█         | 43/427 [00:09<00:35, 10.76it/s]Loading weights:  10%|█         | 43/427 [00:09<00:35, 10.69it/s]Loading weights:  10%|█         | 44/427 [00:09<00:31, 12.15it/s]Loading weights:  11%|█         | 46/427 [00:10<00:37, 10.05it/s]Loading weights:  11%|█         | 46/427 [00:10<00:36, 10.51it/s]Loading weights:  11%|█         | 46/427 [00:10<00:37, 10.30it/s]Loading weights:  11%|█         | 46/427 [00:10<00:37, 10.03it/s]Loading weights:  11%|█         | 46/427 [00:10<00:36, 10.32it/s]Loading weights:  11%|█         | 46/427 [00:10<00:37, 10.05it/s]Loading weights:  11%|█         | 46/427 [00:10<00:40,  9.51it/s]Loading weights:  11%|█         | 46/427 [00:10<00:38,  9.82it/s]Loading weights:  11%|█         | 48/427 [00:10<00:43,  8.78it/s]Loading weights:  11%|█         | 48/427 [00:10<00:40,  9.31it/s]Loading weights:  11%|█         | 48/427 [00:10<00:41,  9.11it/s]Loading weights:  11%|█         | 48/427 [00:10<00:43,  8.68it/s]Loading weights:  11%|█         | 48/427 [00:10<00:43,  8.75it/s]Loading weights:  11%|█         | 48/427 [00:10<00:42,  8.95it/s]Loading weights:  11%|█         | 48/427 [00:10<00:42,  8.84it/s]Loading weights:  11%|█         | 48/427 [00:10<00:44,  8.59it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:31, 11.97it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:32, 11.54it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:31, 11.75it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:33, 11.06it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:32, 11.64it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:31, 11.81it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:32, 11.46it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:31, 11.85it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:31, 11.71it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:31, 11.97it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:33, 11.24it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:31, 11.80it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:32, 11.63it/s]Loading weights:  13%|█▎        | 54/427 [00:10<00:32, 11.56it/s]Loading weights:  12%|█▏        | 52/427 [00:10<00:37,  9.89it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.45it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.57it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 15.91it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.26it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.37it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.24it/s]Loading weights:  15%|█▍        | 62/427 [00:11<00:22, 16.52it/s]Loading weights:  14%|█▍        | 59/427 [00:11<00:27, 13.23it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.60it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.67it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:23, 15.65it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.47it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.66it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.54it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:25, 14.28it/s]Loading weights:  15%|█▌        | 66/427 [00:11<00:24, 14.59it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.59it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.55it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:35, 10.02it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.64it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.61it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.67it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:37,  9.69it/s]Loading weights:  16%|█▌        | 68/427 [00:12<00:35, 10.12it/s]Loading weights:  18%|█▊        | 75/427 [00:12<00:22, 15.32it/s]Loading weights:  18%|█▊        | 76/427 [00:12<00:23, 14.96it/s]Loading weights:  17%|█▋        | 74/427 [00:12<00:26, 13.54it/s]Loading weights:  18%|█▊        | 76/427 [00:12<00:23, 14.78it/s]Loading weights:  18%|█▊        | 76/427 [00:12<00:23, 14.90it/s]Loading weights:  18%|█▊        | 75/427 [00:12<00:25, 14.01it/s]Loading weights:  17%|█▋        | 72/427 [00:12<00:30, 11.50it/s]Loading weights:  18%|█▊        | 78/427 [00:12<00:20, 17.09it/s]Loading weights:  18%|█▊        | 75/427 [00:12<00:25, 13.93it/s]Loading weights:  19%|█▊        | 80/427 [00:12<00:22, 15.62it/s]Loading weights:  19%|█▊        | 80/427 [00:12<00:22, 15.19it/s]Loading weights:  19%|█▊        | 80/427 [00:12<00:22, 15.60it/s]Loading weights:  19%|█▊        | 80/427 [00:12<00:22, 15.28it/s]Loading weights:  18%|█▊        | 78/427 [00:12<00:24, 14.54it/s]Loading weights:  19%|█▊        | 80/427 [00:12<00:21, 16.25it/s]Loading weights:  19%|█▊        | 79/427 [00:12<00:24, 14.25it/s]Loading weights:  19%|█▉        | 81/427 [00:13<00:30, 11.24it/s]Loading weights:  19%|█▉        | 81/427 [00:13<00:32, 10.75it/s]Loading weights:  19%|█▉        | 81/427 [00:13<00:28, 12.34it/s]Loading weights:  19%|█▉        | 82/427 [00:13<00:37,  9.32it/s]Loading weights:  19%|█▉        | 82/427 [00:13<00:35,  9.59it/s]Loading weights:  19%|█▉        | 83/427 [00:13<00:35,  9.76it/s]Loading weights:  19%|█▉        | 83/427 [00:13<00:36,  9.49it/s]Loading weights:  19%|█▉        | 82/427 [00:13<00:37,  9.28it/s]Loading weights:  19%|█▉        | 82/427 [00:13<00:37,  9.14it/s]Loading weights:  19%|█▉        | 83/427 [00:13<00:32, 10.56it/s]Loading weights:  19%|█▉        | 82/427 [00:13<00:37,  9.11it/s]Loading weights:  21%|██        | 90/427 [00:13<00:23, 14.40it/s]Loading weights:  21%|██        | 90/427 [00:13<00:23, 14.21it/s]Loading weights:  21%|██        | 90/427 [00:13<00:23, 14.60it/s]Loading weights:  21%|██        | 88/427 [00:13<00:25, 13.37it/s]Loading weights:  20%|██        | 86/427 [00:13<00:31, 10.98it/s]Loading weights:  21%|██        | 90/427 [00:13<00:23, 14.30it/s]Loading weights:  21%|██        | 89/427 [00:13<00:24, 13.71it/s]Loading weights:  21%|██        | 89/427 [00:13<00:25, 13.26it/s]Loading weights:  22%|██▏       | 93/427 [00:13<00:18, 17.96it/s]Loading weights:  22%|██▏       | 93/427 [00:13<00:20, 16.21it/s]Loading weights:  22%|██▏       | 93/427 [00:13<00:21, 15.84it/s]Loading weights:  22%|██▏       | 93/427 [00:13<00:20, 16.12it/s]Loading weights:  22%|██▏       | 94/427 [00:13<00:22, 15.02it/s]Loading weights:  22%|██▏       | 94/427 [00:13<00:22, 14.86it/s]Loading weights:  22%|██▏       | 93/427 [00:13<00:22, 14.94it/s]Loading weights:  22%|██▏       | 94/427 [00:13<00:24, 13.37it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:29, 11.24it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:28, 11.51it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:28, 11.56it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:29, 11.33it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:27, 12.25it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:28, 11.66it/s]Loading weights:  22%|██▏       | 96/427 [00:14<00:27, 11.83it/s]Loading weights:  22%|██▏       | 95/427 [00:14<00:28, 11.55it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:30, 10.84it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:29, 11.20it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:29, 11.10it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:28, 11.55it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:26, 12.16it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:29, 11.12it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:29, 10.96it/s]Loading weights:  23%|██▎       | 99/427 [00:14<00:28, 11.43it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:35,  9.27it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:34,  9.39it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:36,  9.01it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:35,  9.29it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:35,  9.16it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:35,  9.23it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:32,  9.92it/s]Loading weights:  24%|██▎       | 101/427 [00:14<00:35,  9.23it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:26, 12.16it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:25, 12.47it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:26, 12.04it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:25, 12.67it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:26, 12.20it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:25, 12.33it/s]Loading weights:  25%|██▌       | 107/427 [00:15<00:26, 12.07it/s]Loading weights:  25%|██▍       | 105/427 [00:15<00:31, 10.28it/s]Loading weights:  27%|██▋       | 114/427 [00:15<00:17, 17.70it/s]Loading weights:  27%|██▋       | 115/427 [00:15<00:19, 16.36it/s]Loading weights:  27%|██▋       | 115/427 [00:15<00:18, 16.78it/s]Loading weights:  27%|██▋       | 115/427 [00:15<00:18, 16.59it/s]Loading weights:  26%|██▋       | 113/427 [00:15<00:21, 14.51it/s]Loading weights:  26%|██▌       | 112/427 [00:15<00:22, 14.11it/s]Loading weights:  27%|██▋       | 115/427 [00:15<00:18, 16.75it/s]Loading weights:  27%|██▋       | 115/427 [00:15<00:19, 16.38it/s]Loading weights:  28%|██▊       | 118/427 [00:15<00:16, 18.24it/s]Loading weights:  28%|██▊       | 118/427 [00:15<00:17, 18.15it/s]Loading weights:  28%|██▊       | 118/427 [00:15<00:17, 17.80it/s]Loading weights:  28%|██▊       | 118/427 [00:15<00:17, 17.86it/s]Loading weights:  28%|██▊       | 118/427 [00:15<00:17, 18.00it/s]Loading weights:  27%|██▋       | 117/427 [00:15<00:19, 16.10it/s]Loading weights:  27%|██▋       | 116/427 [00:15<00:18, 16.87it/s]Loading weights:  27%|██▋       | 116/427 [00:15<00:19, 16.06it/s]Loading weights:  28%|██▊       | 119/427 [00:15<00:21, 14.21it/s]Loading weights:  28%|██▊       | 119/427 [00:15<00:20, 14.76it/s]Loading weights:  28%|██▊       | 120/427 [00:16<00:28, 10.88it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.41it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.49it/s]Loading weights:  29%|██▊       | 122/427 [00:16<00:30,  9.95it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.37it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:33,  9.14it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.45it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.32it/s]Loading weights:  28%|██▊       | 121/427 [00:16<00:32,  9.39it/s]Loading weights:  30%|███       | 129/427 [00:16<00:21, 13.82it/s]Loading weights:  30%|██▉       | 126/427 [00:16<00:25, 11.67it/s]Loading weights:  30%|███       | 129/427 [00:16<00:20, 14.68it/s]Loading weights:  30%|███       | 129/427 [00:16<00:20, 14.31it/s]Loading weights:  30%|██▉       | 128/427 [00:16<00:22, 13.09it/s]Loading weights:  30%|██▉       | 128/427 [00:16<00:22, 13.03it/s]Loading weights:  30%|███       | 129/427 [00:16<00:23, 12.79it/s]Loading weights:  30%|███       | 129/427 [00:16<00:23, 12.88it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:18, 15.67it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:19, 14.69it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:19, 14.80it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:19, 14.74it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:20, 14.62it/s]Loading weights:  31%|███▏      | 134/427 [00:17<00:19, 14.73it/s]Loading weights:  31%|███       | 133/427 [00:17<00:22, 13.28it/s]Loading weights:  31%|███       | 133/427 [00:17<00:21, 13.81it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:22, 12.76it/s]Loading weights:  32%|███▏      | 135/427 [00:17<00:24, 11.91it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:22, 12.74it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:21, 13.29it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:22, 12.69it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:23, 12.57it/s]Loading weights:  32%|███▏      | 136/427 [00:17<00:22, 12.79it/s]Loading weights:  32%|███▏      | 135/427 [00:17<00:23, 12.18it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 15.88it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 16.47it/s]Loading weights:  33%|███▎      | 142/427 [00:17<00:18, 15.28it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 15.80it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 15.87it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 16.60it/s]Loading weights:  33%|███▎      | 143/427 [00:17<00:17, 15.92it/s]Loading weights:  33%|███▎      | 141/427 [00:17<00:20, 13.98it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:18, 15.33it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:17, 15.87it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:17, 15.91it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:17, 15.73it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:18, 15.38it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:17, 16.00it/s]Loading weights:  34%|███▍      | 147/427 [00:17<00:18, 15.41it/s]Loading weights:  34%|███▍      | 146/427 [00:17<00:19, 14.28it/s]Loading weights:  35%|███▍      | 148/427 [00:18<00:22, 12.33it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:21, 12.75it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:22, 12.11it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:22, 12.36it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:22, 12.09it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:23, 12.08it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:22, 12.51it/s]Loading weights:  35%|███▍      | 149/427 [00:18<00:22, 12.25it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.25it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.21it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.40it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.29it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.08it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.31it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.08it/s]Loading weights:  36%|███▌      | 152/427 [00:18<00:22, 12.00it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.38it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.33it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.41it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.30it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.48it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:33,  8.21it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.47it/s]Loading weights:  36%|███▌      | 154/427 [00:19<00:32,  8.30it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.43it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.37it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.46it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.46it/s]Loading weights:  37%|███▋      | 157/427 [00:19<00:25, 10.53it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.38it/s]Loading weights:  37%|███▋      | 158/427 [00:19<00:23, 11.33it/s]Loading weights:  37%|███▋      | 157/427 [00:19<00:25, 10.51it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:23, 11.16it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:23, 11.16it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:24, 11.09it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:23, 11.13it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:23, 11.52it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:24, 11.06it/s]Loading weights:  37%|███▋      | 159/427 [00:19<00:25, 10.43it/s]Loading weights:  37%|███▋      | 160/427 [00:19<00:24, 11.09it/s]Loading weights:  39%|███▉      | 166/427 [00:19<00:15, 16.65it/s]Loading weights:  39%|███▊      | 165/427 [00:19<00:19, 13.69it/s]Loading weights:  39%|███▊      | 165/427 [00:19<00:18, 13.98it/s]Loading weights:  39%|███▉      | 168/427 [00:19<00:14, 17.79it/s]Loading weights:  39%|███▉      | 168/427 [00:19<00:15, 17.15it/s]Loading weights:  39%|███▉      | 168/427 [00:19<00:15, 17.10it/s]Loading weights:  39%|███▉      | 168/427 [00:19<00:15, 17.02it/s]Loading weights:  39%|███▉      | 168/427 [00:19<00:15, 17.09it/s]Loading weights:  40%|████      | 171/427 [00:19<00:13, 18.35it/s]Loading weights:  40%|████      | 171/427 [00:19<00:13, 18.33it/s]Loading weights:  40%|████      | 171/427 [00:19<00:13, 18.39it/s]Loading weights:  40%|████      | 171/427 [00:19<00:12, 19.72it/s]Loading weights:  40%|████      | 171/427 [00:19<00:13, 18.31it/s]Loading weights:  40%|████      | 171/427 [00:19<00:13, 18.66it/s]Loading weights:  40%|███▉      | 170/427 [00:19<00:16, 15.22it/s]Loading weights:  40%|████      | 171/427 [00:19<00:14, 17.16it/s]Loading weights:  41%|████      | 173/427 [00:20<00:18, 13.63it/s]Loading weights:  41%|████      | 173/427 [00:20<00:18, 13.84it/s]Loading weights:  41%|████      | 174/427 [00:20<00:22, 11.10it/s]Loading weights:  41%|████      | 174/427 [00:20<00:24, 10.45it/s]Loading weights:  41%|████      | 174/427 [00:20<00:24, 10.47it/s]Loading weights:  41%|████      | 174/427 [00:20<00:23, 10.72it/s]Loading weights:  41%|████      | 174/427 [00:20<00:24, 10.48it/s]Loading weights:  41%|████      | 174/427 [00:20<00:24, 10.46it/s]Loading weights:  41%|████      | 175/427 [00:20<00:21, 11.52it/s]Loading weights:  41%|████      | 175/427 [00:20<00:21, 11.62it/s]Loading weights:  42%|████▏     | 180/427 [00:20<00:16, 14.59it/s]Loading weights:  43%|████▎     | 182/427 [00:20<00:14, 16.73it/s]Loading weights:  43%|████▎     | 182/427 [00:20<00:15, 15.89it/s]Loading weights:  43%|████▎     | 182/427 [00:20<00:15, 15.88it/s]Loading weights:  43%|████▎     | 182/427 [00:20<00:15, 15.87it/s]Loading weights:  42%|████▏     | 179/427 [00:20<00:18, 13.52it/s]Loading weights:  42%|████▏     | 180/427 [00:20<00:17, 14.18it/s]Loading weights:  43%|████▎     | 182/427 [00:20<00:14, 16.81it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:13, 17.33it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:13, 17.82it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:14, 16.87it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:14, 16.42it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:14, 16.42it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:14, 16.40it/s]Loading weights:  43%|████▎     | 184/427 [00:20<00:15, 15.72it/s]Loading weights:  43%|████▎     | 185/427 [00:20<00:14, 16.85it/s]Loading weights:  44%|████▍     | 187/427 [00:21<00:17, 13.64it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:16, 14.84it/s]Loading weights:  44%|████▍     | 187/427 [00:21<00:17, 13.97it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:16, 14.25it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:16, 14.85it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:16, 14.19it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:16, 14.18it/s]Loading weights:  44%|████▍     | 188/427 [00:21<00:15, 15.12it/s]Loading weights:  46%|████▌     | 196/427 [00:21<00:11, 20.75it/s]Loading weights:  46%|████▌     | 196/427 [00:21<00:10, 22.02it/s]Loading weights:  45%|████▌     | 193/427 [00:21<00:13, 17.90it/s]Loading weights:  45%|████▌     | 194/427 [00:21<00:12, 18.43it/s]Loading weights:  46%|████▌     | 195/427 [00:21<00:11, 19.54it/s]Loading weights:  46%|████▌     | 195/427 [00:21<00:11, 19.43it/s]Loading weights:  45%|████▌     | 194/427 [00:21<00:12, 18.95it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:08, 25.56it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:09, 23.14it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:09, 24.34it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:09, 24.00it/s]Loading weights:  46%|████▌     | 196/427 [00:21<00:12, 18.53it/s]Loading weights:  47%|████▋     | 201/427 [00:21<00:12, 18.73it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:13, 16.67it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:13, 16.66it/s]Loading weights:  48%|████▊     | 204/427 [00:21<00:11, 18.71it/s]Loading weights:  48%|████▊     | 203/427 [00:21<00:13, 16.86it/s]Loading weights:  48%|████▊     | 204/427 [00:21<00:11, 19.99it/s]Loading weights:  48%|████▊     | 203/427 [00:21<00:13, 16.44it/s]Loading weights:  48%|████▊     | 204/427 [00:21<00:12, 17.91it/s]Loading weights:  47%|████▋     | 200/427 [00:21<00:14, 15.52it/s]Loading weights:  48%|████▊     | 205/427 [00:22<00:14, 15.49it/s]Loading weights:  48%|████▊     | 205/427 [00:22<00:13, 16.55it/s]Loading weights:  48%|████▊     | 205/427 [00:22<00:14, 15.49it/s]Loading weights:  48%|████▊     | 206/427 [00:22<00:20, 10.92it/s]Loading weights:  48%|████▊     | 206/427 [00:22<00:20, 11.01it/s]Loading weights:  48%|████▊     | 207/427 [00:22<00:18, 11.66it/s]Loading weights:  48%|████▊     | 207/427 [00:22<00:17, 12.75it/s]Loading weights:  48%|████▊     | 207/427 [00:22<00:17, 12.75it/s]Loading weights:  48%|████▊     | 207/427 [00:22<00:18, 11.77it/s]Loading weights:  49%|████▊     | 208/427 [00:22<00:15, 14.38it/s]Loading weights:  48%|████▊     | 207/427 [00:22<00:18, 12.00it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:14, 14.70it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:14, 14.89it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:13, 16.15it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:13, 15.86it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:13, 15.85it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:14, 14.72it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:14, 14.55it/s]Loading weights:  49%|████▉     | 211/427 [00:22<00:15, 13.73it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:12, 17.61it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:12, 16.47it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:12, 16.48it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:12, 17.61it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:12, 16.63it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:11, 17.87it/s]Loading weights:  50%|█████     | 214/427 [00:22<00:13, 16.31it/s]Loading weights:  52%|█████▏    | 221/427 [00:22<00:09, 22.56it/s]Loading weights:  52%|█████▏    | 220/427 [00:22<00:10, 20.21it/s]Loading weights:  52%|█████▏    | 220/427 [00:22<00:10, 20.10it/s]Loading weights:  51%|█████▏    | 219/427 [00:22<00:10, 19.90it/s]Loading weights:  51%|█████     | 218/427 [00:22<00:12, 17.35it/s]Loading weights:  52%|█████▏    | 221/427 [00:22<00:09, 22.44it/s]Loading weights:  52%|█████▏    | 220/427 [00:22<00:10, 19.86it/s]Loading weights:  51%|█████▏    | 219/427 [00:22<00:10, 18.92it/s]Loading weights:  52%|█████▏    | 224/427 [00:22<00:08, 23.28it/s]Loading weights:  52%|█████▏    | 224/427 [00:22<00:08, 23.24it/s]Loading weights:  52%|█████▏    | 223/427 [00:22<00:09, 21.11it/s]Loading weights:  52%|█████▏    | 224/427 [00:22<00:08, 22.90it/s]Loading weights:  52%|█████▏    | 223/427 [00:22<00:08, 22.77it/s]Loading weights:  52%|█████▏    | 222/427 [00:22<00:10, 20.29it/s]Loading weights:  53%|█████▎    | 225/427 [00:23<00:10, 18.40it/s]Loading weights:  52%|█████▏    | 224/427 [00:23<00:11, 16.92it/s]Loading weights:  52%|█████▏    | 224/427 [00:23<00:12, 16.85it/s]Loading weights:  53%|█████▎    | 226/427 [00:23<00:11, 17.89it/s]Loading weights:  53%|█████▎    | 226/427 [00:23<00:12, 16.60it/s]Loading weights:  53%|█████▎    | 227/427 [00:23<00:10, 18.56it/s]Loading weights:  53%|█████▎    | 227/427 [00:23<00:11, 17.02it/s]Loading weights:  53%|█████▎    | 228/427 [00:23<00:09, 19.95it/s]Loading weights:  53%|█████▎    | 227/427 [00:23<00:11, 17.00it/s]Loading weights:  53%|█████▎    | 227/427 [00:23<00:11, 17.99it/s]Loading weights:  53%|█████▎    | 228/427 [00:23<00:11, 17.96it/s]Loading weights:  55%|█████▌    | 235/427 [00:23<00:07, 24.32it/s]Loading weights:  55%|█████▌    | 235/427 [00:23<00:07, 24.14it/s]Loading weights:  55%|█████▌    | 235/427 [00:23<00:08, 22.99it/s]Loading weights:  55%|█████▌    | 235/427 [00:23<00:08, 22.80it/s]Loading weights:  55%|█████▍    | 233/427 [00:23<00:09, 20.12it/s]Loading weights:  55%|█████▍    | 233/427 [00:23<00:09, 21.01it/s]Loading weights:  55%|█████▌    | 235/427 [00:23<00:08, 23.40it/s]Loading weights:  55%|█████▍    | 233/427 [00:23<00:09, 20.01it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.46it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.39it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.44it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.56it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 17.96it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 17.75it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.23it/s]Loading weights:  56%|█████▌    | 239/427 [00:23<00:10, 18.74it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.37it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.52it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.42it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:15, 12.32it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.43it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.73it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:14, 12.44it/s]Loading weights:  57%|█████▋    | 242/427 [00:24<00:15, 12.15it/s]Loading weights:  58%|█████▊    | 249/427 [00:24<00:10, 16.23it/s]Loading weights:  57%|█████▋    | 245/427 [00:24<00:14, 12.63it/s]Loading weights:  58%|█████▊    | 248/427 [00:24<00:11, 15.13it/s]Loading weights:  58%|█████▊    | 249/427 [00:24<00:11, 15.96it/s]Loading weights:  58%|█████▊    | 249/427 [00:24<00:10, 16.20it/s]Loading weights:  58%|█████▊    | 249/427 [00:24<00:10, 16.27it/s]Loading weights:  58%|█████▊    | 249/427 [00:24<00:10, 16.19it/s]Loading weights:  58%|█████▊    | 248/427 [00:24<00:11, 15.12it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.80it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.79it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.84it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.98it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:11, 14.94it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.65it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:12, 13.78it/s]Loading weights:  59%|█████▉    | 253/427 [00:25<00:13, 13.27it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.36it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.26it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 15.19it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.40it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.37it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.50it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.83it/s]Loading weights:  60%|██████    | 258/427 [00:25<00:11, 14.36it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.87it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.81it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:14, 11.43it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:14, 11.14it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.70it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.73it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.70it/s]Loading weights:  61%|██████    | 260/427 [00:25<00:15, 10.80it/s]Loading weights:  62%|██████▏   | 265/427 [00:25<00:11, 13.79it/s]Loading weights:  62%|██████▏   | 266/427 [00:25<00:10, 14.85it/s]Loading weights:  62%|██████▏   | 266/427 [00:25<00:10, 14.83it/s]Loading weights:  62%|██████▏   | 266/427 [00:25<00:10, 15.00it/s]Loading weights:  62%|██████▏   | 266/427 [00:25<00:10, 15.18it/s]Loading weights:  62%|██████▏   | 266/427 [00:25<00:10, 14.90it/s]Loading weights:  62%|██████▏   | 265/427 [00:25<00:11, 13.84it/s]Loading weights:  62%|██████▏   | 264/427 [00:25<00:12, 12.69it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.29it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.50it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.50it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.41it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.27it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.58it/s]Loading weights:  64%|██████▍   | 274/427 [00:26<00:08, 18.78it/s]Loading weights:  64%|██████▍   | 273/427 [00:26<00:08, 17.34it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.80it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.64it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.65it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.96it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 17.00it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.73it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.80it/s]Loading weights:  65%|██████▌   | 278/427 [00:26<00:08, 16.84it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.50it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.39it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.30it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.47it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.39it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.29it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.32it/s]Loading weights:  66%|██████▌   | 280/427 [00:27<00:14, 10.36it/s]Loading weights:  67%|██████▋   | 288/427 [00:27<00:09, 15.27it/s]Loading weights:  67%|██████▋   | 288/427 [00:27<00:09, 15.37it/s]Loading weights:  67%|██████▋   | 288/427 [00:27<00:09, 15.42it/s]Loading weights:  67%|██████▋   | 287/427 [00:27<00:09, 14.55it/s]Loading weights:  67%|██████▋   | 286/427 [00:27<00:10, 13.62it/s]Loading weights:  67%|██████▋   | 285/427 [00:27<00:11, 12.73it/s]Loading weights:  67%|██████▋   | 288/427 [00:27<00:09, 15.23it/s]Loading weights:  67%|██████▋   | 286/427 [00:27<00:10, 13.55it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:07, 17.10it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:08, 16.43it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:08, 16.40it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:07, 17.16it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:08, 16.53it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:08, 16.49it/s]Loading weights:  68%|██████▊   | 290/427 [00:27<00:08, 15.60it/s]Loading weights:  68%|██████▊   | 291/427 [00:27<00:08, 15.98it/s]Loading weights:  69%|██████▊   | 293/427 [00:27<00:09, 14.00it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:09, 13.36it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:09, 13.74it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:09, 13.31it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:09, 13.77it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:10, 13.15it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:09, 13.52it/s]Loading weights:  69%|██████▉   | 294/427 [00:27<00:10, 13.05it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 18.98it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 19.21it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 19.24it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 19.83it/s]Loading weights:  70%|███████   | 300/427 [00:28<00:07, 16.88it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 19.35it/s]Loading weights:  70%|███████   | 301/427 [00:28<00:07, 17.77it/s]Loading weights:  71%|███████   | 302/427 [00:28<00:06, 18.64it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:05, 21.04it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:05, 20.38it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:06, 20.20it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:05, 20.41it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:05, 20.60it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:06, 20.05it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:05, 20.75it/s]Loading weights:  71%|███████▏  | 305/427 [00:28<00:06, 19.22it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.25it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.34it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.65it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.40it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.66it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.22it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.35it/s]Loading weights:  72%|███████▏  | 308/427 [00:28<00:08, 13.62it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:09, 12.87it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:09, 12.74it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:09, 12.75it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:09, 12.82it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:08, 13.05it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:09, 12.83it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:08, 13.02it/s]Loading weights:  73%|███████▎  | 311/427 [00:29<00:08, 13.04it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.20it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.12it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.10it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.04it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.22it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.09it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.25it/s]Loading weights:  73%|███████▎  | 313/427 [00:29<00:10, 11.25it/s]Loading weights:  74%|███████▍  | 317/427 [00:29<00:07, 14.66it/s]Loading weights:  75%|███████▍  | 319/427 [00:29<00:07, 15.08it/s]Loading weights:  75%|███████▍  | 319/427 [00:29<00:07, 15.04it/s]Loading weights:  75%|███████▍  | 319/427 [00:29<00:07, 15.20it/s]Loading weights:  74%|███████▍  | 318/427 [00:29<00:07, 14.09it/s]Loading weights:  74%|███████▍  | 317/427 [00:29<00:08, 12.79it/s]Loading weights:  74%|███████▍  | 317/427 [00:29<00:08, 12.77it/s]Loading weights:  74%|███████▍  | 317/427 [00:29<00:08, 12.90it/s]Loading weights:  75%|███████▍  | 320/427 [00:29<00:06, 15.89it/s]Loading weights:  77%|███████▋  | 327/427 [00:29<00:04, 21.04it/s]Loading weights:  76%|███████▌  | 325/427 [00:29<00:05, 18.51it/s]Loading weights:  76%|███████▋  | 326/427 [00:29<00:05, 18.91it/s]Loading weights:  77%|███████▋  | 327/427 [00:29<00:04, 20.07it/s]Loading weights:  76%|███████▌  | 325/427 [00:29<00:05, 17.88it/s]Loading weights:  76%|███████▋  | 326/427 [00:29<00:05, 19.35it/s]Loading weights:  76%|███████▌  | 324/427 [00:29<00:05, 17.27it/s]Loading weights:  76%|███████▌  | 325/427 [00:29<00:05, 18.47it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 17.88it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 18.37it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 18.78it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 19.17it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 18.27it/s]Loading weights:  78%|███████▊  | 331/427 [00:30<00:05, 17.65it/s]Loading weights:  77%|███████▋  | 330/427 [00:30<00:05, 16.75it/s]Loading weights:  77%|███████▋  | 330/427 [00:30<00:05, 17.30it/s]Loading weights:  78%|███████▊  | 333/427 [00:30<00:06, 15.27it/s]Loading weights:  78%|███████▊  | 333/427 [00:30<00:06, 15.12it/s]Loading weights:  78%|███████▊  | 333/427 [00:30<00:06, 14.68it/s]Loading weights:  78%|███████▊  | 334/427 [00:30<00:05, 15.74it/s]Loading weights:  78%|███████▊  | 334/427 [00:30<00:05, 16.57it/s]Loading weights:  78%|███████▊  | 333/427 [00:30<00:05, 16.02it/s]Loading weights:  78%|███████▊  | 333/427 [00:30<00:06, 15.18it/s]Loading weights:  78%|███████▊  | 334/427 [00:30<00:05, 16.83it/s]Loading weights:  80%|███████▉  | 340/427 [00:30<00:03, 21.82it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 20.63it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 20.82it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 20.76it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 21.42it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 20.31it/s]Loading weights:  80%|███████▉  | 341/427 [00:30<00:04, 20.36it/s]Loading weights:  79%|███████▉  | 339/427 [00:30<00:04, 18.21it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.52it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.32it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.69it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.32it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.36it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 22.19it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 22.49it/s]Loading weights:  81%|████████  | 344/427 [00:30<00:03, 21.63it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.41it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.11it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.26it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.19it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:06, 11.57it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 10.85it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.20it/s]Loading weights:  81%|████████▏ | 347/427 [00:31<00:07, 11.40it/s]Loading weights:  83%|████████▎ | 355/427 [00:31<00:04, 16.24it/s]Loading weights:  83%|████████▎ | 355/427 [00:31<00:04, 16.11it/s]Loading weights:  83%|████████▎ | 355/427 [00:31<00:04, 16.20it/s]Loading weights:  83%|████████▎ | 355/427 [00:31<00:04, 16.48it/s]Loading weights:  82%|████████▏ | 352/427 [00:31<00:05, 13.52it/s]Loading weights:  83%|████████▎ | 354/427 [00:31<00:04, 15.39it/s]Loading weights:  83%|████████▎ | 353/427 [00:31<00:05, 14.41it/s]Loading weights:  83%|████████▎ | 354/427 [00:31<00:04, 15.64it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 14.54it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 15.37it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 14.43it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 14.86it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 14.70it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 14.51it/s]Loading weights:  84%|████████▍ | 359/427 [00:31<00:04, 15.03it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 13.71it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 13.84it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 13.68it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 13.61it/s]Loading weights:  84%|████████▍ | 359/427 [00:32<00:05, 12.84it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 14.23it/s]Loading weights:  85%|████████▍ | 361/427 [00:32<00:04, 13.82it/s]Loading weights:  85%|████████▍ | 362/427 [00:32<00:04, 14.97it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 14.11it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 12.84it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 12.90it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 13.14it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 13.44it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 12.92it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 13.00it/s]Loading weights:  85%|████████▌ | 364/427 [00:32<00:04, 12.92it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.70it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.74it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.80it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.73it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 11.75it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.92it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.57it/s]Loading weights:  86%|████████▌ | 366/427 [00:32<00:05, 10.71it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 13.98it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:03, 14.28it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 13.85it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 13.89it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 13.95it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:03, 14.59it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 14.11it/s]Loading weights:  87%|████████▋ | 370/427 [00:32<00:04, 13.61it/s]Loading weights:  88%|████████▊ | 377/427 [00:33<00:02, 18.05it/s]Loading weights:  88%|████████▊ | 377/427 [00:33<00:02, 18.35it/s]Loading weights:  89%|████████▉ | 380/427 [00:33<00:02, 21.86it/s]Loading weights:  89%|████████▉ | 380/427 [00:33<00:02, 21.51it/s]Loading weights:  89%|████████▉ | 380/427 [00:33<00:02, 21.83it/s]Loading weights:  89%|████████▉ | 380/427 [00:33<00:02, 21.61it/s]Loading weights:  89%|████████▉ | 379/427 [00:33<00:02, 20.29it/s]Loading weights:  89%|████████▉ | 380/427 [00:33<00:02, 19.88it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 20.70it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 19.66it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 19.70it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 19.77it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 20.04it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 19.73it/s]Loading weights:  90%|████████▉ | 383/427 [00:33<00:02, 19.56it/s]Loading weights:  90%|████████▉ | 384/427 [00:33<00:02, 19.91it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 17.19it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.63it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.92it/s]Loading weights:  90%|█████████ | 386/427 [00:33<00:02, 16.58it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.55it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.52it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.56it/s]Loading weights:  91%|█████████ | 387/427 [00:33<00:02, 16.46it/s]Loading weights:  92%|█████████▏| 391/427 [00:33<00:01, 18.30it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 21.03it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 19.86it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 19.83it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 20.10it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 19.85it/s]Loading weights:  92%|█████████▏| 394/427 [00:33<00:01, 20.23it/s]Loading weights:  92%|█████████▏| 392/427 [00:33<00:01, 17.69it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 21.18it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 21.19it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 22.17it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 21.59it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 21.15it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 21.39it/s]Loading weights:  93%|█████████▎| 398/427 [00:34<00:01, 20.50it/s]Loading weights:  93%|█████████▎| 397/427 [00:34<00:01, 18.61it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.39it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.61it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.50it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.92it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.39it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 14.39it/s]Loading weights:  94%|█████████▎| 400/427 [00:34<00:01, 15.17it/s]Loading weights:  94%|█████████▍| 401/427 [00:34<00:01, 16.07it/s]Loading weights:  95%|█████████▍| 405/427 [00:34<00:01, 14.25it/s]Loading weights:  96%|█████████▌| 408/427 [00:34<00:01, 17.04it/s]Loading weights:  95%|█████████▌| 407/427 [00:34<00:01, 16.27it/s]Loading weights:  96%|█████████▌| 408/427 [00:34<00:01, 16.90it/s]Loading weights:  96%|█████████▌| 408/427 [00:34<00:01, 16.97it/s]Loading weights:  96%|█████████▌| 408/427 [00:34<00:01, 16.71it/s]Loading weights:  95%|█████████▌| 407/427 [00:34<00:01, 15.13it/s]Loading weights:  96%|█████████▌| 408/427 [00:34<00:01, 16.00it/s]Loading weights:  96%|█████████▋| 411/427 [00:35<00:00, 17.56it/s]Loading weights:  96%|█████████▋| 411/427 [00:35<00:00, 16.63it/s]Loading weights:  96%|█████████▋| 411/427 [00:35<00:00, 17.16it/s]Loading weights:  96%|█████████▌| 410/427 [00:35<00:01, 15.35it/s]Loading weights:  96%|█████████▋| 411/427 [00:35<00:00, 16.90it/s]Loading weights:  96%|█████████▋| 411/427 [00:35<00:00, 16.93it/s]Loading weights:  96%|█████████▌| 410/427 [00:35<00:01, 15.24it/s]Loading weights:  96%|█████████▌| 410/427 [00:35<00:01, 15.29it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.85it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.63it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.80it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.77it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.80it/s]Loading weights:  97%|█████████▋| 414/427 [00:35<00:00, 14.25it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.12it/s]Loading weights:  97%|█████████▋| 413/427 [00:35<00:01, 13.37it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.44it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.97it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.79it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.45it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.41it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.30it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.29it/s]Loading weights:  98%|█████████▊| 417/427 [00:35<00:00, 13.38it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 12.09it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.75it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.63it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.60it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.93it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.72it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.68it/s]Loading weights:  98%|█████████▊| 419/427 [00:35<00:00, 11.55it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.94it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 15.27it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 15.17it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.84it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.99it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.92it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.87it/s]Loading weights:  99%|█████████▉| 423/427 [00:36<00:00, 14.07it/s]Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+
+Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]Loading weights: 100%|██████████| 427/427 [00:36<00:00, 11.81it/s]
+
+2026-04-18 16:10:27,004 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:27,323 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:27,407 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:27,882 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:27,909 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:27,912 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:28,278 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,285 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,309 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,317 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,414 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,432 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,451 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]2026-04-18 16:10:28,464 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 564.48it/s]
+2026-04-18 16:10:28,564 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,574 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,610 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,630 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,640 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,663 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,689 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,728 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-18 16:10:28,739 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,742 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,776 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,785 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:28,823 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,854 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:28,930 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,937 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:28,941 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:28,979 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:28,986 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:28,990 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:29,026 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:29,033 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:29,039 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:29,042 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:29,049 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:29,053 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:29,133 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:29,140 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:29,144 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:29,161 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:29,168 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:29,172 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:29,388 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 14205.94it/s]
+2026-04-18 16:10:29,409 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-18 16:10:29,486 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:10:29,488 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 15152.15it/s]
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 15423.78it/s]
+2026-04-18 16:10:29,506 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:10:29,507 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]2026-04-18 16:10:29,543 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 923.32it/s]
+2026-04-18 16:10:29,562 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-18 16:10:29,603 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-18 16:10:29,607 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:10:29,623 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 12724.47it/s]
+2026-04-18 16:10:29,644 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 16077.83it/s]
+2026-04-18 16:10:30,115 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-18 16:10:30,866 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:30,891 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,904 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-18 16:10:30,908 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-18 16:10:30,909 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,915 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,916 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,916 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,919 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,928 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,929 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,930 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:30,976 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,977 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,978 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,978 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,978 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,978 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,979 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,979 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,979 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,980 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:30,982 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:30,983 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:31,213 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,261 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,265 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,276 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,281 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,296 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,330 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,364 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,380 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,420 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,427 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 19339.73it/s]
+2026-04-18 16:10:31,444 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-18 16:10:31,461 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,554 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,569 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,579 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-18 16:10:31,599 INFO Speculative decoding: MTP self-speculation mode
+2026-04-18 16:10:31,599 INFO Loading GSM8K (100 problems)...
+2026-04-18 16:10:31,641 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,650 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:31,660 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,711 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,779 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,801 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,907 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 16:10:31,925 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:31,965 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,016 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-18 16:10:32,381 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,584 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,639 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,640 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,751 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,751 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,839 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,900 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:32,941 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:32,956 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,043 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,059 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,068 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,194 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,210 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,231 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,292 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,307 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,350 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,351 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,366 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,492 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,500 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,666 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,840 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,862 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,943 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:33,959 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:33,971 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,024 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,042 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,073 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,196 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,221 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,239 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,257 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,310 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,373 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,406 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,490 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,492 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,514 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,528 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,540 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,610 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,673 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,731 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,792 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:34,798 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:34,823 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:34,833 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:34,842 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1688, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1353, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 389, in __init__
+    with FileLock(lock_path):
+         ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+2026-04-18 16:10:34,907 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1688, in load_dataset
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1688, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1353, in load_dataset_builder
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1353, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 389, in __init__
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 389, in __init__
+    with FileLock(lock_path):
+         ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    with FileLock(lock_path):
+         ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    os.fchmod(fd, self._context.mode)
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+FileNotFoundError: [Errno 2] No such file or directory
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+2026-04-18 16:10:35,001 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:35,040 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-18 16:10:35,132 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-18 16:10:35,499 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 690, in run_triple_divergence
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+    problems = load_gsm8k(args.num_problems)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1708, in load_dataset
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1708, in load_dataset
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1708, in load_dataset
+    builder_instance.download_and_prepare(
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 821, in download_and_prepare
+    builder_instance.download_and_prepare(
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 821, in download_and_prepare
+    with FileLock(lock_path) if is_local else contextlib.nullcontext():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    builder_instance.download_and_prepare(
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 821, in download_and_prepare
+    with FileLock(lock_path) if is_local else contextlib.nullcontext():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    with FileLock(lock_path) if is_local else contextlib.nullcontext():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+2026-04-18 16:10:35,589 INFO Shard 1/8: problems [12, 24) (12 problems)
+2026-04-18 16:10:35,589 INFO Shard 7/8: problems [84, 100) (16 problems)
+2026-04-18 16:10:35,589 INFO Split: 6 train, 6 test problems
+2026-04-18 16:10:35,590 INFO Split: 8 train, 8 test problems
+2026-04-18 16:10:35,592 INFO [1/12 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
+2026-04-18 16:10:35,592 INFO [1/16 TRAIN] Running SD for 'A candle melts by 2 centimeters every hour that it...'
+[parallel] Instance 0 FAILED
+scripts/triple_divergence.py:571: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-18 16:11:35,303 INFO   Steps: 55, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.010'}
+2026-04-18 16:11:35,309 INFO [2/12 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
+scripts/triple_divergence.py:571: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-18 16:11:46,153 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.050'}
+2026-04-18 16:11:46,159 INFO [2/16 TRAIN] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
+2026-04-18 16:12:50,076 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.036'}
+2026-04-18 16:12:50,083 INFO [3/12 TRAIN] Running SD for 'The Hortex company produces bottled carrot juices....'
+2026-04-18 16:12:52,163 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:12:52,169 INFO [3/16 TRAIN] Running SD for 'According to its nutritional info, a bag of chips ...'
+2026-04-18 16:14:05,543 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.049'}
+2026-04-18 16:14:05,549 INFO [4/16 TRAIN] Running SD for 'There are 36 penguins sunbathing in the snow.  One...'
+2026-04-18 16:14:12,210 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.013'}
+2026-04-18 16:14:12,216 INFO [4/12 TRAIN] Running SD for 'A singer has 50 microphones that he wants to arran...'
+2026-04-18 16:15:15,434 INFO   Steps: 62, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:15:15,439 INFO [5/16 TRAIN] Running SD for 'The number of songs in a playlist is 300. If John ...'
+2026-04-18 16:15:29,144 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.052'}
+2026-04-18 16:15:29,150 INFO [5/12 TRAIN] Running SD for 'Joelle has 5 orchids and 4 African daisies on her ...'
+2026-04-18 16:16:21,008 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.013'}
+2026-04-18 16:16:21,014 INFO [6/16 TRAIN] Running SD for 'It takes Carmen 10 minutes to finish a crossword p...'
+2026-04-18 16:16:29,500 INFO   Steps: 55, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:16:29,506 INFO [6/12 TRAIN] Running SD for 'Jen got 3 fish.  They each need $1 worth of food a...'
+2026-04-18 16:17:26,791 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.005'}
+2026-04-18 16:17:26,797 INFO [7/16 TRAIN] Running SD for 'If Mark weighs 150 pounds and Susan weighs 20 poun...'
+2026-04-18 16:17:28,743 INFO   Steps: 63, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.038'}
+2026-04-18 16:17:28,748 INFO [7/12 TEST] Running SD for 'A family of parents and a child go to the cinema. ...'
+2026-04-18 16:18:27,591 INFO   Steps: 55, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.032'}
+2026-04-18 16:18:27,598 INFO [8/12 TEST] Running SD for 'Kelly has 5 quarters and 2 dimes. If she buys a ca...'
+2026-04-18 16:18:29,837 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.009'}
+2026-04-18 16:18:29,843 INFO [8/16 TRAIN] Running SD for 'Nick is choosing between two jobs. Job A pays $15 ...'
+2026-04-18 16:19:27,064 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:19:27,070 INFO [9/12 TEST] Running SD for 'Leila buys 3 cucumbers from the market. Cucumbers ...'
+2026-04-18 16:20:04,650 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:20:04,657 INFO [9/16 TEST] Running SD for 'Adam really wants to ride the biggest roller coast...'
+2026-04-18 16:20:38,306 INFO   Steps: 54, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:20:38,313 INFO [10/12 TEST] Running SD for 'Gerald and Julia divided $100 in the ratio 3:2. If...'
+2026-04-18 16:21:12,491 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.049'}
+2026-04-18 16:21:12,497 INFO [10/16 TEST] Running SD for 'Robert had 3 pounds of candy, Cindy had 5 pounds o...'
+2026-04-18 16:21:37,910 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:21:37,916 INFO [11/12 TEST] Running SD for 'Peter has 4 boxes with the same number of chocolat...'
+2026-04-18 16:22:20,012 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.039'}
+2026-04-18 16:22:20,856 INFO [11/16 TEST] Running SD for 'John drinks a bottle of water every half hour.  A ...'
+2026-04-18 16:22:43,218 INFO   Steps: 55, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.022'}
+2026-04-18 16:22:43,224 INFO [12/12 TEST] Running SD for 'Billy is volunteering his time to help people do t...'
+2026-04-18 16:23:27,421 INFO   Steps: 61, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:23:27,427 INFO [12/16 TEST] Running SD for 'Charlotte went into the kitchen supply store knowi...'
+2026-04-18 16:24:05,248 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.039'}
+2026-04-18 16:24:05,320 INFO Training AcceptPredictor (86 train steps, 84 test steps)...
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 855, in run_triple_divergence
+    accept_predictor_metrics = train_and_evaluate_predictor(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 609, in train_and_evaluate_predictor
+    predictor.fit(train_draft_attns, train_value_norms, train_labels)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/src/acceptspec.py", line 519, in fit
+    optimizer.step(closure)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/optim/optimizer.py", line 533, in wrapper
+    out = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/optim/lbfgs.py", line 364, in step
+    orig_loss = closure()
+                ^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/src/acceptspec.py", line 514, in closure
+    logits = (X * F.softmax(w, dim=0)).sum(dim=1)
+              ~~^~~~~~~~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (4) must match the size of tensor b (16) at non-singleton dimension 1
+[parallel] Instance 1 FAILED
+[parallel] Instance 2 FAILED
+[parallel] Instance 3 FAILED
+[parallel] Instance 4 FAILED
+[parallel] Instance 5 FAILED
+[parallel] Instance 6 FAILED
+2026-04-18 16:24:47,359 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.015'}
+2026-04-18 16:24:47,365 INFO [13/16 TEST] Running SD for 'Carmen goes to an auction to win an antique desk. ...'
+2026-04-18 16:26:08,804 INFO   Steps: 62, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.026'}
+2026-04-18 16:26:08,811 INFO [14/16 TEST] Running SD for 'Roger goes to the store to buy some coffee.  The n...'
+2026-04-18 16:27:35,896 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.018'}
+2026-04-18 16:27:35,903 INFO [15/16 TEST] Running SD for 'A perfume company is trying to create new scents. ...'
+2026-04-18 16:29:03,897 INFO   Steps: 58, Measured: 14, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.017'}
+2026-04-18 16:29:03,903 INFO [16/16 TEST] Running SD for 'It takes Matthew 3 minutes to dig a small hole for...'
+2026-04-18 16:30:06,826 INFO   Steps: 56, Measured: 14, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-18 16:30:06,922 INFO Training AcceptPredictor (120 train steps, 118 test steps)...
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/torch_patch.py", line 35, in <module>
+    runpy.run_path(target, run_name="__main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "scripts/triple_divergence.py", line 995, in <module>
+    main()
+  File "scripts/triple_divergence.py", line 991, in main
+    run_triple_divergence(args)
+  File "scripts/triple_divergence.py", line 855, in run_triple_divergence
+    accept_predictor_metrics = train_and_evaluate_predictor(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "scripts/triple_divergence.py", line 609, in train_and_evaluate_predictor
+    predictor.fit(train_draft_attns, train_value_norms, train_labels)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/src/acceptspec.py", line 519, in fit
+    optimizer.step(closure)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/optim/optimizer.py", line 533, in wrapper
+    out = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/optim/lbfgs.py", line 364, in step
+    orig_loss = closure()
+                ^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/src/acceptspec.py", line 514, in closure
+    logits = (X * F.softmax(w, dim=0)).sum(dim=1)
+              ~~^~~~~~~~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (4) must match the size of tensor b (16) at non-singleton dimension 1
+[parallel] Instance 7 FAILED
+[parallel] 8/8 failed
+[parallel] Merging → results/acceptspec/divergence/triple_divergence.json
+  Skip results/acceptspec/divergence/triple_divergence_shard0.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard0.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard1.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard1.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard2.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard2.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard3.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard3.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard4.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard4.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard5.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard5.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard6.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard6.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard7.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard7.json'
+ERROR: No shard results

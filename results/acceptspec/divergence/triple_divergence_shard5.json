@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.08598596254819839,
+      "pval": 2.8692138109683496e-05
+    },
+    "accept_vs_attn": {
+      "rho": 0.011025162229286371,
+      "pval": 0.09589532452786328
+    },
+    "ppl_vs_attn": {
+      "rho": 0.015164320872390322,
+      "pval": 0.022005641488606145
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.011619154000000674,
+      "pval": 0.07929325895466363
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.04750963981005917,
+      "pval": 0.0014240584045451365
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.01730348744545225,
+      "pval": 0.008964771942965704
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.2373693436384201,
+    "recall": 0.2373693436384201,
+    "f1": 0.2373693436384201,
+    "tp": 545,
+    "fp": 1751,
+    "fn": 1751
+  },
+  "attention_proxy": {
+    "precision": 0.9986934065818787,
+    "recall": 0.9986934065818787,
+    "f1": 0.9986934065818787,
+    "tp": 2293,
+    "fp": 3,
+    "fn": 3
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.08598596254819839,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.011025162229286371,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.015164320872390322,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.2373693436384201
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.2373693436384201,
+      "attn_f1": 0.9986934065818787
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 22810,
+    "num_problems_completed": 12,
+    "num_train_steps": 89,
+    "num_test_steps": 89
+  },
+  "per_problem": [
+    {
+      "question": "In a company of 50 employees, 20% of the employees are management.  Out of this 20%, only 30% overse",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Martin's weight is 55 kg. Carl\u2019s weight is 16 kg more than Martin\u2019s weight. Christian\u2019s weight is 8 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.032613410641222675
+      }
+    },
+    {
+      "question": "Melissa is summoned to jury duty. She spends 6 hours a day for 3 days listening to a court case. If ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Four friends ordered four pizzas for a total of 64 dollars. If two of the pizzas cost 30 dollars, ho",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.024772668036305498
+      }
+    },
+    {
+      "question": "A toy manufacturer receives an order for 400 toys. 5 workers are available to work on the order. 2 o",
+      "split": "TRAIN",
+      "num_steps": 59,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.0009119600464995903
+      }
+    },
+    {
+      "question": "Jayden had $70 from selling pictures he took as a hobby.  His sister Ava gave him half of her $90 al",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Helena is a mad scientist testing her latest creation, the Lots-of-Limbs Serum. The serum will make ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.02321398113112969
+      }
+    },
+    {
+      "question": "Jen works for 7.5 hours a day 6 days a week. Her hourly rate is $1.5. Jen also receives an additiona",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05127972211968223
+      }
+    },
+    {
+      "question": "Nate's dog can dig six holes a day. He digs for 14 days while Nate is on vacation. When Nate gets ho",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0037347119814840654
+      }
+    },
+    {
+      "question": "At a restaurant, Juice Box A is 4 dollars. Juice Box B is 5 dollars more than Juice Box A. Juice Box",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Bubbles collects stuffed animals. She has three stuffed puppies, five stuffed koalas, two stuffed ze",
+      "split": "TEST",
+      "num_steps": 60,
+      "num_tokens": 129,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.032920005756704326
+      }
+    },
+    {
+      "question": "In a jewelers store, the price of a gold Jewell is 4/5 times as much as the price of a diamond Jewel",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.04010779993692948
+      }
+    }
+  ]
+}

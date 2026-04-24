@@ -1,0 +1,1298 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.3047742682249997,
+      "pval": 5.716510316438331e-60
+    },
+    "accept_vs_attn": {
+      "rho": 0.005210183803382151,
+      "pval": 0.4287729209202158
+    },
+    "ppl_vs_attn": {
+      "rho": -0.0007918037941286857,
+      "pval": 0.9042820405229166
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.017035714509175365,
+      "pval": 0.009668699060267976
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.007672098638589048,
+      "pval": 0.6049328788713164
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.004741212808283531,
+      "pval": 0.47148331745283933
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.23252688348293304,
+    "recall": 0.23252688348293304,
+    "f1": 0.23252688348293304,
+    "tp": 519,
+    "fp": 1713,
+    "fn": 1713
+  },
+  "attention_proxy": {
+    "precision": 0.9843189716339111,
+    "recall": 0.9843189716339111,
+    "f1": 0.9843189716339111,
+    "tp": 2197,
+    "fp": 35,
+    "fn": 35
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.3047742682249997,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.005210183803382151,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": -0.0007918037941286857,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.23252688348293304
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.23252688348293304,
+      "attn_f1": 0.9843189716339111
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 23068,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 89
+  },
+  "per_problem": [
+    {
+      "question": "Carol and Jennifer are sisters from Los Angeles who love collecting signatures from celebrities. Dur",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02848677440076949
+      }
+    },
+    {
+      "question": "A team of 4 painters worked on a mansion for 3/8ths of a day every day for 3 weeks. How many hours o",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.019775569386944268
+      }
+    },
+    {
+      "question": "It costs $194 per meter to repave a street. Monica's street is 150 meters long. How much more does i",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Richard lives in an apartment building with 15 floors. Each floor contains 8 units, and 3/4 of the b",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.04535396114907751
+      }
+    },
+    {
+      "question": "An ice cream truck is traveling through a neighborhood. Children from various homes have started cha",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -1.1178904664248257e-05
+      }
+    },
+    {
+      "question": "James runs 12 miles a day for 5 days a week.  If he runs 10 miles an hour how many hours does he run",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Mark was unwell for 3 months, during which he lost 10 pounds per month. If his final weight was 70 p",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0166948082283479
+      }
+    },
+    {
+      "question": "Craig and his brother take turns spelling out the longest letter words they know and counting the nu",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.030429088806192474
+      }
+    },
+    {
+      "question": "Vincent can buy flowers in packages of 3 for $2.50 or in packages of 2 for $1. How much money does h",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02218553177830717
+      }
+    },
+    {
+      "question": "Mario needs to buy snowshoes for his 6 sled dogs.  Assuming his dogs each has four legs and each pai",
+      "split": "TEST",
+      "num_steps": 58,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02789301642155303
+      }
+    },
+    {
+      "question": "Sara wants to buy herself a new jacket and 2 pairs of shoes. The jacket she wants costs $30 and each",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02058837817561038
+      }
+    },
+    {
+      "question": "Jerry is rolling a six-sided die. How much more likely is it (expressed as a percentage) that he rol",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.020320344075397567
+      }
+    },
+    {
+      "question": "Jillian's handbag cost $20 less than 3 times as much as her shoes cost. If her shoes cost $80, how m",
+      "split": "TRAIN",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.009743978946503827
+      }
+    },
+    {
+      "question": "On a certain day, the total cost of filling up 20 helium balloons was $900. Two days later, the cost",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.03576748028112962
+      }
+    },
+    {
+      "question": "The Hortex company produces bottled carrot juices. Every day it can produce 4200 bottles of these ju",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013114132956705599
+      }
+    },
+    {
+      "question": "A singer has 50 microphones that he wants to arrange in pairs on a stage. While making the arrangeme",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05198574303733068
+      }
+    },
+    {
+      "question": "Joelle has 5 orchids and 4 African daisies on her balcony.  If the orchids have 5 petals and daisies",
+      "split": "TRAIN",
+      "num_steps": 55,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Jen got 3 fish.  They each need $1 worth of food a day.  How much does she spend on food in the mont",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.03764090818152709
+      }
+    },
+    {
+      "question": "A family of parents and a child go to the cinema. The cost of an adult ticket is $12 and a child tic",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.03153092320395112
+      }
+    },
+    {
+      "question": "Kelly has 5 quarters and 2 dimes. If she buys a can of pop for 55 cents, how many cents will she hav",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Leila buys 3 cucumbers from the market. Cucumbers are $2 each. Jack buys 5 tomatoes from the grocery",
+      "split": "TEST",
+      "num_steps": 54,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Gerald and Julia divided $100 in the ratio 3:2. If Gerald spent $10 on a book, how much money did he",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Peter has 4 boxes with the same number of chocolate bars in each, while Martha has 7 boxes with the ",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.022233609516718798
+      }
+    },
+    {
+      "question": "Billy is volunteering his time to help people do their taxes. He can help 2 people per hour for 3 ho",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.03921572991215309
+      }
+    },
+    {
+      "question": "Aiden is making his famous steakhouse-seasoned meatballs for a neighborhood cookout. He adds two tab",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.005293508624210657
+      }
+    },
+    {
+      "question": "Nathan has a bouncy ball that bounces to 2/3rds of its starting height with each bounce. If he drops",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01747552929539496
+      }
+    },
+    {
+      "question": "A basket of green food costs $25 and a basket of red food costs $18. If you buy 3 baskets of green f",
+      "split": "TRAIN",
+      "num_steps": 61,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Last Friday, 13 of the 82 teachers at Rydell Elementary School were sick. There were 9 substitute te",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "A water tank is filled with 120 liters of water. Celine used 90 liters of water from the tank to wat",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.006861745375560479
+      }
+    },
+    {
+      "question": "To fund his store, Mr. Josue solicited money from two banks. The first bank gave him $4000, and the ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.024107007776586937
+      }
+    },
+    {
+      "question": "Liam is 16 years old now. Two years ago, Liam\u2019s age was twice the age of Vince. How old is Vince now",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "90 single use contacts come in 1 box and will last Pete 45 days.  Each box is $100.00 and currently ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013828352160643521
+      }
+    },
+    {
+      "question": "Lani baked 55 cookies. She ate 5 five cookies and placed the rest equally into five jars. How many c",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.015036207298492294
+      }
+    },
+    {
+      "question": "Jenna starts out with 8 sapphires. She trades 3 sapphires for two rubies. If sapphires are worth $80",
+      "split": "TEST",
+      "num_steps": 54,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.028167957139362505
+      }
+    },
+    {
+      "question": "Cecilia just bought a new puppy. According to her veterinarian, she has to feed the puppy 1 cup of d",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.006878701471770682
+      }
+    },
+    {
+      "question": "There are 9,300 pennies in a cup. What is the total dollar amount in a stack that contains two third",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.008135779619458857
+      }
+    },
+    {
+      "question": "Solo has to read 4 pages from his Science textbook, 20 pages from his Social Studies textbook, 7 pag",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Anna is trying to buy books for her local library. She had a budget of $16, and she has already spen",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.007633351666721591
+      }
+    },
+    {
+      "question": "Heather's razors come 4 to a pack and cost $4.00 a pack.  They are currently on sale for buy one get",
+      "split": "TRAIN",
+      "num_steps": 61,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.011598236303208002
+      }
+    },
+    {
+      "question": "When the water is cold Ray swims a mile in 16 minutes. When the water is warm Ray swims a mile in 2 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.026344277102821036
+      }
+    },
+    {
+      "question": "Romeo boards a train with 120 people. At the first stop, 20 more people board the train. At the seco",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Tom has 4 bedrooms in his house.  They measure 20 by 12 feet each.  The living room is 5 times bigge",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.0358230922595606
+      }
+    },
+    {
+      "question": "Rayna has 60 more dollars than Kassidy, and Kassidy has 3/4 times as much money as Aurelia. If Areli",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.029789501534140086
+      }
+    },
+    {
+      "question": "Isabelle bought party supplies for her little sister\u2019s birthday party. She spent $12 on ingredients ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01265690658374515
+      }
+    },
+    {
+      "question": "Charlie wants to sell beeswax candles.  For every pound of beeswax, he can make 10 tapered candles. ",
+      "split": "TEST",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Paul is driving a car twice a day: in the morning, and in the afternoon. He did that for 14 days. Ea",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.016936815455110645
+      }
+    },
+    {
+      "question": "Aleena subscribed to a streaming service that charges her $140 per month. If the streaming company c",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.012289176825533345
+      }
+    },
+    {
+      "question": "There are forty apples in one box. Uncle Franky ordered two boxes of apples. He is planning to pack ",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Tom's ship can travel at 10 miles per hour.  He is sailing from 1 to 4 PM.  He then travels back at ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.029234038613725
+      }
+    },
+    {
+      "question": "Bill is signing up for a new streaming service. He got a special introductory deal where the first 6",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0007933601996884925
+      }
+    },
+    {
+      "question": "A food caterer was told to prepare gourmet hot dogs for 36 guests. While most people would only eat ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.009208769907678977
+      }
+    },
+    {
+      "question": "For one medical dosage, Saanvi had to combine 14 mL of one medicine with 3 times that amount of the ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.026654410768751878
+      }
+    },
+    {
+      "question": "Mia and Emma are currently 16 years apart in age. If Mia, who is younger than Emma, is 40 years old,",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01871359953851942
+      }
+    },
+    {
+      "question": "Ali had $21. Leila gave him half of her $100. How much does Ali have now?",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "In Tate\u2019s garden pond, there are 4 male guppies, 7 female guppies, 3 male goldfishes, and 5 female g",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.010374159116363826
+      }
+    },
+    {
+      "question": "Kylie and Robert enjoy going to the beach to collect shells. On Monday, Kylie collects 5 more shells",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0006297329178094562
+      }
+    },
+    {
+      "question": "Mrs. Cruz is looking for a house that will not go beyond her $400 000 budget. She saw a property tha",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.02561497942638196
+      }
+    },
+    {
+      "question": "There are 6 girls in the park. If there are twice the number of boys in the park, how many kids are ",
+      "split": "TEST",
+      "num_steps": 57,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Damien created a currency based on bottle caps and got his friends to take part.  He finds 10 bottle",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0022579047126613408
+      }
+    },
+    {
+      "question": "Laurel's friend gave her 24 baby outfits that her child no longer needed.  At her baby shower, Laure",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05176770689371543
+      }
+    },
+    {
+      "question": "In a company of 50 employees, 20% of the employees are management.  Out of this 20%, only 30% overse",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Martin's weight is 55 kg. Carl\u2019s weight is 16 kg more than Martin\u2019s weight. Christian\u2019s weight is 8 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.032613410641222675
+      }
+    },
+    {
+      "question": "Melissa is summoned to jury duty. She spends 6 hours a day for 3 days listening to a court case. If ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Four friends ordered four pizzas for a total of 64 dollars. If two of the pizzas cost 30 dollars, ho",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.024772668036305498
+      }
+    },
+    {
+      "question": "A toy manufacturer receives an order for 400 toys. 5 workers are available to work on the order. 2 o",
+      "split": "TRAIN",
+      "num_steps": 59,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.0009119600464995903
+      }
+    },
+    {
+      "question": "Jayden had $70 from selling pictures he took as a hobby.  His sister Ava gave him half of her $90 al",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Helena is a mad scientist testing her latest creation, the Lots-of-Limbs Serum. The serum will make ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.02321398113112969
+      }
+    },
+    {
+      "question": "Jen works for 7.5 hours a day 6 days a week. Her hourly rate is $1.5. Jen also receives an additiona",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05127972211968223
+      }
+    },
+    {
+      "question": "Nate's dog can dig six holes a day. He digs for 14 days while Nate is on vacation. When Nate gets ho",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0037347119814840654
+      }
+    },
+    {
+      "question": "At a restaurant, Juice Box A is 4 dollars. Juice Box B is 5 dollars more than Juice Box A. Juice Box",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Bubbles collects stuffed animals. She has three stuffed puppies, five stuffed koalas, two stuffed ze",
+      "split": "TEST",
+      "num_steps": 60,
+      "num_tokens": 129,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.032920005756704326
+      }
+    },
+    {
+      "question": "In a jewelers store, the price of a gold Jewell is 4/5 times as much as the price of a diamond Jewel",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.04010779993692948
+      }
+    },
+    {
+      "question": "To make a call from a payphone, you must pay $0.25 for each minute of your call. After 16 minutes, t",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.030475807245461988
+      }
+    },
+    {
+      "question": "Ryan\u2019s allowance is $6 each week he completes his chores. He did his chores for 3 weeks. Then he bou",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01888740474213991
+      }
+    },
+    {
+      "question": "Nick had twice as many candies as George. Then George ate 5 candies. Now George has 3 candies left. ",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.003474881641535715
+      }
+    },
+    {
+      "question": "Carly is making cupcakes and brownies for her art class. She makes 2 less than three times as many b",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02488457118865527
+      }
+    },
+    {
+      "question": "Jim spends 2 hours watching TV and then decides to go to bed and reads for half as long.  He does th",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.006997789632516285
+      }
+    },
+    {
+      "question": "Kenny is selling his Pokemon cards to buy a ticket to an amusement park, which costs $100. He has a ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.006112472859749964
+      }
+    },
+    {
+      "question": "Ashley has an internet connection speed of 20kb per second. Knowing that 1 Mb has 1000 kb, she wants",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.018722091330772603
+      }
+    },
+    {
+      "question": "Anthony is sending out coupons for his pizza parlor through the mail. He wants to send out 700 small",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.00398148141933906
+      }
+    },
+    {
+      "question": "Stephen placed an online order for groceries.  His final bill came to $40.00.  Because this was thro",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Lucy sells apples from her orchard at $4 per piece. On Monday, she sold all the apples picked. On Tu",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.02561774803617137
+      }
+    },
+    {
+      "question": "Tim grows 5 trees.  Each year he collects 6 lemons from each tree.  How many lemons does he get in a",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.024832179687874486
+      }
+    },
+    {
+      "question": "Tom plants 10 trees a year.  Every year he also chops down 2 trees a year.  He starts with 50 trees.",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 5.285384381420918e-05
+      }
+    },
+    {
+      "question": "A candle melts by 2 centimeters every hour that it burns. How many centimeters shorter will a candle",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.050000440565773026
+      }
+    },
+    {
+      "question": "It takes James 10 minutes to read 3 pages of his book before he goes to bed. He reads 18 pages of hi",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "According to its nutritional info, a bag of chips has 250 calories per serving. If a 300g bag has 5 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.04933695220524601
+      }
+    },
+    {
+      "question": "There are 36 penguins sunbathing in the snow.  One-third of them jump in and swim in the ocean.  Ano",
+      "split": "TRAIN",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "The number of songs in a playlist is 300. If John has 20 such playlists, and each song is 10 hours l",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013364944088594675
+      }
+    },
+    {
+      "question": "It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle.  Ov",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.004936716429065542
+      }
+    },
+    {
+      "question": "If Mark weighs 150 pounds and Susan weighs 20 pounds less than Mark.  And their friend Bob weighs tw",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.008992965109001117
+      }
+    },
+    {
+      "question": "Nick is choosing between two jobs. Job A pays $15 an hour for 2000 hours a year, and is in a state w",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Adam really wants to ride the biggest roller coaster at the park. You have to be 4 feet tall to ride",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.048896260304199045
+      }
+    },
+    {
+      "question": "Robert had 3 pounds of candy, Cindy had 5 pounds of candy, and Aaron had 4 pounds of candy after Hal",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.038568672032268124
+      }
+    },
+    {
+      "question": "John drinks a bottle of water every half hour.  A normal sudoku puzzle takes him 45 minutes.  An ext",
+      "split": "TEST",
+      "num_steps": 61,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Charlotte went into the kitchen supply store knowing she wanted a set of pot and pans for $120.00, a",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.015294087820071781
+      }
+    },
+    {
+      "question": "Carmen goes to an auction to win an antique desk. She accepts the opening bid of $200 and continues ",
+      "split": "TEST",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.026495228888818816
+      }
+    },
+    {
+      "question": "Roger goes to the store to buy some coffee.  The normal brand of coffee he buys cost $5 per pound.  ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.01786207877940764
+      }
+    },
+    {
+      "question": "A perfume company is trying to create new scents. They already have 4 vanilla scents and 8 fruity sc",
+      "split": "TEST",
+      "num_steps": 58,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01719970857198922
+      }
+    },
+    {
+      "question": "It takes Matthew 3 minutes to dig a small hole for shrubs and 10 minutes to dig a large hole for tre",
+      "split": "TEST",
+      "num_steps": 56,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    }
+  ],
+  "num_problems": 100
+}

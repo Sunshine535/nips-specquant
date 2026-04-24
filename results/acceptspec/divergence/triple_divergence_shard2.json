@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.36108575174975927,
+      "pval": 1.0128095989241245e-80
+    },
+    "accept_vs_attn": {
+      "rho": 0.010600383391266448,
+      "pval": 0.11990365835293083
+    },
+    "ppl_vs_attn": {
+      "rho": 0.0056438266343294494,
+      "pval": 0.4076779017344372
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": -0.03290589206685653,
+      "pval": 1.3737035040142385e-06
+    },
+    "accept_vs_logit_tv": {
+      "rho": -0.002644379454611943,
+      "pval": 0.8635839506709178
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.012327228888398966,
+      "pval": 0.0705223679051174
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.2647647559642792,
+    "recall": 0.2647647559642792,
+    "f1": 0.2647647559642792,
+    "tp": 529,
+    "fp": 1469,
+    "fn": 1469
+  },
+  "attention_proxy": {
+    "precision": 0.9709709882736206,
+    "recall": 0.9709709882736206,
+    "f1": 0.9709709882736206,
+    "tp": 1940,
+    "fp": 58,
+    "fn": 58
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.36108575174975927,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.010600383391266448,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.0056438266343294494,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.2647647559642792
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.2647647559642792,
+      "attn_f1": 0.9709709882736206
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 21525,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 88
+  },
+  "per_problem": [
+    {
+      "question": "Aiden is making his famous steakhouse-seasoned meatballs for a neighborhood cookout. He adds two tab",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.005293508624210657
+      }
+    },
+    {
+      "question": "Nathan has a bouncy ball that bounces to 2/3rds of its starting height with each bounce. If he drops",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01747552929539496
+      }
+    },
+    {
+      "question": "A basket of green food costs $25 and a basket of red food costs $18. If you buy 3 baskets of green f",
+      "split": "TRAIN",
+      "num_steps": 61,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Last Friday, 13 of the 82 teachers at Rydell Elementary School were sick. There were 9 substitute te",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "A water tank is filled with 120 liters of water. Celine used 90 liters of water from the tank to wat",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.006861745375560479
+      }
+    },
+    {
+      "question": "To fund his store, Mr. Josue solicited money from two banks. The first bank gave him $4000, and the ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.024107007776586937
+      }
+    },
+    {
+      "question": "Liam is 16 years old now. Two years ago, Liam\u2019s age was twice the age of Vince. How old is Vince now",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "90 single use contacts come in 1 box and will last Pete 45 days.  Each box is $100.00 and currently ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013828352160643521
+      }
+    },
+    {
+      "question": "Lani baked 55 cookies. She ate 5 five cookies and placed the rest equally into five jars. How many c",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.015036207298492294
+      }
+    },
+    {
+      "question": "Jenna starts out with 8 sapphires. She trades 3 sapphires for two rubies. If sapphires are worth $80",
+      "split": "TEST",
+      "num_steps": 54,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.028167957139362505
+      }
+    },
+    {
+      "question": "Cecilia just bought a new puppy. According to her veterinarian, she has to feed the puppy 1 cup of d",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.006878701471770682
+      }
+    },
+    {
+      "question": "There are 9,300 pennies in a cup. What is the total dollar amount in a stack that contains two third",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.008135779619458857
+      }
+    }
+  ]
+}

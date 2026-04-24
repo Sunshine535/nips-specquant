@@ -1,0 +1,100 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Tue Apr 14 11:26:13 PM CST 2026 | codelab-prod-617694097-44251144-dv8gb
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A800-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Tue Apr 14 11:26:17 PM CST 2026 | codelab-prod-617694097-44251144-dv8gb
+ Model: Qwen/Qwen3.5-9B
+ Quick: 1 | From M: 0
+============================================
+
+=== M0: Oracle Sanity Check (10 problems) ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Script: scripts/oracle_sensitivity.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/oracle_m0_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/oracle_m0_shard1.json
+[parallel] Instance 2: GPUs 2 → results/acceptspec/oracle_m0_shard2.json
+[parallel] Instance 3: GPUs 3 → results/acceptspec/oracle_m0_shard3.json
+[parallel] Instance 4: GPUs 4 → results/acceptspec/oracle_m0_shard4.json
+[parallel] Instance 5: GPUs 5 → results/acceptspec/oracle_m0_shard5.json
+[parallel] Instance 6: GPUs 6 → results/acceptspec/oracle_m0_shard6.json
+[parallel] Instance 7: GPUs 7 → results/acceptspec/oracle_m0_shard7.json
+[parallel] Waiting for 8 instances...
+2026-04-14 23:27:08,095 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,095 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,101 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,101 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,120 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,121 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,127 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:08,127 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,602 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,602 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,602 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,602 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,602 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,602 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,602 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,602 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,603 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,603 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,603 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,603 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,604 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,605 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:10,605 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-14 23:27:10,605 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-14 23:27:11,203 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,211 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,217 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,218 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,232 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,239 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,239 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,245 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,246 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,282 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,283 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,290 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,291 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,292 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,298 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,313 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,317 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,324 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,381 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,381 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,641 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,649 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,649 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,655 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,655 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,664 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,666 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,699 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,700 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-14 23:27:11,711 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-14 23:27:11,713 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,719 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,738 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,739 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,743 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-14 23:27:11,757 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"

@@ -1,0 +1,717 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:57:07 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A100-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A100-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Thu Apr 16 02:57:14 AM CST 2026 | codelab-prod-617694020-13969510-vsb7p
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Script: scripts/triple_divergence.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/divergence/triple_divergence_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/divergence/triple_divergence_shard1.json
+[parallel] Instance 2: GPUs 2 → results/acceptspec/divergence/triple_divergence_shard2.json
+[parallel] Instance 3: GPUs 3 → results/acceptspec/divergence/triple_divergence_shard3.json
+[parallel] Instance 4: GPUs 4 → results/acceptspec/divergence/triple_divergence_shard4.json
+[parallel] Instance 5: GPUs 5 → results/acceptspec/divergence/triple_divergence_shard5.json
+[parallel] Instance 6: GPUs 6 → results/acceptspec/divergence/triple_divergence_shard6.json
+[parallel] Instance 7: GPUs 7 → results/acceptspec/divergence/triple_divergence_shard7.json
+[parallel] Waiting for 8 instances...
+2026-04-16 02:57:41,974 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:41,982 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:41,996 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:41,999 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,001 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,001 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,007 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,013 INFO Loading models with auto device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,518 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,518 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,518 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,518 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,519 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,519 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,520 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,520 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,520 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,520 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,523 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,523 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,547 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,547 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:42,547 INFO Device plan: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+2026-04-16 02:57:42,547 INFO   GPU 0: NVIDIA A100-SXM4-80GB (79.2 GB total, 79.2 GB free)
+2026-04-16 02:57:43,141 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,160 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,160 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,173 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,194 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,194 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,196 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,197 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,203 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,204 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,209 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,218 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,238 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,252 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,274 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,277 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,277 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,290 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,303 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,542 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,543 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,571 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,584 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,589 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,595 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,610 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,615 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,615 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,615 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,638 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,644 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,662 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,663 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,673 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,691 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,706 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,905 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,914 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,943 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,947 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,960 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,970 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,977 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:43,981 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,986 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:43,995 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:43,996 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:44,020 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,029 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,033 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,045 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,049 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,064 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,263 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,270 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,317 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,317 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,322 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,342 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,349 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,350 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:44,551 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,562 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,611 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,613 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,616 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,633 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,634 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:44,640 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,252 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,276 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,298 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,304 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,310 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,331 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,340 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,351 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,371 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,380 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,399 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,403 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,435 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,436 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,460 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,606 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:46,612 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:46,637 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:46,673 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,677 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,680 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:46,706 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:46,721 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:46,740 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:46,744 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,746 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:46,790 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:46,805 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-16 02:57:46,814 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:46,820 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:47,092 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:47,093 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:47,168 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-16 02:57:51,700 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,707 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,710 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,710 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,711 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,720 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,748 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:51,789 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:52,001 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,001 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:52,001 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:52,002 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,003 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,026 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,044 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,074 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,076 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,079 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,081 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,100 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,111 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,147 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,222 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,249 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:52,321 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,360 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,373 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,375 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]2026-04-16 02:57:52,377 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1942.03it/s]
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4446.65it/s]
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 5884.68it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 3976.59it/s]
+2026-04-16 02:57:52,401 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:52,404 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 27147.60it/s]
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 12604.97it/s]
+2026-04-16 02:57:52,524 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 6602.60it/s]
+2026-04-16 02:57:52,611 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A100-SXM4-80GB: 79.2 GB total, 79.2 GB free
+
+  Strategy: Single GPU (NVIDIA A100-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 9049.20it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<02:00,  3.52it/s]Loading weights:   0%|          | 1/427 [00:00<02:20,  3.03it/s]Loading weights:   0%|          | 1/427 [00:00<02:21,  3.00it/s]Loading weights:   0%|          | 1/427 [00:00<02:23,  2.96it/s]Loading weights:   0%|          | 1/427 [00:00<02:14,  3.16it/s]Loading weights:   0%|          | 1/427 [00:00<02:19,  3.05it/s]Loading weights:   0%|          | 1/427 [00:00<01:42,  4.17it/s]Loading weights:   0%|          | 2/427 [00:00<02:19,  3.04it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:09, 42.39it/s]Loading weights:   0%|          | 2/427 [00:00<02:40,  2.64it/s]Loading weights:   0%|          | 2/427 [00:00<02:41,  2.63it/s]Loading weights:   0%|          | 1/427 [00:00<05:16,  1.35it/s]Loading weights:   0%|          | 2/427 [00:00<02:43,  2.61it/s]Loading weights:   0%|          | 2/427 [00:00<02:39,  2.67it/s]Loading weights:   0%|          | 2/427 [00:00<02:39,  2.66it/s]Loading weights:   0%|          | 2/427 [00:00<02:24,  2.95it/s]Loading weights:  10%|▉         | 42/427 [00:00<00:05, 74.30it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:10, 37.63it/s]Loading weights:   5%|▌         | 23/427 [00:00<00:10, 38.76it/s]Loading weights:   5%|▍         | 20/427 [00:00<00:12, 33.82it/s]Loading weights:   5%|▌         | 23/427 [00:00<00:11, 35.25it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:10, 37.82it/s]Loading weights:   5%|▌         | 23/427 [00:00<00:10, 39.59it/s]Loading weights:   5%|▌         | 22/427 [00:00<00:09, 41.20it/s]Loading weights:  14%|█▍        | 59/427 [00:00<00:03, 94.30it/s]Loading weights:   9%|▉         | 40/427 [00:00<00:05, 66.07it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:06, 62.52it/s]Loading weights:   8%|▊         | 35/427 [00:00<00:07, 50.57it/s]Loading weights:  10%|▉         | 41/427 [00:00<00:05, 73.25it/s]Loading weights:  10%|▉         | 42/427 [00:00<00:05, 69.73it/s]Loading weights:   8%|▊         | 35/427 [00:00<00:07, 55.65it/s]Loading weights:  10%|▉         | 41/427 [00:00<00:06, 62.72it/s]Loading weights:  19%|█▊        | 80/427 [00:01<00:02, 119.16it/s]Loading weights:  12%|█▏        | 53/427 [00:01<00:04, 77.53it/s]Loading weights:  11%|█         | 47/427 [00:01<00:05, 63.82it/s]Loading weights:  16%|█▌        | 67/427 [00:01<00:03, 108.93it/s]Loading weights:  11%|█         | 47/427 [00:01<00:05, 69.43it/s]Loading weights:  12%|█▏        | 50/427 [00:01<00:05, 71.83it/s]Loading weights:  16%|█▌        | 67/427 [00:00<00:03, 113.05it/s]Loading weights:  13%|█▎        | 55/427 [00:01<00:04, 78.80it/s]Loading weights:  22%|██▏       | 96/427 [00:01<00:02, 125.68it/s]Loading weights:  18%|█▊        | 76/427 [00:01<00:03, 110.35it/s]Loading weights:  22%|██▏       | 95/427 [00:01<00:02, 147.59it/s]Loading weights:  16%|█▌        | 68/427 [00:01<00:03, 96.85it/s]Loading weights:  18%|█▊        | 77/427 [00:01<00:03, 110.91it/s]Loading weights:  22%|██▏       | 95/427 [00:01<00:02, 151.10it/s]Loading weights:  16%|█▌        | 67/427 [00:01<00:04, 89.18it/s]Loading weights:  15%|█▌        | 66/427 [00:01<00:03, 92.32it/s]Loading weights:  28%|██▊       | 119/427 [00:01<00:02, 149.36it/s]Loading weights:  22%|██▏       | 95/427 [00:01<00:02, 127.64it/s]Loading weights:  22%|██▏       | 93/427 [00:01<00:02, 134.09it/s]Loading weights:  28%|██▊       | 121/427 [00:01<00:01, 171.19it/s]Loading weights:  22%|██▏       | 94/427 [00:01<00:02, 124.05it/s]Loading weights:  21%|██        | 88/427 [00:01<00:02, 116.65it/s]Loading weights:  28%|██▊       | 120/427 [00:01<00:01, 171.32it/s]Loading weights:  22%|██▏       | 93/427 [00:01<00:02, 131.20it/s]Loading weights:  32%|███▏      | 136/427 [00:01<00:01, 147.06it/s]Loading weights:  26%|██▌       | 111/427 [00:01<00:02, 134.37it/s]Loading weights:  35%|███▍      | 149/427 [00:01<00:01, 195.57it/s]Loading weights:  35%|███▍      | 148/427 [00:01<00:01, 198.25it/s]Loading weights:  26%|██▌       | 110/427 [00:01<00:02, 128.35it/s]Loading weights:  26%|██▌       | 110/427 [00:01<00:02, 131.37it/s]Loading weights:  24%|██▍       | 104/427 [00:01<00:02, 116.88it/s]Loading weights:  26%|██▌       | 109/427 [00:01<00:02, 130.07it/s]Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 144.97it/s]Loading weights:  31%|███       | 132/427 [00:01<00:01, 153.96it/s]Loading weights:  41%|████      | 174/427 [00:01<00:01, 209.21it/s]Loading weights:  31%|███       | 132/427 [00:01<00:01, 149.60it/s]Loading weights:  41%|████      | 174/427 [00:01<00:01, 209.30it/s]Loading weights:  30%|███       | 129/427 [00:01<00:02, 145.53it/s]Loading weights:  28%|██▊       | 121/427 [00:01<00:02, 128.57it/s]Loading weights:  30%|███       | 130/427 [00:01<00:01, 149.43it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 157.35it/s]Loading weights:  47%|████▋     | 202/427 [00:01<00:00, 227.10it/s]Loading weights:  48%|████▊     | 205/427 [00:01<00:00, 230.04it/s]Loading weights:  34%|███▍      | 146/427 [00:01<00:01, 148.26it/s]Loading weights:  35%|███▌      | 150/427 [00:01<00:01, 143.66it/s]Loading weights:  33%|███▎      | 143/427 [00:01<00:01, 150.34it/s]Loading weights:  34%|███▍      | 147/427 [00:01<00:01, 153.83it/s]Loading weights:  35%|███▍      | 149/427 [00:01<00:02, 138.70it/s]Loading weights:  55%|█████▌    | 235/427 [00:01<00:00, 251.13it/s]Loading weights:  44%|████▍     | 189/427 [00:01<00:01, 149.98it/s]Loading weights:  56%|█████▌    | 238/427 [00:01<00:00, 240.75it/s]Loading weights:  38%|███▊      | 163/427 [00:01<00:01, 143.30it/s]Loading weights:  39%|███▉      | 168/427 [00:01<00:01, 151.48it/s]Loading weights:  38%|███▊      | 164/427 [00:01<00:01, 149.91it/s]Loading weights:  40%|████      | 172/427 [00:01<00:01, 151.01it/s]Loading weights:  37%|███▋      | 160/427 [00:01<00:01, 133.90it/s]Loading weights:  48%|████▊     | 205/427 [00:01<00:01, 150.83it/s]Loading weights:  61%|██████▏   | 262/427 [00:01<00:00, 237.07it/s]Loading weights:  62%|██████▏   | 264/427 [00:01<00:00, 244.52it/s]Loading weights:  43%|████▎     | 182/427 [00:01<00:01, 154.37it/s]Loading weights:  44%|████▎     | 186/427 [00:01<00:01, 157.50it/s]Loading weights:  43%|████▎     | 182/427 [00:01<00:01, 157.58it/s]Loading weights:  46%|████▌     | 196/427 [00:01<00:01, 171.00it/s]Loading weights:  42%|████▏     | 178/427 [00:01<00:01, 144.54it/s]Loading weights:  53%|█████▎    | 225/427 [00:01<00:01, 162.51it/s]Loading weights:  69%|██████▊   | 293/427 [00:01<00:00, 253.68it/s]Loading weights:  69%|██████▉   | 294/427 [00:01<00:00, 252.32it/s]Loading weights:  47%|████▋     | 200/427 [00:01<00:01, 158.09it/s]Loading weights:  48%|████▊     | 203/427 [00:01<00:01, 154.90it/s]Loading weights:  47%|████▋     | 199/427 [00:01<00:01, 150.72it/s]Loading weights:  46%|████▌     | 197/427 [00:02<00:01, 153.01it/s]Loading weights:  50%|█████     | 215/427 [00:02<00:01, 155.82it/s]Loading weights:  57%|█████▋    | 242/427 [00:02<00:01, 151.28it/s]Loading weights:  75%|███████▍  | 320/427 [00:02<00:00, 249.29it/s]Loading weights:  76%|███████▌  | 325/427 [00:01<00:00, 263.08it/s]Loading weights:  51%|█████     | 217/427 [00:02<00:01, 154.04it/s]Loading weights:  52%|█████▏    | 222/427 [00:02<00:01, 155.71it/s]Loading weights:  50%|█████     | 215/427 [00:02<00:01, 145.13it/s]Loading weights:  56%|█████▌    | 237/427 [00:02<00:01, 171.37it/s]Loading weights:  60%|██████    | 258/427 [00:02<00:01, 153.39it/s]Loading weights:  50%|█████     | 214/427 [00:02<00:01, 142.36it/s]Loading weights:  81%|████████▏ | 347/427 [00:02<00:00, 251.36it/s]Loading weights:  83%|████████▎ | 354/427 [00:02<00:00, 265.30it/s]Loading weights:  55%|█████▍    | 234/427 [00:02<00:01, 158.28it/s]Loading weights:  56%|█████▌    | 240/427 [00:02<00:01, 155.69it/s]Loading weights:  55%|█████▌    | 236/427 [00:02<00:01, 150.00it/s]Loading weights:  60%|█████▉    | 256/427 [00:02<00:01, 163.25it/s]Loading weights:  65%|██████▌   | 278/427 [00:02<00:00, 165.48it/s]Loading weights:  54%|█████▍    | 231/427 [00:02<00:01, 147.33it/s]Loading weights:  88%|████████▊ | 376/427 [00:02<00:00, 261.95it/s]Loading weights:  90%|████████▉ | 383/427 [00:02<00:00, 270.58it/s]Loading weights:  59%|█████▉    | 253/427 [00:02<00:01, 159.37it/s]Loading weights:  60%|█████▉    | 256/427 [00:02<00:01, 156.20it/s]Loading weights:  65%|██████▌   | 278/427 [00:02<00:00, 173.52it/s]Loading weights:  94%|█████████▍| 403/427 [00:02<00:00, 261.19it/s]Loading weights:  59%|█████▉    | 253/427 [00:02<00:01, 146.69it/s]Loading weights:  59%|█████▉    | 253/427 [00:02<00:01, 160.46it/s]Loading weights:  69%|██████▉   | 295/427 [00:02<00:00, 156.72it/s]Loading weights:  96%|█████████▋| 411/427 [00:02<00:00, 272.07it/s]Loading weights:  64%|██████▍   | 274/427 [00:02<00:00, 161.35it/s]Loading weights:  63%|██████▎   | 270/427 [00:02<00:01, 153.89it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 174.49it/s]
+Loading weights:  64%|██████▍   | 275/427 [00:02<00:00, 165.53it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 181.04it/s]
+Loading weights:  73%|███████▎  | 311/427 [00:02<00:00, 156.13it/s]Loading weights:  69%|██████▉   | 296/427 [00:02<00:00, 166.35it/s]Loading weights:  63%|██████▎   | 270/427 [00:02<00:01, 154.93it/s]Loading weights:  67%|██████▋   | 288/427 [00:02<00:00, 159.88it/s]Loading weights:  69%|██████▊   | 293/427 [00:02<00:00, 161.68it/s]Loading weights:  69%|██████▊   | 293/427 [00:02<00:00, 165.15it/s]Loading weights:  78%|███████▊  | 332/427 [00:02<00:00, 165.98it/s]Loading weights:  68%|██████▊   | 291/427 [00:02<00:00, 167.54it/s]Loading weights:  74%|███████▎  | 314/427 [00:02<00:00, 162.38it/s]Loading weights:  72%|███████▏  | 306/427 [00:02<00:00, 164.05it/s]Loading weights:  73%|███████▎  | 311/427 [00:02<00:00, 163.41it/s]Loading weights:  73%|███████▎  | 311/427 [00:02<00:00, 163.07it/s]Loading weights:  83%|████████▎ | 355/427 [00:02<00:00, 180.60it/s]Loading weights:  80%|███████▉  | 340/427 [00:02<00:00, 188.13it/s]Loading weights:  72%|███████▏  | 309/427 [00:02<00:00, 156.63it/s]Loading weights:  76%|███████▌  | 323/427 [00:02<00:00, 161.71it/s]Loading weights:  78%|███████▊  | 332/427 [00:02<00:00, 166.31it/s]Loading weights:  78%|███████▊  | 332/427 [00:02<00:00, 168.97it/s]Loading weights:  84%|████████▍ | 360/427 [00:02<00:00, 183.02it/s]Loading weights:  88%|████████▊ | 374/427 [00:02<00:00, 163.05it/s]Loading weights:  78%|███████▊  | 331/427 [00:02<00:00, 168.86it/s]Loading weights:  81%|████████  | 344/427 [00:02<00:00, 168.04it/s]Loading weights:  84%|████████▍ | 358/427 [00:02<00:00, 187.18it/s]Loading weights:  82%|████████▏ | 352/427 [00:02<00:00, 173.34it/s]Loading weights:  89%|████████▉ | 381/427 [00:02<00:00, 189.65it/s]Loading weights:  93%|█████████▎| 396/427 [00:03<00:00, 175.82it/s]Loading weights:  82%|████████▏ | 349/427 [00:02<00:00, 167.43it/s]Loading weights:  85%|████████▍ | 361/427 [00:02<00:00, 163.32it/s]Loading weights:  89%|████████▉ | 380/427 [00:02<00:00, 193.41it/s]Loading weights:  87%|████████▋ | 370/427 [00:03<00:00, 166.01it/s]Loading weights:  94%|█████████▍| 401/427 [00:03<00:00, 181.18it/s]2026-04-16 02:57:56,870 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  97%|█████████▋| 414/427 [00:03<00:00, 163.51it/s]Loading weights:  90%|████████▉ | 384/427 [00:03<00:00, 174.39it/s]Loading weights:  86%|████████▌ | 366/427 [00:03<00:00, 155.11it/s]2026-04-16 02:57:56,900 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  94%|█████████▎| 400/427 [00:03<00:00, 178.82it/s]Loading weights:  92%|█████████▏| 394/427 [00:03<00:00, 179.87it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 132.45it/s]
+Loading weights:  98%|█████████▊| 420/427 [00:03<00:00, 173.45it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 133.78it/s]
+Loading weights:  94%|█████████▍| 402/427 [00:03<00:00, 173.35it/s]Loading weights:  92%|█████████▏| 392/427 [00:03<00:00, 175.91it/s]Loading weights:  98%|█████████▊| 419/427 [00:03<00:00, 170.38it/s]Loading weights:  97%|█████████▋| 413/427 [00:03<00:00, 182.24it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 130.54it/s]
+Loading weights:  98%|█████████▊| 420/427 [00:03<00:00, 167.37it/s]Loading weights:  97%|█████████▋| 413/427 [00:03<00:00, 179.52it/s]Loading weights: 100%|██████████| 427/427 [00:03<00:00, 128.13it/s]
+Loading weights: 100%|██████████| 427/427 [00:03<00:00, 129.00it/s]
+Loading weights: 100%|██████████| 427/427 [00:03<00:00, 125.94it/s]
+2026-04-16 02:57:57,190 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:57,554 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:57,629 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:57,700 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:57,727 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:57,917 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:57,918 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:57,972 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:57,976 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:57,993 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:57,999 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,002 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,018 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,034 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,085 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,087 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,125 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,200 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,223 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,295 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,330 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,368 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,374 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,379 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,398 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,401 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,408 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,422 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 3964.60it/s]
+2026-04-16 02:57:58,446 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,447 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1700.34it/s]
+2026-04-16 02:57:58,490 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,495 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,502 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:58,561 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,573 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:58,584 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:58,585 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:58,587 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,600 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,605 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,623 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:58,635 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:58,636 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:58,686 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:58,693 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,697 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,697 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,795 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:58,795 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-16 02:57:58,801 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,804 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,834 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,846 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 10409.32it/s]
+2026-04-16 02:57:58,853 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:58,855 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:58,857 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:58,877 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,927 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:58,945 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:58,999 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,000 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:59,016 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:59,018 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:59,018 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:59,024 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-16 02:57:59,028 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-16 02:57:59,062 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 28472.15it/s]
+2026-04-16 02:57:59,081 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:59,139 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 13598.55it/s]
+2026-04-16 02:57:59,160 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:59,222 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:59,233 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:59,234 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:59,235 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:59,281 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,290 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:59,294 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:59,312 INFO MTP head loaded: 243.3M own params, device=cuda:0
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 17115.24it/s]
+2026-04-16 02:57:59,320 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,326 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:59,327 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:59,327 INFO Loading GSM8K (100 problems)...
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 8385.46it/s]
+2026-04-16 02:57:59,366 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,378 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:57:59,475 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:59,484 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:59,485 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:59,498 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,518 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:57:59,536 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:57:59,536 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:57:59,540 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:59,607 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:59,613 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,651 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:59,680 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,778 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:59,823 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:57:59,856 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,893 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:57:59,906 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:57:59,968 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,140 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,160 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,196 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,375 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 18507.68it/s]
+2026-04-16 02:58:00,410 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-16 02:58:00,467 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:00,553 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,558 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-16 02:58:00,573 INFO Speculative decoding: MTP self-speculation mode
+2026-04-16 02:58:00,573 INFO Loading GSM8K (100 problems)...
+2026-04-16 02:58:00,664 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:00,756 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,835 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:00,860 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:00,864 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-16 02:58:00,943 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,080 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,120 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,136 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,154 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,203 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,233 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,277 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,375 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,426 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,457 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,562 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,615 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,615 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,670 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,726 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:01,828 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,842 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,903 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:01,907 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,012 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,121 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,131 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,147 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,177 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,180 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,184 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,230 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,331 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,406 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,448 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,458 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,494 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 974, in <module>
+    main()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 970, in main
+    run_triple_divergence(args)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 675, in run_triple_divergence
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1688, in load_dataset
+2026-04-16 02:58:02,523 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1353, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 389, in __init__
+    with FileLock(lock_path):
+         ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+2026-04-16 02:58:02,615 INFO Shard 2/8: problems [24, 36) (12 problems)
+2026-04-16 02:58:02,615 INFO Split: 6 train, 6 test problems
+2026-04-16 02:58:02,616 INFO [1/12 TRAIN] Running SD for 'Aiden is making his famous steakhouse-seasoned mea...'
+2026-04-16 02:58:02,621 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+2026-04-16 02:58:02,697 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,727 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,739 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,790 INFO Shard 4/8: problems [48, 60) (12 problems)
+2026-04-16 02:58:02,790 INFO Split: 6 train, 6 test problems
+2026-04-16 02:58:02,791 INFO [1/12 TRAIN] Running SD for 'Tom's ship can travel at 10 miles per hour.  He is...'
+2026-04-16 02:58:02,802 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,820 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,936 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:02,989 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:02,990 INFO Shard 1/8: problems [12, 24) (12 problems)
+2026-04-16 02:58:02,990 INFO Split: 6 train, 6 test problems
+2026-04-16 02:58:02,991 INFO [1/12 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
+2026-04-16 02:58:03,107 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:03,120 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 974, in <module>
+    main()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 970, in main
+    run_triple_divergence(args)
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 675, in run_triple_divergence
+    problems = load_gsm8k(args.num_problems)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/scripts/triple_divergence.py", line 54, in load_gsm8k
+    ds = load_dataset("openai/gsm8k", "main", split="test")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1688, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/load.py", line 1353, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/datasets/builder.py", line 389, in __init__
+    with FileLock(lock_path):
+         ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 550, in __enter__
+    self.acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_api.py", line 498, in acquire
+    self._acquire()
+  File "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/nips-specquant/.venv/lib/python3.12/site-packages/filelock/_unix.py", line 74, in _acquire
+    os.fchmod(fd, self._context.mode)
+FileNotFoundError: [Errno 2] No such file or directory
+2026-04-16 02:58:03,204 INFO Shard 5/8: problems [60, 72) (12 problems)
+2026-04-16 02:58:03,204 INFO Split: 6 train, 6 test problems
+2026-04-16 02:58:03,205 INFO [1/12 TRAIN] Running SD for 'In a company of 50 employees, 20% of the employees...'
+2026-04-16 02:58:03,271 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:03,273 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-16 02:58:03,562 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:03,568 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:03,641 INFO Shard 7/8: problems [84, 100) (16 problems)
+2026-04-16 02:58:03,641 INFO Split: 8 train, 8 test problems
+2026-04-16 02:58:03,643 INFO [1/16 TRAIN] Running SD for 'A candle melts by 2 centimeters every hour that it...'
+2026-04-16 02:58:03,856 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-16 02:58:04,145 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-16 02:58:04,198 INFO Shard 6/8: problems [72, 84) (12 problems)
+2026-04-16 02:58:04,198 INFO Split: 6 train, 6 test problems
+2026-04-16 02:58:04,200 INFO [1/12 TRAIN] Running SD for 'To make a call from a payphone, you must pay $0.25...'
+[parallel] Instance 0 FAILED
+2026-04-16 02:58:06,230 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:06,231 INFO [2/12 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
+2026-04-16 02:58:06,423 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:06,424 INFO [2/12 TRAIN] Running SD for 'Bill is signing up for a new streaming service. He...'
+2026-04-16 02:58:06,854 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:06,856 INFO [2/12 TRAIN] Running SD for 'Martin's weight is 55 kg. Carl’s weight is 16 kg m...'
+2026-04-16 02:58:07,120 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:07,121 INFO [2/12 TRAIN] Running SD for 'Nathan has a bouncy ball that bounces to 2/3rds of...'
+2026-04-16 02:58:07,239 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:07,240 INFO [2/16 TRAIN] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
+2026-04-16 02:58:07,970 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:07,971 INFO [2/12 TRAIN] Running SD for 'Ryan’s allowance is $6 each week he completes his ...'
+2026-04-16 02:58:09,099 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:09,100 INFO [3/12 TRAIN] Running SD for 'The Hortex company produces bottled carrot juices....'
+2026-04-16 02:58:09,607 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:09,608 INFO [3/12 TRAIN] Running SD for 'Melissa is summoned to jury duty. She spends 6 hou...'
+2026-04-16 02:58:09,655 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:09,656 INFO [3/16 TRAIN] Running SD for 'According to its nutritional info, a bag of chips ...'
+2026-04-16 02:58:09,835 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:09,837 INFO [3/12 TRAIN] Running SD for 'A basket of green food costs $25 and a basket of r...'
+2026-04-16 02:58:09,899 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:09,901 INFO [3/12 TRAIN] Running SD for 'A food caterer was told to prepare gourmet hot dog...'
+2026-04-16 02:58:11,083 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:11,084 INFO [3/12 TRAIN] Running SD for 'Nick had twice as many candies as George. Then Geo...'
+2026-04-16 02:58:12,342 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:12,344 INFO [4/12 TRAIN] Running SD for 'Four friends ordered four pizzas for a total of 64...'
+2026-04-16 02:58:12,475 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:12,476 INFO [4/12 TRAIN] Running SD for 'A singer has 50 microphones that he wants to arran...'
+2026-04-16 02:58:12,556 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:12,558 INFO [4/12 TRAIN] Running SD for 'Last Friday, 13 of the 82 teachers at Rydell Eleme...'
+2026-04-16 02:58:12,587 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:12,588 INFO [4/16 TRAIN] Running SD for 'There are 36 penguins sunbathing in the snow.  One...'
+2026-04-16 02:58:12,983 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:12,984 INFO [4/12 TRAIN] Running SD for 'Carly is making cupcakes and brownies for her art ...'
+2026-04-16 02:58:13,188 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:13,190 INFO [4/12 TRAIN] Running SD for 'For one medical dosage, Saanvi had to combine 14 m...'
+2026-04-16 02:58:14,566 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:14,568 INFO [5/12 TRAIN] Running SD for 'A toy manufacturer receives an order for 400 toys....'
+2026-04-16 02:58:14,752 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:14,753 INFO [5/12 TRAIN] Running SD for 'A water tank is filled with 120 liters of water. C...'
+2026-04-16 02:58:15,160 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:15,161 INFO [5/16 TRAIN] Running SD for 'The number of songs in a playlist is 300. If John ...'
+2026-04-16 02:58:15,363 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:15,364 INFO [5/12 TRAIN] Running SD for 'Jim spends 2 hours watching TV and then decides to...'
+2026-04-16 02:58:15,420 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:15,421 INFO [5/12 TRAIN] Running SD for 'Mia and Emma are currently 16 years apart in age. ...'
+2026-04-16 02:58:15,510 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:15,511 INFO [5/12 TRAIN] Running SD for 'Joelle has 5 orchids and 4 African daisies on her ...'
+2026-04-16 02:58:17,483 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:17,484 INFO [6/12 TRAIN] Running SD for 'Ali had $21. Leila gave him half of her $100. How ...'
+2026-04-16 02:58:17,554 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:17,555 INFO [6/16 TRAIN] Running SD for 'It takes Carmen 10 minutes to finish a crossword p...'
+2026-04-16 02:58:17,624 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:17,626 INFO [6/12 TRAIN] Running SD for 'To fund his store, Mr. Josue solicited money from ...'
+2026-04-16 02:58:17,742 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:17,744 INFO [6/12 TRAIN] Running SD for 'Kenny is selling his Pokemon cards to buy a ticket...'
+2026-04-16 02:58:18,038 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:18,039 INFO [6/12 TRAIN] Running SD for 'Jen got 3 fish.  They each need $1 worth of food a...'
+2026-04-16 02:58:18,662 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:18,663 INFO [6/12 TRAIN] Running SD for 'Jayden had $70 from selling pictures he took as a ...'
+2026-04-16 02:58:19,209 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:19,210 INFO [7/12 TEST] Running SD for 'In Tate’s garden pond, there are 4 male guppies, 7...'
+2026-04-16 02:58:19,891 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:19,892 INFO [7/12 TEST] Running SD for 'A family of parents and a child go to the cinema. ...'
+2026-04-16 02:58:19,943 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:19,944 INFO [7/16 TRAIN] Running SD for 'If Mark weighs 150 pounds and Susan weighs 20 poun...'
+2026-04-16 02:58:20,322 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:20,323 INFO [7/12 TEST] Running SD for 'Liam is 16 years old now. Two years ago, Liam’s ag...'
+2026-04-16 02:58:21,007 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:21,008 INFO [7/12 TEST] Running SD for 'Ashley has an internet connection speed of 20kb pe...'
+2026-04-16 02:58:21,220 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:21,221 INFO [7/12 TEST] Running SD for 'Helena is a mad scientist testing her latest creat...'
+2026-04-16 02:58:22,005 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:22,006 INFO [8/12 TEST] Running SD for '90 single use contacts come in 1 box and will last...'
+2026-04-16 02:58:22,167 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:22,169 INFO [8/16 TRAIN] Running SD for 'Nick is choosing between two jobs. Job A pays $15 ...'
+2026-04-16 02:58:22,430 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:22,431 INFO [8/12 TEST] Running SD for 'Kelly has 5 quarters and 2 dimes. If she buys a ca...'
+2026-04-16 02:58:22,654 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:22,655 INFO [8/12 TEST] Running SD for 'Kylie and Robert enjoy going to the beach to colle...'
+2026-04-16 02:58:23,622 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:23,623 INFO [8/12 TEST] Running SD for 'Anthony is sending out coupons for his pizza parlo...'
+2026-04-16 02:58:24,125 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:24,126 INFO [8/12 TEST] Running SD for 'Jen works for 7.5 hours a day 6 days a week. Her h...'
+2026-04-16 02:58:24,287 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:24,289 INFO [9/12 TEST] Running SD for 'Leila buys 3 cucumbers from the market. Cucumbers ...'
+2026-04-16 02:58:24,709 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:24,711 INFO [9/12 TEST] Running SD for 'Lani baked 55 cookies. She ate 5 five cookies and ...'
+2026-04-16 02:58:25,413 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:25,414 INFO [9/12 TEST] Running SD for 'Mrs. Cruz is looking for a house that will not go ...'
+2026-04-16 02:58:26,560 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:26,561 INFO [9/12 TEST] Running SD for 'Stephen placed an online order for groceries.  His...'
+2026-04-16 02:58:26,562 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:26,563 INFO [10/12 TEST] Running SD for 'Jenna starts out with 8 sapphires. She trades 3 sa...'
+2026-04-16 02:58:26,636 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:26,638 INFO [9/16 TEST] Running SD for 'Adam really wants to ride the biggest roller coast...'
+2026-04-16 02:58:27,190 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:27,191 INFO [9/12 TEST] Running SD for 'Nate's dog can dig six holes a day. He digs for 14...'
+2026-04-16 02:58:27,660 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:27,661 INFO [10/12 TEST] Running SD for 'Gerald and Julia divided $100 in the ratio 3:2. If...'
+2026-04-16 02:58:29,085 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:29,087 INFO [11/12 TEST] Running SD for 'Cecilia just bought a new puppy. According to her ...'
+2026-04-16 02:58:29,196 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:29,197 INFO [10/16 TEST] Running SD for 'Robert had 3 pounds of candy, Cindy had 5 pounds o...'
+2026-04-16 02:58:29,518 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:29,519 INFO [11/12 TEST] Running SD for 'Peter has 4 boxes with the same number of chocolat...'
+2026-04-16 02:58:29,573 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:29,574 INFO [10/12 TEST] Running SD for 'There are 6 girls in the park. If there are twice ...'
+2026-04-16 02:58:30,083 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:30,084 INFO [10/12 TEST] Running SD for 'At a restaurant, Juice Box A is 4 dollars. Juice B...'
+2026-04-16 02:58:30,139 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:30,140 INFO [10/12 TEST] Running SD for 'Lucy sells apples from her orchard at $4 per piece...'
+2026-04-16 02:58:31,292 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:31,293 INFO [11/12 TEST] Running SD for 'Damien created a currency based on bottle caps and...'
+2026-04-16 02:58:31,757 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:31,758 INFO [11/16 TEST] Running SD for 'John drinks a bottle of water every half hour.  A ...'
+2026-04-16 02:58:32,386 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:32,387 INFO [12/12 TEST] Running SD for 'Billy is volunteering his time to help people do t...'
+2026-04-16 02:58:32,623 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:32,624 INFO [12/12 TEST] Running SD for 'There are 9,300 pennies in a cup. What is the tota...'
+2026-04-16 02:58:32,641 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:32,643 INFO [11/12 TEST] Running SD for 'Bubbles collects stuffed animals. She has three st...'
+2026-04-16 02:58:33,374 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:33,376 INFO [11/12 TEST] Running SD for 'Tim grows 5 trees.  Each year he collects 6 lemons...'
+2026-04-16 02:58:34,054 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:34,055 INFO [12/12 TEST] Running SD for 'Laurel's friend gave her 24 baby outfits that her ...'
+2026-04-16 02:58:34,144 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:34,145 INFO [12/16 TEST] Running SD for 'Charlotte went into the kitchen supply store knowi...'
+2026-04-16 02:58:34,636 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:34,636 ERROR No results collected. Aborting.
+2026-04-16 02:58:35,246 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:35,247 INFO [12/12 TEST] Running SD for 'Tom plants 10 trees a year.  Every year he also ch...'
+2026-04-16 02:58:35,530 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:35,531 INFO [12/12 TEST] Running SD for 'In a jewelers store, the price of a gold Jewell is...'
+2026-04-16 02:58:35,756 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:35,756 ERROR No results collected. Aborting.
+2026-04-16 02:58:36,988 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:36,989 ERROR No results collected. Aborting.
+[parallel] Instance 1 done
+[parallel] Instance 2 done
+[parallel] Instance 3 FAILED
+2026-04-16 02:58:37,563 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:37,564 INFO [13/16 TEST] Running SD for 'Carmen goes to an auction to win an antique desk. ...'
+2026-04-16 02:58:37,991 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:37,991 ERROR No results collected. Aborting.
+[parallel] Instance 4 done
+2026-04-16 02:58:38,761 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:38,761 ERROR No results collected. Aborting.
+[parallel] Instance 5 done
+[parallel] Instance 6 done
+2026-04-16 02:58:40,985 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:40,986 INFO [14/16 TEST] Running SD for 'Roger goes to the store to buy some coffee.  The n...'
+2026-04-16 02:58:44,921 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:44,923 INFO [15/16 TEST] Running SD for 'A perfume company is trying to create new scents. ...'
+2026-04-16 02:58:49,356 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:49,358 INFO [16/16 TEST] Running SD for 'It takes Matthew 3 minutes to dig a small hole for...'
+2026-04-16 02:58:51,735 ERROR   Failed: tuple index out of range
+2026-04-16 02:58:51,735 ERROR No results collected. Aborting.
+[parallel] Instance 7 done
+[parallel] 2/8 failed
+[parallel] Merging → results/acceptspec/divergence/triple_divergence.json
+  Skip results/acceptspec/divergence/triple_divergence_shard0.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard0.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard1.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard1.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard2.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard2.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard3.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard3.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard4.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard4.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard5.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard5.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard6.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard6.json'
+  Skip results/acceptspec/divergence/triple_divergence_shard7.json: [Errno 2] No such file or directory: 'results/acceptspec/divergence/triple_divergence_shard7.json'
+ERROR: No shard results

@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.1861790480550372,
+      "pval": 8.915194226335394e-23
+    },
+    "accept_vs_attn": {
+      "rho": 0.0035691611350106376,
+      "pval": 0.5818946539275519
+    },
+    "ppl_vs_attn": {
+      "rho": 0.02326092064166017,
+      "pval": 0.00033198969422048625
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": -0.02426971246155896,
+      "pval": 0.00018063746326363021
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.005707140024224999,
+      "pval": 0.6962636672857465
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.010677604756717278,
+      "pval": 0.09949839408484056
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.2422114908695221,
+    "recall": 0.2422114908695221,
+    "f1": 0.2422114908695221,
+    "tp": 552,
+    "fp": 1727,
+    "fn": 1727
+  },
+  "attention_proxy": {
+    "precision": 0.9982448220252991,
+    "recall": 0.9982448220252991,
+    "f1": 0.9982448220252991,
+    "tp": 2275,
+    "fp": 4,
+    "fn": 4
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.1861790480550372,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.0035691611350106376,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.02326092064166017,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.2422114908695221
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.2422114908695221,
+      "attn_f1": 0.9982448220252991
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 23802,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 88
+  },
+  "per_problem": [
+    {
+      "question": "Solo has to read 4 pages from his Science textbook, 20 pages from his Social Studies textbook, 7 pag",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Anna is trying to buy books for her local library. She had a budget of $16, and she has already spen",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.007633351666721591
+      }
+    },
+    {
+      "question": "Heather's razors come 4 to a pack and cost $4.00 a pack.  They are currently on sale for buy one get",
+      "split": "TRAIN",
+      "num_steps": 61,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.011598236303208002
+      }
+    },
+    {
+      "question": "When the water is cold Ray swims a mile in 16 minutes. When the water is warm Ray swims a mile in 2 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.026344277102821036
+      }
+    },
+    {
+      "question": "Romeo boards a train with 120 people. At the first stop, 20 more people board the train. At the seco",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Tom has 4 bedrooms in his house.  They measure 20 by 12 feet each.  The living room is 5 times bigge",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.0358230922595606
+      }
+    },
+    {
+      "question": "Rayna has 60 more dollars than Kassidy, and Kassidy has 3/4 times as much money as Aurelia. If Areli",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.029789501534140086
+      }
+    },
+    {
+      "question": "Isabelle bought party supplies for her little sister\u2019s birthday party. She spent $12 on ingredients ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01265690658374515
+      }
+    },
+    {
+      "question": "Charlie wants to sell beeswax candles.  For every pound of beeswax, he can make 10 tapered candles. ",
+      "split": "TEST",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Paul is driving a car twice a day: in the morning, and in the afternoon. He did that for 14 days. Ea",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.016936815455110645
+      }
+    },
+    {
+      "question": "Aleena subscribed to a streaming service that charges her $140 per month. If the streaming company c",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.012289176825533345
+      }
+    },
+    {
+      "question": "There are forty apples in one box. Uncle Franky ordered two boxes of apples. He is planning to pack ",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.24338709401932293,
+      "pval": 7.879416933890129e-31
+    },
+    "accept_vs_attn": {
+      "rho": 0.0015445915194308045,
+      "pval": 0.8240255869579405
+    },
+    "ppl_vs_attn": {
+      "rho": 0.011051323728952683,
+      "pval": 0.11159278411491208
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.0004032312124372804,
+      "pval": 0.953707212777163
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.009669875561242668,
+      "pval": 0.5373130585760079
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.007566031233253591,
+      "pval": 0.2760328611874528
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.24167081713676453,
+    "recall": 0.24167081713676453,
+    "f1": 0.24167081713676453,
+    "tp": 486,
+    "fp": 1525,
+    "fn": 1525
+  },
+  "attention_proxy": {
+    "precision": 0.9870710968971252,
+    "recall": 0.9870710968971252,
+    "f1": 0.9870710968971252,
+    "tp": 1985,
+    "fp": 26,
+    "fn": 26
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.24338709401932293,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.0015445915194308045,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.011051323728952683,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.24167081713676453
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.24167081713676453,
+      "attn_f1": 0.9870710968971252
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 20729,
+    "num_problems_completed": 12,
+    "num_train_steps": 86,
+    "num_test_steps": 84
+  },
+  "per_problem": [
+    {
+      "question": "Jillian's handbag cost $20 less than 3 times as much as her shoes cost. If her shoes cost $80, how m",
+      "split": "TRAIN",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.009743978946503827
+      }
+    },
+    {
+      "question": "On a certain day, the total cost of filling up 20 helium balloons was $900. Two days later, the cost",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.03576748028112962
+      }
+    },
+    {
+      "question": "The Hortex company produces bottled carrot juices. Every day it can produce 4200 bottles of these ju",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013114132956705599
+      }
+    },
+    {
+      "question": "A singer has 50 microphones that he wants to arrange in pairs on a stage. While making the arrangeme",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05198574303733068
+      }
+    },
+    {
+      "question": "Joelle has 5 orchids and 4 African daisies on her balcony.  If the orchids have 5 petals and daisies",
+      "split": "TRAIN",
+      "num_steps": 55,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Jen got 3 fish.  They each need $1 worth of food a day.  How much does she spend on food in the mont",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.03764090818152709
+      }
+    },
+    {
+      "question": "A family of parents and a child go to the cinema. The cost of an adult ticket is $12 and a child tic",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.03153092320395112
+      }
+    },
+    {
+      "question": "Kelly has 5 quarters and 2 dimes. If she buys a can of pop for 55 cents, how many cents will she hav",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Leila buys 3 cucumbers from the market. Cucumbers are $2 each. Jack buys 5 tomatoes from the grocery",
+      "split": "TEST",
+      "num_steps": 54,
+      "num_tokens": 129,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Gerald and Julia divided $100 in the ratio 3:2. If Gerald spent $10 on a book, how much money did he",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Peter has 4 boxes with the same number of chocolate bars in each, while Martha has 7 boxes with the ",
+      "split": "TEST",
+      "num_steps": 55,
+      "num_tokens": 128,
+      "num_measured_steps": 13,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.022233609516718798
+      }
+    },
+    {
+      "question": "Billy is volunteering his time to help people do their taxes. He can help 2 people per hour for 3 ho",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.03921572991215309
+      }
+    }
+  ]
+}

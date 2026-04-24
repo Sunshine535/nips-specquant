@@ -1,0 +1,241 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 6,
+    "num_test": 6,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.2649703467882802,
+      "pval": 2.9055593718588167e-43
+    },
+    "accept_vs_attn": {
+      "rho": -0.001005450079075416,
+      "pval": 0.8806190833683178
+    },
+    "ppl_vs_attn": {
+      "rho": 0.004321484960439275,
+      "pval": 0.5186001645508104
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": -0.013676208606854761,
+      "pval": 0.041060800563177735
+    },
+    "accept_vs_logit_tv": {
+      "rho": -0.037603310923352305,
+      "pval": 0.012704713880219768
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.01236265687568829,
+      "pval": 0.06479282324633881
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.23256820440292358,
+    "recall": 0.23256820440292358,
+    "f1": 0.23256820440292358,
+    "tp": 537,
+    "fp": 1772,
+    "fn": 1772
+  },
+  "attention_proxy": {
+    "precision": 0.972282350063324,
+    "recall": 0.972282350063324,
+    "f1": 0.972282350063324,
+    "tp": 2245,
+    "fp": 64,
+    "fn": 64
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.2649703467882802,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": -0.001005450079075416,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.004321484960439275,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.23256820440292358
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.23256820440292358,
+      "attn_f1": 0.972282350063324
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 22314,
+    "num_problems_completed": 12,
+    "num_train_steps": 90,
+    "num_test_steps": 89
+  },
+  "per_problem": [
+    {
+      "question": "Tom's ship can travel at 10 miles per hour.  He is sailing from 1 to 4 PM.  He then travels back at ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.029234038613725
+      }
+    },
+    {
+      "question": "Bill is signing up for a new streaming service. He got a special introductory deal where the first 6",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0007933601996884925
+      }
+    },
+    {
+      "question": "A food caterer was told to prepare gourmet hot dogs for 36 guests. While most people would only eat ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.009208769907678977
+      }
+    },
+    {
+      "question": "For one medical dosage, Saanvi had to combine 14 mL of one medicine with 3 times that amount of the ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.026654410768751878
+      }
+    },
+    {
+      "question": "Mia and Emma are currently 16 years apart in age. If Mia, who is younger than Emma, is 40 years old,",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01871359953851942
+      }
+    },
+    {
+      "question": "Ali had $21. Leila gave him half of her $100. How much does Ali have now?",
+      "split": "TRAIN",
+      "num_steps": 63,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "In Tate\u2019s garden pond, there are 4 male guppies, 7 female guppies, 3 male goldfishes, and 5 female g",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.010374159116363826
+      }
+    },
+    {
+      "question": "Kylie and Robert enjoy going to the beach to collect shells. On Monday, Kylie collects 5 more shells",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0006297329178094562
+      }
+    },
+    {
+      "question": "Mrs. Cruz is looking for a house that will not go beyond her $400 000 budget. She saw a property tha",
+      "split": "TEST",
+      "num_steps": 63,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.02561497942638196
+      }
+    },
+    {
+      "question": "There are 6 girls in the park. If there are twice the number of boys in the park, how many kids are ",
+      "split": "TEST",
+      "num_steps": 57,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Damien created a currency based on bottle caps and got his friends to take part.  He finds 10 bottle",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.0022579047126613408
+      }
+    },
+    {
+      "question": "Laurel's friend gave her 24 baby outfits that her child no longer needed.  At her baby shower, Laure",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.05176770689371543
+      }
+    }
+  ]
+}

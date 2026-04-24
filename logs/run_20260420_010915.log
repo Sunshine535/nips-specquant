@@ -1,0 +1,1203 @@
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Mon Apr 20 01:09:15 AM CST 2026 | codelab-prod-617694020-13969510-7z5t2
+ Model : Qwen/Qwen3.5-9B
+ HF_HOME: /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf
+============================================
+Python 3.12.11, PyTorch 2.11.0+cu128, CUDA 12.8
+  GPU 0: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 1: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 2: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 3: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 4: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 5: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 6: NVIDIA A800-SXM4-80GB (85GB)
+  GPU 7: NVIDIA A800-SXM4-80GB (85GB)
+============================================
+ AcceptSpec v3.0 — MTP Self-Speculation
+ Mon Apr 20 01:09:41 AM CST 2026 | codelab-prod-617694020-13969510-7z5t2
+ Model: Qwen/Qwen3.5-9B
+ Quick: 0 | From M: 2
+============================================
+
+=== M2: Triple Divergence + Predictor Validation ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Pre-downloading datasets to avoid filelock race...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  gsm8k cached
+  MATH-500 cached
+[parallel] Script: scripts/triple_divergence.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/divergence/triple_divergence_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/divergence/triple_divergence_shard1.json
+[parallel] Instance 2: GPUs 2 → results/acceptspec/divergence/triple_divergence_shard2.json
+[parallel] Instance 3: GPUs 3 → results/acceptspec/divergence/triple_divergence_shard3.json
+[parallel] Instance 4: GPUs 4 → results/acceptspec/divergence/triple_divergence_shard4.json
+[parallel] Instance 5: GPUs 5 → results/acceptspec/divergence/triple_divergence_shard5.json
+[parallel] Instance 6: GPUs 6 → results/acceptspec/divergence/triple_divergence_shard6.json
+[parallel] Instance 7: GPUs 7 → results/acceptspec/divergence/triple_divergence_shard7.json
+[parallel] Waiting for 8 instances...
+2026-04-20 01:12:23,397 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:23,821 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:24,986 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:24,986 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:12:24,992 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:24,993 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:12:25,991 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:25,997 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:25,997 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:26,061 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:26,064 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:26,885 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:26,891 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:26,953 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:26,958 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:27,420 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:27,487 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:27,524 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:27,591 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:27,863 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:27,881 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:28,188 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:12:28,189 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:12:31,406 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:32,280 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:32,280 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:12:32,783 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:12:32,938 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:12:33,203 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:33,203 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:33,205 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:12:33,221 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:33,517 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:33,518 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:12:33,552 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:12:33,832 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:33,901 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:12:34,241 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:34,353 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:34,648 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:34,724 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:35,241 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:35,660 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:12:38,987 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:12:39,599 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:12:39,941 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:40,015 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:12:41,325 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:41,601 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:41,949 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:41,997 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:42,115 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:42,116 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:42,550 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:12:42,550 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1043.16it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 358.87it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:12:44,769 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:44,774 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:44,775 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+Loading weights:   0%|          | 1/427 [00:01<11:43,  1.65s/it]Loading weights:   0%|          | 2/427 [00:02<08:07,  1.15s/it]2026-04-20 01:12:46,898 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:46,899 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:   3%|▎         | 14/427 [00:02<00:50,  8.18it/s]Loading weights:   4%|▍         | 17/427 [00:02<00:44,  9.15it/s]Loading weights:   0%|          | 1/427 [00:02<17:51,  2.51s/it]Loading weights:   6%|▋         | 27/427 [00:03<00:22, 17.59it/s]2026-04-20 01:12:47,311 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:47,311 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:   3%|▎         | 12/427 [00:02<01:06,  6.25it/s]Loading weights:  10%|█         | 43/427 [00:03<00:15, 24.37it/s]Loading weights:   5%|▌         | 22/427 [00:03<00:39, 10.38it/s]2026-04-20 01:12:47,875 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:12:47,876 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:  10%|▉         | 41/427 [00:03<00:16, 23.65it/s]Loading weights:  11%|█         | 48/427 [00:03<00:15, 24.39it/s]Loading weights:  12%|█▏        | 51/427 [00:03<00:12, 30.11it/s]Loading weights:  19%|█▉        | 81/427 [00:03<00:05, 61.01it/s]2026-04-20 01:12:48,442 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  15%|█▌        | 65/427 [00:04<00:15, 23.69it/s]2026-04-20 01:12:48,862 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  22%|██▏       | 94/427 [00:04<00:09, 34.14it/s]Loading weights:  19%|█▊        | 80/427 [00:04<00:10, 33.17it/s]Loading weights:  23%|██▎       | 99/427 [00:04<00:06, 49.56it/s]Loading weights:  24%|██▍       | 103/427 [00:04<00:08, 37.54it/s]2026-04-20 01:12:49,073 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:49,073 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:49,220 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:49,220 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:49,221 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:49,222 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:  28%|██▊       | 121/427 [00:04<00:06, 48.01it/s]2026-04-20 01:12:49,290 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:49,292 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  27%|██▋       | 116/427 [00:04<00:06, 49.70it/s]Loading weights:  30%|███       | 130/427 [00:05<00:06, 45.75it/s]Loading weights:  30%|██▉       | 126/427 [00:04<00:05, 52.33it/s]2026-04-20 01:12:49,560 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:49,572 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:12:49,572 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:  34%|███▍      | 147/427 [00:05<00:04, 62.25it/s]2026-04-20 01:12:49,864 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:49,864 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:49,864 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  34%|███▎      | 144/427 [00:05<00:05, 52.53it/s]2026-04-20 01:12:49,942 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  37%|███▋      | 158/427 [00:05<00:05, 47.99it/s]2026-04-20 01:12:50,253 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:50,253 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:50,253 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  36%|███▌      | 152/427 [00:05<00:07, 36.03it/s]2026-04-20 01:12:50,416 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  41%|████      | 174/427 [00:06<00:05, 42.35it/s]2026-04-20 01:12:50,453 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  41%|████      | 174/427 [00:05<00:04, 55.21it/s]Loading weights:  44%|████▍     | 188/427 [00:06<00:04, 52.78it/s]Loading weights:  44%|████▍     | 187/427 [00:05<00:03, 60.32it/s]Loading weights:  48%|████▊     | 204/427 [00:06<00:03, 64.55it/s]2026-04-20 01:12:50,741 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:12:50,742 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:50,742 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:51,219 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:12:51,219 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  47%|████▋     | 200/427 [00:06<00:05, 42.16it/s]Loading weights:  50%|█████     | 214/427 [00:06<00:05, 40.00it/s]Loading weights:  52%|█████▏    | 223/427 [00:06<00:03, 62.97it/s]Loading weights:  59%|█████▉    | 251/427 [00:07<00:03, 49.12it/s]Loading weights:  55%|█████▌    | 235/427 [00:07<00:04, 42.84it/s]Loading weights:  73%|███████▎  | 312/427 [00:07<00:01, 98.12it/s]Loading weights:  57%|█████▋    | 244/427 [00:07<00:04, 43.12it/s]Loading weights:  77%|███████▋  | 330/427 [00:07<00:00, 104.39it/s]Loading weights:  61%|██████    | 259/427 [00:08<00:05, 31.03it/s]Loading weights:  81%|████████▏ | 347/427 [00:08<00:01, 50.16it/s] Loading weights:  84%|████████▍ | 360/427 [00:09<00:01, 42.63it/s]Loading weights:  65%|██████▍   | 276/427 [00:08<00:05, 26.66it/s]Loading weights:  90%|████████▉ | 384/427 [00:09<00:01, 41.88it/s]Loading weights:  71%|███████   | 304/427 [00:09<00:03, 32.84it/s]Loading weights:  72%|███████▏  | 309/427 [00:10<00:05, 20.53it/s]Loading weights:  92%|█████████▏| 393/427 [00:11<00:01, 25.77it/s]Loading weights:  73%|███████▎  | 313/427 [00:10<00:05, 21.45it/s]Loading weights:  93%|█████████▎| 399/427 [00:11<00:01, 27.12it/s]Loading weights:  75%|███████▌  | 322/427 [00:10<00:04, 25.72it/s]Loading weights:  95%|█████████▍| 405/427 [00:11<00:00, 29.45it/s]Loading weights:  79%|███████▉  | 338/427 [00:11<00:02, 37.83it/s]Loading weights:  97%|█████████▋| 414/427 [00:11<00:00, 28.76it/s]Loading weights:  81%|████████  | 346/427 [00:11<00:02, 33.05it/s]Loading weights:  98%|█████████▊| 419/427 [00:11<00:00, 29.65it/s]Loading weights: 100%|██████████| 427/427 [00:11<00:00, 36.16it/s]
+Loading weights:  84%|████████▍ | 359/427 [00:11<00:01, 41.80it/s]Loading weights:  86%|████████▌ | 366/427 [00:11<00:01, 44.52it/s]Loading weights:  90%|████████▉ | 384/427 [00:12<00:01, 35.34it/s]2026-04-20 01:12:57,441 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+Loading weights:  93%|█████████▎| 398/427 [00:13<00:01, 22.87it/s]2026-04-20 01:12:58,119 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+Loading weights:  98%|█████████▊| 419/427 [00:13<00:00, 34.62it/s]Loading weights: 100%|██████████| 427/427 [00:13<00:00, 31.12it/s]Loading weights: 100%|██████████| 427/427 [00:13<00:00, 30.76it/s]
+2026-04-20 01:12:58,573 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:58,673 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:12:58,969 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:12:59,441 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:12:59,533 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:12:59,909 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1582.01it/s]
+2026-04-20 01:13:00,336 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:13:00,336 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:01,083 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:13:01,083 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:01,084 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:01,101 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:13:01,151 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:13:01,170 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:01,841 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:01,841 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:01,841 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:01,893 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:01,897 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:13:01,941 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:01,941 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:13:02,233 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:   0%|          | 1/427 [00:00<01:43,  4.10it/s]2026-04-20 01:13:02,546 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:02,570 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:13:02,629 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 3198.71it/s]
+2026-04-20 01:13:03,070 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Loading weights:   0%|          | 2/427 [00:01<03:53,  1.82it/s]Loading weights:   6%|▌         | 25/427 [00:01<00:12, 31.86it/s]2026-04-20 01:13:03,259 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:03,280 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:03,285 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+Loading weights:   9%|▉         | 38/427 [00:01<00:08, 45.90it/s]2026-04-20 01:13:03,617 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:03,648 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:03,648 INFO Loading GSM8K (100 problems)...
+Loading weights:  11%|█▏        | 49/427 [00:01<00:09, 40.64it/s]Loading weights:  16%|█▋        | 70/427 [00:01<00:06, 55.97it/s]2026-04-20 01:13:03,946 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  23%|██▎       | 100/427 [00:01<00:03, 93.63it/s]2026-04-20 01:13:04,141 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:13:04,196 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+Loading weights:  27%|██▋       | 116/427 [00:02<00:04, 65.05it/s]Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]2026-04-20 01:13:04,751 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 30.28it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 30.27it/s]
+Loading weights:  30%|██▉       | 128/427 [00:02<00:06, 43.53it/s]2026-04-20 01:13:05,043 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+Loading weights:  36%|███▌      | 152/427 [00:03<00:06, 43.86it/s]Loading weights:  40%|███▉      | 169/427 [00:03<00:05, 50.24it/s]Loading weights:  43%|████▎     | 184/427 [00:03<00:04, 53.08it/s]2026-04-20 01:13:06,061 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:06,076 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:06,076 INFO Loading GSM8K (100 problems)...
+Loading weights:  50%|█████     | 214/427 [00:04<00:02, 82.16it/s]2026-04-20 01:13:06,174 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:06,442 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  54%|█████▍    | 232/427 [00:04<00:02, 69.02it/s]2026-04-20 01:13:06,545 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+Loading weights:  61%|██████▏   | 262/427 [00:04<00:01, 97.61it/s]2026-04-20 01:13:06,683 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+Loading weights:  65%|██████▌   | 279/427 [00:04<00:01, 102.72it/s]2026-04-20 01:13:06,878 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Loading weights:  70%|██████▉   | 298/427 [00:04<00:01, 106.89it/s]2026-04-20 01:13:06,980 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+Loading weights:  78%|███████▊  | 331/427 [00:05<00:00, 119.64it/s]Loading weights:  85%|████████▌ | 364/427 [00:05<00:00, 154.74it/s]2026-04-20 01:13:07,652 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+Loading weights:  90%|████████▉ | 384/427 [00:05<00:00, 92.07it/s] Loading weights:  96%|█████████▋| 411/427 [00:05<00:00, 111.48it/s]2026-04-20 01:13:08,062 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:08,062 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+Loading weights: 100%|██████████| 427/427 [00:05<00:00, 71.62it/s] 
+2026-04-20 01:13:08,363 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:13:08,368 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:08,773 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:08,773 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:09,872 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:13:09,886 INFO Shard 1/8: problems [12, 24) (12 problems)
+2026-04-20 01:13:09,886 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:09,887 INFO [1/12 TRAIN] Running SD for 'Jillian's handbag cost $20 less than 3 times as mu...'
+2026-04-20 01:13:10,232 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:10,232 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:10,576 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:10,581 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:10,805 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:10,859 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:10,875 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:10,936 INFO Shard 0/8: problems [0, 12) (12 problems)
+2026-04-20 01:13:10,936 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:10,938 INFO [1/12 TRAIN] Running SD for 'Carol and Jennifer are sisters from Los Angeles wh...'
+2026-04-20 01:13:11,232 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:11,232 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:11,240 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:11,541 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:11,939 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:13:12,233 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1974.95it/s]
+2026-04-20 01:13:12,416 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 4026.69it/s]
+2026-04-20 01:13:12,440 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:13:12,854 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:12,875 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:13,006 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:13,395 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:13,418 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:13,420 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:13,420 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:13:13,464 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:13:13,502 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:13,712 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Loading weights:   0%|          | 1/427 [00:00<01:37,  4.35it/s]2026-04-20 01:13:13,760 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 8128.50it/s]
+2026-04-20 01:13:13,779 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:13:13,797 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4098.00it/s]
+2026-04-20 01:13:14,224 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+Loading weights:   0%|          | 2/427 [00:00<02:53,  2.46it/s]Loading weights:   6%|▌         | 25/427 [00:00<00:10, 39.59it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:  11%|█         | 46/427 [00:01<00:05, 68.10it/s]Loading weights:  14%|█▎        | 58/427 [00:01<00:08, 43.47it/s]Loading weights:   0%|          | 1/427 [00:00<04:53,  1.45it/s]Loading weights:  19%|█▉        | 81/427 [00:01<00:06, 52.16it/s]Loading weights:  24%|██▎       | 101/427 [00:01<00:04, 69.92it/s]2026-04-20 01:13:15,727 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+Loading weights:  26%|██▌       | 112/427 [00:02<00:05, 59.05it/s]Loading weights:   0%|          | 2/427 [00:01<05:00,  1.42it/s]Loading weights:  31%|███▏      | 134/427 [00:02<00:03, 82.22it/s]2026-04-20 01:13:16,031 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+Loading weights:   4%|▎         | 15/427 [00:01<00:31, 13.04it/s]Loading weights:   0%|          | 1/427 [00:01<11:50,  1.67s/it]Loading weights:  34%|███▍      | 147/427 [00:02<00:04, 63.33it/s]Loading weights:   7%|▋         | 28/427 [00:01<00:15, 25.82it/s]2026-04-20 01:13:16,850 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+Loading weights:   2%|▏         | 9/427 [00:02<01:31,  4.59it/s]Loading weights:   8%|▊         | 35/427 [00:02<00:22, 17.80it/s]Loading weights:   6%|▌         | 24/427 [00:02<00:27, 14.56it/s]Loading weights:  37%|███▋      | 157/427 [00:03<00:07, 34.53it/s]Loading weights:   9%|▉         | 40/427 [00:02<00:18, 20.59it/s]2026-04-20 01:13:16,990 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:13:17,045 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+Loading weights:  43%|████▎     | 185/427 [00:03<00:04, 57.86it/s]Loading weights:  13%|█▎        | 55/427 [00:04<00:27, 13.48it/s]Loading weights:  10%|█         | 43/427 [00:04<00:29, 13.15it/s]Loading weights:  15%|█▍        | 64/427 [00:04<00:21, 17.23it/s]2026-04-20 01:13:18,714 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+Loading weights:  47%|████▋     | 199/427 [00:05<00:09, 22.87it/s]Loading weights:  41%|████      | 175/427 [00:04<00:02, 94.08it/s]Loading weights:  13%|█▎        | 55/427 [00:04<00:22, 16.59it/s]Loading weights:  50%|█████     | 214/427 [00:05<00:07, 29.80it/s]Loading weights:  47%|████▋     | 201/427 [00:04<00:02, 109.26it/s]Loading weights:  21%|██        | 88/427 [00:04<00:09, 35.66it/s]2026-04-20 01:13:19,141 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  53%|█████▎    | 226/427 [00:05<00:06, 31.47it/s]2026-04-20 01:13:19,501 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+Loading weights:  55%|█████▌    | 235/427 [00:06<00:06, 31.65it/s]Loading weights:  23%|██▎       | 100/427 [00:05<00:10, 31.18it/s]Loading weights:  52%|█████▏    | 224/427 [00:05<00:02, 77.75it/s] Loading weights:  59%|█████▉    | 253/427 [00:06<00:03, 45.34it/s]2026-04-20 01:13:19,614 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:13:19,614 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:13:19,624 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:13:19,624 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:  28%|██▊       | 121/427 [00:05<00:06, 45.12it/s]2026-04-20 01:13:19,786 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+Loading weights:  62%|██████▏   | 264/427 [00:06<00:04, 33.83it/s]Loading weights:  56%|█████▋    | 241/427 [00:05<00:03, 57.41it/s]Loading weights:  31%|███▏      | 134/427 [00:05<00:07, 36.79it/s]2026-04-20 01:13:20,265 INFO Shard 2/8: problems [24, 36) (12 problems)
+2026-04-20 01:13:20,265 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:20,266 INFO [1/12 TRAIN] Running SD for 'Aiden is making his famous steakhouse-seasoned mea...'
+Loading weights:  61%|██████    | 260/427 [00:05<00:02, 67.13it/s]Loading weights:  36%|███▌      | 153/427 [00:05<00:05, 49.04it/s]Loading weights:  69%|██████▊   | 293/427 [00:06<00:02, 55.87it/s]Loading weights:  38%|███▊      | 164/427 [00:06<00:05, 44.94it/s]Loading weights:  71%|███████▏  | 305/427 [00:07<00:02, 50.27it/s]Loading weights:  64%|██████▍   | 274/427 [00:06<00:02, 59.27it/s]2026-04-20 01:13:21,042 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:21,042 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  68%|██████▊   | 292/427 [00:06<00:02, 55.58it/s]Loading weights:  44%|████▎     | 186/427 [00:06<00:04, 48.50it/s]Loading weights:  74%|███████▍  | 315/427 [00:07<00:02, 41.83it/s]2026-04-20 01:13:21,191 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:21,252 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  46%|████▌     | 196/427 [00:06<00:04, 48.55it/s]Loading weights:  70%|███████   | 301/427 [00:06<00:02, 51.45it/s]Loading weights:  77%|███████▋  | 329/427 [00:07<00:02, 45.50it/s]Loading weights:  48%|████▊     | 203/427 [00:06<00:04, 49.52it/s]Loading weights:  79%|███████▊  | 336/427 [00:07<00:01, 48.27it/s]Loading weights:  73%|███████▎  | 312/427 [00:07<00:02, 56.31it/s]Loading weights:  53%|█████▎    | 226/427 [00:07<00:02, 72.27it/s]Loading weights:  84%|████████▍ | 360/427 [00:08<00:01, 60.75it/s]Loading weights:  79%|███████▊  | 336/427 [00:07<00:01, 67.46it/s]2026-04-20 01:13:21,912 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:21,947 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  86%|████████▌ | 368/427 [00:08<00:01, 50.73it/s]Loading weights: 100%|██████████| 427/427 [00:08<00:00, 50.47it/s]
+2026-04-20 01:13:21,982 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  81%|████████  | 345/427 [00:07<00:01, 53.59it/s]2026-04-20 01:13:22,142 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  55%|█████▌    | 236/427 [00:07<00:04, 40.35it/s]Loading weights:  82%|████████▏ | 352/427 [00:07<00:01, 51.29it/s]Loading weights:  86%|████████▋ | 369/427 [00:07<00:00, 68.54it/s]2026-04-20 01:13:22,283 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  61%|██████    | 259/427 [00:07<00:02, 58.94it/s]2026-04-20 01:13:22,357 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  89%|████████▉ | 380/427 [00:07<00:00, 75.47it/s]Loading weights:  91%|█████████▏| 390/427 [00:08<00:00, 65.53it/s]2026-04-20 01:13:22,622 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  63%|██████▎   | 270/427 [00:08<00:03, 50.18it/s]2026-04-20 01:13:22,659 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:22,692 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  94%|█████████▎| 400/427 [00:08<00:00, 70.89it/s]2026-04-20 01:13:23,648 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:23,651 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  97%|█████████▋| 415/427 [00:09<00:00, 30.53it/s]Loading weights: 100%|██████████| 427/427 [00:09<00:00, 46.06it/s]
+Loading weights:  69%|██████▊   | 293/427 [00:09<00:04, 32.95it/s]Loading weights:  72%|███████▏  | 306/427 [00:09<00:03, 39.69it/s]2026-04-20 01:13:23,932 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  74%|███████▎  | 314/427 [00:09<00:03, 37.30it/s]Loading weights:  78%|███████▊  | 332/427 [00:09<00:02, 46.71it/s]Loading weights:  83%|████████▎ | 354/427 [00:10<00:01, 54.89it/s]Loading weights:  85%|████████▌ | 365/427 [00:10<00:01, 61.51it/s]Loading weights:  88%|████████▊ | 374/427 [00:10<00:00, 64.07it/s]2026-04-20 01:13:25,658 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  90%|████████▉ | 383/427 [00:11<00:01, 25.13it/s]Loading weights:  95%|█████████▌| 407/427 [00:11<00:00, 42.71it/s]2026-04-20 01:13:26,209 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:26,270 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+Loading weights:  98%|█████████▊| 419/427 [00:11<00:00, 43.82it/s]2026-04-20 01:13:26,282 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights: 100%|██████████| 427/427 [00:11<00:00, 36.02it/s]
+2026-04-20 01:13:26,332 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:13:27,241 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:27,242 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:27,291 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:27,309 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:13:27,792 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:27,833 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:27,833 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:27,941 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:27,982 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:13:28,742 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:28,776 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:28,797 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:13:29,153 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 4045.14it/s]
+2026-04-20 01:13:29,255 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:13:29,446 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files:  31%|███▏      | 5/16 [00:00<00:00, 26.63it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 85.09it/s]
+2026-04-20 01:13:29,685 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:13:30,064 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:30,076 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:30,076 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:13:30,641 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:30,651 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:13:30,715 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:30,738 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:30,768 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:30,768 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:13:30,785 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:13:30,884 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:13:31,013 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:31,073 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:31,081 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:31,088 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:31,147 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:13:31,169 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:31,169 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:13:31,237 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:13:31,397 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:31,404 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:13:31,475 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:31,457 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:13:32,513 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:33,067 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:33,067 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:13:33,067 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]2026-04-20 01:13:34,188 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+Fetching 16 files:  75%|███████▌  | 12/16 [00:00<00:00, 62.23it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 82.81it/s]
+2026-04-20 01:13:34,210 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:13:34,280 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:13:34,588 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:34,795 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:13:34,989 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:13:35,012 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:13:35,013 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:13:35,509 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:13:35,509 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:35,517 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:35,590 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:13:35,805 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:35,806 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:36,059 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:36,082 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:36,105 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:36,616 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:36,625 INFO Shard 3/8: problems [36, 48) (12 problems)
+2026-04-20 01:13:36,625 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:36,626 INFO [1/12 TRAIN] Running SD for 'Solo has to read 4 pages from his Science textbook...'
+2026-04-20 01:13:37,641 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:37,892 INFO Shard 4/8: problems [48, 60) (12 problems)
+2026-04-20 01:13:37,892 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:37,894 INFO [1/12 TRAIN] Running SD for 'Tom's ship can travel at 10 miles per hour.  He is...'
+2026-04-20 01:13:38,172 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:13:38,641 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:39,371 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:13:39,715 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:40,367 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:13:40,668 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:40,910 INFO Shard 5/8: problems [60, 72) (12 problems)
+2026-04-20 01:13:40,910 INFO Split: 6 train, 6 test problems
+2026-04-20 01:13:40,912 INFO [1/12 TRAIN] Running SD for 'In a company of 50 employees, 20% of the employees...'
+2026-04-20 01:13:50,649 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:50,688 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:13:51,241 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:51,241 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:13:51,492 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:51,492 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:13:52,191 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:13:52,192 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 17.81it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 17.79it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 16.24it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 16.23it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<02:49,  2.52it/s]Loading weights:   0%|          | 1/427 [00:02<18:02,  2.54s/it]Loading weights:  13%|█▎        | 57/427 [00:02<00:12, 29.27it/s]Loading weights:  18%|█▊        | 78/427 [00:03<00:09, 35.05it/s]Loading weights:   0%|          | 2/427 [00:04<18:52,  2.66s/it]Loading weights:   3%|▎         | 11/427 [00:04<02:15,  3.06it/s]Loading weights:  22%|██▏       | 92/427 [00:04<00:15, 21.59it/s]Loading weights:   3%|▎         | 14/427 [00:04<01:39,  4.17it/s]Loading weights:  29%|██▉       | 124/427 [00:04<00:08, 36.48it/s]Loading weights:   7%|▋         | 28/427 [00:05<00:40,  9.83it/s]Loading weights:  33%|███▎      | 139/427 [00:05<00:08, 35.76it/s]Loading weights:  15%|█▌        | 66/427 [00:05<00:11, 32.79it/s]Loading weights:  36%|███▋      | 155/427 [00:05<00:07, 35.86it/s]Loading weights:  38%|███▊      | 164/427 [00:06<00:09, 27.37it/s]Loading weights:  19%|█▊        | 80/427 [00:06<00:15, 22.87it/s]Loading weights:  22%|██▏       | 96/427 [00:06<00:12, 26.20it/s]Loading weights:  43%|████▎     | 183/427 [00:06<00:07, 30.80it/s]Loading weights:  44%|████▍     | 189/427 [00:07<00:11, 21.59it/s]Loading weights:  24%|██▍       | 104/427 [00:07<00:17, 18.99it/s]Loading weights:  48%|████▊     | 205/427 [00:07<00:07, 30.31it/s]Loading weights:  31%|███       | 131/427 [00:08<00:08, 33.13it/s]Loading weights:  33%|███▎      | 142/427 [00:08<00:09, 30.76it/s]Loading weights:  53%|█████▎    | 225/427 [00:08<00:06, 29.98it/s]Loading weights:  54%|█████▍    | 232/427 [00:08<00:05, 32.91it/s]Loading weights:  35%|███▌      | 151/427 [00:08<00:08, 31.68it/s]Loading weights:  56%|█████▌    | 239/427 [00:08<00:07, 25.68it/s]Loading weights:  38%|███▊      | 162/427 [00:09<00:09, 26.87it/s]Loading weights:  57%|█████▋    | 244/427 [00:09<00:07, 25.15it/s]Loading weights:  41%|████      | 173/427 [00:09<00:07, 32.22it/s]Loading weights:  66%|██████▌   | 280/427 [00:09<00:03, 47.45it/s]Loading weights:  68%|██████▊   | 290/427 [00:09<00:02, 46.91it/s]Loading weights:  47%|████▋     | 199/427 [00:10<00:06, 35.32it/s]Loading weights:  71%|███████▏  | 305/427 [00:10<00:02, 41.39it/s]Loading weights:  53%|█████▎    | 226/427 [00:10<00:04, 44.69it/s]Loading weights:  57%|█████▋    | 243/427 [00:10<00:03, 53.52it/s]Loading weights:  73%|███████▎  | 311/427 [00:10<00:03, 38.45it/s]Loading weights:  59%|█████▉    | 251/427 [00:11<00:04, 42.20it/s]Loading weights:  74%|███████▍  | 316/427 [00:10<00:03, 30.40it/s]Loading weights:  66%|██████▌   | 280/427 [00:11<00:02, 67.21it/s]Loading weights:  81%|████████  | 346/427 [00:11<00:01, 43.26it/s]Loading weights:  84%|████████▍ | 359/427 [00:13<00:04, 16.99it/s]Loading weights:  90%|████████▉ | 383/427 [00:13<00:01, 25.46it/s]Loading weights:  93%|█████████▎| 398/427 [00:13<00:00, 32.40it/s]Loading weights:  68%|██████▊   | 292/427 [00:14<00:08, 16.15it/s]Loading weights:  98%|█████████▊| 419/427 [00:13<00:00, 45.81it/s]Loading weights: 100%|██████████| 427/427 [00:13<00:00, 30.87it/s]
+Loading weights:  72%|███████▏  | 309/427 [00:15<00:07, 15.25it/s]Loading weights:  77%|███████▋  | 330/427 [00:15<00:04, 22.18it/s]Loading weights:  80%|████████  | 342/427 [00:15<00:03, 25.01it/s]Loading weights:  84%|████████▍ | 358/427 [00:16<00:02, 27.98it/s]Loading weights:  85%|████████▌ | 365/427 [00:16<00:02, 23.44it/s]Loading weights:  90%|████████▉ | 384/427 [00:17<00:01, 30.07it/s]Loading weights:  96%|█████████▋| 412/427 [00:17<00:00, 49.64it/s]Loading weights: 100%|█████████▉| 425/427 [00:17<00:00, 52.81it/s]Loading weights: 100%|██████████| 427/427 [00:17<00:00, 24.64it/s]
+2026-04-20 01:14:17,185 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:17,794 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:14:17,834 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:17,874 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:14:18,487 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:18,487 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:14:18,496 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:14:18,501 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:14:18,562 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:14:19,138 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:19,145 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:14:19,157 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:14:19,553 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 3690.14it/s]
+2026-04-20 01:14:19,577 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:14:21,241 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 12635.82it/s]
+2026-04-20 01:14:21,354 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:14:22,183 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:14:22,200 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:14:22,201 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:14:22,726 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:14:22,764 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:14:22,777 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:14:22,778 INFO Loading GSM8K (100 problems)...
+2026-04-20 01:14:22,847 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:14:23,542 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:14:23,615 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:14:24,716 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:24,716 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:25,948 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:25,948 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:26,271 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:14:26,285 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:14:26,623 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:26,623 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:27,514 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:14:27,641 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:14:27,853 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:14:28,641 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:14:28,641 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:14:28,947 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:28,955 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:14:29,313 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:14:29,353 INFO Shard 7/8: problems [84, 100) (16 problems)
+2026-04-20 01:14:29,353 INFO Split: 8 train, 8 test problems
+2026-04-20 01:14:29,354 INFO [1/16 TRAIN] Running SD for 'A candle melts by 2 centimeters every hour that it...'
+2026-04-20 01:14:29,381 INFO Shard 6/8: problems [72, 84) (12 problems)
+2026-04-20 01:14:29,381 INFO Split: 6 train, 6 test problems
+2026-04-20 01:14:29,382 INFO [1/12 TRAIN] Running SD for 'To make a call from a payphone, you must pay $0.25...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:24:05,855 INFO   Steps: 55, Measured: 13, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '-0.010'}
+2026-04-20 01:24:05,863 INFO [2/12 TRAIN] Running SD for 'On a certain day, the total cost of filling up 20 ...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:27:40,197 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-20 01:27:40,203 INFO [2/12 TRAIN] Running SD for 'Martin's weight is 55 kg. Carl’s weight is 16 kg m...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:28:32,516 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.050'}
+2026-04-20 01:28:32,528 INFO [2/16 TRAIN] Running SD for 'It takes James 10 minutes to read 3 pages of his b...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:28:44,989 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.029'}
+2026-04-20 01:28:45,003 INFO [2/12 TRAIN] Running SD for 'Bill is signing up for a new streaming service. He...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:29:27,445 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.030'}
+2026-04-20 01:29:27,455 INFO [2/12 TRAIN] Running SD for 'Ryan’s allowance is $6 each week he completes his ...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:30:37,574 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.005'}
+2026-04-20 01:30:37,759 INFO [2/12 TRAIN] Running SD for 'Nathan has a bouncy ball that bounces to 2/3rds of...'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:31:16,680 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': 'nan'}
+2026-04-20 01:31:16,776 INFO [2/12 TRAIN] Running SD for 'Anna is trying to buy books for her local library....'
+scripts/triple_divergence.py:594: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(a[mask].numpy(), b[mask].numpy())
+2026-04-20 01:34:55,027 INFO   Steps: 64, Measured: 15, Rhos: {'accept_vs_ppl': 'nan', 'accept_vs_attn': 'nan', 'ppl_vs_attn': '0.028'}
+2026-04-20 01:34:55,032 INFO [2/12 TRAIN] Running SD for 'A team of 4 painters worked on a mansion for 3/8th...'
+scripts/parallel_run.sh: line 107: 238895 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+scripts/parallel_run.sh: line 107: 239013 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+[parallel] Instance 0 FAILED
+[parallel] Instance 1 FAILED
+scripts/parallel_run.sh: line 107: 239223 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+scripts/parallel_run.sh: line 107: 239347 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+scripts/parallel_run.sh: line 107: 239591 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+scripts/parallel_run.sh: line 107: 239904 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+[parallel] Instance 2 FAILED
+[parallel] Instance 3 FAILED
+[parallel] Instance 4 FAILED
+scripts/parallel_run.sh: line 107: 239714 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+[parallel] Instance 5 FAILED
+[parallel] Instance 6 FAILED
+scripts/parallel_run.sh: line 107: 240141 Killed                  CUDA_VISIBLE_DEVICES=$GPU_LIST python scripts/torch_patch.py "$SCRIPT" "${SHARD_ARGS[@]}" --shard "$i" --num_shards "$NUM_INSTANCES"
+[parallel] Instance 7 FAILED
+[parallel] 8/8 failed
+[parallel] Merging → results/acceptspec/divergence/triple_divergence.json
+  Merged 8 shards → results/acceptspec/divergence/triple_divergence.json
+[parallel] Done
+
+=== M3: Core Comparison (8 retention policies) ===
+[parallel] 8 GPUs → 8 parallel instances (1 GPU each)
+[parallel] Pre-downloading datasets to avoid filelock race...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  gsm8k cached
+  MATH-500 cached
+[parallel] Script: scripts/core_comparison.py | Instances: 8
+[parallel] Instance 0: GPUs 0 → results/acceptspec/comparison/core_gsm8k_b0.2_shard0.json
+[parallel] Instance 1: GPUs 1 → results/acceptspec/comparison/core_gsm8k_b0.2_shard1.json
+2026-04-20 01:37:49,785 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:37:50,049 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:37:50,050 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:37:50,656 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:37:50,656 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:37:50,736 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:37:51,042 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:37:51,120 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:37:51,415 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:37:51,498 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:37:51,787 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[parallel] Instance 2: GPUs 2 → results/acceptspec/comparison/core_gsm8k_b0.2_shard2.json
+2026-04-20 01:37:52,084 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:37:53,587 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:37:53,630 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:37:53,946 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:37:54,039 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:37:56,623 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:37:56,919 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:37:56,997 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:37:57,291 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 8825.47it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<01:08,  6.26it/s]Loading weights:   0%|          | 2/427 [00:00<01:19,  5.38it/s]Loading weights:   9%|▉         | 40/427 [00:00<00:03, 121.37it/s]Loading weights:  16%|█▌        | 67/427 [00:00<00:02, 163.00it/s]Loading weights:  22%|██▏       | 96/427 [00:00<00:01, 200.74it/s]Loading weights:  31%|███       | 132/427 [00:00<00:01, 247.02it/s]Loading weights:  37%|███▋      | 160/427 [00:00<00:01, 244.27it/s]Loading weights:  46%|████▌     | 196/427 [00:00<00:00, 277.63it/s]Loading weights:  53%|█████▎    | 226/427 [00:01<00:00, 264.48it/s]Loading weights:  60%|██████    | 258/427 [00:01<00:00, 277.37it/s]Loading weights:  69%|██████▊   | 293/427 [00:01<00:00, 290.43it/s]Loading weights:  76%|███████▌  | 323/427 [00:01<00:00, 289.32it/s]Loading weights:  83%|████████▎ | 356/427 [00:01<00:00, 299.02it/s]Loading weights:  91%|█████████ | 387/427 [00:01<00:00, 284.32it/s]Loading weights:  98%|█████████▊| 417/427 [00:01<00:00, 288.59it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 238.16it/s]
+2026-04-20 01:37:59,930 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:00,065 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:00,232 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:00,255 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:00,255 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:38:00,309 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:00,616 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:00,622 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:38:00,626 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:38:00,827 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:00,827 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:00,901 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:01,069 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 468.61it/s]
+2026-04-20 01:38:01,122 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:38:01,207 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:01,240 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:38:01,251 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:38:01,253 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:38:01,254 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:38:01,285 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:01,548 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:01,574 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:01,627 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:38:01,648 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:01,926 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:01,958 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[parallel] Instance 3: GPUs 3 → results/acceptspec/comparison/core_gsm8k_b0.2_shard3.json
+2026-04-20 01:38:02,243 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:38:02,856 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:03,159 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:38:03,454 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:03,806 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:38:03,856 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:38:03,972 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:38:04,147 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:04,232 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:38:04,271 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:38:04,561 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:38:04,853 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:04,967 INFO Shard 0/8: problems [0, 37) (37 problems)
+2026-04-20 01:38:04,967 INFO Loaded 37 problems.
+2026-04-20 01:38:04,967 INFO ============================================================
+2026-04-20 01:38:04,967 INFO POLICY: oracle_accept
+2026-04-20 01:38:04,967 INFO ============================================================
+2026-04-20 01:38:04,972 INFO [oracle_accept] [1/37] 'Carol and Jennifer are sisters from Los Angeles wh...'
+2026-04-20 01:38:06,687 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:06,984 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:07,058 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:07,349 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:07,367 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 9576.04it/s]
+2026-04-20 01:38:07,599 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:07,599 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<02:15,  3.14it/s]2026-04-20 01:38:08,190 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:08,263 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 2/427 [00:00<02:10,  3.26it/s]Loading weights:   6%|▋         | 27/427 [00:00<00:07, 55.80it/s]Loading weights:  11%|█         | 46/427 [00:00<00:04, 84.67it/s]2026-04-20 01:38:08,571 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  16%|█▌        | 67/427 [00:00<00:03, 112.19it/s]2026-04-20 01:38:08,642 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  20%|██        | 86/427 [00:01<00:02, 130.13it/s]Loading weights:  24%|██▍       | 103/427 [00:01<00:02, 139.13it/s]Loading weights:  31%|███       | 132/427 [00:01<00:01, 175.60it/s]2026-04-20 01:38:08,931 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:08,931 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:09,002 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  36%|███▌      | 152/427 [00:01<00:01, 162.37it/s]Loading weights:  41%|████      | 173/427 [00:01<00:01, 162.32it/s]2026-04-20 01:38:09,292 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+Loading weights:  47%|████▋     | 200/427 [00:01<00:01, 183.47it/s]Loading weights:  52%|█████▏    | 220/427 [00:01<00:01, 184.79it/s]Loading weights:  56%|█████▌    | 240/427 [00:01<00:01, 178.72it/s]2026-04-20 01:38:09,579 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  61%|██████    | 259/427 [00:01<00:00, 181.27it/s]Loading weights:  65%|██████▌   | 279/427 [00:02<00:00, 185.87it/s]Loading weights:  70%|██████▉   | 298/427 [00:02<00:00, 186.94it/s]Loading weights:  75%|███████▌  | 322/427 [00:02<00:00, 198.12it/s]Loading weights:  81%|████████  | 346/427 [00:02<00:00, 205.89it/s]Loading weights:  86%|████████▌ | 367/427 [00:02<00:00, 202.49it/s]Loading weights:  93%|█████████▎| 398/427 [00:02<00:00, 228.27it/s]Loading weights:  99%|█████████▊| 421/427 [00:02<00:00, 204.38it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 153.97it/s]
+2026-04-20 01:38:11,234 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:38:11,246 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:11,296 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:38:11,538 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:11,614 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:11,619 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:11,690 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:38:11,909 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:11,915 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:38:11,920 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+[parallel] Instance 4: GPUs 4 → results/acceptspec/comparison/core_gsm8k_b0.2_shard4.json
+2026-04-20 01:38:12,387 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 8364.56it/s]
+2026-04-20 01:38:12,410 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:38:12,545 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:38:12,560 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:38:12,561 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:38:12,562 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:38:12,852 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:12,927 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:38:13,253 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:13,749 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:14,037 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:14,109 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:14,204 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:14,398 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2195.40it/s]
+2026-04-20 01:38:14,507 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:38:14,788 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+Loading weights:   0%|          | 1/427 [00:00<02:53,  2.46it/s]Loading weights:   7%|▋         | 28/427 [00:00<00:05, 72.06it/s]2026-04-20 01:38:15,304 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+Loading weights:  11%|█         | 48/427 [00:00<00:03, 105.17it/s]Loading weights:  19%|█▉        | 81/427 [00:00<00:02, 156.55it/s]2026-04-20 01:38:15,608 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  27%|██▋       | 115/427 [00:00<00:01, 185.16it/s]Loading weights:  35%|███▍      | 149/427 [00:00<00:01, 220.98it/s]Loading weights:  42%|████▏     | 179/427 [00:01<00:01, 231.31it/s]2026-04-20 01:38:15,899 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+Loading weights:  48%|████▊     | 207/427 [00:01<00:00, 238.56it/s]Loading weights:  56%|█████▌    | 239/427 [00:01<00:00, 257.65it/s]Loading weights:  63%|██████▎   | 267/427 [00:01<00:00, 248.37it/s]2026-04-20 01:38:16,197 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+Loading weights:  69%|██████▊   | 293/427 [00:01<00:00, 244.91it/s]2026-04-20 01:38:16,300 INFO Shard 1/8: problems [37, 74) (37 problems)
+2026-04-20 01:38:16,300 INFO Loaded 37 problems.
+2026-04-20 01:38:16,300 INFO ============================================================
+2026-04-20 01:38:16,300 INFO POLICY: oracle_accept
+2026-04-20 01:38:16,300 INFO ============================================================
+2026-04-20 01:38:16,302 INFO [oracle_accept] [1/37] 'Anna is trying to buy books for her local library....'
+Loading weights:  75%|███████▍  | 319/427 [00:01<00:00, 238.57it/s]Loading weights:  81%|████████  | 346/427 [00:01<00:00, 242.05it/s]Loading weights:  89%|████████▉ | 380/427 [00:01<00:00, 263.91it/s]Loading weights:  95%|█████████▌| 407/427 [00:01<00:00, 264.04it/s]Loading weights: 100%|██████████| 427/427 [00:02<00:00, 206.47it/s]
+2026-04-20 01:38:17,704 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:18,059 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:18,131 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:18,442 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:18,450 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:38:18,456 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:38:19,132 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1238.58it/s]
+2026-04-20 01:38:19,196 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:38:20,520 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:38:20,530 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:38:20,531 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:38:20,531 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:38:20,858 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:20,934 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:38:21,216 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+[parallel] Instance 5: GPUs 5 → results/acceptspec/comparison/core_gsm8k_b0.2_shard5.json
+2026-04-20 01:38:22,438 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:22,794 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:38:23,083 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:23,624 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:38:24,036 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:38:24,509 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:38:25,310 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:25,433 INFO Shard 2/8: problems [74, 111) (37 problems)
+2026-04-20 01:38:25,433 INFO Loaded 37 problems.
+2026-04-20 01:38:25,433 INFO ============================================================
+2026-04-20 01:38:25,433 INFO POLICY: oracle_accept
+2026-04-20 01:38:25,433 INFO ============================================================
+2026-04-20 01:38:25,435 INFO [oracle_accept] [1/37] 'Nick had twice as many candies as George. Then Geo...'
+2026-04-20 01:38:27,802 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:28,093 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:28,093 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:38:28,820 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:28,896 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:29,241 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:29,311 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:29,762 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:29,918 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:30,329 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:30,953 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[parallel] Instance 6: GPUs 6 → results/acceptspec/comparison/core_gsm8k_b0.2_shard6.json
+2026-04-20 01:38:36,586 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:38:36,642 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:38:36,933 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:37,322 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+[parallel] Instance 7: GPUs 7 → results/acceptspec/comparison/core_gsm8k_b0.2_shard7.json
+2026-04-20 01:38:45,636 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:45,928 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:46,004 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:46,297 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 6861.85it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<03:47,  1.88it/s]Loading weights:   0%|          | 2/427 [00:01<03:47,  1.87it/s]Loading weights:   1%|          | 3/427 [00:01<02:34,  2.74it/s]Loading weights:   7%|▋         | 28/427 [00:01<00:09, 39.97it/s]Loading weights:   9%|▉         | 38/427 [00:01<00:11, 32.69it/s]Loading weights:  11%|█         | 48/427 [00:01<00:09, 41.76it/s]Loading weights:  15%|█▍        | 64/427 [00:01<00:05, 60.60it/s]Loading weights:  18%|█▊        | 75/427 [00:02<00:05, 64.50it/s]Loading weights:  22%|██▏       | 94/427 [00:02<00:06, 51.63it/s]Loading weights:  24%|██▍       | 102/427 [00:03<00:09, 33.32it/s]Loading weights:  46%|████▋     | 198/427 [00:03<00:02, 85.57it/s]Loading weights:  53%|█████▎    | 225/427 [00:03<00:01, 101.31it/s]Loading weights:  56%|█████▌    | 239/427 [00:04<00:02, 80.26it/s] Loading weights:  61%|██████    | 259/427 [00:04<00:01, 91.50it/s]Loading weights:  64%|██████▎   | 272/427 [00:04<00:02, 69.32it/s]Loading weights:  69%|██████▊   | 293/427 [00:04<00:01, 83.82it/s]Loading weights:  72%|███████▏  | 308/427 [00:05<00:01, 68.84it/s]Loading weights:  84%|████████▍ | 359/427 [00:05<00:00, 107.97it/s]Loading weights:  90%|████████▉ | 384/427 [00:05<00:00, 125.93it/s]Loading weights:  94%|█████████▍| 401/427 [00:06<00:00, 83.18it/s] [parallel] Waiting for 8 instances...
+Loading weights:  98%|█████████▊| 418/427 [00:06<00:00, 70.33it/s]Loading weights: 100%|██████████| 427/427 [00:06<00:00, 66.53it/s]
+2026-04-20 01:38:55,260 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:55,261 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:38:55,637 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:55,792 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:38:56,092 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:56,101 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:38:56,108 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:38:57,306 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1013.32it/s]
+2026-04-20 01:38:57,380 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:38:58,160 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:38:58,172 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:38:58,174 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:38:58,174 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:38:58,466 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:38:58,539 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:38:58,826 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:38:59,632 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:38:59,929 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:00,609 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:39:00,888 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:01,066 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:01,066 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:39:01,441 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:39:02,218 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:02,219 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:02,292 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:02,634 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:02,634 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:02,709 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:02,935 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:02,994 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:03,241 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:03,308 INFO Shard 3/8: problems [111, 148) (37 problems)
+2026-04-20 01:39:03,308 INFO Loaded 37 problems.
+2026-04-20 01:39:03,308 INFO ============================================================
+2026-04-20 01:39:03,308 INFO POLICY: oracle_accept
+2026-04-20 01:39:03,308 INFO ============================================================
+2026-04-20 01:39:03,310 INFO [oracle_accept] [1/37] 'John takes care of 10 dogs.  Each dog takes .5 hou...'
+2026-04-20 01:39:03,860 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:04,341 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:10,383 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:39:10,936 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:39:11,653 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:11,918 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-20 01:39:22,205 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:22,205 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:22,483 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:22,552 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:22,843 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 36002.61it/s]
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:39:24,469 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+Loading weights:   0%|          | 1/427 [00:00<06:12,  1.14it/s]Loading weights:   0%|          | 2/427 [00:01<06:20,  1.12it/s]Loading weights:   1%|▏         | 6/427 [00:02<02:52,  2.44it/s]Loading weights:   6%|▋         | 27/427 [00:02<00:25, 15.47it/s]Loading weights:  10%|▉         | 42/427 [00:03<00:16, 23.98it/s]Loading weights:  12%|█▏        | 50/427 [00:04<00:23, 15.91it/s]Loading weights:  22%|██▏       | 94/427 [00:04<00:07, 45.22it/s]2026-04-20 01:39:28,030 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:28,030 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+Loading weights:  26%|██▌       | 112/427 [00:04<00:05, 56.71it/s]Loading weights:  30%|███       | 130/427 [00:05<00:07, 40.47it/s]Loading weights:  34%|███▍      | 147/427 [00:05<00:05, 50.91it/s]2026-04-20 01:39:29,746 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:29,746 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:30,097 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  38%|███▊      | 161/427 [00:06<00:09, 28.33it/s]Loading weights:  46%|████▌     | 196/427 [00:06<00:04, 49.60it/s]2026-04-20 01:39:30,436 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:30,517 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:31,469 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  50%|████▉     | 213/427 [00:07<00:07, 30.01it/s]2026-04-20 01:39:31,573 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:  55%|█████▌    | 235/427 [00:07<00:04, 40.80it/s]Loading weights:  59%|█████▊    | 250/427 [00:08<00:03, 45.27it/s]2026-04-20 01:39:31,865 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+Loading weights:  62%|██████▏   | 263/427 [00:08<00:03, 42.46it/s]2026-04-20 01:39:32,196 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:  69%|██████▊   | 293/427 [00:08<00:02, 66.17it/s]Loading weights:  72%|███████▏  | 308/427 [00:09<00:02, 42.85it/s]Loading weights:  76%|███████▋  | 326/427 [00:09<00:01, 53.82it/s]Loading weights:  79%|███████▉  | 339/427 [00:10<00:02, 37.22it/s]Loading weights:  85%|████████▌ | 364/427 [00:10<00:01, 38.96it/s]Loading weights:  90%|█████████ | 385/427 [00:10<00:00, 52.44it/s]Loading weights:  93%|█████████▎| 397/427 [00:11<00:00, 43.37it/s]Loading weights:  95%|█████████▌| 406/427 [00:11<00:00, 44.18it/s]Loading weights: 100%|██████████| 427/427 [00:11<00:00, 36.87it/s]
+2026-04-20 01:39:38,177 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:38,790 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:38,861 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:39,141 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:39,147 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:39:39,150 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:39:39,671 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:39:39,760 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+2026-04-20 01:39:39,981 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:39:40,455 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:40,523 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 780.45it/s]
+2026-04-20 01:39:40,582 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:39:41,160 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:39:41,170 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:39:41,171 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:39:41,172 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:39:41,641 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:41,714 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:39:42,000 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:42,988 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:43,290 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:39:43,573 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:44,736 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:39:45,290 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:46,108 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:46,394 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:46,779 INFO Shard 4/8: problems [148, 185) (37 problems)
+2026-04-20 01:39:46,779 INFO Loaded 37 problems.
+2026-04-20 01:39:46,779 INFO ============================================================
+2026-04-20 01:39:46,779 INFO POLICY: oracle_accept
+2026-04-20 01:39:46,779 INFO ============================================================
+2026-04-20 01:39:46,781 INFO [oracle_accept] [1/37] 'Juan and his brother Carlos are selling lemonade. ...'
+2026-04-20 01:39:47,499 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:47,524 INFO Loading models with auto device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:49,883 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:50,180 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:50,181 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:39:50,262 INFO Device plan: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+2026-04-20 01:39:50,263 INFO   GPU 0: NVIDIA A800-SXM4-80GB (79.3 GB total, 79.3 GB free)
+2026-04-20 01:39:50,716 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:50,785 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:51,096 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 9915.61it/s]
+2026-04-20 01:39:51,367 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:51,427 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:51,433 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:51,501 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:51,962 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:52,042 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:52,413 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:52,414 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:39:52,419 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:52,480 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:52,541 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-20 01:39:52,779 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:39:53,206 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:39:53,441 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:39:53,516 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 1/427 [00:00<06:47,  1.05it/s]2026-04-20 01:39:53,984 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-20 01:39:54,289 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 2/427 [00:01<06:19,  1.12it/s]Loading weights:   3%|▎         | 11/427 [00:03<01:55,  3.61it/s]Loading weights:   9%|▉         | 40/427 [00:03<00:22, 16.91it/s]Loading weights:  11%|█         | 48/427 [00:04<00:24, 15.69it/s]Loading weights:  24%|██▎       | 101/427 [00:04<00:08, 38.24it/s]Loading weights:  30%|███       | 129/427 [00:04<00:05, 54.22it/s]Loading weights:  33%|███▎      | 143/427 [00:05<00:07, 39.76it/s]Loading weights:  41%|████      | 173/427 [00:06<00:05, 47.70it/s]Loading weights:  43%|████▎     | 182/427 [00:06<00:06, 37.93it/s]Loading weights:  47%|████▋     | 202/427 [00:06<00:04, 50.05it/s]Loading weights:  50%|████▉     | 213/427 [00:06<00:03, 55.49it/s]2026-04-20 01:39:59,730 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:40:00,059 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+Loading weights:  55%|█████▍    | 233/427 [00:07<00:03, 54.78it/s]Loading weights:  60%|█████▉    | 255/427 [00:07<00:02, 73.71it/s]2026-04-20 01:40:00,345 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  63%|██████▎   | 268/427 [00:07<00:02, 69.40it/s]2026-04-20 01:40:00,455 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:  65%|██████▌   | 279/427 [00:07<00:01, 75.13it/s]Loading weights:  69%|██████▊   | 293/427 [00:08<00:02, 56.87it/s]Loading weights:  73%|███████▎  | 312/427 [00:08<00:01, 72.83it/s]Loading weights:  77%|███████▋  | 327/427 [00:08<00:01, 58.91it/s]2026-04-20 01:40:01,395 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+2026-04-20 01:40:01,490 INFO Loading model: Qwen/Qwen3.5-9B → cuda:0
+Loading weights:  81%|████████  | 346/427 [00:08<00:01, 76.81it/s]Loading weights:  85%|████████▍ | 361/427 [00:08<00:00, 88.34it/s]2026-04-20 01:40:01,776 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Loading weights:  88%|████████▊ | 374/427 [00:08<00:00, 82.01it/s]2026-04-20 01:40:01,856 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:  93%|█████████▎| 398/427 [00:09<00:00, 110.29it/s]Loading weights:  98%|█████████▊| 417/427 [00:09<00:00, 77.57it/s] Loading weights: 100%|██████████| 427/427 [00:09<00:00, 44.80it/s]
+2026-04-20 01:40:04,013 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:05,173 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:05,257 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:40:05,805 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:05,814 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:40:05,820 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:40:07,534 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 696.66it/s]
+2026-04-20 01:40:07,641 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:40:09,141 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:40:09,158 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:40:09,159 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:40:09,159 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:40:09,877 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:09,997 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:40:10,290 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:11,772 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:12,152 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:40:12,812 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:12,812 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:13,686 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:13,698 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:40:13,762 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+2026-04-20 01:40:14,204 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:40:14,217 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 539.98it/s]
+2026-04-20 01:40:14,541 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:40:15,060 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:15,971 INFO Shard 5/8: problems [185, 222) (37 problems)
+2026-04-20 01:40:15,971 INFO Loaded 37 problems.
+2026-04-20 01:40:15,971 INFO ============================================================
+2026-04-20 01:40:15,971 INFO POLICY: oracle_accept
+2026-04-20 01:40:15,971 INFO ============================================================
+2026-04-20 01:40:15,973 INFO [oracle_accept] [1/37] 'Alicia's clothes have to be sent to the dry cleane...'
+2026-04-20 01:40:16,026 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]2026-04-20 01:40:16,352 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:40:16,353 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-20 01:40:16,460 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 1/427 [00:00<04:26,  1.60it/s]2026-04-20 01:40:17,074 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+
+==================================================
+  1 GPU(s) detected
+==================================================
+  [0] NVIDIA A800-SXM4-80GB: 79.3 GB total, 79.3 GB free
+
+  Strategy: Single GPU (NVIDIA A800-SXM4-80GB, 79GB) — both models fit
+==================================================
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 794.41it/s]
+Loading weights:   0%|          | 2/427 [00:02<08:25,  1.19s/it]Loading weights:  11%|█         | 45/427 [00:02<00:18, 20.97it/s]Loading weights:  11%|█         | 48/427 [00:03<00:22, 16.76it/s]Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:  17%|█▋        | 72/427 [00:03<00:11, 31.48it/s]Loading weights:  20%|██        | 86/427 [00:04<00:15, 22.59it/s]Loading weights:  24%|██▎       | 101/427 [00:04<00:10, 30.16it/s]Loading weights:   0%|          | 1/427 [00:01<08:32,  1.20s/it]Loading weights:  31%|███       | 133/427 [00:04<00:05, 52.93it/s]Loading weights:  35%|███▍      | 148/427 [00:06<00:09, 29.70it/s]Loading weights:  41%|████      | 174/427 [00:06<00:07, 34.66it/s]Loading weights:   0%|          | 2/427 [00:03<11:17,  1.59s/it]Loading weights:   3%|▎         | 13/427 [00:03<01:23,  4.94it/s]Loading weights:  43%|████▎     | 184/427 [00:07<00:08, 28.58it/s]Loading weights:  45%|████▍     | 191/427 [00:07<00:09, 26.15it/s]Loading weights:  48%|████▊     | 206/427 [00:07<00:06, 35.11it/s]Loading weights:   4%|▍         | 19/427 [00:04<01:03,  6.38it/s]Loading weights:  10%|▉         | 41/427 [00:04<00:20, 18.94it/s]Loading weights:  51%|█████     | 217/427 [00:08<00:06, 33.57it/s]Loading weights:  12%|█▏        | 50/427 [00:04<00:18, 20.57it/s]Loading weights:  53%|█████▎    | 226/427 [00:08<00:06, 32.92it/s]Loading weights:  13%|█▎        | 57/427 [00:04<00:16, 22.47it/s]Loading weights:  64%|██████▍   | 274/427 [00:08<00:01, 79.50it/s]Loading weights:  19%|█▉        | 81/427 [00:05<00:09, 37.62it/s]Loading weights:  69%|██████▊   | 293/427 [00:08<00:01, 73.82it/s]Loading weights:  21%|██        | 88/427 [00:05<00:08, 40.10it/s]Loading weights:  22%|██▏       | 95/427 [00:05<00:09, 33.50it/s]Loading weights:  72%|███████▏  | 308/427 [00:09<00:01, 59.97it/s]Loading weights:  25%|██▍       | 106/427 [00:06<00:12, 26.48it/s]Loading weights:  75%|███████▍  | 320/427 [00:10<00:03, 34.09it/s]Loading weights:  26%|██▌       | 110/427 [00:06<00:14, 21.50it/s]Loading weights:  82%|████████▏ | 350/427 [00:10<00:01, 40.68it/s]Loading weights:  28%|██▊       | 121/427 [00:07<00:14, 20.87it/s]Loading weights:  89%|████████▉ | 382/427 [00:10<00:00, 59.56it/s]Loading weights:  32%|███▏      | 138/427 [00:07<00:08, 32.73it/s]Loading weights:  93%|█████████▎| 399/427 [00:10<00:00, 67.37it/s]Loading weights:  35%|███▍      | 148/427 [00:07<00:07, 35.13it/s]Loading weights:  37%|███▋      | 160/427 [00:08<00:09, 27.48it/s]Loading weights:  97%|█████████▋| 416/427 [00:11<00:00, 45.41it/s]Loading weights: 100%|██████████| 427/427 [00:11<00:00, 36.33it/s]
+Loading weights:  46%|████▌     | 197/427 [00:08<00:04, 49.14it/s]Loading weights:  48%|████▊     | 207/427 [00:08<00:04, 46.13it/s]Loading weights:  50%|█████     | 214/427 [00:09<00:06, 32.62it/s]Loading weights:  55%|█████▌    | 236/427 [00:09<00:03, 50.15it/s]Loading weights:  58%|█████▊    | 246/427 [00:09<00:03, 49.32it/s]Loading weights:  60%|█████▉    | 255/427 [00:09<00:03, 50.61it/s]Loading weights:  63%|██████▎   | 268/427 [00:09<00:02, 59.79it/s]Loading weights:  66%|██████▌   | 280/427 [00:10<00:02, 63.04it/s]Loading weights:  68%|██████▊   | 292/427 [00:13<00:11, 11.50it/s]Loading weights:  70%|██████▉   | 298/427 [00:13<00:09, 13.24it/s]Loading weights:  75%|███████▌  | 321/427 [00:13<00:04, 23.30it/s]Loading weights:  78%|███████▊  | 332/427 [00:13<00:03, 28.93it/s]Loading weights:  80%|███████▉  | 341/427 [00:13<00:02, 31.31it/s]2026-04-20 01:40:33,639 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+Loading weights:  82%|████████▏ | 349/427 [00:14<00:02, 30.81it/s]Loading weights:  84%|████████▎ | 357/427 [00:14<00:02, 33.56it/s]2026-04-20 01:40:34,280 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:34,351 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+Loading weights:  87%|████████▋ | 371/427 [00:14<00:01, 30.88it/s]Loading weights:  90%|████████▉ | 383/427 [00:14<00:01, 39.46it/s]2026-04-20 01:40:34,741 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:34,749 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:40:34,754 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+Loading weights:  93%|█████████▎| 397/427 [00:15<00:00, 42.41it/s]Loading weights:  94%|█████████▍| 403/427 [00:15<00:00, 42.92it/s]Loading weights:  98%|█████████▊| 418/427 [00:15<00:00, 58.83it/s]Loading weights: 100%|██████████| 427/427 [00:15<00:00, 52.15it/s]Loading weights: 100%|██████████| 427/427 [00:15<00:00, 27.24it/s]
+2026-04-20 01:40:36,184 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1772.04it/s]
+2026-04-20 01:40:36,279 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:40:36,700 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:40:36,714 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:40:36,721 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:40:36,722 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:40:37,065 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:37,118 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:37,192 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:40:37,614 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:37,641 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:37,709 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+2026-04-20 01:40:38,058 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:38,065 INFO MTP config: hidden_size=4096, rms_eps=1e-06
+2026-04-20 01:40:38,069 INFO Cloned decoder layer type: Qwen3_5DecoderLayer
+2026-04-20 01:40:39,680 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+2026-04-20 01:40:39,680 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:39,990 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 8049.52it/s]
+2026-04-20 01:40:40,042 INFO Loaded 15 MTP weight tensors from /mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp/EVA/liujunlin07/.cache/hf/hub/models--Qwen--Qwen3.5-9B/snapshots/c202236235762e1c871ad0ccb60c8ee5ba337b9a
+2026-04-20 01:40:40,287 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:40,479 INFO MTP head loaded: 243.3M own params, device=cuda:0
+2026-04-20 01:40:40,496 INFO Speculative decoding: MTP self-speculation mode
+2026-04-20 01:40:40,500 WARNING No calibrated predictor found at results/acceptspec/comparison/predictor_weights.pt. Using uniform head weights (run Block 2 first for best results).
+2026-04-20 01:40:40,500 INFO Loading dataset 'gsm8k' (300 problems)...
+2026-04-20 01:40:41,131 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:40:41,131 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-20 01:40:41,200 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/openai/gsm8k/740312add88f781978c0658806c59bc2815b9866/README.md "HTTP/1.1 200 OK"
+2026-04-20 01:40:41,902 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:41,991 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:40:42,641 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:40:42,927 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:43,641 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/openai/gsm8k/openai/gsm8k.py "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:43,791 INFO Shard 6/8: problems [222, 259) (37 problems)
+2026-04-20 01:40:43,841 INFO Loaded 37 problems.
+2026-04-20 01:40:43,841 INFO ============================================================
+2026-04-20 01:40:43,841 INFO POLICY: oracle_accept
+2026-04-20 01:40:43,841 INFO ============================================================
+2026-04-20 01:40:44,155 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/revision/740312add88f781978c0658806c59bc2815b9866 "HTTP/1.1 200 OK"
+2026-04-20 01:40:44,269 INFO [oracle_accept] [1/37] 'A plane travels 1200 miles in 3 hours. At the same...'
+2026-04-20 01:40:45,141 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:46,306 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=openai/gsm8k "HTTP/1.1 200 OK"
+2026-04-20 01:40:46,656 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:40:46,941 INFO HTTP Request: GET https://huggingface.co/api/datasets/openai/gsm8k/tree/740312add88f781978c0658806c59bc2815b9866?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-04-20 01:40:47,362 INFO HTTP Request: HEAD https://huggingface.co/datasets/openai/gsm8k/resolve/740312add88f781978c0658806c59bc2815b9866/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-04-20 01:40:48,960 INFO Shard 7/8: problems [259, 300) (41 problems)
+2026-04-20 01:40:48,960 INFO Loaded 41 problems.
+2026-04-20 01:40:48,960 INFO ============================================================
+2026-04-20 01:40:48,960 INFO POLICY: oracle_accept
+2026-04-20 01:40:48,960 INFO ============================================================
+2026-04-20 01:40:48,962 INFO [oracle_accept] [1/41] 'A teacher uses a 5-inch piece of chalk to write ma...'
+2026-04-20 02:40:37,473 INFO   correct=False, accept_rate=0.422, time=3613.3s
+2026-04-20 02:40:37,481 INFO [oracle_accept] [2/37] 'Sam sells bread. He has a target of selling 120 cr...'
+2026-04-20 02:52:00,872 INFO   correct=False, accept_rate=0.193, time=4372.4s
+2026-04-20 02:52:00,881 INFO [oracle_accept] [2/37] 'James wants to hang crepe-paper streamers from his...'
+2026-04-20 03:14:21,575 INFO   correct=False, accept_rate=0.099, time=5755.1s
+2026-04-20 03:14:21,624 INFO [oracle_accept] [2/37] 'Carly is making cupcakes and brownies for her art ...'
+2026-04-20 03:14:29,678 INFO   correct=False, accept_rate=0.138, time=5616.9s
+2026-04-20 03:14:29,852 INFO [oracle_accept] [2/37] 'Tom decides to give his wife an anniversary getawa...'
+2026-04-20 03:28:46,554 INFO   correct=False, accept_rate=0.199, time=6640.6s
+2026-04-20 03:28:46,570 INFO [oracle_accept] [2/37] 'A team of 4 painters worked on a mansion for 3/8th...'
+2026-04-20 03:43:41,764 INFO   correct=False, accept_rate=0.078, time=7524.0s
+2026-04-20 03:43:41,772 INFO [oracle_accept] [2/37] 'Heather's razors come 4 to a pack and cost $4.00 a...'
+2026-04-20 03:48:02,401 INFO   correct=False, accept_rate=0.086, time=7690.3s
+2026-04-20 03:48:02,415 INFO [oracle_accept] [2/37] 'Greg has an alarm set to ring three times a day as...'
+2026-04-20 04:09:04,844 INFO   correct=False, accept_rate=0.162, time=8889.8s
+2026-04-20 04:09:04,858 INFO [oracle_accept] [2/41] 'Lisa and Peter are selling chocolate bars door to ...'
+2026-04-20 04:22:18,862 INFO   correct=False, accept_rate=0.161, time=6100.9s
+2026-04-20 04:22:18,871 INFO [oracle_accept] [3/37] 'Boris has 100 apples. Beck has 23 fewer apples tha...'
+2026-04-20 04:40:55,340 INFO   correct=False, accept_rate=0.168, time=5192.8s
+2026-04-20 04:40:55,355 INFO [oracle_accept] [3/37] 'Jim spends 2 hours watching TV and then decides to...'
+2026-04-20 04:43:00,798 INFO   correct=False, accept_rate=0.107, time=6658.9s
+2026-04-20 04:43:00,808 INFO [oracle_accept] [3/37] 'In 10 years, Melanie will be 18 years old. In how ...'
+2026-04-20 04:45:20,418 INFO   correct=False, accept_rate=0.161, time=4593.1s
+2026-04-20 04:45:20,480 INFO [oracle_accept] [3/37] 'It costs $194 per meter to repave a street. Monica...'
+2026-04-20 04:56:50,942 INFO   correct=False, accept_rate=0.122, time=6139.5s
+2026-04-20 04:56:50,951 INFO [oracle_accept] [3/37] 'Felix notices that kids in the neighborhood are al...'
+2026-04-20 05:19:59,285 INFO   correct=False, accept_rate=0.086, time=5777.4s
+2026-04-20 05:19:59,293 INFO [oracle_accept] [3/37] 'When the water is cold Ray swims a mile in 16 minu...'
+2026-04-20 05:21:25,832 INFO   correct=False, accept_rate=0.117, time=3545.5s
+2026-04-20 05:21:25,840 INFO [oracle_accept] [4/37] 'Hannah has a mental breakdown while studying for f...'
+2026-04-20 05:21:54,541 INFO   correct=False, accept_rate=0.125, time=4368.5s
+2026-04-20 05:21:54,550 INFO [oracle_accept] [3/41] 'Carla just gave birth to identical octuplets. She ...'
+2026-04-20 05:40:25,231 INFO   correct=False, accept_rate=0.150, time=3569.5s
+2026-04-20 05:40:25,350 INFO [oracle_accept] [4/37] 'Kenny is selling his Pokemon cards to buy a ticket...'
+2026-04-20 05:44:14,783 INFO   correct=False, accept_rate=0.114, time=3673.8s
+2026-04-20 05:44:14,795 INFO [oracle_accept] [4/37] 'Bobby takes a 30 min lunch and 2 15 minutes break ...'
+2026-04-20 05:45:18,781 INFO   correct=False, accept_rate=0.077, time=7034.9s
+2026-04-20 05:45:18,789 INFO [oracle_accept] [3/37] 'Rosie can run 10 miles per hour for 3 hours. After...'
+2026-04-20 06:05:19,616 INFO   correct=False, accept_rate=0.098, time=4798.9s
+2026-04-20 06:05:19,627 INFO [oracle_accept] [4/37] 'Richard lives in an apartment building with 15 flo...'
+2026-04-20 06:18:00,432 INFO   correct=False, accept_rate=0.357, time=3363.3s
+2026-04-20 06:18:00,441 INFO [oracle_accept] [4/41] 'Verna loves to eat fruit. She bought three apples ...'
+2026-04-20 06:34:36,194 INFO   correct=False, accept_rate=0.214, time=4476.7s
+2026-04-20 06:34:36,218 INFO [oracle_accept] [4/37] 'Romeo boards a train with 120 people. At the first...'
+2026-04-20 06:43:24,399 INFO   correct=False, accept_rate=0.112, time=6392.6s
+2026-04-20 06:43:24,408 INFO [oracle_accept] [4/37] 'Calvin is making soup for his family for dinner. H...'
+2026-04-20 06:54:35,602 INFO   correct=False, accept_rate=0.212, time=5589.3s
+2026-04-20 06:54:36,060 INFO [oracle_accept] [5/37] 'John cuts down an 80-foot tree.  He can make logs ...'
+2026-04-20 07:00:11,278 INFO   correct=False, accept_rate=0.191, time=4490.9s
+2026-04-20 07:00:11,677 INFO [oracle_accept] [4/37] 'Twenty kids went out on a school trip. In one of t...'
+2026-04-20 07:11:17,752 INFO   correct=False, accept_rate=0.205, time=5451.7s
+2026-04-20 07:11:17,761 INFO [oracle_accept] [5/37] 'Ashley has an internet connection speed of 20kb pe...'
+2026-04-20 07:29:02,771 INFO   correct=False, accept_rate=0.185, time=5022.3s
+2026-04-20 07:29:02,780 INFO [oracle_accept] [5/37] 'An ice cream truck is traveling through a neighbor...'
+2026-04-20 07:35:32,716 INFO   correct=False, accept_rate=0.099, time=6675.2s
+2026-04-20 07:35:32,726 INFO [oracle_accept] [5/37] 'Charlie had 10 stickers. He bought 21 stickers fro...'
+2026-04-20 07:54:15,441 INFO   correct=False, accept_rate=0.166, time=5774.2s
+2026-04-20 07:54:15,526 INFO [oracle_accept] [5/41] 'The marching band is ordering new uniforms. Each u...'
+2026-04-20 08:17:10,951 INFO   correct=False, accept_rate=0.225, time=4953.9s
+2026-04-20 08:17:10,960 INFO [oracle_accept] [6/37] 'James gets a job selling used cars.  He sold 10 ca...'
+2026-04-20 08:52:38,852 INFO   correct=False, accept_rate=0.099, time=8281.6s
+2026-04-20 08:52:38,868 INFO [oracle_accept] [5/37] 'Tom has 4 bedrooms in his house.  They measure 20 ...'
+2026-04-20 09:00:41,180 INFO   correct=True, accept_rate=0.088, time=8235.9s
+2026-04-20 09:00:41,189 INFO [oracle_accept] [5/37] 'Jimmy has $2 more than twice the money Ethel has. ...'
+2026-04-20 09:19:13,265 INFO   correct=False, accept_rate=0.137, time=6220.0s
+2026-04-20 09:19:13,275 INFO [oracle_accept] [6/37] 'Ada's daily electric consumption is 12 kilowatts p...'
+2026-04-20 09:24:21,472 INFO   correct=False, accept_rate=0.113, time=8648.7s
+2026-04-20 09:24:21,481 INFO [oracle_accept] [5/37] 'Each person in a certain household consumes 0.2 kg...'
+2026-04-20 09:27:21,458 INFO   correct=False, accept_rate=0.172, time=7097.4s
+2026-04-20 09:27:21,469 INFO [oracle_accept] [6/37] 'James runs 12 miles a day for 5 days a week.  If h...'
+2026-04-20 09:37:09,415 INFO   correct=False, accept_rate=0.144, time=6173.0s
+2026-04-20 09:37:09,423 INFO [oracle_accept] [6/41] 'Colby wants to buy some gumballs that cost a nicke...'
+2026-04-20 09:46:55,857 INFO   correct=False, accept_rate=0.031, time=9336.6s
+2026-04-20 09:46:55,873 INFO [oracle_accept] [6/37] 'Anthony is sending out coupons for his pizza parlo...'
+2026-04-20 10:11:09,014 INFO   correct=False, accept_rate=0.113, time=6837.0s
+2026-04-20 10:11:09,022 INFO [oracle_accept] [7/37] 'A dance studio offers lessons to students. It cost...'
+2026-04-20 10:26:45,345 INFO   correct=False, accept_rate=0.120, time=934.3s
+2026-04-20 10:26:45,353 INFO [oracle_accept] [8/37] 'Ford owns a garden and he grows 40 roses every wee...'
+2026-04-20 10:44:52,234 INFO   correct=False, accept_rate=0.088, time=6250.0s
+2026-04-20 10:44:52,243 INFO [oracle_accept] [6/37] 'Twenty tourists discovered 700 shells in a strip m...'
+2026-04-20 10:55:24,990 INFO   correct=False, accept_rate=0.111, time=7364.9s
+2026-04-20 10:55:25,078 INFO [oracle_accept] [6/37] 'Rayna has 60 more dollars than Kassidy, and Kassid...'
+2026-04-20 11:10:26,580 INFO   correct=False, accept_rate=0.109, time=6184.6s
+2026-04-20 11:10:26,588 INFO [oracle_accept] [7/37] 'Mark was unwell for 3 months, during which he lost...'
+2026-04-20 11:18:46,622 INFO   correct=False, accept_rate=0.132, time=6096.4s
+2026-04-20 11:18:46,686 INFO [oracle_accept] [7/41] 'Stephen borrowed $300 from his sister and promised...'
+2026-04-20 11:20:44,759 INFO   correct=False, accept_rate=0.090, time=6982.6s
+2026-04-20 11:20:44,768 INFO [oracle_accept] [6/37] 'The local firefighters are doing a “fill the boot”...'
+2026-04-20 11:52:21,096 INFO   correct=False, accept_rate=0.099, time=7525.0s
+2026-04-20 11:52:21,127 INFO [oracle_accept] [7/37] 'Stephen placed an online order for groceries.  His...'
+2026-04-20 12:03:49,599 INFO   correct=False, accept_rate=0.037, time=9875.4s
+2026-04-20 12:03:49,608 INFO [oracle_accept] [7/37] 'Sally went to the seashore for vacation.  Her pare...'
+2026-04-20 12:33:05,473 INFO   correct=False, accept_rate=0.103, time=7578.9s
+2026-04-20 12:33:05,481 INFO [oracle_accept] [9/37] 'Tracy used a piece of wire 4 feet long to support ...'
+2026-04-20 12:47:34,159 INFO   correct=False, accept_rate=0.124, time=7360.5s
+2026-04-20 12:47:34,174 INFO [oracle_accept] [7/37] 'Hannah's city is having a big display of fireworks...'
+2026-04-20 12:54:13,216 INFO   correct=False, accept_rate=0.113, time=6226.4s
+2026-04-20 12:54:13,227 INFO [oracle_accept] [8/37] 'Craig and his brother take turns spelling out the ...'
+2026-04-20 13:01:00,701 INFO   correct=False, accept_rate=0.090, time=7534.7s
+2026-04-20 13:01:00,709 INFO [oracle_accept] [7/37] 'Isabelle bought party supplies for her little sist...'
+2026-04-20 13:17:59,287 INFO   correct=False, accept_rate=0.130, time=7151.3s
+2026-04-20 13:17:59,295 INFO [oracle_accept] [8/41] 'Twenty dozen cups cost $1200 less than the total c...'
+2026-04-20 13:44:07,577 INFO   correct=False, accept_rate=0.071, time=8602.3s
+2026-04-20 13:44:07,586 INFO [oracle_accept] [7/37] 'The Adams family is busy making cookies. So far, t...'
+2026-04-20 14:00:10,571 INFO   correct=False, accept_rate=0.178, time=6980.8s
+2026-04-20 14:00:10,580 INFO [oracle_accept] [8/37] 'A marketing company pays its employees on a commis...'
+2026-04-20 14:25:17,784 INFO   correct=False, accept_rate=0.088, time=6730.5s
+2026-04-20 14:25:17,793 INFO [oracle_accept] [10/37] 'Ryan plants 2 flowers a day in his garden. After 1...'
+2026-04-20 14:36:20,555 INFO   correct=False, accept_rate=0.066, time=9838.9s
+2026-04-20 14:36:20,565 INFO [oracle_accept] [8/37] 'Lucy sells apples from her orchard at $4 per piece...'
+2026-04-20 14:44:59,619 INFO   correct=False, accept_rate=0.147, time=5220.1s
+2026-04-20 14:44:59,641 INFO [oracle_accept] [9/41] 'Emma can make and upload 72 vlogs per month. But s...'
+2026-04-20 14:45:44,386 INFO   correct=False, accept_rate=0.161, time=6691.0s
+2026-04-20 14:45:44,393 INFO [oracle_accept] [9/37] 'Vincent can buy flowers in packages of 3 for $2.50...'
+2026-04-20 15:14:58,201 INFO   correct=False, accept_rate=0.096, time=8037.3s
+2026-04-20 15:14:58,209 INFO [oracle_accept] [8/37] 'Charlie wants to sell beeswax candles.  For every ...'
+2026-04-20 15:31:28,366 INFO   correct=False, accept_rate=0.141, time=6440.5s
+2026-04-20 15:31:28,583 INFO [oracle_accept] [8/37] 'Jen decides to travel to 3 different countries.  H...'
+2026-04-20 15:35:37,781 INFO   correct=False, accept_rate=0.044, time=10080.0s
+2026-04-20 15:35:37,792 INFO [oracle_accept] [8/37] 'Griffin had 24 french fries, but Kyle took 5 of th...'
+2026-04-20 16:07:23,405 INFO   correct=False, accept_rate=0.237, time=4943.0s
+2026-04-20 16:07:23,413 INFO [oracle_accept] [10/41] 'Of the 20 available cars for rent, 12 are automati...'
+2026-04-20 16:10:53,470 INFO   correct=False, accept_rate=0.102, time=7842.8s
+2026-04-20 16:10:53,493 INFO [oracle_accept] [9/37] 'Antoine's french onion soup recipe calls for 2 pou...'
+2026-04-20 16:16:57,740 INFO   correct=False, accept_rate=0.076, time=6698.4s
+2026-04-20 16:16:57,748 INFO [oracle_accept] [11/37] 'Bill bakes 300 rolls, 120 chocolate croissants, an...'
+2026-04-20 16:37:38,269 INFO   correct=False, accept_rate=0.106, time=6713.3s
+2026-04-20 16:37:38,278 INFO [oracle_accept] [10/37] 'Mario needs to buy snowshoes for his 6 sled dogs. ...'
+2026-04-20 16:57:26,321 INFO   correct=False, accept_rate=0.096, time=8465.3s
+2026-04-20 16:57:26,330 INFO [oracle_accept] [9/37] 'Tim grows 5 trees.  Each year he collects 6 lemons...'
+2026-04-20 17:00:54,044 INFO   correct=False, accept_rate=0.185, time=6355.5s
+2026-04-20 17:00:54,053 INFO [oracle_accept] [9/37] 'Paul is driving a car twice a day: in the morning,...'
+2026-04-20 17:30:54,700 INFO   correct=False, accept_rate=0.179, time=5010.7s
+2026-04-20 17:30:54,870 INFO [oracle_accept] [11/41] 'Farmer Brown's farm is 200 acres, and Farmer Smith...'
+2026-04-20 17:36:43,994 INFO   correct=False, accept_rate=0.091, time=7514.4s
+2026-04-20 17:36:44,145 INFO [oracle_accept] [9/37] 'James has 6 more candies than Robert. John has twi...'

@@ -1,0 +1,289 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-9B",
+    "num_problems": 100,
+    "num_train": 8,
+    "num_test": 8,
+    "gamma": 5,
+    "temperature": 0.0,
+    "samples_per_step": 25,
+    "sample_fraction": 0.2,
+    "max_tokens": 128
+  },
+  "spearman_correlations": {
+    "accept_vs_ppl": {
+      "rho": -0.1745699865289798,
+      "pval": 7.387096473094465e-24
+    },
+    "accept_vs_attn": {
+      "rho": 0.013448095783878275,
+      "pval": 0.017961161247119724
+    },
+    "ppl_vs_attn": {
+      "rho": 0.01648993648259316,
+      "pval": 0.00371088408967171
+    }
+  },
+  "marginspec_correlations": {
+    "accept_vs_margin": {
+      "rho": 0.017603048825314632,
+      "pval": 0.0019506075047793841
+    },
+    "accept_vs_logit_tv": {
+      "rho": 0.04257103913669848,
+      "pval": 0.0008690250385872863
+    },
+    "margin_vs_logit_tv": {
+      "rho": 0.0036205670927362535,
+      "pval": 0.5240774665664572
+    }
+  },
+  "accept_predictor": {
+    "precision": 0.23209258913993835,
+    "recall": 0.23209258913993835,
+    "f1": 0.23209258913993835,
+    "tp": 742,
+    "fp": 2455,
+    "fn": 2455
+  },
+  "attention_proxy": {
+    "precision": 0.9931185245513916,
+    "recall": 0.9931185245513916,
+    "f1": 0.9931185245513916,
+    "tp": 3175,
+    "fp": 22,
+    "fn": 22
+  },
+  "gates": {
+    "divergence": {
+      "criterion": "all pairwise rho < 0.7",
+      "passed": true,
+      "details": {
+        "accept_vs_ppl": {
+          "rho": -0.1745699865289798,
+          "passed": true
+        },
+        "accept_vs_attn": {
+          "rho": 0.013448095783878275,
+          "passed": true
+        },
+        "ppl_vs_attn": {
+          "rho": 0.01648993648259316,
+          "passed": true
+        }
+      }
+    },
+    "predictor_f1": {
+      "criterion": "AcceptPredictor F1 > 0.75",
+      "passed": false,
+      "value": 0.23209258913993835
+    },
+    "accept_beats_attn": {
+      "criterion": "AcceptPredictor F1 > AttentionProxy F1",
+      "passed": false,
+      "accept_f1": 0.23209258913993835,
+      "attn_f1": 0.9931185245513916
+    },
+    "overall_passed": false
+  },
+  "aggregate": {
+    "total_tokens_measured": 30964,
+    "num_problems_completed": 16,
+    "num_train_steps": 120,
+    "num_test_steps": 118
+  },
+  "per_problem": [
+    {
+      "question": "A candle melts by 2 centimeters every hour that it burns. How many centimeters shorter will a candle",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.050000440565773026
+      }
+    },
+    {
+      "question": "It takes James 10 minutes to read 3 pages of his book before he goes to bed. He reads 18 pages of hi",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "According to its nutritional info, a bag of chips has 250 calories per serving. If a 300g bag has 5 ",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.04933695220524601
+      }
+    },
+    {
+      "question": "There are 36 penguins sunbathing in the snow.  One-third of them jump in and swim in the ocean.  Ano",
+      "split": "TRAIN",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "The number of songs in a playlist is 300. If John has 20 such playlists, and each song is 10 hours l",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.013364944088594675
+      }
+    },
+    {
+      "question": "It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle.  Ov",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.004936716429065542
+      }
+    },
+    {
+      "question": "If Mark weighs 150 pounds and Susan weighs 20 pounds less than Mark.  And their friend Bob weighs tw",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.008992965109001117
+      }
+    },
+    {
+      "question": "Nick is choosing between two jobs. Job A pays $15 an hour for 2000 hours a year, and is in a state w",
+      "split": "TRAIN",
+      "num_steps": 64,
+      "num_tokens": 129,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Adam really wants to ride the biggest roller coaster at the park. You have to be 4 feet tall to ride",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.048896260304199045
+      }
+    },
+    {
+      "question": "Robert had 3 pounds of candy, Cindy had 5 pounds of candy, and Aaron had 4 pounds of candy after Hal",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.038568672032268124
+      }
+    },
+    {
+      "question": "John drinks a bottle of water every half hour.  A normal sudoku puzzle takes him 45 minutes.  An ext",
+      "split": "TEST",
+      "num_steps": 61,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    },
+    {
+      "question": "Charlotte went into the kitchen supply store knowing she wanted a set of pot and pans for $120.00, a",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.015294087820071781
+      }
+    },
+    {
+      "question": "Carmen goes to an auction to win an antique desk. She accepts the opening bid of $200 and continues ",
+      "split": "TEST",
+      "num_steps": 62,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.026495228888818816
+      }
+    },
+    {
+      "question": "Roger goes to the store to buy some coffee.  The normal brand of coffee he buys cost $5 per pound.  ",
+      "split": "TEST",
+      "num_steps": 64,
+      "num_tokens": 128,
+      "num_measured_steps": 15,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": -0.01786207877940764
+      }
+    },
+    {
+      "question": "A perfume company is trying to create new scents. They already have 4 vanilla scents and 8 fruity sc",
+      "split": "TEST",
+      "num_steps": 58,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": 0.01719970857198922
+      }
+    },
+    {
+      "question": "It takes Matthew 3 minutes to dig a small hole for shrubs and 10 minutes to dig a large hole for tre",
+      "split": "TEST",
+      "num_steps": 56,
+      "num_tokens": 128,
+      "num_measured_steps": 14,
+      "avg_spearman": {
+        "accept_vs_ppl": NaN,
+        "accept_vs_attn": NaN,
+        "ppl_vs_attn": NaN
+      }
+    }
+  ]
+}
