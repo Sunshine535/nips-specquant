@@ -1,0 +1,75 @@
+# MARA — Margin-Calibrated Acceptance-Risk Allocation
+# Minimal config for smoke tests and small experiments
+
+model:
+  name: "Qwen/Qwen3.5-9B"
+  use_mtp: true
+  attn_implementation: "eager"
+
+dataset:
+  name: "gsm8k"
+  split: "test"
+  num_calib: 8
+  num_eval: 16
+  calib_fraction: 0.3
+  seed: 42
+
+speculative_decode:
+  gamma: 5
+  temperature: 0.0
+  max_tokens: 512
+
+mara:
+  # Risk oracle
+  sample_fraction: 0.3
+  actions: ["4bit", "2bit"]
+  margin_threshold: 2.0
+
+  # Risk predictor
+  predictor:
+    input_dim: 6
+    hidden_dim: 32
+    lr: 0.01
+    epochs: 100
+    lambda_rank: 0.1
+    lambda_cal: 0.01
+
+  # Budget allocator
+  allocator:
+    beta: 1.0
+    budget: 0.2
+
+  # Margin/uncertainty gate
+  gate:
+    budget_base: 0.2
+    margin_threshold: 2.0
+    uncertainty_threshold: 0.5
+    delta_margin: 0.1
+    delta_uncertainty: 0.05
+    budget_max: 0.5
+
+# Policies for A/B/C comparison
+policies:
+  - name: "fp16_baseline"
+    description: "No compression, upper bound"
+  - name: "uniform_4bit"
+    description: "All tokens quantized to 4-bit"
+  - name: "uniform_2bit"
+    description: "All tokens quantized to 2-bit"
+  - name: "attention_h2o"
+    description: "Top-k by attention score kept at FP16 (SmallKV/H2O style)"
+  - name: "existing_best_fragment_only"
+    description: "Variant A: Old AcceptPredictor top-k ranking"
+  - name: "mara_no_gate_or_uncertainty"
+    description: "Variant B: MARA risk allocation without margin gate"
+  - name: "mara_full"
+    description: "Variant C: Full MARA with risk + gate + uncertainty"
+  - name: "oracle_risk"
+    description: "Oracle: use true risk labels for allocation (upper bound)"
+
+# Reproducibility
+seed: 42
+deterministic: true
+save_split_manifest: true
+save_run_metadata: true
+save_mechanism_logs: true
