@@ -43,6 +43,7 @@ from src.repro import (
     set_global_seed,
 )
 from src.speculative_decode import SpeculativeDecoder, _trim_kv_cache
+from src.utils import get_kv_tensors, set_kv_tensors, get_kv_layer_indices
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -151,23 +152,29 @@ def collect_risk_labels(
                 sample_indices = torch.randperm(actual_kv_len, generator=gen)[:n_sample].sort().values
 
                 # Perturb each sampled token under each action
+                # Use get_kv_layer_indices to only touch MHA layers (skip LinearAttention)
+                mha_layers = get_kv_layer_indices(target_kv)
+
                 for tok_idx in sample_indices.tolist():
                     for action in ["4bit", "2bit"]:
                         bits = 2 if action == "2bit" else 4
                         n_levels = 2**bits - 1
 
-                        # Create perturbed KV (quantize single token)
+                        # Quantize single token in MHA layers only
                         import copy
                         kv_perturbed = copy.deepcopy(target_kv)
-                        for layer in kv_perturbed:
-                            if isinstance(layer, (list, tuple)):
-                                for tensor in layer:
-                                    val = tensor[:, :, tok_idx, :]
-                                    vmin, vmax = val.min(), val.max()
-                                    if vmax > vmin:
-                                        norm = (val - vmin) / (vmax - vmin)
-                                        q = torch.round(norm * n_levels) / n_levels
-                                        tensor[:, :, tok_idx, :] = q * (vmax - vmin) + vmin
+                        for li in mha_layers:
+                            k, v = get_kv_tensors(kv_perturbed, li)
+                            if k is None or tok_idx >= k.shape[2]:
+                                continue
+                            for tensor in [k, v]:
+                                val = tensor[:, :, tok_idx, :]
+                                vmin, vmax = val.min(), val.max()
+                                if vmax > vmin:
+                                    norm = (val - vmin) / (vmax - vmin)
+                                    q = torch.round(norm * n_levels) / n_levels
+                                    tensor[:, :, tok_idx, :] = q * (vmax - vmin) + vmin
+                            set_kv_tensors(kv_perturbed, li, k, v)
 
                         # Re-verify with perturbed KV
                         perturbed_out = target_model(

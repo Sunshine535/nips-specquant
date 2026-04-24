@@ -274,28 +274,38 @@ class AcceptanceRiskOracle:
         return 0
 
     def _perturb_token(self, kv_cache, token_idx: int, action: str):
-        """Perturb a single token's KV to simulated lower precision."""
-        # Deep copy affected tensors only
-        import copy
-        kv_perturbed = copy.deepcopy(kv_cache)
+        """Perturb a single token's KV to simulated lower precision.
 
-        if action == "evict":
-            for layer in kv_perturbed:
-                if isinstance(layer, (list, tuple)):
-                    for tensor in layer:
-                        tensor[:, :, token_idx, :] = 0.0
-        elif action in ("2bit", "4bit"):
-            bits = 2 if action == "2bit" else 4
-            n_levels = 2**bits - 1
-            for layer in kv_perturbed:
-                if isinstance(layer, (list, tuple)):
-                    for tensor in layer:
-                        val = tensor[:, :, token_idx, :]
-                        vmin, vmax = val.min(), val.max()
-                        if vmax > vmin:
-                            normalized = (val - vmin) / (vmax - vmin)
-                            quantized = torch.round(normalized * n_levels) / n_levels
-                            tensor[:, :, token_idx, :] = quantized * (vmax - vmin) + vmin
+        Handles HybridCache (Qwen3.5) by only touching MHA layers
+        and skipping LinearAttention layers.
+        """
+        import copy
+        from .utils import get_kv_tensors, set_kv_tensors, get_kv_layer_indices
+
+        kv_perturbed = copy.deepcopy(kv_cache)
+        mha_layers = get_kv_layer_indices(kv_perturbed)
+
+        for li in mha_layers:
+            k, v = get_kv_tensors(kv_perturbed, li)
+            if k is None or token_idx >= k.shape[2]:
+                continue
+
+            if action == "evict":
+                k[:, :, token_idx, :] = 0.0
+                v[:, :, token_idx, :] = 0.0
+            elif action in ("2bit", "4bit"):
+                bits = 2 if action == "2bit" else 4
+                n_levels = 2**bits - 1
+                for tensor in [k, v]:
+                    val = tensor[:, :, token_idx, :]
+                    vmin, vmax = val.min(), val.max()
+                    if vmax > vmin:
+                        normalized = (val - vmin) / (vmax - vmin)
+                        quantized = torch.round(normalized * n_levels) / n_levels
+                        tensor[:, :, token_idx, :] = quantized * (vmax - vmin) + vmin
+
+            set_kv_tensors(kv_perturbed, li, k, v)
+
         return kv_perturbed
 
     def _restore_token(self, kv_original, kv_perturbed, token_idx: int):
