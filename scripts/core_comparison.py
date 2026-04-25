@@ -870,6 +870,7 @@ def build_policy_score_fns(
     oracle: Optional[AcceptSensitivityOracle],
     predictor: Optional[AcceptPredictor],
     temperature: float,
+    kv_budget: float = 0.2,
 ) -> Dict[str, Any]:
     """Build scoring function closures for each policy.
 
@@ -977,9 +978,8 @@ def build_policy_score_fns(
     # (h) MARA: risk allocation WITHOUT margin/uncertainty gate (Variant B)
     try:
         from src.accept_risk import AcceptanceRiskPredictor, RiskBudgetAllocator, ACTION_LIST
-        _mara_predictor_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "results", "mara", "calib", "predictor_weights.pt"
-        )
+        _project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        _mara_predictor_path = os.path.join(_project_root, "results", "mara", "calib", "predictor_weights.pt")
         if os.path.exists(_mara_predictor_path):
             _mara_pred = AcceptanceRiskPredictor(input_dim=5, hidden_dim=32)
             _mara_pred.load(_mara_predictor_path)
@@ -1095,7 +1095,7 @@ def run_comparison(args):
     logger.info("Loaded %d problems.", len(problems))
 
     # Build scoring functions
-    policy_fns = build_policy_score_fns(decoder, oracle, predictor, args.temperature)
+    policy_fns = build_policy_score_fns(decoder, oracle, predictor, args.temperature, args.kv_budget)
 
     # Determine which policies to run
     if args.ablation == "no_sd":
