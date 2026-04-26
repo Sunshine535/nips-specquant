@@ -1020,16 +1020,30 @@ def run_comparison(args):
     plan = plan_devices()
     logger.info("Loading models with auto device plan: %s", plan.description)
 
-    model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
-    target_model = model
-
-    # Create SD decoder with MTP self-speculation (not dual-model legacy)
-    decoder = SpeculativeDecoder(
-        target_model=target_model,
-        tokenizer=tokenizer,
-        mtp_head=mtp_head,
-        quant_bits=0,
-    )
+    if args.draft_model:
+        # Dual-model SD (e.g. Qwen3-0.6B draft + Qwen3-8B target)
+        draft_model, target_model, tokenizer, plan = load_models(
+            args.draft_model, args.model, plan=plan,
+        )
+        mtp_head = None
+        decoder = SpeculativeDecoder(
+            target_model=target_model,
+            draft_model=draft_model,
+            tokenizer=tokenizer,
+            quant_bits=0,
+        )
+        logger.info("Dual-model SD: draft=%s, target=%s", args.draft_model, args.model)
+    else:
+        # MTP self-speculation (single model)
+        model, mtp_head, tokenizer, plan = load_model_mtp(args.model, plan=plan)
+        target_model = model
+        decoder = SpeculativeDecoder(
+            target_model=target_model,
+            tokenizer=tokenizer,
+            mtp_head=mtp_head,
+            quant_bits=0,
+        )
+        logger.info("MTP self-speculation: model=%s", args.model)
 
     # Create MixedPrecisionKV
     config = target_model.config
@@ -1341,7 +1355,10 @@ def main():
     parser = argparse.ArgumentParser(
         description="Block 3: Core Comparison -- 8 retention policies at same KV budget"
     )
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-8B",
+                        help="Target model name")
+    parser.add_argument("--draft_model", type=str, default=None,
+                        help="Draft model name for dual-model SD (default: use MTP self-speculation)")
     parser.add_argument("--dataset", type=str, default="gsm8k",
                         choices=["gsm8k", "math500"])
     parser.add_argument("--num_problems", type=int, default=100)

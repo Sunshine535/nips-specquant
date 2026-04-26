@@ -74,9 +74,14 @@ def collect_risk_labels(
     margin_threshold: float = 2.0,
     seed: int = 42,
 ) -> RiskLabelSet:
-    """Run MTP SD on problems, perturb KV tokens, collect continuous risk labels."""
+    """Run SD on problems, perturb KV tokens, collect continuous risk labels.
+
+    Supports both MTP self-speculation (mtp_head != None) and dual-model SD.
+    """
     gen = set_global_seed(seed)
     device = next(target_model.parameters()).device
+    draft_model = decoder.draft_model
+    use_mtp = mtp_head is not None
     all_labels = []
 
     for pidx, problem in enumerate(problems):
@@ -87,23 +92,31 @@ def collect_risk_labels(
                     pidx + 1, len(problems), problem["question"][:50])
 
         try:
-            # Prefill
+            # Target prefill
             t_out = target_model(
-                input_ids.to(device), use_cache=True, output_hidden_states=True,
+                input_ids.to(device), use_cache=True,
+                output_hidden_states=use_mtp,
             )
             target_kv = t_out.past_key_values
             target_next_logits = t_out.logits[:, -1, :]
             kv_len = input_ids.shape[1]
 
-            # MTP initial logits
-            resync_pos = torch.tensor([[kv_len]], device=device)
-            last_tok_id = input_ids[0, -1]
-            mtp_logits, _, _ = mtp_head(
-                last_tok_id.view(1, 1).to(device),
-                t_out.hidden_states[-1][:, -1:, :],
-                resync_pos,
-            )
-            draft_next_logits = mtp_logits.squeeze(1)
+            if use_mtp:
+                # MTP initial logits
+                resync_pos = torch.tensor([[kv_len]], device=device)
+                last_tok_id = input_ids[0, -1]
+                mtp_logits, _, _ = mtp_head(
+                    last_tok_id.view(1, 1).to(device),
+                    t_out.hidden_states[-1][:, -1:, :],
+                    resync_pos,
+                )
+                draft_next_logits = mtp_logits.squeeze(1)
+            else:
+                # Dual-model: draft prefill
+                draft_device = next(draft_model.parameters()).device
+                d_out = draft_model(input_ids.to(draft_device), use_cache=True)
+                draft_kv_state = d_out.past_key_values
+                draft_next_logits = d_out.logits[:, -1, :]
 
             step_idx = 0
             tokens_generated = 0
@@ -114,12 +127,37 @@ def collect_risk_labels(
                 if cur_gamma <= 0:
                     break
 
-                # Draft using shared MTP helper
-                draft_result, draft_kv = mtp_draft_step(
-                    target_model, mtp_head,
-                    draft_next_logits, target_kv,
-                    kv_len, cur_gamma, temperature, device,
-                )
+                if use_mtp:
+                    # MTP draft
+                    draft_result, _ = mtp_draft_step(
+                        target_model, mtp_head,
+                        draft_next_logits, target_kv,
+                        kv_len, cur_gamma, temperature, device,
+                    )
+                else:
+                    # Dual-model draft
+                    draft_tokens_list = []
+                    draft_probs_list = []
+                    cur_logits = draft_next_logits
+                    for _ in range(cur_gamma):
+                        if temperature > 0:
+                            probs = F.softmax(cur_logits / temperature, dim=-1)
+                            tok = torch.multinomial(probs.squeeze(0), 1).item()
+                        else:
+                            tok = cur_logits.argmax(dim=-1).item()
+                            probs = F.softmax(cur_logits, dim=-1)
+                        draft_tokens_list.append(tok)
+                        draft_probs_list.append(probs.squeeze(0).cpu())
+                        tok_t = torch.tensor([[tok]], device=draft_device)
+                        d_out = draft_model(tok_t, past_key_values=draft_kv_state, use_cache=True)
+                        draft_kv_state = d_out.past_key_values
+                        cur_logits = d_out.logits[:, -1, :]
+                    from src.mtp_loop import DraftResult
+                    draft_result = DraftResult(
+                        tokens=torch.tensor(draft_tokens_list, device=device),
+                        probs=draft_probs_list,
+                        gamma=cur_gamma,
+                    )
 
                 # Pre-sample coupled uniforms for paired measurement
                 coupled_u = make_coupled_uniforms(1, cur_gamma, gen)[0]
@@ -226,8 +264,25 @@ def collect_risk_labels(
                 step_idx += 1
 
                 # Resync
-                target_next_logits, draft_next_logits, target_kv, kv_len = \
-                    resync_after_accept(target_model, mtp_head, last_tok, target_kv, new_kv_len, device)
+                if use_mtp:
+                    target_next_logits, draft_next_logits, target_kv, kv_len = \
+                        resync_after_accept(target_model, mtp_head, last_tok, target_kv, new_kv_len, device)
+                else:
+                    # Dual-model resync
+                    t_out = target_model(
+                        last_tok.view(1, 1).to(device),
+                        past_key_values=target_kv, use_cache=True,
+                    )
+                    target_kv = t_out.past_key_values
+                    target_next_logits = t_out.logits[:, -1, :]
+                    kv_len = new_kv_len + 1
+
+                    d_out = draft_model(
+                        last_tok.view(1, 1).to(draft_device),
+                        past_key_values=draft_kv_state, use_cache=True,
+                    )
+                    draft_kv_state = d_out.past_key_values
+                    draft_next_logits = d_out.logits[:, -1, :]
 
                 if last_tok.item() == tokenizer.eos_token_id:
                     break
@@ -274,7 +329,10 @@ def _compute_margin(logits: torch.Tensor) -> float:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3.5-9B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-8B",
+                        help="Target model name")
+    parser.add_argument("--draft_model", type=str, default=None,
+                        help="Draft model for dual-model SD (default: MTP self-speculation)")
     parser.add_argument("--num_calib", type=int, default=8)
     parser.add_argument("--num_eval", type=int, default=8)
     parser.add_argument("--gamma", type=int, default=5)
@@ -300,17 +358,29 @@ def main():
     )
     meta.save(os.path.join(args.output_dir, "run_metadata.json"))
 
-    # Load model with MTP
-    logger.info("Loading model: %s", args.model)
-    target_model, mtp_head, tokenizer, _plan = load_model_mtp(args.model)
+    # Load models
+    if args.draft_model:
+        # Dual-model SD
+        logger.info("Loading dual-model: draft=%s, target=%s", args.draft_model, args.model)
+        from src.gpu_auto import load_models
+        draft_model, target_model, tokenizer, _plan = load_models(args.draft_model, args.model)
+        mtp_head = None
+        decoder = SpeculativeDecoder(
+            target_model=target_model,
+            draft_model=draft_model,
+            tokenizer=tokenizer,
+        )
+    else:
+        # MTP self-speculation
+        logger.info("Loading MTP model: %s", args.model)
+        target_model, mtp_head, tokenizer, _plan = load_model_mtp(args.model)
+        decoder = SpeculativeDecoder(
+            target_model=target_model,
+            draft_model=None,
+            tokenizer=tokenizer,
+            mtp_head=mtp_head,
+        )
     device = next(target_model.parameters()).device
-
-    decoder = SpeculativeDecoder(
-        target_model=target_model,
-        draft_model=None,
-        tokenizer=tokenizer,
-        mtp_head=mtp_head,
-    )
 
     # Load calibration problems (from TRAIN split, not test)
     logger.info("Loading %d calibration problems from train split", args.num_calib)
