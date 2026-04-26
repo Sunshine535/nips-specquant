@@ -83,6 +83,7 @@ def collect_risk_labels(
     draft_model = decoder.draft_model
     use_mtp = mtp_head is not None
     all_labels = []
+    prev_label_count = 0
 
     for pidx, problem in enumerate(problems):
         prompt = format_prompt(problem["question"])
@@ -287,14 +288,27 @@ def collect_risk_labels(
                 if last_tok.item() == tokenizer.eos_token_id:
                     break
 
-            logger.info("  Collected %d risk labels from %d steps",
-                        len(all_labels) - sum(1 for _ in []), step_idx)
+            logger.info("  Collected %d risk labels from %d steps (total: %d)",
+                        len(all_labels) - prev_label_count, step_idx, len(all_labels))
 
         except Exception as e:
             import traceback
             logger.error("  Failed: %s\n%s", e, traceback.format_exc())
             continue
 
+        # Incremental save after each problem (prevents data loss on crash)
+        if all_labels:
+            partial = RiskLabelSet(
+                labels=all_labels,
+                metadata={"num_problems_completed": pidx + 1, "seed": seed, "gamma": gamma},
+            )
+            import os as _os
+            _save_dir = _os.environ.get("MARA_OUTPUT_DIR", "/tmp")
+            partial.save(_os.path.join(_save_dir, "risk_labels_partial.json"))
+            logger.info("  Incremental save: %d labels → %s/risk_labels_partial.json",
+                        len(all_labels), _save_dir)
+
+        prev_label_count = len(all_labels)
         torch.cuda.empty_cache()
 
     return RiskLabelSet(
@@ -348,6 +362,7 @@ def main():
 
     print_gpu_summary()
     os.makedirs(args.output_dir, exist_ok=True)
+    os.environ["MARA_OUTPUT_DIR"] = args.output_dir
 
     # Save run metadata
     meta = RunMetadata(
